@@ -7,16 +7,21 @@ namespace ViewERP.Models
 {
     public class DO_Persona
     {
-        public int idPersona { get; set; }
+        public int idUsuario { get; set; }
         public string Nombre { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
         public string Usuario { get; set; }
         public string Contrasena { get; set; }
-        public int idJerarquia { get; set; }
-        public string CURP { get; set; }
-        public string Telefono { get; set; }
-        public DateTime fechaNacimiento { get; set; }
-        
+        public int idRol { get; set; }
+        public int idCompania { get; set; }
+
+        public string NombreCompleto
+        {
+            get
+            {
+                return Nombre + " " + ApellidoPaterno + " " + ApellidoMaterno;
+            }
+        }
     }
 }
