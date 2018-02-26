@@ -67,6 +67,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ADOModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ServiceObject\SO_Proveedor.cs" />
     <Compile Include="ServiceObject\SO_Usuario.cs" />
     <Compile Include="ServiceObject\TBL_ALMACEN.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
@@ -120,6 +121,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{703ca45a-b446-45e7-8993-15fe8b8600e7}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

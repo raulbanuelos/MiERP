@@ -29,5 +29,7 @@ namespace ViewERP.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<Model.DO_Proveedor> DO_Proveedor { get; set; }
     }
 }
