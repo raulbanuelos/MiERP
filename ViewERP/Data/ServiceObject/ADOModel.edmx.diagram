@@ -7,20 +7,20 @@
       <Diagram DiagramId="d305160d3f4742c9bed9f1a27b78f11c" Name="Diagram1">
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ALMACEN" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ARTICULO" Width="1.5" PointX="6" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Data.ServiceObject.TBL_CATEGORIA_ARTICULO" Width="1.5" PointX="3.75" PointY="9.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_COMPANIA" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_EXISTENCIA" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Data.ServiceObject.TBL_PROVEEDOR" Width="1.5" PointX="3" PointY="12.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ROLE" Width="1.5" PointX="5.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_USUARIO" Width="1.5" PointX="8" PointY="4.75" IsExpanded="true" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_ALMACEN_TBL_COMPANIA" ManuallyRouted="false" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ALMACEN" ManuallyRouted="false" />
-        <AssociationConnector Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO" ManuallyRouted="false" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_COMPANIA" ManuallyRouted="false" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ARTICULO" ManuallyRouted="false" />
-        <AssociationConnector Association="Data.ServiceObject.FK_TBL_PROVEEDOR_TBL_COMPANIA" ManuallyRouted="false" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_USUARIO_TBL_COMPANIA" ManuallyRouted="false" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_USUARIO_TBL_ROLE" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_CATEGORIA_ARTICULO" Width="1.5" PointX="0.75" PointY="0.875" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_PROVEEDOR" Width="1.5" PointX="3" PointY="8.875" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_PROVEEDOR_TBL_COMPANIA1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

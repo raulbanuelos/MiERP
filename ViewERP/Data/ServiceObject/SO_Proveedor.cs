@@ -26,12 +26,13 @@ namespace Data.ServiceObject
                     tblProveedor.RFC = proveedor.RFC;
                     tblProveedor.TELEFONO1 = proveedor.Telefono1;
                     tblProveedor.TELEFONO2 = proveedor.Telefono2;
+                    
 
                     Conexion.TBL_PROVEEDOR.Add(tblProveedor);
                     return Conexion.SaveChanges();
                 }
             }
-            catch (Exception)
+            catch (Exception er)
             {
                 return 0;
             }

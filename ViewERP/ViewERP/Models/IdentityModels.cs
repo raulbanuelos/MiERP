@@ -31,5 +31,7 @@ namespace ViewERP.Models
         }
 
         public System.Data.Entity.DbSet<Model.DO_Proveedor> DO_Proveedor { get; set; }
+
+        public System.Data.Entity.DbSet<Model.DO_CategoriaArticulo> DO_CategoriaArticulo { get; set; }
     }
 }

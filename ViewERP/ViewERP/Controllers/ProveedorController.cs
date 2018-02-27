@@ -17,7 +17,7 @@ namespace ViewERP.Controllers
             return View(DataManager.GetAllProveedor());
         }
 
-        public ActionResult Edit(int id = 0,DO_Proveedor proveedor = null)
+        public ActionResult Edit(int id = 0, DO_Proveedor proveedor = null)
         {
 
             if (id != 0 && proveedor.idProveedor == 0)
@@ -27,14 +27,38 @@ namespace ViewERP.Controllers
             else
             {
                 DataManager.UpdateProveedor(proveedor);
-                return RedirectToAction("Index","Proveedor");
+                return RedirectToAction("Index", "Proveedor");
             }
-            
+
         }
 
-        
+        public ActionResult Create(DO_Proveedor proveedor = null)
+        {
+            if (proveedor.idCompania != 0)
+            {
+                DataManager.InsertProveedor(proveedor);
+                return RedirectToAction("Index", "Proveedor");
+            }
+            else
+            {
+                return View();
+            }
+        }
 
-        
+        public ActionResult Delete(int id = 0, DO_Proveedor model = null)
+        {
+            if (id != 0)
+            {
+                DataManager.DeleteProveedor(id);
+                return RedirectToAction("Index", "Proveedor");
+            }
+            else
+            {
+                DataManager.DeleteProveedor(id);
+                return RedirectToAction("Index", "Proveedor");
+            }
+        }
+
 
     }
 }

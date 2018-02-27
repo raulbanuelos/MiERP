@@ -103,5 +103,60 @@ namespace ViewERP.Models
 
             return proveedor;
         }
+
+        public static int InsertCategoriaArticulo(DO_CategoriaArticulo categoriaArticulo)
+        {
+            SO_CategoriaArticulo service = new SO_CategoriaArticulo();
+
+            return service.Insert(categoriaArticulo);
+        }
+
+        public static int UpdateCategoriaArticulo(DO_CategoriaArticulo categoriaArticulo)
+        {
+            SO_CategoriaArticulo service = new SO_CategoriaArticulo();
+
+            return service.Update(categoriaArticulo);
+        }
+
+        public static int DeleteCategoriaArticulo(int idCategoriaArticulo)
+        {
+            SO_CategoriaArticulo service = new SO_CategoriaArticulo();
+
+            return service.Delete(idCategoriaArticulo);
+        }
+
+        public static List<DO_CategoriaArticulo> GetAllCategoriaArticulo()
+        {
+            List<DO_CategoriaArticulo> lista = new List<DO_CategoriaArticulo>();
+
+            SO_CategoriaArticulo service = new SO_CategoriaArticulo();
+
+            IList informacionBD = service.GetAll();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    System.Type tipo = item.GetType();
+
+                    DO_CategoriaArticulo categoriaArticulo = new DO_CategoriaArticulo();
+
+                    categoriaArticulo.idCategoriaArticulo = (int)tipo.GetProperty("ID_CATEGORIA_ARTICULO").GetValue(item, null);
+                    categoriaArticulo.NombreCategoria = (string)tipo.GetProperty("NOMBRE_CATEGORIA").GetValue(item, null);
+                    
+                    lista.Add(categoriaArticulo);
+
+                }
+            }
+
+            return lista;
+        }
+
+        public static DO_CategoriaArticulo GetCategoriaArticulo(int idCategoriaArticulo)
+        {
+            SO_CategoriaArticulo service = new SO_CategoriaArticulo();
+
+            return service.GetCategoriaArticulo(idCategoriaArticulo);
+        }
     }
 }
