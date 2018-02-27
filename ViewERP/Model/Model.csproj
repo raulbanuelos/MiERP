@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DO_Almacen.cs" />
+    <Compile Include="DO_Articulo.cs" />
     <Compile Include="DO_CategoriaArticulo.cs" />
     <Compile Include="DO_Proveedor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

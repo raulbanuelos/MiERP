@@ -67,6 +67,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ADOModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ServiceObject\SO_Almacen.cs" />
+    <Compile Include="ServiceObject\SO_Articulo.cs" />
     <Compile Include="ServiceObject\SO_CategoriaArticulo.cs" />
     <Compile Include="ServiceObject\SO_Proveedor.cs" />
     <Compile Include="ServiceObject\SO_Usuario.cs" />

@@ -68,7 +68,8 @@ namespace ViewERP.Models
 
             SO_Proveedor service = new SO_Proveedor();
 
-            IList informacionBD = service.GetAll();
+            //HardCode
+            IList informacionBD = service.GetAll(1);
 
             if (informacionBD != null)
             {
@@ -157,6 +158,123 @@ namespace ViewERP.Models
             SO_CategoriaArticulo service = new SO_CategoriaArticulo();
 
             return service.GetCategoriaArticulo(idCategoriaArticulo);
+        }
+
+        public static int InsertAlmacen(DO_Almacen almacen)
+        {
+            SO_Almacen service = new SO_Almacen();
+
+            return service.Insert(almacen);
+        }
+
+        public static int UpdateAlamcen(DO_Almacen almacen)
+        {
+            SO_Almacen service = new SO_Almacen();
+
+            return service.Update(almacen);
+        }
+
+        public static int DeleteAlmacen(int idAlmacen)
+        {
+            SO_Almacen service = new SO_Almacen();
+
+            return service.Delete(idAlmacen);
+        }
+
+        public static List<DO_Almacen> GetAllAlmacen()
+        {
+            List<DO_Almacen> lista = new List<DO_Almacen>();
+
+            SO_Almacen service = new SO_Almacen();
+
+            //HardCode
+            IList informacionBD = service.GetAll(1);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    DO_Almacen almacen = new DO_Almacen();
+
+                    System.Type tipo = item.GetType();
+
+                    almacen.idAlmacen = (int)tipo.GetProperty("ID_ALMACEN").GetValue(item, null);
+                    almacen.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
+                    almacen.Nombre = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
+                    almacen.Descripcion = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
+                    
+                    lista.Add(almacen);
+                }
+            }
+
+            return lista;
+        }
+
+        public static DO_Almacen GetAlmacen(int idAlmacen)
+        {
+            SO_Almacen service = new SO_Almacen();
+
+            return service.GetCategoriaArticulo(idAlmacen);
+        }
+
+        public static int InsertArticulo(DO_Articulo articulo)
+        {
+            SO_Articulo service = new SO_Articulo();
+
+            return service.Insert(articulo);
+        }
+
+        public static int UpdateArticulo(DO_Articulo articulo)
+        {
+            SO_Articulo service = new SO_Articulo();
+
+            return service.Update(articulo);
+        }
+
+        public static int DeleteArticulo(int idArticulo)
+        {
+            SO_Articulo service = new SO_Articulo();
+
+            return service.Delete(idArticulo);
+        }
+
+        public static List<DO_Articulo> GetAllArticulos(int idCompania)
+        {
+            SO_Articulo service = new SO_Articulo();
+
+            IList informacionBD = service.GetAll(idCompania);
+
+            List<DO_Articulo> lista = new List<DO_Articulo>();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    System.Type tipo = item.GetType();
+
+                    DO_Articulo articulo = new DO_Articulo();
+                    articulo.Codigo = (string)tipo.GetProperty("CODIGO").GetValue(item, null);
+                    articulo.Descripcion = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
+                    articulo.DescripcionLarga = (string)tipo.GetProperty("DESCRIPCION_LARGA").GetValue(item, null);
+                    articulo.foto = (byte[])tipo.GetProperty("FOTO").GetValue(item, null);
+                    articulo.idArticulo = (int)tipo.GetProperty("ID_ARTICULO").GetValue(item, null);
+                    articulo.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
+                    articulo.idCategoria = (int)tipo.GetProperty("ID_CATEGORIA").GetValue(item, null);
+                    articulo.stockMax = (int)tipo.GetProperty("STOCK_MAX").GetValue(item, null);
+                    articulo.stockMin = (int)tipo.GetProperty("STOCK_MIN").GetValue(item, null);
+
+                    lista.Add(articulo);
+                }
+            }
+
+            return lista;
+        }
+
+        public static DO_Articulo GetArticulo(int idArticulo)
+        {
+            SO_Articulo service = new SO_Articulo();
+
+            return service.GetArticulo(idArticulo);
         }
     }
 }

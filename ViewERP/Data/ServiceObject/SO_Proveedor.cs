@@ -83,13 +83,14 @@ namespace Data.ServiceObject
             }
         }
 
-        public IList GetAll()
+        public IList GetAll(int idCompania)
         {
             try
             {
                 using (var Conexion = new EntitiesERP())
                 {
                     var list = (from v in Conexion.TBL_PROVEEDOR
+                                where v.ID_COMPANIA == idCompania
                                 select v).ToList();
 
                     return list;
