@@ -12,14 +12,19 @@ namespace Data.ServiceObject
     using System;
     using System.Collections.Generic;
     
-    public partial class TBL_EXISTENCIA
+    public partial class TBL_MOVIMIENTO_ALMACEN
     {
-        public int ID_EXISTENCIA { get; set; }
-        public int ID_ARTICULO { get; set; }
-        public int ID_ALMACEN { get; set; }
-        public int CANTIDAD { get; set; }
+        public int ID_MOVIMIENTO_ALMACEN { get; set; }
+        public Nullable<int> ID_TIPO_MOVIMIENTO_ALMACEN { get; set; }
+        public Nullable<int> ID_ALMACEN { get; set; }
+        public Nullable<int> ID_ARTICULO { get; set; }
+        public Nullable<int> ID_PROVEEDOR { get; set; }
+        public Nullable<int> CANTIDAD { get; set; }
+        public string UNIDAD { get; set; }
+        public Nullable<System.DateTime> FECHA { get; set; }
+        public string USUARIO { get; set; }
     
         public virtual TBL_ALMACEN TBL_ALMACEN { get; set; }
-        public virtual TBL_ARTICULO TBL_ARTICULO { get; set; }
+        public virtual TBL_TIPO_MOVIMIENTO_ALMACEN TBL_TIPO_MOVIMIENTO_ALMACEN { get; set; }
     }
 }

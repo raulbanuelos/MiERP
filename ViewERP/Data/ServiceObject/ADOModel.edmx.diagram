@@ -21,6 +21,10 @@
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_PROVEEDOR" Width="1.5" PointX="3" PointY="8.875" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_PROVEEDOR_TBL_COMPANIA1" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_MOVIMIENTO_ALMACEN" Width="1.5" PointX="8.25" PointY="9" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_TIPO_MOVIMIENTO_ALMACEN" Width="1.5" PointX="6" PointY="12.75" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ALMACEN" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_TIPO_MOVIMIENTO_ALMACEN" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

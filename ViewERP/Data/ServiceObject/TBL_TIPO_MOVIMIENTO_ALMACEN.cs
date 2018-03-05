@@ -12,23 +12,17 @@ namespace Data.ServiceObject
     using System;
     using System.Collections.Generic;
     
-    public partial class TBL_ALMACEN
+    public partial class TBL_TIPO_MOVIMIENTO_ALMACEN
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TBL_ALMACEN()
+        public TBL_TIPO_MOVIMIENTO_ALMACEN()
         {
-            this.TBL_EXISTENCIA = new HashSet<TBL_EXISTENCIA>();
             this.TBL_MOVIMIENTO_ALMACEN = new HashSet<TBL_MOVIMIENTO_ALMACEN>();
         }
     
-        public int ID_ALMACEN { get; set; }
-        public int ID_COMPANIA { get; set; }
-        public string NOMBRE { get; set; }
-        public string DESCRIPCION { get; set; }
+        public int ID_TIPO_MOVIMIENTO_ALMACEN { get; set; }
+        public string NOMBRE_MOVIMIENTO { get; set; }
     
-        public virtual TBL_COMPANIA TBL_COMPANIA { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TBL_EXISTENCIA> TBL_EXISTENCIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_MOVIMIENTO_ALMACEN> TBL_MOVIMIENTO_ALMACEN { get; set; }
     }

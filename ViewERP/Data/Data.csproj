@@ -70,6 +70,7 @@
     <Compile Include="ServiceObject\SO_Almacen.cs" />
     <Compile Include="ServiceObject\SO_Articulo.cs" />
     <Compile Include="ServiceObject\SO_CategoriaArticulo.cs" />
+    <Compile Include="ServiceObject\SO_Existencia.cs" />
     <Compile Include="ServiceObject\SO_Proveedor.cs" />
     <Compile Include="ServiceObject\SO_Usuario.cs" />
     <Compile Include="ServiceObject\TBL_ALMACEN.cs">
@@ -87,10 +88,16 @@
     <Compile Include="ServiceObject\TBL_EXISTENCIA.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ServiceObject\TBL_MOVIMIENTO_ALMACEN.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ServiceObject\TBL_PROVEEDOR.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ServiceObject\TBL_ROLE.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceObject\TBL_TIPO_MOVIMIENTO_ALMACEN.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ServiceObject\TBL_USUARIO.cs">
