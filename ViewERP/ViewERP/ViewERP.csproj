@@ -1270,7 +1270,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\_bootstrap-datetimepicker.less" />
-    <None Include="Properties\PublishProfiles\PublicacionesERP.pubxml" />
+    <None Include="Properties\PublishProfiles\ERPDeploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -1318,6 +1318,7 @@
     <Content Include="Views\Articulo\Index.cshtml" />
     <Content Include="Views\Articulo\Edit.cshtml" />
     <Content Include="Views\Articulo\Create.cshtml" />
+    <Content Include="Views\Almacen\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

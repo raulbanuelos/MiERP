@@ -1,14 +1,14 @@
 ﻿@model Model.DO_Almacen
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Editar almacén</h2>
+<h2>Alta de almacén</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
@@ -16,8 +16,6 @@
         <h4>DO_Almacen</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.idAlmacen)
-
         <div class="form-group">
             @Html.LabelFor(model => model.idCompania, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -44,7 +42,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Guardar cambios" class="btn btn-success" />
+                <input type="submit" value="Crear" class="btn btn-success" />
             </div>
         </div>
     </div>
