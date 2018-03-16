@@ -40,7 +40,11 @@ namespace ViewERP.Controllers
             }
             else
             {
-                return View();
+                DO_Articulo elmodel = new DO_Articulo();
+
+                elmodel.Categorias = DataManager.GetAllCategoriaArticulo();
+
+                return View(elmodel);
             }
         }
 

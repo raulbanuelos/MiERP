@@ -23,7 +23,7 @@ namespace Data.ServiceObject
                     tblArticulo.DESCRIPCION = articulo.Descripcion;
                     tblArticulo.DESCRIPCION_LARGA = articulo.DescripcionLarga;
                     tblArticulo.FOTO = articulo.foto;
-                    tblArticulo.ID_CATEGORIA = articulo.idCategoria;
+                    tblArticulo.ID_CATEGORIA = articulo.ID_CATEGORIA;
                     tblArticulo.ID_COMPANIA = articulo.idCompania;
                     tblArticulo.STOCK_MAX = articulo.stockMax;
                     tblArticulo.STOCK_MIN = articulo.stockMin;
@@ -46,7 +46,7 @@ namespace Data.ServiceObject
                 {
                     TBL_ARTICULO obj = Conexion.TBL_ARTICULO.Where(x => x.ID_ARTICULO == articulo.idArticulo).FirstOrDefault();
 
-                    obj.ID_CATEGORIA = articulo.idCategoria;
+                    obj.ID_CATEGORIA = articulo.ID_CATEGORIA;
                     obj.CODIGO = articulo.Codigo;
                     obj.DESCRIPCION = articulo.Descripcion;
                     obj.DESCRIPCION_LARGA = articulo.DescripcionLarga;
@@ -114,7 +114,7 @@ namespace Data.ServiceObject
                     DO_Articulo articulo = new DO_Articulo();
 
                     articulo.idArticulo = obj.ID_ARTICULO;
-                    articulo.idCategoria = obj.ID_CATEGORIA;
+                    articulo.ID_CATEGORIA = obj.ID_CATEGORIA;
                     articulo.idCompania = obj.ID_COMPANIA;
                     articulo.Codigo = obj.CODIGO;
                     articulo.Descripcion = obj.DESCRIPCION;

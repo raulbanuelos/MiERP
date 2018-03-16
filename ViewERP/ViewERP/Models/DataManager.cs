@@ -6,6 +6,7 @@ using Data;
 using Data.ServiceObject;
 using System.Collections;
 using Model;
+using System.Web.Mvc;
 
 namespace ViewERP.Models
 {
@@ -126,7 +127,7 @@ namespace ViewERP.Models
             return service.Delete(idCategoriaArticulo);
         }
 
-        public static List<DO_CategoriaArticulo> GetAllCategoriaArticulo()
+        public static List<SelectListItem> GetAllCategoriaArticulo()
         {
             List<DO_CategoriaArticulo> lista = new List<DO_CategoriaArticulo>();
 
@@ -150,7 +151,22 @@ namespace ViewERP.Models
                 }
             }
 
-            return lista;
+            return ConvertListDOCategoriaToSelectListItem(lista);
+        }
+
+        public static List<SelectListItem> ConvertListDOCategoriaToSelectListItem(List<DO_CategoriaArticulo> lista)
+        {
+            List<SelectListItem> listaResultante = new List<SelectListItem>();
+
+            foreach (var item in lista)
+            {
+                SelectListItem obj = new SelectListItem();
+                obj.Text = item.NombreCategoria;
+                obj.Value = Convert.ToString(item.idCategoriaArticulo);
+                listaResultante.Add(obj);
+            }
+
+            return listaResultante;
         }
 
         public static DO_CategoriaArticulo GetCategoriaArticulo(int idCategoriaArticulo)
@@ -259,7 +275,7 @@ namespace ViewERP.Models
                     articulo.foto = (byte[])tipo.GetProperty("FOTO").GetValue(item, null);
                     articulo.idArticulo = (int)tipo.GetProperty("ID_ARTICULO").GetValue(item, null);
                     articulo.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
-                    articulo.idCategoria = (int)tipo.GetProperty("ID_CATEGORIA").GetValue(item, null);
+                    articulo.ID_CATEGORIA = (int)tipo.GetProperty("ID_CATEGORIA").GetValue(item, null);
                     articulo.stockMax = (int)tipo.GetProperty("STOCK_MAX").GetValue(item, null);
                     articulo.stockMin = (int)tipo.GetProperty("STOCK_MIN").GetValue(item, null);
 
