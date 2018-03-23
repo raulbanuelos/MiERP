@@ -1,4 +1,5 @@
 ﻿using Data.ServiceObject;
+using Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,6 +38,42 @@ namespace View.Models
             }
 
             return persona;
+        }
+
+        public static List<DO_Almacen> GetAllAlmacen()
+        {
+            List<DO_Almacen> lista = new List<DO_Almacen>();
+
+            SO_Almacen service = new SO_Almacen();
+
+            //HardCode
+            IList informacionBD = service.GetAll(1);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    DO_Almacen almacen = new DO_Almacen();
+
+                    System.Type tipo = item.GetType();
+
+                    almacen.idAlmacen = (int)tipo.GetProperty("ID_ALMACEN").GetValue(item, null);
+                    almacen.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
+                    almacen.Nombre = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
+                    almacen.Descripcion = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
+
+                    lista.Add(almacen);
+                }
+            }
+
+            return lista;
+        }
+
+        public static int InsertAlmacen(DO_Almacen almacen)
+        {
+            SO_Almacen service = new SO_Almacen();
+
+            return service.Insert(almacen);
         }
     }
 }

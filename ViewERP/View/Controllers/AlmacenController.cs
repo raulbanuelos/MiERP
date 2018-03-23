@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using View.Models;
 
 namespace View.Controllers
 {
@@ -11,7 +13,20 @@ namespace View.Controllers
         // GET: Almacen
         public ActionResult Index()
         {
-            return View();
+            return View(DataManager.GetAllAlmacen());
+        }
+
+        public ActionResult Create(DO_Almacen almacen = null)
+        {
+            if (!string.IsNullOrEmpty(almacen.Nombre))
+            {
+                DataManager.InsertAlmacen(almacen);
+                return RedirectToAction("Index", "Almacen");
+            }
+            else
+            {
+                return View();
+            }
         }
     }
 }
