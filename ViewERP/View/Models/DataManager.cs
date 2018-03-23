@@ -75,5 +75,26 @@ namespace View.Models
 
             return service.Insert(almacen);
         }
+
+        public static DO_Almacen GetAlmacen(int idAlmacen)
+        {
+            SO_Almacen service = new SO_Almacen();
+
+            return service.GetCategoriaArticulo(idAlmacen);
+        }
+
+        public static int UpdateAlamcen(DO_Almacen almacen)
+        {
+            SO_Almacen service = new SO_Almacen();
+
+            return service.Update(almacen);
+        }
+
+        public static int DeleteAlmacen(int idAlmacen)
+        {
+            SO_Almacen service = new SO_Almacen();
+
+            return service.Delete(idAlmacen);
+        }
     }
 }

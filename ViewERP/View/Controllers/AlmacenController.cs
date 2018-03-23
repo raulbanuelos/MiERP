@@ -28,5 +28,24 @@ namespace View.Controllers
                 return View();
             }
         }
+
+        public ActionResult Edit(int id = 0, DO_Almacen almacen = null)
+        {
+            if (id != 0 && almacen.idAlmacen == 0)
+            {
+                return View(DataManager.GetAlmacen(id));
+            }
+            else
+            {
+                DataManager.UpdateAlamcen(almacen);
+                return RedirectToAction("Index", "Almacen");
+            }
+        }
+
+        public ActionResult Delete(int id = 0)
+        {
+            DataManager.DeleteAlmacen(id);
+            return RedirectToAction("Index", "Almacen");
+        }
     }
 }

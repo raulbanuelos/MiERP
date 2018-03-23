@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewERP", "ViewERP\ViewERP.csproj", "{0EE3131F-290D-4B04-866C-51B05489D48B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{703CA45A-B446-45E7-8993-15FE8B8600E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{F5019BCA-9ACE-4332-A33B-809723F16516}"
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0EE3131F-290D-4B04-866C-51B05489D48B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0EE3131F-290D-4B04-866C-51B05489D48B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0EE3131F-290D-4B04-866C-51B05489D48B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0EE3131F-290D-4B04-866C-51B05489D48B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{703CA45A-B446-45E7-8993-15FE8B8600E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{703CA45A-B446-45E7-8993-15FE8B8600E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{703CA45A-B446-45E7-8993-15FE8B8600E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
