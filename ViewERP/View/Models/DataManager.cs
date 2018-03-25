@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace View.Models
 {
@@ -95,6 +96,107 @@ namespace View.Models
             SO_Almacen service = new SO_Almacen();
 
             return service.Delete(idAlmacen);
+        }
+
+        public static List<DO_Articulo> GetAllArticulos(int idCompania)
+        {
+            SO_Articulo service = new SO_Articulo();
+
+            IList informacionBD = service.GetAll(idCompania);
+
+            List<DO_Articulo> lista = new List<DO_Articulo>();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    System.Type tipo = item.GetType();
+
+                    DO_Articulo articulo = new DO_Articulo();
+                    articulo.Codigo = (string)tipo.GetProperty("CODIGO").GetValue(item, null);
+                    articulo.Descripcion = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
+                    articulo.DescripcionLarga = (string)tipo.GetProperty("DESCRIPCION_LARGA").GetValue(item, null);
+                    articulo.foto = (byte[])tipo.GetProperty("FOTO").GetValue(item, null);
+                    articulo.idArticulo = (int)tipo.GetProperty("ID_ARTICULO").GetValue(item, null);
+                    articulo.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
+                    articulo.ID_CATEGORIA = (int)tipo.GetProperty("ID_CATEGORIA").GetValue(item, null);
+                    articulo.stockMax = (int)tipo.GetProperty("STOCK_MAX").GetValue(item, null);
+                    articulo.stockMin = (int)tipo.GetProperty("STOCK_MIN").GetValue(item, null);
+
+                    lista.Add(articulo);
+                }
+            }
+
+            return lista;
+        }
+
+        public static DO_Articulo GetArticulo(int idArticulo)
+        {
+            SO_Articulo service = new SO_Articulo();
+
+            return service.GetArticulo(idArticulo);
+        }
+
+        public static int UpdateArticulo(DO_Articulo articulo)
+        {
+            SO_Articulo service = new SO_Articulo();
+
+            return service.Update(articulo);
+        }
+
+        public static int DeleteArticulo(int idArticulo)
+        {
+            SO_Articulo service = new SO_Articulo();
+
+            return service.Delete(idArticulo);
+        }
+        public static int InsertArticulo(DO_Articulo articulo)
+        {
+            SO_Articulo service = new SO_Articulo();
+
+            return service.Insert(articulo);
+        }
+
+        public static List<SelectListItem> GetAllCategoriaArticulo()
+        {
+            List<DO_CategoriaArticulo> lista = new List<DO_CategoriaArticulo>();
+
+            SO_CategoriaArticulo service = new SO_CategoriaArticulo();
+
+            IList informacionBD = service.GetAll();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    System.Type tipo = item.GetType();
+
+                    DO_CategoriaArticulo categoriaArticulo = new DO_CategoriaArticulo();
+
+                    categoriaArticulo.idCategoriaArticulo = (int)tipo.GetProperty("ID_CATEGORIA_ARTICULO").GetValue(item, null);
+                    categoriaArticulo.NombreCategoria = (string)tipo.GetProperty("NOMBRE_CATEGORIA").GetValue(item, null);
+
+                    lista.Add(categoriaArticulo);
+
+                }
+            }
+
+            return ConvertListDOCategoriaToSelectListItem(lista);
+        }
+
+        public static List<SelectListItem> ConvertListDOCategoriaToSelectListItem(List<DO_CategoriaArticulo> lista)
+        {
+            List<SelectListItem> listaResultante = new List<SelectListItem>();
+
+            foreach (var item in lista)
+            {
+                SelectListItem obj = new SelectListItem();
+                obj.Text = item.NombreCategoria;
+                obj.Value = Convert.ToString(item.idCategoriaArticulo);
+                listaResultante.Add(obj);
+            }
+
+            return listaResultante;
         }
     }
 }

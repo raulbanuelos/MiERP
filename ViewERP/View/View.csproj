@@ -166,6 +166,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AlmacenController.cs" />
+    <Compile Include="Controllers\ArticuloController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Global.asax.cs">
@@ -335,6 +336,9 @@
     <Content Include="Views\Almacen\Index.cshtml" />
     <Content Include="Views\Almacen\Create.cshtml" />
     <Content Include="Views\Almacen\Edit.cshtml" />
+    <Content Include="Views\Articulo\Index.cshtml" />
+    <Content Include="Views\Articulo\Edit.cshtml" />
+    <Content Include="Views\Articulo\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
