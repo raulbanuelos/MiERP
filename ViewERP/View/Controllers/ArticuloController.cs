@@ -42,7 +42,7 @@ namespace View.Controllers
             {
                 DO_Articulo elmodel = new DO_Articulo();
 
-                elmodel.Categorias = DataManager.GetAllCategoriaArticulo();
+                elmodel.Categorias = DataManager.GetAllCategoriaArticuloSelectListItem();
 
                 return View(elmodel);
             }

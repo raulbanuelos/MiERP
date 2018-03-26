@@ -54,18 +54,31 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="CategoriaArticulo">
-                    <a class="nav-link" href="#">
-                        <i class="fa fa-fw fa-link"></i>
-                        <span class="nav-link-text">Categorias articulos</span>
+
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Categorias articulos">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseCategorias" data-parent="#exampleAccordion">
+                        <i class="fa fa-fw fa-list"></i>
+                        <span class="nav-link-text">Categorias</span>
                     </a>
-                </li>
+                    <ul class="sidenav-second-level collapse" id="collapseCategorias">
+                        <li>
+                            <a href="@Url.Action("Index","CategoriaArticulo")">Mis categorias</a>
+                        </li>
+                    </ul>
+                </li> 
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Proveedores">
-                    <a class="nav-link" href="#">
-                        <i class="fa fa-fw fa-handshake-o"></i>
-                        <span class="nav-link-text">Mis proveedores</span>
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseProveedores" data-parent="#exampleAccordion">
+                        <i class="fa fa-fw fa-users"></i>
+                        <span class="nav-link-text">Proveedores</span>
                     </a>
+                    <ul class="sidenav-second-level collapse" id="collapseProveedores">
+                        <li>
+                            <a href="@Url.Action("Index","Proveedor")">Mis proveedores</a>
+                        </li>
+                    </ul>
                 </li>
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="CerrarSession">
                     <a class="nav-link" href="@Url.Action("CerrarSession","Home")"> 
                         <i class="fa fa-fw fa-sign-out"></i>

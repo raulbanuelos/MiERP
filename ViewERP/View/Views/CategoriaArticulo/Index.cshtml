@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Model.DO_CategoriaArticulo>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Crear nuevo", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreCategoria)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreCategoria)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.idCategoriaArticulo }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.idCategoriaArticulo })
+        </td>
+    </tr>
+}
+
+</table>
