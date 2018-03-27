@@ -13,13 +13,12 @@ namespace View.Controllers
         // GET: Articulo
         public ActionResult Index()
         {
-            //HardCode
-            return View(DataManager.GetAllArticulos(1));
+            
+            return View(DataManager.GetAllArticulos(((DO_Persona)Session["UsuarioConectado"]).idCompania));
         }
 
         public ActionResult Edit(int id = 0, DO_Articulo articulo = null)
         {
-
             if (id != 0 && articulo.idArticulo == 0)
             {
                 return View(DataManager.GetArticulo(id));
@@ -35,15 +34,16 @@ namespace View.Controllers
         {
             if (!string.IsNullOrEmpty(articulo.Codigo))
             {
+                articulo.idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
                 DataManager.InsertArticulo(articulo);
                 return RedirectToAction("Index", "Articulo");
             }
             else
             {
                 DO_Articulo elmodel = new DO_Articulo();
-
-                elmodel.Categorias = DataManager.GetAllCategoriaArticuloSelectListItem();
-
+                int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+                elmodel.Categorias = DataManager.GetAllCategoriaArticuloSelectListItem(idCompania);
+                elmodel.idCompania = idCompania;
                 return View(elmodel);
             }
         }

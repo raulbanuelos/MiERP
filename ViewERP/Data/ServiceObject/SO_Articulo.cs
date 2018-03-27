@@ -27,6 +27,7 @@ namespace Data.ServiceObject
                     tblArticulo.ID_COMPANIA = articulo.idCompania;
                     tblArticulo.STOCK_MAX = articulo.stockMax;
                     tblArticulo.STOCK_MIN = articulo.stockMin;
+                    tblArticulo.ID_CATEGORIA = articulo.idCompania;
 
                     Conexion.TBL_ARTICULO.Add(tblArticulo);
                     return Conexion.SaveChanges();

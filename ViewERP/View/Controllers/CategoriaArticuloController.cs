@@ -13,7 +13,8 @@ namespace View.Controllers
         // GET: CategoriaArticulo
         public ActionResult Index()
         {
-            return View(DataManager.GetAllCategoriaArticulo());
+            
+            return View(DataManager.GetAllCategoriaArticulo(((DO_Persona)Session["UsuarioConectado"]).idCompania));
         }
 
         public ActionResult Edit(int id = 0, DO_CategoriaArticulo categoriaArticulo = null)
@@ -34,6 +35,7 @@ namespace View.Controllers
         {
             if (!string.IsNullOrEmpty(categoriaArticulo.NombreCategoria))
             {
+                categoriaArticulo.idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
                 DataManager.InsertCategoriaArticulo(categoriaArticulo);
                 return RedirectToAction("Index", "CategoriaArticulo");
             }

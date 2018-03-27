@@ -44,6 +44,7 @@ namespace Data.ServiceObject
 
                     obj.NOMBRE = almacen.Nombre;
                     obj.DESCRIPCION = almacen.Descripcion;
+                    obj.ID_COMPANIA = almacen.idCompania;
 
                     Conexion.Entry(obj).State = EntityState.Modified;
 

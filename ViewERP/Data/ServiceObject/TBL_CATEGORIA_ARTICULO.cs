@@ -21,9 +21,11 @@ namespace Data.ServiceObject
         }
     
         public int ID_CATEGORIA_ARTICULO { get; set; }
+        public Nullable<int> ID_COMPANIA { get; set; }
         public string NOMBRE_CATEGORIA { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_ARTICULO> TBL_ARTICULO { get; set; }
+        public virtual TBL_COMPANIA TBL_COMPANIA { get; set; }
     }
 }

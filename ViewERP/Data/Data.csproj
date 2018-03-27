@@ -97,7 +97,7 @@
     <Compile Include="ServiceObject\TBL_ROLE.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ServiceObject\TBL_TIPO_MOVIMIENTO_ALMACEN.cs">
+    <Compile Include="ServiceObject\TBL_UNIDAD.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ServiceObject\TBL_USUARIO.cs">

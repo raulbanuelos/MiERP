@@ -27,13 +27,13 @@ namespace Data.ServiceObject
     
         public virtual DbSet<TBL_ALMACEN> TBL_ALMACEN { get; set; }
         public virtual DbSet<TBL_ARTICULO> TBL_ARTICULO { get; set; }
+        public virtual DbSet<TBL_CATEGORIA_ARTICULO> TBL_CATEGORIA_ARTICULO { get; set; }
         public virtual DbSet<TBL_COMPANIA> TBL_COMPANIA { get; set; }
         public virtual DbSet<TBL_EXISTENCIA> TBL_EXISTENCIA { get; set; }
-        public virtual DbSet<TBL_ROLE> TBL_ROLE { get; set; }
-        public virtual DbSet<TBL_USUARIO> TBL_USUARIO { get; set; }
-        public virtual DbSet<TBL_CATEGORIA_ARTICULO> TBL_CATEGORIA_ARTICULO { get; set; }
-        public virtual DbSet<TBL_PROVEEDOR> TBL_PROVEEDOR { get; set; }
         public virtual DbSet<TBL_MOVIMIENTO_ALMACEN> TBL_MOVIMIENTO_ALMACEN { get; set; }
-        public virtual DbSet<TBL_TIPO_MOVIMIENTO_ALMACEN> TBL_TIPO_MOVIMIENTO_ALMACEN { get; set; }
+        public virtual DbSet<TBL_PROVEEDOR> TBL_PROVEEDOR { get; set; }
+        public virtual DbSet<TBL_ROLE> TBL_ROLE { get; set; }
+        public virtual DbSet<TBL_UNIDAD> TBL_UNIDAD { get; set; }
+        public virtual DbSet<TBL_USUARIO> TBL_USUARIO { get; set; }
     }
 }

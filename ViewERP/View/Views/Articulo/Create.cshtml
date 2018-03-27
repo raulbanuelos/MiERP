@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Crear</h2>
+<h2>Nuevo artículo</h2>
 
 
 @using (Html.BeginForm()) 
@@ -13,19 +13,10 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>DO_Articulo</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.idCompania, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.idCompania, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.idCompania, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ID_CATEGORIA, "ID_CATEGORIA", htmlAttributes: new { @class = "control-label col-md-2" })
+            Categoría
             <div class="col-md-10">
                 @Html.DropDownList("ID_CATEGORIA", Model.Categorias, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ID_CATEGORIA, "", new { @class = "text-danger" })
@@ -33,7 +24,7 @@
         </div> 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Codigo, htmlAttributes: new { @class = "control-label col-md-2" })
+            Código
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
@@ -41,7 +32,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+            Descripción
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
@@ -49,7 +40,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DescripcionLarga, htmlAttributes: new { @class = "control-label col-md-2" })
+            Descripción larga
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DescripcionLarga, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DescripcionLarga, "", new { @class = "text-danger" })
@@ -57,7 +48,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.stockMin, htmlAttributes: new { @class = "control-label col-md-2" })
+            Stock mínimo
             <div class="col-md-10">
                 @Html.EditorFor(model => model.stockMin, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.stockMin, "", new { @class = "text-danger" })
@@ -65,7 +56,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.stockMax, htmlAttributes: new { @class = "control-label col-md-2" })
+            Stock máximo
             <div class="col-md-10">
                 @Html.EditorFor(model => model.stockMax, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.stockMax, "", new { @class = "text-danger" })

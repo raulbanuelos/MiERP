@@ -8,6 +8,7 @@ namespace Model
     {
         [Key]
         public int idCategoriaArticulo { get; set; }
+        public int idCompania { get; set; }
         public string NombreCategoria { get; set; }
     }
 }

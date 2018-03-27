@@ -14,6 +14,12 @@ namespace Data.ServiceObject
     
     public partial class TBL_PROVEEDOR
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TBL_PROVEEDOR()
+        {
+            this.TBL_MOVIMIENTO_ALMACEN = new HashSet<TBL_MOVIMIENTO_ALMACEN>();
+        }
+    
         public int ID_PROVEEDOR { get; set; }
         public int ID_COMPANIA { get; set; }
         public string NOMBRE { get; set; }
@@ -24,5 +30,7 @@ namespace Data.ServiceObject
         public string CORREO { get; set; }
     
         public virtual TBL_COMPANIA TBL_COMPANIA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_MOVIMIENTO_ALMACEN> TBL_MOVIMIENTO_ALMACEN { get; set; }
     }
 }

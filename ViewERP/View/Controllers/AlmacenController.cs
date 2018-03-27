@@ -13,13 +13,14 @@ namespace View.Controllers
         // GET: Almacen
         public ActionResult Index()
         {
-            return View(DataManager.GetAllAlmacen());
+            return View(DataManager.GetAllAlmacen(((DO_Persona)Session["UsuarioConectado"]).idCompania));
         }
 
         public ActionResult Create(DO_Almacen almacen = null)
         {
             if (!string.IsNullOrEmpty(almacen.Nombre))
             {
+                almacen.idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
                 DataManager.InsertAlmacen(almacen);
                 return RedirectToAction("Index", "Almacen");
             }
@@ -37,6 +38,7 @@ namespace View.Controllers
             }
             else
             {
+                almacen.idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
                 DataManager.UpdateAlamcen(almacen);
                 return RedirectToAction("Index", "Almacen");
             }

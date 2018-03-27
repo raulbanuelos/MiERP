@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Listado de artículos</h2>
 
 <p>
     @Html.ActionLink("Crear nuevo", "Create")
@@ -13,34 +13,29 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.idCompania)
+            Código
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Codigo)
+            Descripción
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Descripcion)
+            Descripción larga
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DescripcionLarga)
+            Stock mínimo
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.stockMin)
+            Stock máximo
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.stockMax)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ID_CATEGORIA)
+            Categoría
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.idCompania)
-        </td>
+        
         <td>
             @Html.DisplayFor(modelItem => item.Codigo)
         </td>

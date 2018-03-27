@@ -21,7 +21,8 @@ namespace Data.ServiceObject
 
                     tblCategoriaArticulo.ID_CATEGORIA_ARTICULO = categoriaArticulo.idCategoriaArticulo;
                     tblCategoriaArticulo.NOMBRE_CATEGORIA = categoriaArticulo.NombreCategoria;
-                    
+                    tblCategoriaArticulo.ID_COMPANIA = categoriaArticulo.idCompania;
+
                     Conexion.TBL_CATEGORIA_ARTICULO.Add(tblCategoriaArticulo);
                     return Conexion.SaveChanges();
                 }
@@ -73,13 +74,14 @@ namespace Data.ServiceObject
             }
         }
 
-        public IList GetAll()
+        public IList GetAll(int idCompania)
         {
             try
             {
                 using (var Conexion = new EntitiesERP())
                 {
                     var list = (from v in Conexion.TBL_CATEGORIA_ARTICULO
+                                where v.ID_COMPANIA == idCompania
                                 select v).ToList();
 
                     return list;
@@ -103,7 +105,8 @@ namespace Data.ServiceObject
 
                     categoriaArticulo.idCategoriaArticulo = obj.ID_CATEGORIA_ARTICULO;
                     categoriaArticulo.NombreCategoria = obj.NOMBRE_CATEGORIA;
-                    
+                    categoriaArticulo.idCompania = Convert.ToInt32(obj.ID_COMPANIA);
+
                     return categoriaArticulo;
 
                 }

@@ -41,14 +41,13 @@ namespace View.Models
             return persona;
         }
 
-        public static List<DO_Almacen> GetAllAlmacen()
+        public static List<DO_Almacen> GetAllAlmacen(int idCompania)
         {
             List<DO_Almacen> lista = new List<DO_Almacen>();
 
             SO_Almacen service = new SO_Almacen();
-
-            //HardCode
-            IList informacionBD = service.GetAll(1);
+            
+            IList informacionBD = service.GetAll(idCompania);
 
             if (informacionBD != null)
             {
@@ -158,13 +157,13 @@ namespace View.Models
             return service.Insert(articulo);
         }
 
-        public static List<SelectListItem> GetAllCategoriaArticuloSelectListItem()
+        public static List<SelectListItem> GetAllCategoriaArticuloSelectListItem(int idCompania)
         {
             List<DO_CategoriaArticulo> lista = new List<DO_CategoriaArticulo>();
 
             SO_CategoriaArticulo service = new SO_CategoriaArticulo();
 
-            IList informacionBD = service.GetAll();
+            IList informacionBD = service.GetAll(idCompania);
 
             if (informacionBD != null)
             {
@@ -185,13 +184,13 @@ namespace View.Models
            return ConvertListDOCategoriaToSelectListItem(lista);
         }
 
-        public static List<DO_CategoriaArticulo> GetAllCategoriaArticulo()
+        public static List<DO_CategoriaArticulo> GetAllCategoriaArticulo(int idCompania)
         {
             List<DO_CategoriaArticulo> lista = new List<DO_CategoriaArticulo>();
 
             SO_CategoriaArticulo service = new SO_CategoriaArticulo();
 
-            IList informacionBD = service.GetAll();
+            IList informacionBD = service.GetAll(idCompania);
 
             if (informacionBD != null)
             {
