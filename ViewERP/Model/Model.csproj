@@ -51,7 +51,6 @@
     <Compile Include="DO_CategoriaArticulo.cs" />
     <Compile Include="DO_MovimientoAlmacen.cs" />
     <Compile Include="DO_Proveedor.cs" />
-    <Compile Include="DO_TipoMovimientoAlmacen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
