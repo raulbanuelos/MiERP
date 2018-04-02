@@ -9,8 +9,8 @@
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ARTICULO" Width="1.5" PointX="5.25" PointY="15.75" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_CATEGORIA_ARTICULO" Width="1.5" PointX="3" PointY="22.5" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_COMPANIA" Width="1.5" PointX="0.75" PointY="10.625" />
-        <EntityTypeShape EntityType="Data.ServiceObject.TBL_EXISTENCIA" Width="1.5" PointX="7.5" PointY="19.75" />
-        <EntityTypeShape EntityType="Data.ServiceObject.TBL_MOVIMIENTO_ALMACEN" Width="1.5" PointX="7.5" PointY="15" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_EXISTENCIA" Width="2.625" PointX="7.5" PointY="19.75" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_MOVIMIENTO_ALMACEN" Width="3" PointX="9.375" PointY="12.625" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_PROVEEDOR" Width="1.5" PointX="3" PointY="11.5" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ROLE" Width="1.5" PointX="0.75" PointY="7.375" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_UNIDAD" Width="1.5" PointX="5.25" PointY="12.875" />

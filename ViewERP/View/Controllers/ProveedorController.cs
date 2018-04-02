@@ -13,7 +13,7 @@ namespace View.Controllers
         // GET: Proveedor
         public ActionResult Index()
         {
-            return View(DataManager.GetAllProveedor());
+            return View(DataManager.GetAllProveedor(((DO_Persona)Session["UsuarioConectado"]).idCompania));
         }
 
         public ActionResult Edit(int id = 0, DO_Proveedor proveedor = null)
@@ -25,6 +25,7 @@ namespace View.Controllers
             }
             else
             {
+                proveedor.idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
                 DataManager.UpdateProveedor(proveedor);
                 return RedirectToAction("Index", "Proveedor");
             }
@@ -33,8 +34,9 @@ namespace View.Controllers
 
         public ActionResult Create(DO_Proveedor proveedor = null)
         {
-            if (proveedor.idCompania != 0)
+            if (!string.IsNullOrEmpty(proveedor.Nombre))
             {
+                proveedor.idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
                 DataManager.InsertProveedor(proveedor);
                 return RedirectToAction("Index", "Proveedor");
             }

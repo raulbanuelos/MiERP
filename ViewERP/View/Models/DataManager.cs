@@ -41,6 +41,58 @@ namespace View.Models
             return persona;
         }
 
+        public static List<DO_Persona> GetAllPersona(int idCompania)
+        {
+            List<DO_Persona> lista = new List<DO_Persona>();
+
+            SO_Usuario service = new SO_Usuario();
+
+            IList informacionBD = service.GetAllUsuarios(idCompania);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    System.Type tipo = item.GetType();
+
+                    DO_Persona persona = new DO_Persona();
+
+                    persona.idUsuario = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
+                    persona.idRol = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
+                    persona.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
+                    persona.Nombre = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
+                    persona.ApellidoPaterno = (string)tipo.GetProperty("APATERNO").GetValue(item, null);
+                    persona.ApellidoMaterno = (string)tipo.GetProperty("AMATERNO").GetValue(item, null);
+                    persona.Usuario = (string)tipo.GetProperty("USUARIO").GetValue(item, null);
+
+                    lista.Add(persona);
+                }
+            }
+
+            return lista;
+        }
+
+        public static int InsertPersona(DO_Persona persona)
+        {
+            SO_Usuario service = new SO_Usuario();
+
+            return service.Insert(persona.idRol, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.Contrasena);
+        }
+
+        public static int UpdatePersona(DO_Persona persona)
+        {
+            SO_Usuario service = new SO_Usuario();
+
+            return service.Update(persona.idRol, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.Contrasena, persona.idUsuario);
+        }
+
+        public static int DeletePersona(int idPersona)
+        {
+            SO_Usuario service = new SO_Usuario();
+
+            return service.Delete(idPersona);
+        }
+
         public static List<DO_Almacen> GetAllAlmacen(int idCompania)
         {
             List<DO_Almacen> lista = new List<DO_Almacen>();
@@ -254,14 +306,13 @@ namespace View.Models
             return service.Delete(idCategoriaArticulo);
         }
 
-        public static List<DO_Proveedor> GetAllProveedor()
+        public static List<DO_Proveedor> GetAllProveedor(int idCompania)
         {
             List<DO_Proveedor> lista = new List<DO_Proveedor>();
 
             SO_Proveedor service = new SO_Proveedor();
-
-            //HardCode
-            IList informacionBD = service.GetAll(1);
+            
+            IList informacionBD = service.GetAll(idCompania);
 
             if (informacionBD != null)
             {
@@ -317,5 +368,7 @@ namespace View.Models
 
             return service.Delete(idProveedor);
         }
+        
+
     }
 }

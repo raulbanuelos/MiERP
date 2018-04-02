@@ -76,6 +76,16 @@
                     </ul>
                 </li>
 
+                @if ((bool)Session["ADMINISTRADOR"])
+                {
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Usuarios">
+                        <a class="nav-link" href="@Url.Action("Index","Usuarios")">
+                            <i class="fa fa-fw fa-users"></i>
+                            <span class="nav-link-text">Usuarios</span>
+                        </a>
+                    </li>
+                }
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="CerrarSession">
                     <a class="nav-link" href="@Url.Action("CerrarSession","Home")"> 
                         <i class="fa fa-fw fa-sign-out"></i>

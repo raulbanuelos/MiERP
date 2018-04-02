@@ -23,6 +23,21 @@ namespace View.Controllers
                 if (usuario != null)
                 {
                     Session["UsuarioConectado"] = usuario;
+
+                    Session["ADMINISTRADOR"] = false;
+                    Session["ALMACEN"] = false;
+
+                    switch (usuario.idRol)
+                    {
+                        case 1:
+                            Session["ADMINISTRADOR"] = true;
+                            break;
+                        case 2:
+                            Session["ALMACEN"] = true;
+                            break;
+                        default:
+                            break;
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 else
