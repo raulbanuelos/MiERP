@@ -10,6 +10,26 @@ namespace Data.ServiceObject
 {
     public class SO_Usuario
     {
+
+        public IList GetPersona(int idPersona)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var list = (from c in Conexion.TBL_USUARIO
+                                where c.ID_USUARIO == idPersona
+                                select c).ToList();
+
+                    return list;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public IList GetAllUsuarios(int idCompania)
         {
             try
@@ -26,6 +46,48 @@ namespace Data.ServiceObject
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public string GetLastPersonAdded(int anio)
+        {
+            
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var list = (from u in Conexion.TBL_USUARIO
+                                where u.USUARIO.Contains("ML"+anio)
+                                select new {
+                                    u.USUARIO,
+                                    u.ID_USUARIO
+                                }).ToList().OrderByDescending(x =>x.ID_USUARIO).FirstOrDefault().USUARIO;
+
+                    return list;
+                }
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
+        public bool ExistNameUser(string user)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    int c = (from u in Conexion.TBL_USUARIO
+                             where u.USUARIO == user
+                             select u).ToList().Count;
+
+                    return c > 0 ? true : false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 

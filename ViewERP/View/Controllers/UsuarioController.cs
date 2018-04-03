@@ -21,11 +21,21 @@ namespace View.Controllers
             {
                 persona.idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
                 DataManager.InsertPersona(persona);
-                return RedirectToAction("Index", "Persona");
+                return RedirectToAction("Index", "Usuario");
             }
             else
             {
-                return View();
+                DO_Persona model = new DO_Persona();
+                model.Usuario = DataManager.GetNewNumberNomina();
+                if (string.IsNullOrEmpty(model.Usuario))
+                {
+                    return RedirectToAction("Index", "Usuario");
+                }
+                else
+                {
+                    return View(model);
+                }
+                
             }
         }
 
@@ -33,20 +43,20 @@ namespace View.Controllers
         {
             if (id != 0 && persona.idUsuario == 0)
             {
-                return View(DataManager.GetAlmacen(id));
+                return View(DataManager.GetPersona(id));
             }
             else
             {
                 persona.idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
                 DataManager.UpdatePersona(persona);
-                return RedirectToAction("Index", "Persona");
+                return RedirectToAction("Index", "Usuario");
             }
         }
 
         public ActionResult Delete(int id = 0)
         {
             DataManager.DeletePersona(id);
-            return RedirectToAction("Index", "Persona");
+            return RedirectToAction("Index", "Usuario");
         }
     }
 }

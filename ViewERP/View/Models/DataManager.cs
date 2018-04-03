@@ -41,6 +41,33 @@ namespace View.Models
             return persona;
         }
 
+        public static DO_Persona GetPersona(int idPersona)
+        {
+            SO_Usuario service = new SO_Usuario();
+            DO_Persona persona = new DO_Persona();
+
+            IList informacionBD = service.GetPersona(idPersona);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    System.Type tipo = item.GetType();
+
+                    persona.idUsuario = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
+                    persona.idRol = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
+                    persona.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
+                    persona.Nombre = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
+                    persona.ApellidoPaterno = (string)tipo.GetProperty("APATERNO").GetValue(item, null);
+                    persona.ApellidoMaterno = (string)tipo.GetProperty("AMATERNO").GetValue(item, null);
+                    persona.Usuario = (string)tipo.GetProperty("USUARIO").GetValue(item, null);
+                    
+                }
+            }
+
+            return persona;
+        }
+
         public static List<DO_Persona> GetAllPersona(int idCompania)
         {
             List<DO_Persona> lista = new List<DO_Persona>();
@@ -58,7 +85,7 @@ namespace View.Models
                     DO_Persona persona = new DO_Persona();
 
                     persona.idUsuario = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
-                    persona.idRol = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
+                    persona.idRol = (int)tipo.GetProperty("ID_ROL").GetValue(item, null);
                     persona.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
                     persona.Nombre = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
                     persona.ApellidoPaterno = (string)tipo.GetProperty("APATERNO").GetValue(item, null);
@@ -91,6 +118,45 @@ namespace View.Models
             SO_Usuario service = new SO_Usuario();
 
             return service.Delete(idPersona);
+        }
+
+        public static string GetNewNumberNomina()
+        {
+            string numeroNomina = string.Empty;
+
+            SO_Usuario service = new SO_Usuario();
+
+            string lastPerson = service.GetLastPersonAdded(DateTime.Now.Year);
+
+            if (!string.IsNullOrEmpty(lastPerson))
+            {
+                int h = Convert.ToInt32(lastPerson.Substring(6));
+                h += 1;
+
+                string g = h.ToString();
+
+                if (g.Length == 1)
+                {
+                    g = "000" + g;
+                }
+                else if(g.Length == 2)
+                {
+                    g = "00" + g;
+                }
+                else if(g.Length == 3)
+                {
+                    g = "0" + g;
+                }
+
+                numeroNomina = "ML" + DateTime.Now.Year + g;
+
+            }
+            else
+            {
+                numeroNomina = "ML" + DateTime.Now.Year + "0001";
+            }
+            
+            return service.ExistNameUser(numeroNomina) ? string.Empty : numeroNomina;
         }
 
         public static List<DO_Almacen> GetAllAlmacen(int idCompania)
