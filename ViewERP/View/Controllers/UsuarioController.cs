@@ -27,6 +27,8 @@ namespace View.Controllers
             {
                 DO_Persona model = new DO_Persona();
                 model.Usuario = DataManager.GetNewNumberNomina();
+                model.Roles = DataManager.GetAllRolSelectListItem();
+
                 if (string.IsNullOrEmpty(model.Usuario))
                 {
                     return RedirectToAction("Index", "Usuario");
@@ -43,6 +45,7 @@ namespace View.Controllers
         {
             if (id != 0 && persona.idUsuario == 0)
             {
+
                 return View(DataManager.GetPersona(id));
             }
             else

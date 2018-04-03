@@ -32,7 +32,7 @@ namespace View.Models
                     persona.Nombre = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
                     persona.idUsuario = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
                     persona.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
-                    persona.idRol = (int)tipo.GetProperty("ID_ROL").GetValue(item, null);
+                    persona.ID_ROL = (int)tipo.GetProperty("ID_ROL").GetValue(item, null);
                     persona.Usuario = (string)tipo.GetProperty("USUARIO").GetValue(item, null);
 
                 }
@@ -55,7 +55,7 @@ namespace View.Models
                     System.Type tipo = item.GetType();
 
                     persona.idUsuario = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
-                    persona.idRol = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
+                    persona.ID_ROL = (int)tipo.GetProperty("ID_ROL").GetValue(item, null);
                     persona.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
                     persona.Nombre = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
                     persona.ApellidoPaterno = (string)tipo.GetProperty("APATERNO").GetValue(item, null);
@@ -64,6 +64,8 @@ namespace View.Models
                     
                 }
             }
+
+            persona.Roles = GetAllRolSelectListItem();
 
             return persona;
         }
@@ -85,7 +87,7 @@ namespace View.Models
                     DO_Persona persona = new DO_Persona();
 
                     persona.idUsuario = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
-                    persona.idRol = (int)tipo.GetProperty("ID_ROL").GetValue(item, null);
+                    persona.ID_ROL = (int)tipo.GetProperty("ID_ROL").GetValue(item, null);
                     persona.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
                     persona.Nombre = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
                     persona.ApellidoPaterno = (string)tipo.GetProperty("APATERNO").GetValue(item, null);
@@ -103,14 +105,14 @@ namespace View.Models
         {
             SO_Usuario service = new SO_Usuario();
 
-            return service.Insert(persona.idRol, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.Contrasena);
+            return service.Insert(persona.ID_ROL, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.Contrasena);
         }
 
         public static int UpdatePersona(DO_Persona persona)
         {
             SO_Usuario service = new SO_Usuario();
 
-            return service.Update(persona.idRol, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.Contrasena, persona.idUsuario);
+            return service.Update(persona.ID_ROL, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.Contrasena, persona.idUsuario);
         }
 
         public static int DeletePersona(int idPersona)
@@ -119,7 +121,7 @@ namespace View.Models
 
             return service.Delete(idPersona);
         }
-
+        
         public static string GetNewNumberNomina()
         {
             string numeroNomina = string.Empty;
@@ -434,7 +436,74 @@ namespace View.Models
 
             return service.Delete(idProveedor);
         }
-        
 
+        public static List<SelectListItem> GetAllRolSelectListItem()
+        {
+            List<DO_Rol> lista = new List<DO_Rol>();
+
+            SO_Rol service = new SO_Rol();
+
+            IList informacionBD = service.GetAll();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    System.Type tipo = item.GetType();
+
+                    DO_Rol rol = new DO_Rol();
+
+                    rol.idRol = (int)tipo.GetProperty("ID_ROL").GetValue(item, null);
+                    rol.Rol = (string)tipo.GetProperty("ROL").GetValue(item, null);
+
+                    lista.Add(rol);
+                }
+            }
+
+            return ConvertListDORolToSelectListItem(lista);
+        }
+
+        public static List<SelectListItem> ConvertListDORolToSelectListItem(List<DO_Rol> lista)
+        {
+            List<SelectListItem> listaResultante = new List<SelectListItem>();
+
+            foreach (var item in lista)
+            {
+                SelectListItem obj = new SelectListItem();
+                obj.Text = item.Rol;
+                obj.Value = Convert.ToString(item.idRol);
+                listaResultante.Add(obj);
+            }
+
+            return listaResultante;
+        }
+
+        public static DO_Rol GetRol(int idRol)
+        {
+            SO_Rol service = new SO_Rol();
+
+            return service.GetRol(idRol);
+        }
+
+        public static int InsertRol(DO_Rol rol)
+        {
+            SO_Rol service = new SO_Rol();
+
+            return service.Insert(rol);
+        }
+
+        public static int UpdateRol(DO_Rol rol)
+        {
+            SO_Rol service = new SO_Rol();
+
+            return service.Update(rol);
+        }
+
+        public static int DeleteRol(int idRol)
+        {
+            SO_Rol service = new SO_Rol();
+
+            return service.Delete(idRol);
+        }
     }
 }

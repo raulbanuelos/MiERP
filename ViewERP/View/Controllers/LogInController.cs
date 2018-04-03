@@ -27,7 +27,7 @@ namespace View.Controllers
                     Session["ADMINISTRADOR"] = false;
                     Session["ALMACEN"] = false;
 
-                    switch (usuario.idRol)
+                    switch (usuario.ID_ROL)
                     {
                         case 1:
                             Session["ADMINISTRADOR"] = true;

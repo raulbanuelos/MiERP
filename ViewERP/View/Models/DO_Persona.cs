@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace View.Models
 {
@@ -27,7 +28,7 @@ namespace View.Models
         public string Contrasena { get; set; }
 
         [Display(Name = "Rol")]
-        public int idRol { get; set; }
+        public int ID_ROL { get; set; }
 
         [Display(Name = "ID COMPAÑIA")]
         public int idCompania { get; set; }
@@ -39,5 +40,7 @@ namespace View.Models
                 return Nombre + " " + ApellidoPaterno + " " + ApellidoMaterno;
             }
         }
+
+        public virtual IEnumerable<SelectListItem> Roles { get; set; }
     }
 }
