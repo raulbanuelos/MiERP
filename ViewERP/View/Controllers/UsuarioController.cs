@@ -19,6 +19,7 @@ namespace View.Controllers
         {
             if (!string.IsNullOrEmpty(persona.Nombre))
             {
+                persona.Usuario = (string)TempData["numeroNomina"];
                 persona.idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
                 DataManager.InsertPersona(persona);
                 return RedirectToAction("Index", "Usuario");
@@ -28,6 +29,7 @@ namespace View.Controllers
                 DO_Persona model = new DO_Persona();
                 model.Usuario = DataManager.GetNewNumberNomina();
                 model.Roles = DataManager.GetAllRolSelectListItem();
+                TempData["numeroNomina"] = model.Usuario;
 
                 if (string.IsNullOrEmpty(model.Usuario))
                 {
