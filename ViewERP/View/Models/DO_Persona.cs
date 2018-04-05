@@ -11,24 +11,27 @@ namespace View.Models
     {
         [Key]
         public int idUsuario { get; set; }
-
+        
         [Display(Name = "Nombre")]
         public string Nombre { get; set; }
-
+        
         [Display(Name = "Apellido paterno")]
         public string ApellidoPaterno { get; set; }
-
+        
         [Display(Name = "Apellido materno")]
         public string ApellidoMaterno { get; set; }
 
-        [Display(Name = "No. de nomina")]
+        [Display(Name = "No. de nómina")]
         public string Usuario { get; set; }
-
+        
         [Display(Name = "Contraseña")]
         public string Contrasena { get; set; }
 
-        [Display(Name = "Rol")]
+        [Display(Name = "idRol")]
         public int ID_ROL { get; set; }
+
+        [Display(Name = "Rol")]
+        public string Rol { get; set; }
 
         [Display(Name = "ID COMPAÑIA")]
         public int idCompania { get; set; }

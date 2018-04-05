@@ -37,8 +37,19 @@ namespace Data.ServiceObject
                 using (var Conexion = new EntitiesERP())
                 {
                     var list = (from c in Conexion.TBL_USUARIO
+                               join r in Conexion.TBL_ROLE on c.ID_ROL equals r.ID_ROL
                                 where c.ID_COMPANIA == idCompania
-                                select c).ToList();
+                                select new {
+                                    c.ID_USUARIO,
+                                    c.ID_ROL,
+                                    c.ID_COMPANIA,
+                                    c.NOMBRE,
+                                    c.APATERNO,
+                                    c.AMATERNO,
+                                    c.USUARIO,
+                                    c.CONTRASENA,
+                                    r.ROL
+                                }).ToList();
 
                     return list;
                 }
@@ -136,7 +147,7 @@ namespace Data.ServiceObject
             }
         }
 
-        public int Update(int idRol, int idCompania, string nombre, string aPaterno, string aMaterno, string usuario, string contrasena, int idUsuario)
+        public int Update(int idRol, int idCompania, string nombre, string aPaterno, string aMaterno, string usuario, int idUsuario)
         {
             try
             {
@@ -150,14 +161,13 @@ namespace Data.ServiceObject
                     obj.APATERNO = aPaterno;
                     obj.AMATERNO = aMaterno;
                     obj.USUARIO = usuario;
-                    obj.CONTRASENA = contrasena;
 
                     Conexion.Entry(obj).State = EntityState.Modified;
 
                     return Conexion.SaveChanges();
                 }
             }
-            catch (Exception)
+            catch (Exception er)
             {
                 return 0;
             }

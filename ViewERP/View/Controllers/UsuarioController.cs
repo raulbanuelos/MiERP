@@ -47,7 +47,6 @@ namespace View.Controllers
         {
             if (id != 0 && persona.idUsuario == 0)
             {
-
                 return View(DataManager.GetPersona(id));
             }
             else

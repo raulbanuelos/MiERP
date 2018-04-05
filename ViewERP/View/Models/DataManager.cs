@@ -93,7 +93,7 @@ namespace View.Models
                     persona.ApellidoPaterno = (string)tipo.GetProperty("APATERNO").GetValue(item, null);
                     persona.ApellidoMaterno = (string)tipo.GetProperty("AMATERNO").GetValue(item, null);
                     persona.Usuario = (string)tipo.GetProperty("USUARIO").GetValue(item, null);
-
+                    persona.Rol = (string)tipo.GetProperty("ROL").GetValue(item, null);
                     lista.Add(persona);
                 }
             }
@@ -112,7 +112,7 @@ namespace View.Models
         {
             SO_Usuario service = new SO_Usuario();
 
-            return service.Update(persona.ID_ROL, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.Contrasena, persona.idUsuario);
+            return service.Update(persona.ID_ROL, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.idUsuario);
         }
 
         public static int DeletePersona(int idPersona)
