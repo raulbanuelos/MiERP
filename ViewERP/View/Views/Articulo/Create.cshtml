@@ -64,6 +64,18 @@
         </div>
 
         <div class="form-group">
+            Código de barras
+            <div class="col-md-10">
+
+                @{
+                    var base64 = Convert.ToBase64String(Model.CodigoDeBarras);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                }
+                <img src="@imgSrc" />
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Guardar" class="btn btn-success" />
             </div>

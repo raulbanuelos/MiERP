@@ -3,6 +3,8 @@ using Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -504,6 +506,13 @@ namespace View.Models
             SO_Rol service = new SO_Rol();
 
             return service.Delete(idRol);
+        }
+        
+        public static byte[] ImageToByteArray(Image x)
+        {
+            ImageConverter _imageConverter = new ImageConverter();
+            byte[] xByte = (byte[])_imageConverter.ConvertTo(x, typeof(byte[]));
+            return xByte;
         }
     }
 }

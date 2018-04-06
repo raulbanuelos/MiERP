@@ -37,5 +37,7 @@ namespace Model
 
         public virtual IEnumerable<SelectListItem> Categorias { get; set; }
 
+        public byte[] CodigoDeBarras { get; set; }
+
     }
 }
