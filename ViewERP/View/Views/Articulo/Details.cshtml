@@ -1,0 +1,87 @@
+﻿@model Model.DO_Articulo
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DO_Articulo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.idCompania)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idCompania)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Codigo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Codigo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescripcionLarga)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescripcionLarga)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.stockMin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.stockMin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.stockMax)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.stockMax)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ID_CATEGORIA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ID_CATEGORIA)
+        </dd>
+
+        <dt>
+            <label>Código de barras</label>
+        </dt>
+
+        <dt>
+            @{
+                var base64 = Convert.ToBase64String(Model.CodigoDeBarras);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+            }
+
+            <img src="@imgSrc" />
+        </dt>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.idArticulo }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

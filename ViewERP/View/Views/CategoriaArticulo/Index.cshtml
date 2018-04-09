@@ -15,6 +15,9 @@
         <th>
            Categoría
         </th>
+        <th>
+            Número de categoria
+        </th>
         <th></th>
     </tr>
 
@@ -22,6 +25,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.NombreCategoria)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.numeroCategoria)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.idCategoriaArticulo }) |

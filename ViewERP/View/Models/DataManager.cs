@@ -42,7 +42,7 @@ namespace View.Models
 
             return persona;
         }
-
+        
         public static DO_Persona GetPersona(int idPersona)
         {
             SO_Usuario service = new SO_Usuario();
@@ -237,7 +237,7 @@ namespace View.Models
                     articulo.Codigo = (string)tipo.GetProperty("CODIGO").GetValue(item, null);
                     articulo.Descripcion = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
                     articulo.DescripcionLarga = (string)tipo.GetProperty("DESCRIPCION_LARGA").GetValue(item, null);
-                    articulo.foto = (byte[])tipo.GetProperty("FOTO").GetValue(item, null);
+                    articulo.CodigoDeBarras = (byte[])tipo.GetProperty("FOTO").GetValue(item, null);
                     articulo.idArticulo = (int)tipo.GetProperty("ID_ARTICULO").GetValue(item, null);
                     articulo.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
                     articulo.ID_CATEGORIA = (int)tipo.GetProperty("ID_CATEGORIA").GetValue(item, null);
@@ -279,6 +279,57 @@ namespace View.Models
             return service.Insert(articulo);
         }
 
+        public static string GetNextCodigoArticulo(string idCategoria)
+        {
+            SO_Articulo service = new SO_Articulo();
+
+            string ultimoCodigo = service.GetLastCode(Convert.ToInt32(idCategoria));
+            string nuevoCodigo = string.Empty;
+
+            DO_CategoriaArticulo categoria = new DO_CategoriaArticulo();
+
+            SO_CategoriaArticulo serviceCategoria = new SO_CategoriaArticulo();
+
+            categoria = serviceCategoria.GetCategoriaArticulo(Convert.ToInt32(idCategoria));
+
+            if (string.IsNullOrEmpty(ultimoCodigo))
+            {
+                nuevoCodigo = categoria.numeroCategoria + "00001";
+            }
+            else
+            {
+                string d = ultimoCodigo.Substring(2);
+                string numeroCategoria = categoria.numeroCategoria;
+
+                int g = Convert.ToInt32(d);
+
+                g += 1;
+
+                if (g.ToString().Length == 1)
+                {
+                    nuevoCodigo = numeroCategoria + "0000" + g;
+                }
+                else if (g.ToString().Length == 2)
+                {
+                    nuevoCodigo = numeroCategoria + "000" + g;
+                }
+                else if (g.ToString().Length == 3)
+                {
+                    nuevoCodigo = numeroCategoria + "00" + g;
+                }
+                else if (g.ToString().Length == 4)
+                {
+                    nuevoCodigo = numeroCategoria + "0" + g;
+                }
+                else if (g.ToString().Length == 5)
+                {
+                    nuevoCodigo = numeroCategoria + g;
+                }
+            }
+
+            return nuevoCodigo;
+        }
+
         public static List<SelectListItem> GetAllCategoriaArticuloSelectListItem(int idCompania)
         {
             List<DO_CategoriaArticulo> lista = new List<DO_CategoriaArticulo>();
@@ -297,6 +348,7 @@ namespace View.Models
 
                     categoriaArticulo.idCategoriaArticulo = (int)tipo.GetProperty("ID_CATEGORIA_ARTICULO").GetValue(item, null);
                     categoriaArticulo.NombreCategoria = (string)tipo.GetProperty("NOMBRE_CATEGORIA").GetValue(item, null);
+                    categoriaArticulo.numeroCategoria = (string)tipo.GetProperty("NUM_CATEGORIA").GetValue(item, null);
 
                     lista.Add(categoriaArticulo);
 
@@ -324,7 +376,7 @@ namespace View.Models
 
                     categoriaArticulo.idCategoriaArticulo = (int)tipo.GetProperty("ID_CATEGORIA_ARTICULO").GetValue(item, null);
                     categoriaArticulo.NombreCategoria = (string)tipo.GetProperty("NOMBRE_CATEGORIA").GetValue(item, null);
-
+                    categoriaArticulo.numeroCategoria = (string)tipo.GetProperty("NUM_CATEGORIA").GetValue(item, null);
                     lista.Add(categoriaArticulo);
 
                 }

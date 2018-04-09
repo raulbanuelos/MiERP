@@ -14,11 +14,6 @@ namespace View.Controllers
         // GET: Articulo
         public ActionResult Index()
         {
-
-            
-
-            
-            
             return View(DataManager.GetAllArticulos(((DO_Persona)Session["UsuarioConectado"]).idCompania));
         }
 
@@ -35,39 +30,54 @@ namespace View.Controllers
             }
         }
 
-        public ActionResult Create(DO_Articulo articulo = null)
+        [HttpPost]
+        public JsonResult GetNewCode(string idCategoria)
         {
-            if (!string.IsNullOrEmpty(articulo.Codigo))
-            {
-                articulo.idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
-                DataManager.InsertArticulo(articulo);
-                return RedirectToAction("Index", "Articulo");
-            }
-            else
-            {
-                BarcodeLib.Barcode a = new BarcodeLib.Barcode();
-                
-                DO_Articulo elmodel = new DO_Articulo();
+            DO_Articulo modelo = new DO_Articulo();
 
-                //HardCode
-                elmodel.Codigo = "05006001";
+            modelo.Codigo = DataManager.GetNextCodigoArticulo(idCategoria);
 
-                BarcodeLib.Barcode codigoBarras = new BarcodeLib.Barcode();
-                codigoBarras.IncludeLabel = true;
-                Image imagen;
+            var jsonResult = Json(modelo, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
 
-                imagen = codigoBarras.Encode(BarcodeLib.TYPE.CODE128, elmodel.Codigo, Color.Black, Color.White, 400, 100);
-
-                elmodel.CodigoDeBarras = DataManager.ImageToByteArray(imagen);
-
-                int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
-                elmodel.Categorias = DataManager.GetAllCategoriaArticuloSelectListItem(idCompania);
-                elmodel.idCompania = idCompania;
-                return View(elmodel);
-            }
+            return jsonResult;
         }
 
-        
+        [HttpPost]
+        public JsonResult GuardarArticulo(string codigo, string descripocionCorta, string descripcionLarga, int stockMinimo, int stockMaximo,int idCategoria)
+        {
+            BarcodeLib.Barcode codigoBarras = new BarcodeLib.Barcode();
+            Image imagen = codigoBarras.Encode(BarcodeLib.TYPE.CODE128, codigo, Color.Black, Color.White, 400, 100);
+
+            int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+
+            DO_Articulo articulo = new DO_Articulo();
+
+            articulo.Codigo = codigo;
+            articulo.CodigoDeBarras = DataManager.ImageToByteArray(imagen);
+            articulo.Descripcion = descripocionCorta;
+            articulo.DescripcionLarga = descripcionLarga;
+            articulo.ID_CATEGORIA = idCategoria;
+            articulo.stockMax = stockMaximo;
+            articulo.stockMin = stockMinimo;
+            articulo.idCompania = idCompania;
+
+            int result = DataManager.InsertArticulo(articulo);
+
+            var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+
+        }
+
+        public ActionResult Create(DO_Articulo articulo = null)
+        {
+            int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+            ViewBag.CategoriasArticulo = DataManager.GetAllCategoriaArticuloSelectListItem(idCompania);
+
+            return View();
+        }
 
         public ActionResult Delete(int id = 0)
         {
@@ -80,6 +90,13 @@ namespace View.Controllers
             {
                 return RedirectToAction("Index", "Articulo");
             }
+        }
+
+        public ActionResult Details(int id)
+        {
+            DO_Articulo articulo = DataManager.GetArticulo(id);
+
+            return View(articulo);
         }
     }
 }

@@ -22,6 +22,7 @@ namespace Data.ServiceObject
                     tblCategoriaArticulo.ID_CATEGORIA_ARTICULO = categoriaArticulo.idCategoriaArticulo;
                     tblCategoriaArticulo.NOMBRE_CATEGORIA = categoriaArticulo.NombreCategoria;
                     tblCategoriaArticulo.ID_COMPANIA = categoriaArticulo.idCompania;
+                    tblCategoriaArticulo.NUM_CATEGORIA = categoriaArticulo.numeroCategoria;
 
                     Conexion.TBL_CATEGORIA_ARTICULO.Add(tblCategoriaArticulo);
                     return Conexion.SaveChanges();
@@ -43,6 +44,7 @@ namespace Data.ServiceObject
 
                     obj.ID_CATEGORIA_ARTICULO = categoriaArticulo.idCategoriaArticulo;
                     obj.NOMBRE_CATEGORIA = categoriaArticulo.NombreCategoria;
+                    obj.NUM_CATEGORIA = categoriaArticulo.numeroCategoria;
                     
                     Conexion.Entry(obj).State = EntityState.Modified;
 
@@ -106,6 +108,7 @@ namespace Data.ServiceObject
                     categoriaArticulo.idCategoriaArticulo = obj.ID_CATEGORIA_ARTICULO;
                     categoriaArticulo.NombreCategoria = obj.NOMBRE_CATEGORIA;
                     categoriaArticulo.idCompania = Convert.ToInt32(obj.ID_COMPANIA);
+                    categoriaArticulo.numeroCategoria = obj.NUM_CATEGORIA;
 
                     return categoriaArticulo;
 

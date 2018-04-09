@@ -22,18 +22,18 @@ namespace Data.ServiceObject
                     tblArticulo.CODIGO = articulo.Codigo;
                     tblArticulo.DESCRIPCION = articulo.Descripcion;
                     tblArticulo.DESCRIPCION_LARGA = articulo.DescripcionLarga;
-                    tblArticulo.FOTO = articulo.foto;
+                    tblArticulo.FOTO = articulo.CodigoDeBarras;
                     tblArticulo.ID_CATEGORIA = articulo.ID_CATEGORIA;
                     tblArticulo.ID_COMPANIA = articulo.idCompania;
                     tblArticulo.STOCK_MAX = articulo.stockMax;
                     tblArticulo.STOCK_MIN = articulo.stockMin;
-                    tblArticulo.ID_CATEGORIA = articulo.idCompania;
+                    tblArticulo.ID_COMPANIA = articulo.idCompania;
 
                     Conexion.TBL_ARTICULO.Add(tblArticulo);
                     return Conexion.SaveChanges();
                 }
             }
-            catch (Exception)
+            catch (Exception er)
             {
                 return 0;
             }
@@ -51,7 +51,6 @@ namespace Data.ServiceObject
                     obj.CODIGO = articulo.Codigo;
                     obj.DESCRIPCION = articulo.Descripcion;
                     obj.DESCRIPCION_LARGA = articulo.DescripcionLarga;
-                    obj.FOTO = articulo.foto;
                     obj.STOCK_MAX = articulo.stockMax;
                     obj.STOCK_MIN = articulo.stockMin;
 
@@ -120,9 +119,9 @@ namespace Data.ServiceObject
                     articulo.Codigo = obj.CODIGO;
                     articulo.Descripcion = obj.DESCRIPCION;
                     articulo.DescripcionLarga = obj.DESCRIPCION_LARGA;
-                    articulo.foto = obj.FOTO;
                     articulo.stockMax = Convert.ToInt32(obj.STOCK_MAX);
                     articulo.stockMin = Convert.ToInt32(obj.STOCK_MIN);
+                    articulo.CodigoDeBarras = obj.FOTO;
 
                     return articulo;
                 }
@@ -130,6 +129,26 @@ namespace Data.ServiceObject
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public string GetLastCode(int idCategoria)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    string codigo = (from c in Conexion.TBL_ARTICULO
+                                     where c.ID_CATEGORIA == idCategoria
+                                     orderby c.ID_ARTICULO descending
+                                     select c.CODIGO).FirstOrDefault();
+
+                    return codigo;
+                }
+            }
+            catch (Exception)
+            {
+                return string.Empty;
             }
         }
     }

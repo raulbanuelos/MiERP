@@ -7,82 +7,95 @@
 
 <h2>Nuevo artículo</h2>
 
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
     <div class="form-horizontal">
         <hr />
 
         <div class="form-group">
-            Categoría
-            <div class="col-md-10">
-                @Html.DropDownList("ID_CATEGORIA", Model.Categorias, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ID_CATEGORIA, "", new { @class = "text-danger" })
-            </div>
-        </div> 
-
-        <div class="form-group">
-            Código
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            Descripción
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            Descripción larga
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DescripcionLarga, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DescripcionLarga, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            Stock mínimo
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.stockMin, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.stockMin, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            Stock máximo
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.stockMax, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.stockMax, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            Código de barras
-            <div class="col-md-10">
-
+            <select id="cboCategorias" class="form-control">
                 @{
-                    var base64 = Convert.ToBase64String(Model.CodigoDeBarras);
-                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    foreach (SelectListItem categoria in  ((List<SelectListItem>) ViewBag.CategoriasArticulo))
+                    {
+                        <option id="@categoria.Value" value="@categoria.Value">@categoria.Text</option>
+                    }
                 }
-                <img src="@imgSrc" />
-            </div>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <input type="text" id="txtCodigo" class="form-control" placeholder="Código" />
+        </div>
+
+        <div class="form-group">
+            <input type="text" id="txtDescripcionCorta" class="form-control" placeholder="Descripción corta" />
+        </div>
+
+        <div class="form-group">
+            <input type="text" id="txtDescripcionLarga" class="form-control" placeholder="Descripción larga" />
+        </div>
+
+        <div class="form-group">
+            <input type="text" id="txtStockMinimo" class="form-control" placeholder="Stock mínimo" />
+        </div>
+
+        <div class="form-group">
+            <input type="text" id="txtStockMaximo" class="form-control" placeholder="Stock máximo" />
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Guardar" class="btn btn-success" />
+                <button class="btn btn-success" onclick="GuardarArticulo()">Guardar</button>
             </div>
         </div>
     </div>
-}
 
 <div>
     @Html.ActionLink("Regresar", "Index")
 </div>
+
+<script type="text/javascript">
+    $("#cboCategorias").change(function () {
+        var _idCategoria = $("#cboCategorias").val();
+        var urlSave = '@Url.Action("GetNewCode", "Articulo")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data : JSON.stringify({idCategoria : _idCategoria}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                $("#txtCodigo").val(data.Codigo);
+            },
+            error: function (result) {
+                alert(result);
+            }
+        });
+    });
+
+    function GuardarArticulo()
+    {
+        var urlSave = '@Url.Action("GuardarArticulo","Articulo")';
+        var _codigo = $("#txtCodigo").val();
+        var _descripcionCorta = $("#txtDescripcionCorta").val();
+        var _descripcionLarga = $("#txtDescripcionLarga").val();
+        var _stockMinimo = $("#txtStockMinimo").val();
+        var _stockMaximo = $("#txtStockMaximo").val();
+        var _idCategoria = $("#cboCategorias").val();
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ codigo: _codigo, descripocionCorta: _descripcionCorta, descripcionLarga: _descripcionLarga, stockMinimo: _stockMinimo, stockMaximo: _stockMaximo,idCategoria :_idCategoria }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                alert("Registro agregado exitosamente");
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+
+        
+        });
+
+    }
+</script>
