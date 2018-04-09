@@ -47,6 +47,7 @@ namespace View.Controllers
         public JsonResult GuardarArticulo(string codigo, string descripocionCorta, string descripcionLarga, int stockMinimo, int stockMaximo,int idCategoria)
         {
             BarcodeLib.Barcode codigoBarras = new BarcodeLib.Barcode();
+            codigoBarras.IncludeLabel = true;
             Image imagen = codigoBarras.Encode(BarcodeLib.TYPE.CODE128, codigo, Color.Black, Color.White, 400, 100);
 
             int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
