@@ -181,6 +181,7 @@
     <Compile Include="Controllers\ArticuloController.cs" />
     <Compile Include="Controllers\CategoriaArticuloController.cs" />
     <Compile Include="Controllers\EntradasAlmacenController.cs" />
+    <Compile Include="Controllers\ERPVerificaRol.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\ProveedorController.cs" />

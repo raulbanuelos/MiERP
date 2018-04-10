@@ -11,11 +11,13 @@ namespace View.Controllers
     public class AlmacenController : Controller
     {
         // GET: Almacen
+        [ERPVerificaRol]
         public ActionResult Index()
         {
             return View(DataManager.GetAllAlmacen(((DO_Persona)Session["UsuarioConectado"]).idCompania));
         }
 
+        [ERPVerificaRol]
         public ActionResult Create(DO_Almacen almacen = null)
         {
             if (!string.IsNullOrEmpty(almacen.Nombre))
@@ -30,6 +32,7 @@ namespace View.Controllers
             }
         }
 
+        [ERPVerificaRol]
         public ActionResult Edit(int id = 0, DO_Almacen almacen = null)
         {
             if (id != 0 && almacen.idAlmacen == 0)
@@ -44,6 +47,7 @@ namespace View.Controllers
             }
         }
 
+        [ERPVerificaRol]
         public ActionResult Delete(int id = 0)
         {
             DataManager.DeleteAlmacen(id);
