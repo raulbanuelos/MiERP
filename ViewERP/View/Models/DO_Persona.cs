@@ -45,5 +45,10 @@ namespace View.Models
         }
 
         public virtual IEnumerable<SelectListItem> Roles { get; set; }
+
+        public override string ToString()
+        {
+            return Nombre + " " + ApellidoPaterno + " " + ApellidoMaterno;
+        }
     }
 }

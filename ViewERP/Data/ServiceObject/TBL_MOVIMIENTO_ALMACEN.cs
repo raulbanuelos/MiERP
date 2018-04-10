@@ -24,8 +24,8 @@ namespace Data.ServiceObject
         public string USUARIO { get; set; }
     
         public virtual TBL_ALMACEN TBL_ALMACEN { get; set; }
-        public virtual TBL_ARTICULO TBL_ARTICULO { get; set; }
         public virtual TBL_PROVEEDOR TBL_PROVEEDOR { get; set; }
         public virtual TBL_UNIDAD TBL_UNIDAD { get; set; }
+        public virtual TBL_ARTICULO TBL_ARTICULO { get; set; }
     }
 }

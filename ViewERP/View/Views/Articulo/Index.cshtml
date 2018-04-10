@@ -11,58 +11,68 @@
 <p>
     @Html.ActionLink("Crear nuevo", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Código
-        </th>
-        <th>
-            Descripción
-        </th>
-        <th>
-            Descripción larga
-        </th>
-        <th>
-            Stock mínimo
-        </th>
-        <th>
-            Stock máximo
-        </th>
-        <th>
-            Categoría
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        
-        <td>
-            @Html.DisplayFor(modelItem => item.Codigo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DescripcionLarga)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.stockMin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.stockMax)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ID_CATEGORIA)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.idArticulo }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.idArticulo }) |
-            @Html.ActionLink("Detalles", "Details", new { id=item.idArticulo})
-        </td>
-    </tr>
-}
+<div class="card-header">
+    <i class="fa fa-table"></i> Artículos
+</div>
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th>Descripción larga</th>
+                    <th>Stock mínimo</th>
+                    <th>Stock máximo</th>
+                    <th>Categoría</th>
+                    <th>Tipo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th>Descripción larga</th>
+                    <th>Stock mínimo</th>
+                    <th>Stock máximo</th>
+                    <th>Categoría</th>
+                    <th>Tipo</th>
+                    <th>Acciones</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Codigo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                        <td>@Html.DisplayFor(modelItem => item.DescripcionLarga)</td>
+                        <td>@Html.DisplayFor(modelItem => item.stockMin)</td>
+                        <td>@Html.DisplayFor(modelItem => item.stockMax)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Categoria.NombreCategoria)</td>
+                        @{
+                            if (item.IsConsumible)
+                            {
+                                <td>Consumible</td>
+                            }
+                            else
+                            {
+                                <td>No Consumible</td>
+                            }
+                        }
+                        <td>
+                            @Html.ActionLink("Editar", "Edit", new { id = item.idArticulo }) |
+                            @Html.ActionLink("Eliminar", "Delete", new { id = item.idArticulo }) |
+                            @Html.ActionLink("Detalles", "Details", new { id = item.idArticulo })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
-</table>
 
 

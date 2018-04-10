@@ -13,6 +13,7 @@ namespace View.Models
 {
     public static class DataManager
     {
+        #region Persona
         public static DO_Persona GetLogin(string usuario, string contrasena)
         {
             DO_Persona persona = null;
@@ -42,7 +43,7 @@ namespace View.Models
 
             return persona;
         }
-        
+
         public static DO_Persona GetPersona(int idPersona)
         {
             SO_Usuario service = new SO_Usuario();
@@ -63,7 +64,7 @@ namespace View.Models
                     persona.ApellidoPaterno = (string)tipo.GetProperty("APATERNO").GetValue(item, null);
                     persona.ApellidoMaterno = (string)tipo.GetProperty("AMATERNO").GetValue(item, null);
                     persona.Usuario = (string)tipo.GetProperty("USUARIO").GetValue(item, null);
-                    
+
                 }
             }
 
@@ -103,6 +104,23 @@ namespace View.Models
             return lista;
         }
 
+        public static List<SelectListItem> ConvertListDOPersonaToSelectListItem(List<DO_Persona> lista)
+        {
+            List<SelectListItem> listaResultante = new List<SelectListItem>();
+
+            foreach (var item in lista)
+            {
+                SelectListItem obj = new SelectListItem();
+
+                obj.Text = item.ToString();
+                obj.Value = Convert.ToString(item.idUsuario);
+
+                listaResultante.Add(obj);
+            }
+
+            return listaResultante;
+        }
+
         public static int InsertPersona(DO_Persona persona)
         {
             SO_Usuario service = new SO_Usuario();
@@ -123,7 +141,7 @@ namespace View.Models
 
             return service.Delete(idPersona);
         }
-        
+
         public static string GetNewNumberNomina()
         {
             string numeroNomina = string.Empty;
@@ -143,11 +161,11 @@ namespace View.Models
                 {
                     g = "000" + g;
                 }
-                else if(g.Length == 2)
+                else if (g.Length == 2)
                 {
                     g = "00" + g;
                 }
-                else if(g.Length == 3)
+                else if (g.Length == 3)
                 {
                     g = "0" + g;
                 }
@@ -159,16 +177,18 @@ namespace View.Models
             {
                 numeroNomina = "ML" + DateTime.Now.Year + "0001";
             }
-            
+
             return service.ExistNameUser(numeroNomina) ? string.Empty : numeroNomina;
         }
+        #endregion
 
+        #region Almacen
         public static List<DO_Almacen> GetAllAlmacen(int idCompania)
         {
             List<DO_Almacen> lista = new List<DO_Almacen>();
 
             SO_Almacen service = new SO_Almacen();
-            
+
             IList informacionBD = service.GetAll(idCompania);
 
             if (informacionBD != null)
@@ -218,7 +238,9 @@ namespace View.Models
 
             return service.Delete(idAlmacen);
         }
+        #endregion
 
+        #region Articulo
         public static List<DO_Articulo> GetAllArticulos(int idCompania)
         {
             SO_Articulo service = new SO_Articulo();
@@ -243,6 +265,9 @@ namespace View.Models
                     articulo.ID_CATEGORIA = (int)tipo.GetProperty("ID_CATEGORIA").GetValue(item, null);
                     articulo.stockMax = (int)tipo.GetProperty("STOCK_MAX").GetValue(item, null);
                     articulo.stockMin = (int)tipo.GetProperty("STOCK_MIN").GetValue(item, null);
+                    articulo.IsConsumible = (bool)tipo.GetProperty("CONSUMIBLE").GetValue(item, null);
+
+                    articulo.Categoria = GetCategoriaArticulo(articulo.ID_CATEGORIA);
 
                     lista.Add(articulo);
                 }
@@ -251,11 +276,33 @@ namespace View.Models
             return lista;
         }
 
+        public static List<SelectListItem> ConvertListDOArticuloToSelectListItem(List<DO_Articulo> lista)
+        {
+            List<SelectListItem> listaResultante = new List<SelectListItem>();
+
+            foreach (var item in lista)
+            {
+                SelectListItem obj = new SelectListItem();
+
+                obj.Text = item.Codigo + "          " + item.Descripcion;
+                obj.Value = Convert.ToString(item.idArticulo);
+                listaResultante.Add(obj);
+            }
+
+            return listaResultante;
+        }
+
         public static DO_Articulo GetArticulo(int idArticulo)
         {
             SO_Articulo service = new SO_Articulo();
 
-            return service.GetArticulo(idArticulo);
+            DO_Articulo articulo = new DO_Articulo();
+
+            articulo = service.GetArticulo(idArticulo);
+
+            articulo.Categoria = GetCategoriaArticulo(articulo.ID_CATEGORIA);
+
+            return articulo;
         }
 
         public static int UpdateArticulo(DO_Articulo articulo)
@@ -329,7 +376,9 @@ namespace View.Models
 
             return nuevoCodigo;
         }
+        #endregion
 
+        #region Categoria Articulo
         public static List<SelectListItem> GetAllCategoriaArticuloSelectListItem(int idCompania)
         {
             List<DO_CategoriaArticulo> lista = new List<DO_CategoriaArticulo>();
@@ -354,8 +403,8 @@ namespace View.Models
 
                 }
             }
-            
-           return ConvertListDOCategoriaToSelectListItem(lista);
+
+            return ConvertListDOCategoriaToSelectListItem(lista);
         }
 
         public static List<DO_CategoriaArticulo> GetAllCategoriaArticulo(int idCompania)
@@ -427,13 +476,15 @@ namespace View.Models
 
             return service.Delete(idCategoriaArticulo);
         }
+        #endregion
 
+        #region Proveedor
         public static List<DO_Proveedor> GetAllProveedor(int idCompania)
         {
             List<DO_Proveedor> lista = new List<DO_Proveedor>();
 
             SO_Proveedor service = new SO_Proveedor();
-            
+
             IList informacionBD = service.GetAll(idCompania);
 
             if (informacionBD != null)
@@ -490,7 +541,9 @@ namespace View.Models
 
             return service.Delete(idProveedor);
         }
+        #endregion
 
+        #region Rol
         public static List<SelectListItem> GetAllRolSelectListItem()
         {
             List<DO_Rol> lista = new List<DO_Rol>();
@@ -559,12 +612,15 @@ namespace View.Models
 
             return service.Delete(idRol);
         }
-        
+        #endregion
+
+        #region General
         public static byte[] ImageToByteArray(Image x)
         {
             ImageConverter _imageConverter = new ImageConverter();
             byte[] xByte = (byte[])_imageConverter.ConvertTo(x, typeof(byte[]));
             return xByte;
-        }
+        } 
+        #endregion
     }
 }

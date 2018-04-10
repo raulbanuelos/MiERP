@@ -10,11 +10,12 @@ namespace View.Controllers
     public class LogInController : Controller
     {
         // GET: LogIn
+        [ERPVerificaRol]
         public ActionResult Index()
         {
             return View();
         }
-
+        
         public ActionResult Ingresar([Bind(Include = "Usuario,Contrasena")] DO_Persona persona)
         {
             if (ModelState.IsValid)

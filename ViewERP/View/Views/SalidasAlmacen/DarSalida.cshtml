@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "DarSalida";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DarSalida</h2>
+
+<div class="form-horizontal">
+    <hr />
+    <div class="form-group">
+        <label>Persona</label>
+        <select id="cboPersonas" class="form-control">
+            @{
+                foreach (SelectListItem persona in ((List<SelectListItem>)ViewBag.Personas))
+                {
+                    <option id="@persona.Value" value="@persona.Value">@persona.Text</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Articulo</label>
+        <select id="cboArticulos" class="form-control">
+            @{
+                foreach (SelectListItem articulo in ((List<SelectListItem>)ViewBag.Articulos))
+                {
+                    <option id="@articulo.Value" value="@articulo.Value">@articulo.Text</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Condiciones al entregar</label>
+        <select id="cboCondiciones" class="form-control">
+            @{
+                foreach (SelectListItem condicion in ((List<SelectListItem>)ViewBag.CondicionesEntrega))
+                {
+                    <option id="@condicion.Value" value="@condicion.Value">@condicion.Text</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Cantidad</label>
+        <input  type="text" class="form-control" id="txtCantidad"/>
+    </div>
+</div>
+

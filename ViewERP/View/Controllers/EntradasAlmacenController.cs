@@ -9,6 +9,7 @@ namespace View.Controllers
     public class EntradasAlmacenController : Controller
     {
         // GET: EntradasAlmacen
+        [ERPVerificaRol]
         public ActionResult Index()
         {
             return View();

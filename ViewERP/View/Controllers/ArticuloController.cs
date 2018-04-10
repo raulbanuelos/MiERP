@@ -12,25 +12,22 @@ namespace View.Controllers
     public class ArticuloController : Controller
     {
         // GET: Articulo
+        [ERPVerificaRol]
         public ActionResult Index()
         {
             return View(DataManager.GetAllArticulos(((DO_Persona)Session["UsuarioConectado"]).idCompania));
         }
 
+        [ERPVerificaRol]
         public ActionResult Edit(int id = 0, DO_Articulo articulo = null)
         {
-            if (id != 0 && articulo.idArticulo == 0)
-            {
-                return View(DataManager.GetArticulo(id));
-            }
-            else
-            {
-                DataManager.UpdateArticulo(articulo);
-                return RedirectToAction("Index", "Articulo");
-            }
+            int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+            ViewBag.CategoriasArticulo = DataManager.GetAllCategoriaArticuloSelectListItem(idCompania);
+            return View(DataManager.GetArticulo(id));
         }
 
         [HttpPost]
+        [ERPVerificaRol]
         public JsonResult GetNewCode(string idCategoria)
         {
             DO_Articulo modelo = new DO_Articulo();
@@ -44,7 +41,8 @@ namespace View.Controllers
         }
 
         [HttpPost]
-        public JsonResult GuardarArticulo(string codigo, string descripocionCorta, string descripcionLarga, int stockMinimo, int stockMaximo,int idCategoria)
+        [ERPVerificaRol]
+        public JsonResult GuardarArticulo(string codigo, string descripocionCorta, string descripcionLarga, int stockMinimo, int stockMaximo,int idCategoria,bool isConsumible)
         {
             BarcodeLib.Barcode codigoBarras = new BarcodeLib.Barcode();
             codigoBarras.IncludeLabel = true;
@@ -62,6 +60,7 @@ namespace View.Controllers
             articulo.stockMax = stockMaximo;
             articulo.stockMin = stockMinimo;
             articulo.idCompania = idCompania;
+            articulo.IsConsumible = isConsumible;
 
             int result = DataManager.InsertArticulo(articulo);
 
@@ -72,14 +71,38 @@ namespace View.Controllers
 
         }
 
+        [HttpPost]
+        [ERPVerificaRol]
+        public JsonResult GuardarCambiosArticulo(string codigo, string descripcionCorta, string descripcionLarga, int stockMinimo, int stockMaximo,bool isConsumible)
+        {
+            int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+            DO_Articulo articulo = new DO_Articulo();
+            articulo.Codigo = codigo;
+            articulo.Descripcion = descripcionCorta;
+            articulo.DescripcionLarga = descripcionLarga;
+            articulo.stockMax = stockMaximo;
+            articulo.stockMin = stockMinimo;
+            articulo.idCompania = idCompania;
+            articulo.IsConsumible = isConsumible;
+
+            int result = DataManager.UpdateArticulo(articulo);
+
+            var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+
+        }
+
+        [ERPVerificaRol]
         public ActionResult Create(DO_Articulo articulo = null)
         {
             int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
             ViewBag.CategoriasArticulo = DataManager.GetAllCategoriaArticuloSelectListItem(idCompania);
-
             return View();
         }
 
+        [ERPVerificaRol]
         public ActionResult Delete(int id = 0)
         {
             if (id != 0)
@@ -93,6 +116,7 @@ namespace View.Controllers
             }
         }
 
+        [ERPVerificaRol]
         public ActionResult Details(int id)
         {
             DO_Articulo articulo = DataManager.GetArticulo(id);

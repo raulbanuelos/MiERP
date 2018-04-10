@@ -10,11 +10,13 @@ namespace View.Controllers
     public class UsuarioController : Controller
     {
         // GET: Usuario
+        [ERPVerificaRol]
         public ActionResult Index()
         {
             return View(DataManager.GetAllPersona(((DO_Persona)Session["UsuarioConectado"]).idCompania));
         }
 
+        [ERPVerificaRol]
         public ActionResult Create(DO_Persona persona = null)
         {
             if (!string.IsNullOrEmpty(persona.Nombre))
@@ -43,6 +45,7 @@ namespace View.Controllers
             }
         }
 
+        [ERPVerificaRol]
         public ActionResult Edit(int id = 0, DO_Persona persona = null)
         {
             if (id != 0 && persona.idUsuario == 0)
@@ -57,6 +60,7 @@ namespace View.Controllers
             }
         }
 
+        [ERPVerificaRol]
         public ActionResult Delete(int id = 0)
         {
             DataManager.DeletePersona(id);

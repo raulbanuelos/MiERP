@@ -30,6 +30,7 @@ namespace Data.ServiceObject
         public byte[] FOTO { get; set; }
         public Nullable<int> STOCK_MIN { get; set; }
         public Nullable<int> STOCK_MAX { get; set; }
+        public bool CONSUMIBLE { get; set; }
     
         public virtual TBL_CATEGORIA_ARTICULO TBL_CATEGORIA_ARTICULO { get; set; }
         public virtual TBL_COMPANIA TBL_COMPANIA { get; set; }

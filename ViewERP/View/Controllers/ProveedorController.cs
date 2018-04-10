@@ -11,11 +11,13 @@ namespace View.Controllers
     public class ProveedorController : Controller
     {
         // GET: Proveedor
+        [ERPVerificaRol]
         public ActionResult Index()
         {
             return View(DataManager.GetAllProveedor(((DO_Persona)Session["UsuarioConectado"]).idCompania));
         }
 
+        [ERPVerificaRol]
         public ActionResult Edit(int id = 0, DO_Proveedor proveedor = null)
         {
 
@@ -32,6 +34,7 @@ namespace View.Controllers
 
         }
 
+        [ERPVerificaRol]
         public ActionResult Create(DO_Proveedor proveedor = null)
         {
             if (!string.IsNullOrEmpty(proveedor.Nombre))
@@ -46,6 +49,7 @@ namespace View.Controllers
             }
         }
 
+        [ERPVerificaRol]
         public ActionResult Delete(int id = 0, DO_Proveedor model = null)
         {
             if (id != 0)

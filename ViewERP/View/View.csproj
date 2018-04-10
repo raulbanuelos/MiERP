@@ -185,6 +185,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\ProveedorController.cs" />
+    <Compile Include="Controllers\SalidasAlmacenController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -276,6 +277,9 @@
     <Content Include="theme\vendor\bootstrap\js\bootstrap.bundle.min.js" />
     <Content Include="theme\vendor\bootstrap\js\bootstrap.js" />
     <Content Include="theme\vendor\bootstrap\js\bootstrap.min.js" />
+    <Content Include="theme\vendor\datatables\dataTables.bootstrap4.css" />
+    <Content Include="theme\vendor\datatables\dataTables.bootstrap4.js" />
+    <Content Include="theme\vendor\datatables\jquery.dataTables.js" />
     <Content Include="theme\vendor\font-awesome\css\font-awesome.css" />
     <Content Include="theme\vendor\font-awesome\css\font-awesome.min.css" />
     <Content Include="theme\vendor\font-awesome\fonts\fontawesome-webfont.svg" />
@@ -366,6 +370,7 @@
     <Content Include="Views\Usuario\Create.cshtml" />
     <Content Include="Views\Usuario\Edit.cshtml" />
     <Content Include="Views\Articulo\Details.cshtml" />
+    <Content Include="Views\SalidasAlmacen\DarSalida.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

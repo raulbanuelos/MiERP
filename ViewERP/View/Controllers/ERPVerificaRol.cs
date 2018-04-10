@@ -37,7 +37,54 @@ namespace View.Controllers
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
+            if (nombreControlador.Equals("Articulo"))
+            {
+                RolesPermitidos = "1,2";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
 
+            if (nombreControlador.Equals("CategoriaArticulo"))
+            {
+                RolesPermitidos = "1";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
+
+            if (nombreControlador.Equals("EntradasAlmacen"))
+            {
+                RolesPermitidos = "1,2";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
+
+            if (nombreControlador.Equals("Proveedor"))
+            {
+                RolesPermitidos = "1,2";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
+
+            if (nombreControlador.Equals("Usuario"))
+            {
+                RolesPermitidos = "1,2";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
+
+            if (nombreControlador.Equals("Home"))
+            {
+                RolesPermitidos = "1,2,3";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
+
+            if (nombreControlador.Equals("LogIn"))
+            {
+                RolesPermitidos = "1,2,3";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
+
+            if (nombreControlador.Equals("SalidasAlmacen"))
+            {
+                RolesPermitidos = "1,2";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
+            
             return false;
         }
 

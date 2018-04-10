@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="d305160d3f4742c9bed9f1a27b78f11c" Name="Diagram1" ZoomLevel="93">
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ALMACEN" Width="1.5" PointX="3" PointY="11.5" />
-        <EntityTypeShape EntityType="Data.ServiceObject.TBL_ARTICULO" Width="1.5" PointX="8.25" PointY="14.125" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_CATEGORIA_ARTICULO" Width="2" PointX="3" PointY="18.875" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_COMPANIA" Width="1.5" PointX="0.75" PointY="10.75" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_EXISTENCIA" Width="1.5" PointX="5.25" PointY="11.625" />
@@ -18,16 +17,17 @@
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_ALMACEN_TBL_COMPANIA" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ALMACEN" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ALMACEN1" />
-        <AssociationConnector Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO" />
-        <AssociationConnector Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_COMPANIA" />
-        <AssociationConnector Association="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ARTICULO" />
-        <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ARTICULO" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_PROVEEDOR_TBL_COMPANIA1" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_USUARIO_TBL_COMPANIA" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_PROVEEDOR" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_UNIDAD" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_USUARIO_TBL_ROLE" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_ARTICULO" Width="1.5" PointX="7.75" PointY="14" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_COMPANIA" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ARTICULO" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ARTICULO" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
