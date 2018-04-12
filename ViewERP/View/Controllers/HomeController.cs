@@ -8,11 +8,13 @@ namespace View.Controllers
 {
     public class HomeController : Controller
     {
+        [ERPVerificaRol]
         public ActionResult Index()
         {
             return View();
         }
 
+        [ERPVerificaRol]
         public ActionResult CerrarSession()
         {
             Session.Abandon();

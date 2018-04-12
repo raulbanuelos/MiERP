@@ -11,12 +11,14 @@ namespace View.Controllers
     public class CategoriaArticuloController : Controller
     {
         // GET: CategoriaArticulo
+        [ERPVerificaRol]
         public ActionResult Index()
         {
             
             return View(DataManager.GetAllCategoriaArticulo(((DO_Persona)Session["UsuarioConectado"]).idCompania));
         }
 
+        [ERPVerificaRol]
         public ActionResult Edit(int id = 0, DO_CategoriaArticulo categoriaArticulo = null)
         {
 
@@ -31,6 +33,7 @@ namespace View.Controllers
             }
         }
 
+        [ERPVerificaRol]
         public ActionResult Create(DO_CategoriaArticulo categoriaArticulo = null)
         {
             if (!string.IsNullOrEmpty(categoriaArticulo.NombreCategoria))
@@ -44,6 +47,8 @@ namespace View.Controllers
                 return View();
             }
         }
+
+        [ERPVerificaRol]
         public ActionResult Delete(int id = 0)
         {
             if (id != 0)

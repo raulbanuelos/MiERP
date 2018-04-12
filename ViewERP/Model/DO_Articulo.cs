@@ -33,9 +33,14 @@ namespace Model
         [Display(Name = "Categoria")]
         public int ID_CATEGORIA { get; set; }
 
+        public DO_CategoriaArticulo Categoria { get; set; }
+
         public virtual IEnumerable<SelectListItem> Categorias { get; set; }
 
         public byte[] CodigoDeBarras { get; set; }
+
+        [Display(Name = "Es consumible")]
+        public bool IsConsumible { get; set; }
 
     }
 }

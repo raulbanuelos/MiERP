@@ -27,6 +27,7 @@
           <Property Name="FOTO" Type="varbinary(max)" />
           <Property Name="STOCK_MIN" Type="int" />
           <Property Name="STOCK_MAX" Type="int" />
+          <Property Name="CONSUMIBLE" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TBL_CATEGORIA_ARTICULO">
           <Key>
@@ -336,7 +337,6 @@
       <Schema Namespace="Data.ServiceObject" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="EntitiesERP" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="TBL_ALMACEN" EntityType="Data.ServiceObject.TBL_ALMACEN" />
-          <EntitySet Name="TBL_ARTICULO" EntityType="Data.ServiceObject.TBL_ARTICULO" />
           <EntitySet Name="TBL_CATEGORIA_ARTICULO" EntityType="Data.ServiceObject.TBL_CATEGORIA_ARTICULO" />
           <EntitySet Name="TBL_COMPANIA" EntityType="Data.ServiceObject.TBL_COMPANIA" />
           <EntitySet Name="TBL_EXISTENCIA" EntityType="Data.ServiceObject.TBL_EXISTENCIA" />
@@ -355,22 +355,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_TBL_MOVIMIENTO_ALMACEN_TBL_ALMACEN1" Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ALMACEN1">
             <End Role="TBL_ALMACEN" EntitySet="TBL_ALMACEN" />
-            <End Role="TBL_MOVIMIENTO_ALMACEN" EntitySet="TBL_MOVIMIENTO_ALMACEN" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO" Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO">
-            <End Role="TBL_CATEGORIA_ARTICULO" EntitySet="TBL_CATEGORIA_ARTICULO" />
-            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TBL_ARTICULO_TBL_COMPANIA" Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_COMPANIA">
-            <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
-            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TBL_EXISTENCIA_TBL_ARTICULO" Association="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ARTICULO">
-            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
-            <End Role="TBL_EXISTENCIA" EntitySet="TBL_EXISTENCIA" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TBL_MOVIMIENTO_ALMACEN_TBL_ARTICULO" Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ARTICULO">
-            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
             <End Role="TBL_MOVIMIENTO_ALMACEN" EntitySet="TBL_MOVIMIENTO_ALMACEN" />
           </AssociationSet>
           <AssociationSet Name="FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA" Association="Data.ServiceObject.FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA">
@@ -397,7 +381,24 @@
             <End Role="TBL_ROLE" EntitySet="TBL_ROLE" />
             <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="TBL_ARTICULO" EntityType="Data.ServiceObject.TBL_ARTICULO" />
+          <AssociationSet Name="FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO" Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO">
+            <End Role="TBL_CATEGORIA_ARTICULO" EntitySet="TBL_CATEGORIA_ARTICULO" />
+            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_ARTICULO_TBL_COMPANIA" Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_COMPANIA">
+            <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
+            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_EXISTENCIA_TBL_ARTICULO" Association="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ARTICULO">
+            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
+            <End Role="TBL_EXISTENCIA" EntitySet="TBL_EXISTENCIA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_MOVIMIENTO_ALMACEN_TBL_ARTICULO" Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ARTICULO">
+            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
+            <End Role="TBL_MOVIMIENTO_ALMACEN" EntitySet="TBL_MOVIMIENTO_ALMACEN" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="TBL_ALMACEN">
           <Key>
             <PropertyRef Name="ID_ALMACEN" />
@@ -410,24 +411,6 @@
           <NavigationProperty Name="TBL_EXISTENCIA" Relationship="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ALMACEN" FromRole="TBL_ALMACEN" ToRole="TBL_EXISTENCIA" />
           <NavigationProperty Name="TBL_MOVIMIENTO_ALMACEN" Relationship="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ALMACEN1" FromRole="TBL_ALMACEN" ToRole="TBL_MOVIMIENTO_ALMACEN" />
         </EntityType>
-        <EntityType Name="TBL_ARTICULO">
-          <Key>
-            <PropertyRef Name="ID_ARTICULO" />
-          </Key>
-          <Property Name="ID_ARTICULO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_COMPANIA" Type="Int32" Nullable="false" />
-          <Property Name="ID_CATEGORIA" Type="Int32" Nullable="false" />
-          <Property Name="CODIGO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DESCRIPCION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DESCRIPCION_LARGA" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="FOTO" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="STOCK_MIN" Type="Int32" />
-          <Property Name="STOCK_MAX" Type="Int32" />
-          <NavigationProperty Name="TBL_CATEGORIA_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_CATEGORIA_ARTICULO" />
-          <NavigationProperty Name="TBL_COMPANIA" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_COMPANIA" FromRole="TBL_ARTICULO" ToRole="TBL_COMPANIA" />
-          <NavigationProperty Name="TBL_EXISTENCIA" Relationship="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_EXISTENCIA" />
-          <NavigationProperty Name="TBL_MOVIMIENTO_ALMACEN" Relationship="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_MOVIMIENTO_ALMACEN" />
-        </EntityType>
         <EntityType Name="TBL_CATEGORIA_ARTICULO">
           <Key>
             <PropertyRef Name="ID_CATEGORIA_ARTICULO" />
@@ -436,8 +419,8 @@
           <Property Name="ID_COMPANIA" Type="Int32" />
           <Property Name="NOMBRE_CATEGORIA" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="NUM_CATEGORIA" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="TBL_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO" FromRole="TBL_CATEGORIA_ARTICULO" ToRole="TBL_ARTICULO" />
           <NavigationProperty Name="TBL_COMPANIA" Relationship="Data.ServiceObject.FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA" FromRole="TBL_CATEGORIA_ARTICULO" ToRole="TBL_COMPANIA" />
+          <NavigationProperty Name="TBL_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO" FromRole="TBL_CATEGORIA_ARTICULO" ToRole="TBL_ARTICULO" />
         </EntityType>
         <EntityType Name="TBL_COMPANIA">
           <Key>
@@ -450,10 +433,10 @@
           <Property Name="TELEFONO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CORREO" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="TBL_ALMACEN" Relationship="Data.ServiceObject.FK_TBL_ALMACEN_TBL_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_ALMACEN" />
-          <NavigationProperty Name="TBL_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_ARTICULO" />
           <NavigationProperty Name="TBL_CATEGORIA_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_CATEGORIA_ARTICULO" />
           <NavigationProperty Name="TBL_PROVEEDOR" Relationship="Data.ServiceObject.FK_TBL_PROVEEDOR_TBL_COMPANIA1" FromRole="TBL_COMPANIA" ToRole="TBL_PROVEEDOR" />
           <NavigationProperty Name="TBL_USUARIO" Relationship="Data.ServiceObject.FK_TBL_USUARIO_TBL_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_USUARIO" />
+          <NavigationProperty Name="TBL_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_ARTICULO" />
         </EntityType>
         <EntityType Name="TBL_EXISTENCIA">
           <Key>
@@ -479,9 +462,9 @@
           <Property Name="FECHA" Type="DateTime" Precision="3" />
           <Property Name="USUARIO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="TBL_ALMACEN" Relationship="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ALMACEN1" FromRole="TBL_MOVIMIENTO_ALMACEN" ToRole="TBL_ALMACEN" />
-          <NavigationProperty Name="TBL_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ARTICULO" FromRole="TBL_MOVIMIENTO_ALMACEN" ToRole="TBL_ARTICULO" />
           <NavigationProperty Name="TBL_PROVEEDOR" Relationship="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_PROVEEDOR" FromRole="TBL_MOVIMIENTO_ALMACEN" ToRole="TBL_PROVEEDOR" />
           <NavigationProperty Name="TBL_UNIDAD" Relationship="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_UNIDAD" FromRole="TBL_MOVIMIENTO_ALMACEN" ToRole="TBL_UNIDAD" />
+          <NavigationProperty Name="TBL_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ARTICULO" FromRole="TBL_MOVIMIENTO_ALMACEN" ToRole="TBL_ARTICULO" />
         </EntityType>
         <EntityType Name="TBL_PROVEEDOR">
           <Key>
@@ -565,54 +548,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO">
-          <End Type="Data.ServiceObject.TBL_CATEGORIA_ARTICULO" Role="TBL_CATEGORIA_ARTICULO" Multiplicity="1" />
-          <End Type="Data.ServiceObject.TBL_ARTICULO" Role="TBL_ARTICULO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBL_CATEGORIA_ARTICULO">
-              <PropertyRef Name="ID_CATEGORIA_ARTICULO" />
-            </Principal>
-            <Dependent Role="TBL_ARTICULO">
-              <PropertyRef Name="ID_CATEGORIA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TBL_ARTICULO_TBL_COMPANIA">
-          <End Type="Data.ServiceObject.TBL_COMPANIA" Role="TBL_COMPANIA" Multiplicity="1" />
-          <End Type="Data.ServiceObject.TBL_ARTICULO" Role="TBL_ARTICULO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBL_COMPANIA">
-              <PropertyRef Name="ID_COMPANIA" />
-            </Principal>
-            <Dependent Role="TBL_ARTICULO">
-              <PropertyRef Name="ID_COMPANIA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TBL_EXISTENCIA_TBL_ARTICULO">
-          <End Type="Data.ServiceObject.TBL_ARTICULO" Role="TBL_ARTICULO" Multiplicity="1" />
-          <End Type="Data.ServiceObject.TBL_EXISTENCIA" Role="TBL_EXISTENCIA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBL_ARTICULO">
-              <PropertyRef Name="ID_ARTICULO" />
-            </Principal>
-            <Dependent Role="TBL_EXISTENCIA">
-              <PropertyRef Name="ID_ARTICULO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TBL_MOVIMIENTO_ALMACEN_TBL_ARTICULO">
-          <End Type="Data.ServiceObject.TBL_ARTICULO" Role="TBL_ARTICULO" Multiplicity="0..1" />
-          <End Type="Data.ServiceObject.TBL_MOVIMIENTO_ALMACEN" Role="TBL_MOVIMIENTO_ALMACEN" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBL_ARTICULO">
-              <PropertyRef Name="ID_ARTICULO" />
-            </Principal>
-            <Dependent Role="TBL_MOVIMIENTO_ALMACEN">
-              <PropertyRef Name="ID_ARTICULO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA">
           <End Type="Data.ServiceObject.TBL_COMPANIA" Role="TBL_COMPANIA" Multiplicity="0..1" />
           <End Type="Data.ServiceObject.TBL_CATEGORIA_ARTICULO" Role="TBL_CATEGORIA_ARTICULO" Multiplicity="*" />
@@ -685,7 +620,74 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="TBL_ARTICULO">
+          <Key>
+            <PropertyRef Name="ID_ARTICULO" />
+          </Key>
+          <Property Name="ID_ARTICULO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_COMPANIA" Type="Int32" Nullable="false" />
+          <Property Name="ID_CATEGORIA" Type="Int32" Nullable="false" />
+          <Property Name="CODIGO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPCION_LARGA" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FOTO" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="STOCK_MIN" Type="Int32" />
+          <Property Name="STOCK_MAX" Type="Int32" />
+          <Property Name="CONSUMIBLE" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TBL_CATEGORIA_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_CATEGORIA_ARTICULO" />
+          <NavigationProperty Name="TBL_COMPANIA" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_COMPANIA" FromRole="TBL_ARTICULO" ToRole="TBL_COMPANIA" />
+          <NavigationProperty Name="TBL_EXISTENCIA" Relationship="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_EXISTENCIA" />
+          <NavigationProperty Name="TBL_MOVIMIENTO_ALMACEN" Relationship="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_MOVIMIENTO_ALMACEN" />
+        </EntityType>
+        <Association Name="FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO">
+          <End Type="Data.ServiceObject.TBL_CATEGORIA_ARTICULO" Role="TBL_CATEGORIA_ARTICULO" Multiplicity="1" />
+          <End Type="Data.ServiceObject.TBL_ARTICULO" Role="TBL_ARTICULO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_CATEGORIA_ARTICULO">
+              <PropertyRef Name="ID_CATEGORIA_ARTICULO" />
+            </Principal>
+            <Dependent Role="TBL_ARTICULO">
+              <PropertyRef Name="ID_CATEGORIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_ARTICULO_TBL_COMPANIA">
+          <End Type="Data.ServiceObject.TBL_COMPANIA" Role="TBL_COMPANIA" Multiplicity="1" />
+          <End Type="Data.ServiceObject.TBL_ARTICULO" Role="TBL_ARTICULO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_COMPANIA">
+              <PropertyRef Name="ID_COMPANIA" />
+            </Principal>
+            <Dependent Role="TBL_ARTICULO">
+              <PropertyRef Name="ID_COMPANIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_EXISTENCIA_TBL_ARTICULO">
+          <End Type="Data.ServiceObject.TBL_ARTICULO" Role="TBL_ARTICULO" Multiplicity="1" />
+          <End Type="Data.ServiceObject.TBL_EXISTENCIA" Role="TBL_EXISTENCIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ARTICULO">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Principal>
+            <Dependent Role="TBL_EXISTENCIA">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_MOVIMIENTO_ALMACEN_TBL_ARTICULO">
+          <End Type="Data.ServiceObject.TBL_ARTICULO" Role="TBL_ARTICULO" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.TBL_MOVIMIENTO_ALMACEN" Role="TBL_MOVIMIENTO_ALMACEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ARTICULO">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Principal>
+            <Dependent Role="TBL_MOVIMIENTO_ALMACEN">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -698,21 +700,6 @@
                 <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
                 <ScalarProperty Name="ID_COMPANIA" ColumnName="ID_COMPANIA" />
                 <ScalarProperty Name="ID_ALMACEN" ColumnName="ID_ALMACEN" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBL_ARTICULO">
-            <EntityTypeMapping TypeName="Data.ServiceObject.TBL_ARTICULO">
-              <MappingFragment StoreEntitySet="TBL_ARTICULO">
-                <ScalarProperty Name="STOCK_MAX" ColumnName="STOCK_MAX" />
-                <ScalarProperty Name="STOCK_MIN" ColumnName="STOCK_MIN" />
-                <ScalarProperty Name="FOTO" ColumnName="FOTO" />
-                <ScalarProperty Name="DESCRIPCION_LARGA" ColumnName="DESCRIPCION_LARGA" />
-                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
-                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
-                <ScalarProperty Name="ID_CATEGORIA" ColumnName="ID_CATEGORIA" />
-                <ScalarProperty Name="ID_COMPANIA" ColumnName="ID_COMPANIA" />
-                <ScalarProperty Name="ID_ARTICULO" ColumnName="ID_ARTICULO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -803,6 +790,22 @@
                 <ScalarProperty Name="ID_COMPANIA" ColumnName="ID_COMPANIA" />
                 <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
                 <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_ARTICULO">
+            <EntityTypeMapping TypeName="Data.ServiceObject.TBL_ARTICULO">
+              <MappingFragment StoreEntitySet="TBL_ARTICULO">
+                <ScalarProperty Name="CONSUMIBLE" ColumnName="CONSUMIBLE" />
+                <ScalarProperty Name="STOCK_MAX" ColumnName="STOCK_MAX" />
+                <ScalarProperty Name="STOCK_MIN" ColumnName="STOCK_MIN" />
+                <ScalarProperty Name="FOTO" ColumnName="FOTO" />
+                <ScalarProperty Name="DESCRIPCION_LARGA" ColumnName="DESCRIPCION_LARGA" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
+                <ScalarProperty Name="ID_CATEGORIA" ColumnName="ID_CATEGORIA" />
+                <ScalarProperty Name="ID_COMPANIA" ColumnName="ID_COMPANIA" />
+                <ScalarProperty Name="ID_ARTICULO" ColumnName="ID_ARTICULO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

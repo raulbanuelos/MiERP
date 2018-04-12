@@ -28,6 +28,7 @@ namespace Data.ServiceObject
                     tblArticulo.STOCK_MAX = articulo.stockMax;
                     tblArticulo.STOCK_MIN = articulo.stockMin;
                     tblArticulo.ID_COMPANIA = articulo.idCompania;
+                    tblArticulo.CONSUMIBLE = articulo.IsConsumible;
 
                     Conexion.TBL_ARTICULO.Add(tblArticulo);
                     return Conexion.SaveChanges();
@@ -45,14 +46,14 @@ namespace Data.ServiceObject
             {
                 using (var Conexion = new EntitiesERP())
                 {
-                    TBL_ARTICULO obj = Conexion.TBL_ARTICULO.Where(x => x.ID_ARTICULO == articulo.idArticulo).FirstOrDefault();
-
-                    obj.ID_CATEGORIA = articulo.ID_CATEGORIA;
+                    TBL_ARTICULO obj = Conexion.TBL_ARTICULO.Where(x => x.CODIGO == articulo.Codigo).FirstOrDefault();
+                    
                     obj.CODIGO = articulo.Codigo;
                     obj.DESCRIPCION = articulo.Descripcion;
                     obj.DESCRIPCION_LARGA = articulo.DescripcionLarga;
                     obj.STOCK_MAX = articulo.stockMax;
                     obj.STOCK_MIN = articulo.stockMin;
+                    obj.CONSUMIBLE = articulo.IsConsumible;
 
                     Conexion.Entry(obj).State = EntityState.Modified;
 
@@ -122,6 +123,7 @@ namespace Data.ServiceObject
                     articulo.stockMax = Convert.ToInt32(obj.STOCK_MAX);
                     articulo.stockMin = Convert.ToInt32(obj.STOCK_MIN);
                     articulo.CodigoDeBarras = obj.FOTO;
+                    articulo.IsConsumible = obj.CONSUMIBLE;
 
                     return articulo;
                 }
