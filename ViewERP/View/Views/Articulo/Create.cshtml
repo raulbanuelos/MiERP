@@ -29,7 +29,7 @@
         </div>
 
         <div class="form-group">
-            <input type="text" id="txtDescripcionLarga" class="form-control" placeholder="Descripción larga" />
+            <input type="text" id="txtDescripcionLarga" class="form-control" placeholder="# de serie" />
         </div>
 
         <div class="form-group">
@@ -87,7 +87,6 @@
             var _stockMinimo = $("#txtStockMinimo").val();
             var _stockMaximo = $("#txtStockMaximo").val();
             var _idCategoria = $("#cboCategorias").val();
-            debugger;
             var esConsumible = $("#ckbIsConsumible").is(":checked");
             var _isConsumible = false;
             if (esConsumible) {

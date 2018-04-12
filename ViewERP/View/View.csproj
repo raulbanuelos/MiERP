@@ -182,6 +182,7 @@
     <Compile Include="Controllers\CategoriaArticuloController.cs" />
     <Compile Include="Controllers\EntradasAlmacenController.cs" />
     <Compile Include="Controllers\ERPVerificaRol.cs" />
+    <Compile Include="Controllers\ExistenciaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\ProveedorController.cs" />
@@ -371,10 +372,11 @@
     <Content Include="Views\Usuario\Edit.cshtml" />
     <Content Include="Views\Articulo\Details.cshtml" />
     <Content Include="Views\SalidasAlmacen\DarSalida.cshtml" />
+    <Content Include="Views\EntradasAlmacen\DarEntrada.cshtml" />
+    <Content Include="Views\Existencia\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\EntradasAlmacen\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

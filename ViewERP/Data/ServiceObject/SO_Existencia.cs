@@ -1,5 +1,6 @@
 ﻿using Model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -10,18 +11,32 @@ namespace Data.ServiceObject
 {
     public class SO_Existencia
     {
-        public int AddCantidad(DO_MovimientoAlmacen movimientoAlmacen)
+        public int AddCantidad(int idAlmacen, int idArticulo,double cantidad)
         {
             try
             {
                 using (var Conexion = new EntitiesERP())
                 {
-                    TBL_EXISTENCIA obj = Conexion.TBL_EXISTENCIA.Where(x => x.ID_ARTICULO == movimientoAlmacen.idArticulo && x.ID_ALMACEN == movimientoAlmacen.idAlmacen).FirstOrDefault();
+                    TBL_EXISTENCIA obj = Conexion.TBL_EXISTENCIA.Where(x => x.ID_ARTICULO == idArticulo && x.ID_ALMACEN == idAlmacen).FirstOrDefault();
+
+                    if (obj != null)
+                    {
+                        obj.CANTIDAD = obj.CANTIDAD + Convert.ToDecimal(cantidad);
+
+                        Conexion.Entry(obj).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        TBL_EXISTENCIA objNuevo = new TBL_EXISTENCIA();
+
+                        objNuevo.ID_ALMACEN = idAlmacen;
+                        objNuevo.ID_ARTICULO = idArticulo;
+                        objNuevo.CANTIDAD = Convert.ToDecimal(cantidad);
+
+                        Conexion.TBL_EXISTENCIA.Add(objNuevo);
+                    }
 
                     
-                    obj.CANTIDAD = obj.CANTIDAD + movimientoAlmacen.Cantidad;
-
-                    Conexion.Entry(obj).State = EntityState.Modified;
 
                     return Conexion.SaveChanges();
                 }
@@ -31,6 +46,75 @@ namespace Data.ServiceObject
                 return 0;
             }
         }
-        
+
+        public int RemoveCantidad(int idAlmacen, int idArticulo, double cantidad)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    TBL_EXISTENCIA obj = Conexion.TBL_EXISTENCIA.Where(x => x.ID_ARTICULO == idArticulo && x.ID_ALMACEN == idAlmacen).FirstOrDefault();
+
+                    obj.CANTIDAD = obj.CANTIDAD - Convert.ToDecimal(cantidad);
+
+                    Conexion.Entry(obj).State = EntityState.Modified;
+                    
+                    return Conexion.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public double GetExistenciaArticulo(int idAlmacen, int idArticulo)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    
+                    decimal existencia = (from e in Conexion.TBL_EXISTENCIA
+                                      where e.ID_ALMACEN == idAlmacen && e.ID_ARTICULO == idArticulo
+                                      select e.CANTIDAD).FirstOrDefault();
+
+                    return Convert.ToDouble(existencia);
+
+                }
+            }
+            catch (Exception er)
+            {
+                return 0;
+            }
+        }
+
+        public IList GetAllExistencia(int idAlmacen)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var lista = (from e in Conexion.TBL_EXISTENCIA
+                                 join a in Conexion.TBL_ARTICULO on e.ID_ARTICULO equals a.ID_ARTICULO
+                                 where e.ID_ALMACEN == idAlmacen
+                                 select new
+                                 {
+                                     e.CANTIDAD,
+                                     a.CODIGO,
+                                     a.DESCRIPCION,
+                                     NUMERO_SERIE = a.DESCRIPCION_LARGA,
+                                     e.ID_EXISTENCIA
+                                 }).ToList();
+
+                    return lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
     }
 }

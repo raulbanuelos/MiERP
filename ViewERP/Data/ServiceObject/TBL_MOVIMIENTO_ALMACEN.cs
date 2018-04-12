@@ -19,13 +19,14 @@ namespace Data.ServiceObject
         public Nullable<int> ID_ARTICULO { get; set; }
         public Nullable<int> ID_PROVEEDOR { get; set; }
         public Nullable<int> ID_UNIDAD { get; set; }
-        public Nullable<int> CANTIDAD { get; set; }
+        public Nullable<decimal> CANTIDAD { get; set; }
+        public string NO_FACTURA { get; set; }
         public Nullable<System.DateTime> FECHA { get; set; }
         public string USUARIO { get; set; }
     
         public virtual TBL_ALMACEN TBL_ALMACEN { get; set; }
+        public virtual TBL_ARTICULO TBL_ARTICULO { get; set; }
         public virtual TBL_PROVEEDOR TBL_PROVEEDOR { get; set; }
         public virtual TBL_UNIDAD TBL_UNIDAD { get; set; }
-        public virtual TBL_ARTICULO TBL_ARTICULO { get; set; }
     }
 }

@@ -55,7 +55,7 @@ namespace View.Controllers
             articulo.Codigo = codigo;
             articulo.CodigoDeBarras = DataManager.ImageToByteArray(imagen);
             articulo.Descripcion = descripocionCorta;
-            articulo.DescripcionLarga = descripcionLarga;
+            articulo.NumeroDeSerie = descripcionLarga;
             articulo.ID_CATEGORIA = idCategoria;
             articulo.stockMax = stockMaximo;
             articulo.stockMin = stockMinimo;
@@ -79,7 +79,7 @@ namespace View.Controllers
             DO_Articulo articulo = new DO_Articulo();
             articulo.Codigo = codigo;
             articulo.Descripcion = descripcionCorta;
-            articulo.DescripcionLarga = descripcionLarga;
+            articulo.NumeroDeSerie = descripcionLarga;
             articulo.stockMax = stockMaximo;
             articulo.stockMin = stockMinimo;
             articulo.idCompania = idCompania;

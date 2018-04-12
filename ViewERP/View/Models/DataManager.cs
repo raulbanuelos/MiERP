@@ -211,6 +211,23 @@ namespace View.Models
             return lista;
         }
 
+        public static List<SelectListItem> ConvertListDOAlmacenToSelectListItem(List<DO_Almacen> lista)
+        {
+            List<SelectListItem> listaResultante = new List<SelectListItem>();
+
+            foreach (var item in lista)
+            {
+                SelectListItem obj = new SelectListItem();
+
+                obj.Text = item.Nombre;
+                obj.Value = Convert.ToString(item.idAlmacen);
+
+                listaResultante.Add(obj);
+            }
+
+            return listaResultante;
+        }
+
         public static int InsertAlmacen(DO_Almacen almacen)
         {
             SO_Almacen service = new SO_Almacen();
@@ -258,7 +275,7 @@ namespace View.Models
                     DO_Articulo articulo = new DO_Articulo();
                     articulo.Codigo = (string)tipo.GetProperty("CODIGO").GetValue(item, null);
                     articulo.Descripcion = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
-                    articulo.DescripcionLarga = (string)tipo.GetProperty("DESCRIPCION_LARGA").GetValue(item, null);
+                    articulo.NumeroDeSerie = (string)tipo.GetProperty("DESCRIPCION_LARGA").GetValue(item, null);
                     articulo.CodigoDeBarras = (byte[])tipo.GetProperty("FOTO").GetValue(item, null);
                     articulo.idArticulo = (int)tipo.GetProperty("ID_ARTICULO").GetValue(item, null);
                     articulo.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
@@ -375,6 +392,44 @@ namespace View.Models
             }
 
             return nuevoCodigo;
+        }
+
+        public static bool verifiExistencia(int idAlmacen, int idArticulo, double cantidadSolicitada)
+        {
+            SO_Existencia service = new SO_Existencia();
+
+            double existencia = service.GetExistenciaArticulo(idAlmacen, idArticulo);
+
+            return existencia >= cantidadSolicitada ? true : false;
+        }
+
+        public static List<DO_Existencia> GetExistenciaArticulos(int idAlmacen)
+        {
+            SO_Existencia service = new SO_Existencia();
+
+            List<DO_Existencia> listaResultante = new List<DO_Existencia>();
+
+            IList informacionBD = service.GetAllExistencia(idAlmacen);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type tipo = item.GetType();
+
+                    DO_Existencia existencia = new DO_Existencia();
+
+                    existencia.Cantidad = Convert.ToDouble(tipo.GetProperty("CANTIDAD").GetValue(item, null));
+                    existencia.CodigoArticulo = (string)tipo.GetProperty("CODIGO").GetValue(item,null);
+                    existencia.Descripcion = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
+                    existencia.idExistencia = (int)tipo.GetProperty("ID_EXISTENCIA").GetValue(item, null);
+                    existencia.NumeroSerie = (string)tipo.GetProperty("NUMERO_SERIE").GetValue(item, null);
+
+                    listaResultante.Add(existencia);
+                }
+            }
+
+            return listaResultante;
         }
         #endregion
 
@@ -510,6 +565,23 @@ namespace View.Models
             return lista;
         }
 
+        public static List<SelectListItem> ConvertListDOProveedorToSelectListItem(List<DO_Proveedor> lista)
+        {
+            List<SelectListItem> listaResultante = new List<SelectListItem>();
+
+            foreach (var item in lista)
+            {
+                SelectListItem obj = new SelectListItem();
+
+                obj.Text = item.Nombre;
+                obj.Value = Convert.ToString(item.idProveedor);
+
+                listaResultante.Add(obj);
+            }
+
+            return listaResultante;
+        }
+
         public static DO_Proveedor GetProveedor(int idProveedor)
         {
             DO_Proveedor proveedor = new DO_Proveedor();
@@ -611,6 +683,93 @@ namespace View.Models
             SO_Rol service = new SO_Rol();
 
             return service.Delete(idRol);
+        }
+        #endregion
+
+        #region Undiad
+        public static List<DO_Unidad> GetAllUnidad()
+        {
+            SO_Unidad service = new SO_Unidad();
+
+            List<DO_Unidad> listaResultante = new List<DO_Unidad>();
+
+            IList informacionBD = service.GetAllUnidades();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type tipo = item.GetType();
+
+                    DO_Unidad unidad = new DO_Unidad();
+
+                    unidad.idUnidad = (int)tipo.GetProperty("ID_UNIDAD").GetValue(item, null);
+                    unidad.NombreUnidad = (string)tipo.GetProperty("NOMBRE_UNIDAD").GetValue(item, null);
+
+                    listaResultante.Add(unidad);
+                }
+            }
+
+            return listaResultante;
+        }
+
+        public static List<SelectListItem> ConvertListDOUnidadToSelectListItem(List<DO_Unidad> lista)
+        {
+            List<SelectListItem> listaResultante = new List<SelectListItem>();
+
+            foreach (var item in lista)
+            {
+                SelectListItem obj = new SelectListItem();
+
+                obj.Text = item.NombreUnidad;
+                obj.Value = Convert.ToString(item.idUnidad);
+
+                listaResultante.Add(obj);
+            }
+
+            return listaResultante;
+        }
+        #endregion
+
+        #region Entradas
+        public static int InsertEntradaArticuloAlmacen(int idAlmacen, int idArticulo, int idProveedor, int idUnidad,double cantidad,string noFactura,DateTime fecha,string usuario)
+        {
+            SO_EntradasAlmacen service = new SO_EntradasAlmacen();
+
+            int r = service.InsertEntrada(idAlmacen, idArticulo, idProveedor, idUnidad, cantidad, noFactura, fecha, usuario);
+
+            if (r > 0)
+            {
+                SO_Existencia serviceExistencia = new SO_Existencia();
+
+                return serviceExistencia.AddCantidad(idAlmacen, idArticulo, cantidad);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        #endregion
+
+        #region Salidas
+        public static int InsertSalidaArticuloAlmacen(int idAlmacen, int idArticulo,string usuarioSolicito,double cantidad, string condicionArticuloSalida, string usuarioAtendio )
+        {
+            SO_SalidasAlmacen service = new SO_SalidasAlmacen();
+
+            bool isConsumible = GetArticulo(idArticulo).IsConsumible;
+            
+            int r = service.InsertSalida(idAlmacen, idArticulo, usuarioSolicito, cantidad, condicionArticuloSalida, isConsumible, usuarioAtendio);
+
+            if (r > 0)
+            {
+                SO_Existencia serviceExistencia = new SO_Existencia();
+
+                return serviceExistencia.RemoveCantidad(idAlmacen, idArticulo, cantidad);
+            }
+            else
+            {
+                return 0;
+            }
         }
         #endregion
 

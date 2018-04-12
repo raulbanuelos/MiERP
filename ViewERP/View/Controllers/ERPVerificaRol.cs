@@ -84,7 +84,19 @@ namespace View.Controllers
                 RolesPermitidos = "1,2";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
-            
+
+            if (nombreControlador.Equals("EntradasAlmacen"))
+            {
+                RolesPermitidos = "1,2";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
+
+            if (nombreControlador.Equals("Existencia"))
+            {
+                RolesPermitidos = "1,2";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
+
             return false;
         }
 

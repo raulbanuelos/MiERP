@@ -1,10 +1,10 @@
 ﻿
 @{
-    ViewBag.Title = "DarSalida";
+    ViewBag.Title = "DarEntrada";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>DarSalida</h2>
+<h2>DarEntrada</h2>
 
 <div class="form-horizontal">
     <hr />
@@ -16,18 +16,6 @@
                 foreach (SelectListItem almacen in ((List<SelectListItem>)ViewBag.Almacenes))
                 {
                     <option id="@almacen.Value" value="@almacen.Value">@almacen.Text</option>
-                }
-            }
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>Persona</label>
-        <select id="cboPersonas" class="form-control">
-            @{
-                foreach (SelectListItem persona in ((List<SelectListItem>)ViewBag.Personas))
-                {
-                    <option id="@persona.Value" value="@persona.Value">@persona.Text</option>
                 }
             }
         </select>
@@ -46,50 +34,69 @@
     </div>
 
     <div class="form-group">
-        <label>Condiciones al entregar</label>
-        <select id="cboCondiciones" class="form-control">
+        <label>Proveedor</label>
+        <select id="cboProveedores" class="form-control">
             @{
-                foreach (SelectListItem condicion in ((List<SelectListItem>)ViewBag.CondicionesEntrega))
+                foreach (SelectListItem proveedor in ((List<SelectListItem>)ViewBag.Proveedores))
                 {
-                    <option id="@condicion.Value" value="@condicion.Value">@condicion.Text</option>
+                    <option id="@proveedor.Value" value="@proveedor.Value">@proveedor.Text</option>
                 }
             }
         </select>
     </div>
 
     <div class="form-group">
-        <label>Cantidad</label>
-        <input  type="number" class="form-control" id="txtCantidad"/>
+        <label>Unidad</label>
+        <select id="cboUnidad" class="form-control">
+            @{
+                foreach (SelectListItem unidad in ((List<SelectListItem>)ViewBag.Unidades))
+                {
+                    <option id="@unidad.Value" value="@unidad.Value">@unidad.Text</option>
+                }
+            }
+        </select>
     </div>
 
     <div class="form-group">
+        <input type="number" id="txtCantidad" class="form-control" placeholder="Cantidad" onkeypress="return soloNumeros(event)" />
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="txtFactura" class="form-control" placeholder="Número de factura" />
+    </div>
+
+
+    <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <button class="btn btn-success" onclick="GuardarSalida()">Guardar</button>
+            <button class="btn btn-success" onclick="GuardarEntrada()">Guardar</button>
         </div>
     </div>
+
 </div>
+
 
 <script type="text/javascript" src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
 
 <script type="text/javascript">
-    function GuardarSalida() {
-        if (ValidadAltaSalida()) {
-            debugger;
-            var urlSave = '@Url.Action("GuardarSalida","SalidasAlmacen")';
+    function GuardarEntrada()
+    {
+        if (ValidarAltaEntrada()) {
+            var urlSave = '@Url.Action("GuardarEntrada","EntradasAlmacen")';
             var _idAlmacen = $("#cboAlmacenes").val();
-            var _personaSolicito = $("#cboPersonas").val();
             var _idArticulo = $("#cboArticulos").val();
-            var _condicion = $("#cboCondiciones").val();
+            var _idProveedor = $("#cboProveedores").val();
+            var _idUnidad = $("#cboUnidad").val();
             var _cantidad = $("#txtCantidad").val();
+            var _noFactura = $("#txtFactura").val();
 
             $.ajax({
                 type: "POST",
                 url: urlSave,
-                data: JSON.stringify({ idAlmacen : _idAlmacen, personaSolicito: _personaSolicito, idArticulo: _idArticulo, condicionEntrega : _condicion, cantidad: _cantidad }),
+                data: JSON.stringify({ idAlmacen : _idAlmacen, idArticulo: _idArticulo, idProveedor: _idProveedor, idUnidad: _idUnidad, cantidad: _cantidad, noFactura: _noFactura }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    alert(data);
+                    alert("Registro agregado exitosamente");
                     var link = "@Url.Action("Index","Home")";
                     window.location.href = link;
                 },

@@ -22,7 +22,7 @@ namespace Model
         
         [StringLength(50, MinimumLength = 5, ErrorMessage = "El campo debe ser de al menos 5 digitos y de máximo 100")]
         [Required(ErrorMessage = "El campo es obligatorio")]
-        public string DescripcionLarga { get; set; }
+        public string NumeroDeSerie { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
         public int stockMin { get; set; }

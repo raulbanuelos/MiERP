@@ -21,7 +21,7 @@ namespace Data.ServiceObject
 
                     tblArticulo.CODIGO = articulo.Codigo;
                     tblArticulo.DESCRIPCION = articulo.Descripcion;
-                    tblArticulo.DESCRIPCION_LARGA = articulo.DescripcionLarga;
+                    tblArticulo.DESCRIPCION_LARGA = articulo.NumeroDeSerie;
                     tblArticulo.FOTO = articulo.CodigoDeBarras;
                     tblArticulo.ID_CATEGORIA = articulo.ID_CATEGORIA;
                     tblArticulo.ID_COMPANIA = articulo.idCompania;
@@ -50,7 +50,7 @@ namespace Data.ServiceObject
                     
                     obj.CODIGO = articulo.Codigo;
                     obj.DESCRIPCION = articulo.Descripcion;
-                    obj.DESCRIPCION_LARGA = articulo.DescripcionLarga;
+                    obj.DESCRIPCION_LARGA = articulo.NumeroDeSerie;
                     obj.STOCK_MAX = articulo.stockMax;
                     obj.STOCK_MIN = articulo.stockMin;
                     obj.CONSUMIBLE = articulo.IsConsumible;
@@ -119,7 +119,7 @@ namespace Data.ServiceObject
                     articulo.idCompania = obj.ID_COMPANIA;
                     articulo.Codigo = obj.CODIGO;
                     articulo.Descripcion = obj.DESCRIPCION;
-                    articulo.DescripcionLarga = obj.DESCRIPCION_LARGA;
+                    articulo.NumeroDeSerie = obj.DESCRIPCION_LARGA;
                     articulo.stockMax = Convert.ToInt32(obj.STOCK_MAX);
                     articulo.stockMin = Convert.ToInt32(obj.STOCK_MIN);
                     articulo.CodigoDeBarras = obj.FOTO;
