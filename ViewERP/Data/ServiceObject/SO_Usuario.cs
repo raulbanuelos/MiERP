@@ -30,6 +30,25 @@ namespace Data.ServiceObject
             }
         }
 
+        public IList GetPersona(string usuario)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var list = (from c in Conexion.TBL_USUARIO
+                                where c.USUARIO == usuario
+                                select c).ToList();
+
+                    return list;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public IList GetAllUsuarios(int idCompania)
         {
             try

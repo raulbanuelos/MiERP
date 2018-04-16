@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -34,7 +35,7 @@ namespace View.Controllers
 
         public JsonResult GuardarSalida(int idAlmacen, int personaSolicito, int idArticulo,string condicionEntrega,double cantidad)
         {
-            string respuesta = "";
+            DO_Result_SalidaAlmacen re = new DO_Result_SalidaAlmacen();
 
             if (DataManager.verifiExistencia(idAlmacen,idArticulo,cantidad))
             {
@@ -42,26 +43,43 @@ namespace View.Controllers
                 DO_Persona personaSolicita = DataManager.GetPersona(personaSolicito);
                 
                 int result = DataManager.InsertSalidaArticuloAlmacen(idAlmacen, idArticulo, personaSolicita.Usuario, cantidad, condicionEntrega, personaConectada.Usuario);
-
+                
                 if (result > 0)
                 {
-                    respuesta = "La salida se registro correctamente.";
+                    re.idSalidaAlmacen = result;
+                    re.NombreSolicitante = personaSolicita.ToString();
+                    re.NombreAtendio = personaConectada.ToString();
+                    re.FechaSolicitud = DateTime.Now;
+                    re.CodigoArticulo = DataManager.GetArticulo(idArticulo).Codigo;
+                    re.ResultCode = 1;
+                    re.CantidadSolicitada = cantidad;
+                    re.Respuesta = "La salida se registro correctamente.";
                 }
                 else
                 {
-                    respuesta = "Se generó un error al solicitar la cantidad, por favor intente mas tarde.";
+                    re.Respuesta = "Se generó un error al solicitar la cantidad, por favor intente mas tarde.";
+                    re.ResultCode = 3;
                 }
             }
             else
             {
-                respuesta = "No existe en el almacen la cantidad solicitada";
+                re.Respuesta = "No existe en el almacen la cantidad solicitada";
+                re.ResultCode = 2;
             }
             
-            var jsonResult = Json(respuesta, JsonRequestBehavior.AllowGet);
+            var jsonResult = Json(re, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 
             return jsonResult;
 
         }
+
+        public ActionResult Details(int id)
+        {
+            DO_Result_SalidaAlmacen m = DataManager.GetSalida(id);
+            
+            return View(m);
+        }
+        
     }
 }

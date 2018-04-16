@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,12 +28,41 @@ namespace Data.ServiceObject
 
                     Conexion.TBL_MOVIMIENTO_SALIDA_ALMACEN.Add(obj);
 
-                    return Conexion.SaveChanges();
+                    Conexion.SaveChanges();
+
+                    return obj.ID_MOVIMIENTO_SALIDA_ALMACEN;
                 }
             }
             catch (Exception)
             {
                 return 0;
+            }
+        }
+
+        public IList GetSalida(int idSalida)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var lista = (from s in Conexion.TBL_MOVIMIENTO_SALIDA_ALMACEN
+                                 join w in Conexion.TBL_ALMACEN on s.ID_ALMACEN equals w.ID_ALMACEN
+                                 join a in Conexion.TBL_ARTICULO on s.ID_ARTICULO equals a.ID_ARTICULO
+                                 where s.ID_MOVIMIENTO_SALIDA_ALMACEN == idSalida
+                                 select new {
+                                     s.ID_MOVIMIENTO_SALIDA_ALMACEN,
+                                     s.ID_ALMACEN, w.NOMBRE,
+                                     s.ID_ARTICULO,a.CODIGO,a.DESCRIPCION, a.FOTO,a.CONSUMIBLE,
+                                     s.FECHA_SALIDA,s.CANTIDAD,s.CONDICION_ARTICULO_SALIDA,s.USUARIO_SOLICITO,s.USUARIO_ATENDIO
+                                 }).ToList();
+
+
+                    return lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
     }

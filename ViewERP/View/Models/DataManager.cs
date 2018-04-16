@@ -73,6 +73,36 @@ namespace View.Models
             return persona;
         }
 
+        public static DO_Persona GetPersona(string usuario)
+        {
+            SO_Usuario service = new SO_Usuario();
+            DO_Persona persona = new DO_Persona();
+
+            IList informacionBD = service.GetPersona(usuario);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    System.Type tipo = item.GetType();
+
+                    persona.idUsuario = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
+                    persona.ID_ROL = (int)tipo.GetProperty("ID_ROL").GetValue(item, null);
+                    persona.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
+                    persona.Nombre = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
+                    persona.ApellidoPaterno = (string)tipo.GetProperty("APATERNO").GetValue(item, null);
+                    persona.ApellidoMaterno = (string)tipo.GetProperty("AMATERNO").GetValue(item, null);
+                    persona.Usuario = (string)tipo.GetProperty("USUARIO").GetValue(item, null);
+
+                }
+            }
+
+            persona.Roles = GetAllRolSelectListItem();
+
+            return persona;
+        }
+
+
         public static List<DO_Persona> GetAllPersona(int idCompania)
         {
             List<DO_Persona> lista = new List<DO_Persona>();
@@ -764,12 +794,49 @@ namespace View.Models
             {
                 SO_Existencia serviceExistencia = new SO_Existencia();
 
-                return serviceExistencia.RemoveCantidad(idAlmacen, idArticulo, cantidad);
+                int resualtadoRemover =  serviceExistencia.RemoveCantidad(idAlmacen, idArticulo, cantidad);
+
+                return resualtadoRemover > 0 ? r : 0;
             }
             else
             {
                 return 0;
             }
+        }
+
+        public static DO_Result_SalidaAlmacen GetSalida(int idSalida)
+        {
+            SO_SalidasAlmacen service = new SO_SalidasAlmacen();
+
+            DO_Result_SalidaAlmacen result = new DO_Result_SalidaAlmacen();
+
+            IList informacionBD = service.GetSalida(idSalida);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type tipo = item.GetType();
+
+                    result = new DO_Result_SalidaAlmacen();
+
+                    result.CantidadSolicitada = Convert.ToDouble(tipo.GetProperty("CANTIDAD").GetValue(item,null));
+                    result.CodigoArticulo = (string)tipo.GetProperty("CODIGO").GetValue(item, null);
+                    result.CondicionesArticuloSalida = (string)tipo.GetProperty("CONDICION_ARTICULO_SALIDA").GetValue(item, null);
+                    result.DescripcionArticulo = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
+                    result.FechaSolicitud = (DateTime)tipo.GetProperty("FECHA_SALIDA").GetValue(item, null);
+                    result.idSalidaAlmacen = (int)tipo.GetProperty("ID_MOVIMIENTO_SALIDA_ALMACEN").GetValue(item, null);
+                    result.NombreAlmacen = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
+                    string usuarioAtendio = (string)tipo.GetProperty("USUARIO_ATENDIO").GetValue(item, null);
+                    result.NombreAtendio = usuarioAtendio;
+                    string usuarioSolicitante = (string)tipo.GetProperty("USUARIO_SOLICITO").GetValue(item, null);
+                    result.NombreSolicitante = usuarioSolicitante;
+                    result.codigoBarras = (byte[])tipo.GetProperty("FOTO").GetValue(item, null);
+
+                }
+            }
+
+            return result;
         }
         #endregion
 

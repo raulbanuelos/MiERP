@@ -374,6 +374,7 @@
     <Content Include="Views\SalidasAlmacen\DarSalida.cshtml" />
     <Content Include="Views\EntradasAlmacen\DarEntrada.cshtml" />
     <Content Include="Views\Existencia\Index.cshtml" />
+    <Content Include="Views\SalidasAlmacen\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
