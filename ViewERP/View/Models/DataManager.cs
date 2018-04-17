@@ -828,9 +828,11 @@ namespace View.Models
                     result.idSalidaAlmacen = (int)tipo.GetProperty("ID_MOVIMIENTO_SALIDA_ALMACEN").GetValue(item, null);
                     result.NombreAlmacen = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
                     string usuarioAtendio = (string)tipo.GetProperty("USUARIO_ATENDIO").GetValue(item, null);
-                    result.NombreAtendio = usuarioAtendio;
+                    result.NombreAtendio = GetPersona(usuarioAtendio).NombreCompleto;
+
                     string usuarioSolicitante = (string)tipo.GetProperty("USUARIO_SOLICITO").GetValue(item, null);
-                    result.NombreSolicitante = usuarioSolicitante;
+                    result.NombreSolicitante = DataManager.GetPersona(usuarioSolicitante).NombreCompleto;
+
                     result.codigoBarras = (byte[])tipo.GetProperty("FOTO").GetValue(item, null);
 
                 }

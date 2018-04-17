@@ -74,6 +74,7 @@ namespace View.Controllers
 
         }
 
+        [ERPVerificaRol]
         public ActionResult Details(int id)
         {
             DO_Result_SalidaAlmacen m = DataManager.GetSalida(id);

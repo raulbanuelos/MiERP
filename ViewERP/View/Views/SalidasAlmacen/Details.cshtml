@@ -12,21 +12,7 @@
     <hr />
     <dl class="dl-horizontal">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NombreSolicitante)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NombreSolicitante)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NombreAtendio)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NombreAtendio)
-        </dd>
+        
 
         <dt>
             @Html.DisplayNameFor(model => model.CodigoArticulo)
@@ -37,7 +23,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CantidadSolicitada)
+            Descripción
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescripcionArticulo)
+        </dd>
+
+        <dt>
+            Cantidad solicitada
         </dt>
 
         <dd>
@@ -45,31 +39,42 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.FechaSolicitud)
+            Condición del artículo
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CondicionesArticuloSalida)
+        </dd>
+
+        <dt>
+            Fecha de solicitud
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.FechaSolicitud)
         </dd>
 
+
         <dt>
-            @Html.DisplayNameFor(model => model.Respuesta)
+            Nombre del solicitante
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Respuesta)
+            @Html.DisplayFor(model => model.NombreSolicitante)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ResultCode)
+            Persona que atendió
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ResultCode)
+            @Html.DisplayFor(model => model.NombreAtendio)
         </dd>
 
     </dl>
 </div>
+
+
 <div>
     <input type="button" class="btn btn-success" value="Generar Vale" onclick="generarVale()" />
 </div>
