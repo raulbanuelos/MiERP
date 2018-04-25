@@ -33,40 +33,16 @@ namespace View.Controllers
             return View();
         }
 
-        public JsonResult GuardarSalida(int idAlmacen, int personaSolicito, int idArticulo,string condicionEntrega,double cantidad)
+        public JsonResult GuardarSalida(int idAlmacen, int personaSolicito, int[] idsArticulo, string[] codigos, double[] cantidades, string[] condicionsSalidas)
         {
             DO_Result_SalidaAlmacen re = new DO_Result_SalidaAlmacen();
 
-            if (DataManager.verifiExistencia(idAlmacen,idArticulo,cantidad))
-            {
-                DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
-                DO_Persona personaSolicita = DataManager.GetPersona(personaSolicito);
-                
-                int result = DataManager.InsertSalidaArticuloAlmacen(idAlmacen, idArticulo, personaSolicita.Usuario, cantidad, condicionEntrega, personaConectada.Usuario);
-                
-                if (result > 0)
-                {
-                    re.idSalidaAlmacen = result;
-                    re.NombreSolicitante = personaSolicita.ToString();
-                    re.NombreAtendio = personaConectada.ToString();
-                    re.FechaSolicitud = DateTime.Now;
-                    re.CodigoArticulo = DataManager.GetArticulo(idArticulo).Codigo;
-                    re.ResultCode = 1;
-                    re.CantidadSolicitada = cantidad;
-                    re.Respuesta = "La salida se registro correctamente.";
-                }
-                else
-                {
-                    re.Respuesta = "Se generó un error al solicitar la cantidad, por favor intente mas tarde.";
-                    re.ResultCode = 3;
-                }
-            }
-            else
-            {
-                re.Respuesta = "No existe en el almacen la cantidad solicitada";
-                re.ResultCode = 2;
-            }
+            DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
+            DO_Persona personaSolicita = DataManager.GetPersona(personaSolicito);
+
+            int result = DataManager.InsertSalidaArticuloAlmacen(idAlmacen, personaSolicita.Usuario, personaConectada.Usuario,idsArticulo,codigos,cantidades,condicionsSalidas);
             
+
             var jsonResult = Json(re, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 

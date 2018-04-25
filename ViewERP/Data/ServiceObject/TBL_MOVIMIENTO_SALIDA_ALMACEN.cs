@@ -14,19 +14,21 @@ namespace Data.ServiceObject
     
     public partial class TBL_MOVIMIENTO_SALIDA_ALMACEN
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TBL_MOVIMIENTO_SALIDA_ALMACEN()
+        {
+            this.TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN = new HashSet<TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN>();
+        }
+    
         public int ID_MOVIMIENTO_SALIDA_ALMACEN { get; set; }
         public int ID_ALMACEN { get; set; }
-        public int ID_ARTICULO { get; set; }
         public string USUARIO_SOLICITO { get; set; }
-        public decimal CANTIDAD { get; set; }
         public System.DateTime FECHA_SALIDA { get; set; }
-        public string CONDICION_ARTICULO_SALIDA { get; set; }
         public Nullable<System.DateTime> FECHA_REGRESO { get; set; }
-        public string CONDICION_ARTICULO_REGRESO { get; set; }
-        public bool CONSUMIBLE { get; set; }
         public string USUARIO_ATENDIO { get; set; }
     
         public virtual TBL_ALMACEN TBL_ALMACEN { get; set; }
-        public virtual TBL_ARTICULO TBL_ARTICULO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN> TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN { get; set; }
     }
 }

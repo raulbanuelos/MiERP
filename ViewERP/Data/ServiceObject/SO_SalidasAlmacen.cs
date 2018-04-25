@@ -9,7 +9,7 @@ namespace Data.ServiceObject
 {
     public class SO_SalidasAlmacen
     {
-        public int InsertSalida(int idAlmacen, int idArticulo, string usuarioSolicito, double cantidad,string condicionArticuloSalida,bool isConsumible,string usuarioAtendio)
+        public int InsertSalida(int idAlmacen, string usuarioSolicito,string usuarioAtendio)
         {
             try
             {
@@ -18,12 +18,8 @@ namespace Data.ServiceObject
                     TBL_MOVIMIENTO_SALIDA_ALMACEN obj = new TBL_MOVIMIENTO_SALIDA_ALMACEN();
 
                     obj.ID_ALMACEN = idAlmacen;
-                    obj.ID_ARTICULO = idArticulo;
                     obj.USUARIO_SOLICITO = usuarioSolicito;
-                    obj.CANTIDAD = Convert.ToDecimal(cantidad);
                     obj.FECHA_SALIDA = DateTime.Now;
-                    obj.CONDICION_ARTICULO_SALIDA = condicionArticuloSalida;
-                    obj.CONSUMIBLE = isConsumible;
                     obj.USUARIO_ATENDIO = usuarioAtendio;
 
                     Conexion.TBL_MOVIMIENTO_SALIDA_ALMACEN.Add(obj);
@@ -47,13 +43,14 @@ namespace Data.ServiceObject
                 {
                     var lista = (from s in Conexion.TBL_MOVIMIENTO_SALIDA_ALMACEN
                                  join w in Conexion.TBL_ALMACEN on s.ID_ALMACEN equals w.ID_ALMACEN
-                                 join a in Conexion.TBL_ARTICULO on s.ID_ARTICULO equals a.ID_ARTICULO
+                                 join d in Conexion.TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN on s.ID_MOVIMIENTO_SALIDA_ALMACEN equals d.ID_MOVIMIENTO_SALIDA_ALMACEN
+                                 join a in Conexion.TBL_ARTICULO on d.ID_ARTICULO equals a.ID_ARTICULO
                                  where s.ID_MOVIMIENTO_SALIDA_ALMACEN == idSalida
                                  select new {
                                      s.ID_MOVIMIENTO_SALIDA_ALMACEN,
                                      s.ID_ALMACEN, w.NOMBRE,
-                                     s.ID_ARTICULO,a.CODIGO,a.DESCRIPCION, a.FOTO,a.CONSUMIBLE,
-                                     s.FECHA_SALIDA,s.CANTIDAD,s.CONDICION_ARTICULO_SALIDA,s.USUARIO_SOLICITO,s.USUARIO_ATENDIO
+                                     d.ID_ARTICULO,a.CODIGO,a.DESCRIPCION, a.FOTO,a.CONSUMIBLE,
+                                     s.FECHA_SALIDA,s.USUARIO_SOLICITO,s.USUARIO_ATENDIO
                                  }).ToList();
 
 
