@@ -787,26 +787,28 @@ namespace View.Models
         #endregion
 
         #region Salidas
-        public static int InsertSalidaArticuloAlmacen(int idAlmacen, int idArticulo,string usuarioSolicito,double cantidad, string condicionArticuloSalida, string usuarioAtendio )
+        public static int InsertSalidaArticuloAlmacen(int idAlmacen,string usuarioSolicito,string usuarioAtendio,int[]idsArticulo, string[] codigos, double[] cantidades,string[] condicionsSalidas)
         {
             SO_SalidasAlmacen service = new SO_SalidasAlmacen();
-
-            bool isConsumible = GetArticulo(idArticulo).IsConsumible;
+            SO_DetalleMovimientoSalidaAlmacen serviceDetalle = new SO_DetalleMovimientoSalidaAlmacen();
             
-            int r = service.InsertSalida(idAlmacen, idArticulo, usuarioSolicito, cantidad, condicionArticuloSalida, isConsumible, usuarioAtendio);
+            int idMovimientoSalidaAlmacen = service.InsertSalida(idAlmacen, usuarioSolicito, usuarioAtendio);
 
-            if (r > 0)
+            for (int i = 0; i < codigos.Length; i++)
             {
+                DO_DetalleSalidaAlmacen detalle = new DO_DetalleSalidaAlmacen();
+                detalle.Articulo = GetArticulo(idsArticulo[i]);
+                detalle.Cantidad = cantidades[i];
+                detalle.condicionRegreso = string.Empty;
+                detalle.condicionSalida = condicionsSalidas[i];
+                detalle.MovimientoSalidaAlmacen = new DO_MovimientoAlmacen { idMovimientoAlmacen = idMovimientoSalidaAlmacen };
+
+                int r = serviceDetalle.Insert(detalle);
                 SO_Existencia serviceExistencia = new SO_Existencia();
-
-                int resualtadoRemover =  serviceExistencia.RemoveCantidad(idAlmacen, idArticulo, cantidad);
-
-                return resualtadoRemover > 0 ? r : 0;
+                int resualtadoRemover = serviceExistencia.RemoveCantidad(idAlmacen, detalle.Articulo.idArticulo, detalle.Cantidad);
             }
-            else
-            {
-                return 0;
-            }
+
+            return 0;
         }
 
         public static DO_Result_SalidaAlmacen GetSalida(int idSalida)
