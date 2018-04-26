@@ -54,6 +54,16 @@ namespace View.Controllers
                     re.ResultCode = 1;
                     re.CantidadSolicitada = cantidad;
                     re.Respuesta = "La salida se registro correctamente.";
+
+                    //Verificamos el stock mínimo
+                    double nuevaExistencia = DataManager.GetExistenciaArticulo(idAlmacen, idArticulo);
+                    double stockMinimo = DataManager.GetArticulo(idArticulo).stockMin;
+
+                    if (nuevaExistencia <= stockMinimo)
+                    {
+                        re.Respuesta = re.Respuesta + "\n" + "La existencia del artículo es inferior al stock mínimo. El artículo se ingresará a la lista de alertas.";
+
+                    }
                 }
                 else
                 {

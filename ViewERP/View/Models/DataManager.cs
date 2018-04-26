@@ -426,11 +426,16 @@ namespace View.Models
 
         public static bool verifiExistencia(int idAlmacen, int idArticulo, double cantidadSolicitada)
         {
-            SO_Existencia service = new SO_Existencia();
-
-            double existencia = service.GetExistenciaArticulo(idAlmacen, idArticulo);
+            double existencia = GetExistenciaArticulo(idAlmacen, idArticulo);
 
             return existencia >= cantidadSolicitada ? true : false;
+        }
+
+        public static double GetExistenciaArticulo(int idAlmacen, int idArticulo)
+        {
+            SO_Existencia service = new SO_Existencia();
+
+            return service.GetExistenciaArticulo(idAlmacen, idArticulo);
         }
 
         public static List<DO_Existencia> GetExistenciaArticulos(int idAlmacen)
@@ -839,6 +844,45 @@ namespace View.Models
             }
 
             return result;
+        }
+        #endregion
+
+        #region Alertas Stock
+        public static IList<DO_AlertaStockMin> GetAllAlertas(int idCompania)
+        {
+            SO_AlertaStockMin service = new SO_AlertaStockMin();
+
+            List<DO_AlertaStockMin> listaResultante = new List<DO_AlertaStockMin>();
+
+            IList informacionBD = service.GetAllAlertasStockMinimo(idCompania);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    DO_AlertaStockMin obj = new DO_AlertaStockMin();
+
+                    Type tipo = item.GetType();
+
+                    obj.idAlertaStockMin = (int)tipo.GetProperty("ID_ALERTA_STOCK_MIN").GetValue(item,null);
+                    int idArticulo = (int)tipo.GetProperty("ID_ARTICULO").GetValue(item, null);
+                    obj.Articulo = GetArticulo(idArticulo);
+                    obj.Cantidad = Convert.ToDouble(tipo.GetProperty("CANTIDAD_MINIMA").GetValue(item,null));
+
+                    listaResultante.Add(obj);
+
+                }
+            }
+
+            return listaResultante;
+        }
+
+        public static int InsertAlertaStock(int idArticulo,double cantidad)
+        {
+            SO_AlertaStockMin service = new SO_AlertaStockMin();
+
+            return service.Insert(idArticulo, cantidad);
+
         }
         #endregion
 

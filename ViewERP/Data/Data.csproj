@@ -67,6 +67,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ADOModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ServiceObject\SO_AlertaStockMin.cs" />
     <Compile Include="ServiceObject\SO_Almacen.cs" />
     <Compile Include="ServiceObject\SO_Articulo.cs" />
     <Compile Include="ServiceObject\SO_CategoriaArticulo.cs" />
@@ -77,6 +78,9 @@
     <Compile Include="ServiceObject\SO_SalidasAlmacen.cs" />
     <Compile Include="ServiceObject\SO_Unidad.cs" />
     <Compile Include="ServiceObject\SO_Usuario.cs" />
+    <Compile Include="ServiceObject\TBL_ALERTAS_STOCK_MIN.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ServiceObject\TBL_ALMACEN.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>

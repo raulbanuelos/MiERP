@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Data.ServiceObject.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TBL_ALERTAS_STOCK_MIN">
+          <Key>
+            <PropertyRef Name="ID_ALERTA_STOCK_MIN" />
+          </Key>
+          <Property Name="ID_ALERTA_STOCK_MIN" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_ARTICULO" Type="int" Nullable="false" />
+          <Property Name="CANTIDAD_MINIMA" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+        </EntityType>
         <EntityType Name="TBL_ALMACEN">
           <Key>
             <PropertyRef Name="ID_ALMACEN" />
@@ -67,7 +75,7 @@
           <Property Name="ID_ARTICULO" Type="int" />
           <Property Name="ID_PROVEEDOR" Type="int" />
           <Property Name="ID_UNIDAD" Type="int" />
-          <Property Name="CANTIDAD" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="CANTIDAD" Type="int" />
           <Property Name="NO_FACTURA" Type="varchar" MaxLength="50" />
           <Property Name="FECHA" Type="datetime" />
           <Property Name="USUARIO" Type="varchar" MaxLength="50" />
@@ -128,6 +136,18 @@
           <Property Name="USUARIO" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="CONTRASENA" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
+        <Association Name="FK_TBL_ALERTAS_STOCK_MIN_TBL_ARTICULO">
+          <End Role="TBL_ARTICULO" Type="Self.TBL_ARTICULO" Multiplicity="1" />
+          <End Role="TBL_ALERTAS_STOCK_MIN" Type="Self.TBL_ALERTAS_STOCK_MIN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ARTICULO">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Principal>
+            <Dependent Role="TBL_ALERTAS_STOCK_MIN">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TBL_ALMACEN_TBL_COMPANIA">
           <End Role="TBL_COMPANIA" Type="Self.TBL_COMPANIA" Multiplicity="1" />
           <End Role="TBL_ALMACEN" Type="Self.TBL_ALMACEN" Multiplicity="*" />
@@ -309,6 +329,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DataServiceObjectStoreContainer">
+          <EntitySet Name="TBL_ALERTAS_STOCK_MIN" EntityType="Self.TBL_ALERTAS_STOCK_MIN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_ALMACEN" EntityType="Self.TBL_ALMACEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_ARTICULO" EntityType="Self.TBL_ARTICULO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_CATEGORIA_ARTICULO" EntityType="Self.TBL_CATEGORIA_ARTICULO" Schema="dbo" store:Type="Tables" />
@@ -320,6 +341,10 @@
           <EntitySet Name="TBL_ROLE" EntityType="Self.TBL_ROLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_UNIDAD" EntityType="Self.TBL_UNIDAD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_USUARIO" EntityType="Self.TBL_USUARIO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TBL_ALERTAS_STOCK_MIN_TBL_ARTICULO" Association="Self.FK_TBL_ALERTAS_STOCK_MIN_TBL_ARTICULO">
+            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
+            <End Role="TBL_ALERTAS_STOCK_MIN" EntitySet="TBL_ALERTAS_STOCK_MIN" />
+          </AssociationSet>
           <AssociationSet Name="FK_TBL_ALMACEN_TBL_COMPANIA" Association="Self.FK_TBL_ALMACEN_TBL_COMPANIA">
             <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
             <End Role="TBL_ALMACEN" EntitySet="TBL_ALMACEN" />
@@ -456,6 +481,11 @@
           <AssociationSet Name="FK_TBL_MOVIMIENTO_SALIDA_ALMACEN_TBL_ARTICULO" Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_SALIDA_ALMACEN_TBL_ARTICULO">
             <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
             <End Role="TBL_MOVIMIENTO_SALIDA_ALMACEN" EntitySet="TBL_MOVIMIENTO_SALIDA_ALMACEN" />
+          </AssociationSet>
+          <EntitySet Name="TBL_ALERTAS_STOCK_MIN" EntityType="Data.ServiceObject.TBL_ALERTAS_STOCK_MIN" />
+          <AssociationSet Name="FK_TBL_ALERTAS_STOCK_MIN_TBL_ARTICULO" Association="Data.ServiceObject.FK_TBL_ALERTAS_STOCK_MIN_TBL_ARTICULO">
+            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
+            <End Role="TBL_ALERTAS_STOCK_MIN" EntitySet="TBL_ALERTAS_STOCK_MIN" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="TBL_ALMACEN">
@@ -623,6 +653,7 @@
           <NavigationProperty Name="TBL_MOVIMIENTO_ALMACEN" Relationship="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_MOVIMIENTO_ALMACEN" />
           <NavigationProperty Name="TBL_EXISTENCIA" Relationship="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_EXISTENCIA" />
           <NavigationProperty Name="TBL_MOVIMIENTO_SALIDA_ALMACEN" Relationship="Data.ServiceObject.FK_TBL_MOVIMIENTO_SALIDA_ALMACEN_TBL_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_MOVIMIENTO_SALIDA_ALMACEN" />
+          <NavigationProperty Name="TBL_ALERTAS_STOCK_MIN" Relationship="Data.ServiceObject.FK_TBL_ALERTAS_STOCK_MIN_TBL_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_ALERTAS_STOCK_MIN" />
         </EntityType>
         <Association Name="FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO">
           <End Type="Data.ServiceObject.TBL_CATEGORIA_ARTICULO" Role="TBL_CATEGORIA_ARTICULO" Multiplicity="1" />
@@ -657,7 +688,7 @@
           <Property Name="ID_ARTICULO" Type="Int32" />
           <Property Name="ID_PROVEEDOR" Type="Int32" />
           <Property Name="ID_UNIDAD" Type="Int32" />
-          <Property Name="CANTIDAD" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="CANTIDAD" Type="Decimal" />
           <Property Name="NO_FACTURA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FECHA" Type="DateTime" Precision="3" />
           <Property Name="USUARIO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -787,6 +818,27 @@
               <PropertyRef Name="ID_ARTICULO" />
             </Principal>
             <Dependent Role="TBL_MOVIMIENTO_SALIDA_ALMACEN">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TBL_ALERTAS_STOCK_MIN">
+          <Key>
+            <PropertyRef Name="ID_ALERTA_STOCK_MIN" />
+          </Key>
+          <Property Name="ID_ALERTA_STOCK_MIN" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_ARTICULO" Type="Int32" Nullable="false" />
+          <Property Name="CANTIDAD_MINIMA" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <NavigationProperty Name="TBL_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_ALERTAS_STOCK_MIN_TBL_ARTICULO" FromRole="TBL_ALERTAS_STOCK_MIN" ToRole="TBL_ARTICULO" />
+        </EntityType>
+        <Association Name="FK_TBL_ALERTAS_STOCK_MIN_TBL_ARTICULO">
+          <End Type="Data.ServiceObject.TBL_ARTICULO" Role="TBL_ARTICULO" Multiplicity="1" />
+          <End Type="Data.ServiceObject.TBL_ALERTAS_STOCK_MIN" Role="TBL_ALERTAS_STOCK_MIN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ARTICULO">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Principal>
+            <Dependent Role="TBL_ALERTAS_STOCK_MIN">
               <PropertyRef Name="ID_ARTICULO" />
             </Dependent>
           </ReferentialConstraint>
@@ -928,6 +980,15 @@
                 <ScalarProperty Name="ID_ARTICULO" ColumnName="ID_ARTICULO" />
                 <ScalarProperty Name="ID_ALMACEN" ColumnName="ID_ALMACEN" />
                 <ScalarProperty Name="ID_MOVIMIENTO_SALIDA_ALMACEN" ColumnName="ID_MOVIMIENTO_SALIDA_ALMACEN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_ALERTAS_STOCK_MIN">
+            <EntityTypeMapping TypeName="Data.ServiceObject.TBL_ALERTAS_STOCK_MIN">
+              <MappingFragment StoreEntitySet="TBL_ALERTAS_STOCK_MIN">
+                <ScalarProperty Name="CANTIDAD_MINIMA" ColumnName="CANTIDAD_MINIMA" />
+                <ScalarProperty Name="ID_ARTICULO" ColumnName="ID_ARTICULO" />
+                <ScalarProperty Name="ID_ALERTA_STOCK_MIN" ColumnName="ID_ALERTA_STOCK_MIN" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

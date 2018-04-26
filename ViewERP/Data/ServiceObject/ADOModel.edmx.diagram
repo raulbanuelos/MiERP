@@ -31,6 +31,8 @@
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_MOVIMIENTO_SALIDA_ALMACEN" Width="1.5" PointX="13" PointY="13" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_SALIDA_ALMACEN_TBL_ALMACEN" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_SALIDA_ALMACEN_TBL_ARTICULO" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_ALERTAS_STOCK_MIN" Width="1.5" PointX="10" PointY="21.125" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_ALERTAS_STOCK_MIN_TBL_ARTICULO" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

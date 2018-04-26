@@ -12,18 +12,12 @@ namespace Data.ServiceObject
     using System;
     using System.Collections.Generic;
     
-    public partial class TBL_USUARIO
+    public partial class TBL_ALERTAS_STOCK_MIN
     {
-        public int ID_USUARIO { get; set; }
-        public int ID_ROL { get; set; }
-        public int ID_COMPANIA { get; set; }
-        public string NOMBRE { get; set; }
-        public string APATERNO { get; set; }
-        public string AMATERNO { get; set; }
-        public string USUARIO { get; set; }
-        public string CONTRASENA { get; set; }
+        public int ID_ALERTA_STOCK_MIN { get; set; }
+        public int ID_ARTICULO { get; set; }
+        public decimal CANTIDAD_MINIMA { get; set; }
     
-        public virtual TBL_COMPANIA TBL_COMPANIA { get; set; }
-        public virtual TBL_ROLE TBL_ROLE { get; set; }
+        public virtual TBL_ARTICULO TBL_ARTICULO { get; set; }
     }
 }
