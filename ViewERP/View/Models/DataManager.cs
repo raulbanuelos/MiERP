@@ -787,28 +787,29 @@ namespace View.Models
         #endregion
 
         #region Salidas
-        public static int InsertSalidaArticuloAlmacen(int idAlmacen,string usuarioSolicito,string usuarioAtendio,int[]idsArticulo, string[] codigos, double[] cantidades,string[] condicionsSalidas)
+        public static int InsertSalidaArticuloAlmacen(int idAlmacen,string usuarioSolicito,string usuarioAtendio, List<DO_DetalleSalidaArticulo> articulos)
         {
             SO_SalidasAlmacen service = new SO_SalidasAlmacen();
             SO_DetalleMovimientoSalidaAlmacen serviceDetalle = new SO_DetalleMovimientoSalidaAlmacen();
             
             int idMovimientoSalidaAlmacen = service.InsertSalida(idAlmacen, usuarioSolicito, usuarioAtendio);
 
-            for (int i = 0; i < codigos.Length; i++)
+            foreach (DO_DetalleSalidaArticulo item in articulos)
             {
                 DO_DetalleSalidaAlmacen detalle = new DO_DetalleSalidaAlmacen();
-                detalle.Articulo = GetArticulo(idsArticulo[i]);
-                detalle.Cantidad = cantidades[i];
+                detalle.Articulo = GetArticulo(item.idCodigo);
+                detalle.Cantidad = item.cantidad;
                 detalle.condicionRegreso = string.Empty;
-                detalle.condicionSalida = condicionsSalidas[i];
+                detalle.condicionSalida = item.condicion;
                 detalle.MovimientoSalidaAlmacen = new DO_MovimientoAlmacen { idMovimientoAlmacen = idMovimientoSalidaAlmacen };
 
                 int r = serviceDetalle.Insert(detalle);
                 SO_Existencia serviceExistencia = new SO_Existencia();
-                int resualtadoRemover = serviceExistencia.RemoveCantidad(idAlmacen, detalle.Articulo.idArticulo, detalle.Cantidad);
-            }
+                int resultadoRemover = serviceExistencia.RemoveCantidad(idAlmacen, detalle.Articulo.idArticulo, detalle.Cantidad);
 
-            return 0;
+            }
+            
+            return idMovimientoSalidaAlmacen;
         }
 
         public static DO_Result_SalidaAlmacen GetSalida(int idSalida)
@@ -827,10 +828,7 @@ namespace View.Models
 
                     result = new DO_Result_SalidaAlmacen();
 
-                    result.CantidadSolicitada = Convert.ToDouble(tipo.GetProperty("CANTIDAD").GetValue(item,null));
-                    result.CodigoArticulo = (string)tipo.GetProperty("CODIGO").GetValue(item, null);
-                    result.CondicionesArticuloSalida = (string)tipo.GetProperty("CONDICION_ARTICULO_SALIDA").GetValue(item, null);
-                    result.DescripcionArticulo = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
+                    
                     result.FechaSolicitud = (DateTime)tipo.GetProperty("FECHA_SALIDA").GetValue(item, null);
                     result.idSalidaAlmacen = (int)tipo.GetProperty("ID_MOVIMIENTO_SALIDA_ALMACEN").GetValue(item, null);
                     result.NombreAlmacen = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
@@ -839,8 +837,7 @@ namespace View.Models
 
                     string usuarioSolicitante = (string)tipo.GetProperty("USUARIO_SOLICITO").GetValue(item, null);
                     result.NombreSolicitante = DataManager.GetPersona(usuarioSolicitante).NombreCompleto;
-
-                    result.codigoBarras = (byte[])tipo.GetProperty("FOTO").GetValue(item, null);
+                    
 
                 }
             }
