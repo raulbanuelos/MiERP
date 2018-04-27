@@ -36,39 +36,37 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <button class="btn btn-success" onclick="MostrarModal()">Agregar Articulo</button>
+            <button class="btn btn-primary" onclick="MostrarModal()">Agregar Articulo</button>
         </div>
     </div>
+    
 
-    <table id="myTable">
-        <thead>
-            <tr>
-                <td>ID ARTICULO</td>
-                <td>CODIGO</td>
-                <td>CANTIDAD</td>
-                <td>CONDICIONES AL SALIR</td>
-            </tr>
-        </thead>
-        <tbody>
-            
-        </tbody>
-        
-    </table>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="myTable" class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <td>ID ARTICULO</td>
+                        <td>CODIGO</td>
+                        <td>CANTIDAD</td>
+                        <td>CONDICIONES AL SALIR</td>
+                    </tr>
+                </thead>
+                <tbody id="tblArticulos"></tbody>
+
+            </table>
+        </div>
+    </div>
+    <button class="btn btn-success" onclick="GuardarSalida()">Guardar</button>
 </div>
 
 <div id="modalguardandobitacora" data-backdrop="static" data-keyboard="false" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header alert alert-success">
-                <table>
-                    <tr>
-                        <td></td>
-                        <td><h3 class="modal-title">Agregar articulo</h3></td>
-                    </tr>
-                </table>
+                <h3 class="modal-title">Agregar articulo</h3>
             </div>
             <div class="modal-body" id="div1">
-                <p><b>Articulo</b></p>
                 <div class="form-group">
                     <label>Articulo</label>
                     <select id="cboArticulos" class="form-control">
@@ -112,10 +110,6 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
 <script type="text/javascript">
 
-    function Hola() {
-
-    }
-
     function MostrarModal() {
         $("#modalguardandobitacora").modal();
     }
@@ -123,23 +117,52 @@
     function agregarArticulo() {
         $("#modalguardandobitacora").modal('hide');
 
+        var _idArticulo = $("#cboArticulos").val();
+        var _condicion = $("#cboCondiciones").val();
+        var _cantidad = $("#txtCantidad").val();
+        var _code = $("#cboArticulos").text();
+        var row;
+        row += "<tr>";
+        row += "<td>" + _idArticulo + "</td>";
+        row += "<td class=\"text-right\">" + _code + "</td>";
+        row += "<td class=\"text-center\">" + _cantidad + "</td>";
+        row += "<td class=\"text-center\">" + _condicion + "</td>";
+        row += "</tr>";
         
-
-
-        debugger;
-        alert("Se agrega Articulo");
+        $("#tblArticulos").append(row);
     }
 
 
     function GuardarSalida() {
         if (ValidadAltaSalida()) {
-            var urlSave = '@Url.Action("GuardarSalida","SalidasAlmacen")';
+
+            //lectura de datos
+            var oTable = document.getElementById("tblArticulos");
+            var rowLength = oTable.rows.length;
+            for (i = 0; i < rowLength; i++) {
+
+                //gets cells of current row  
+                var oCells = oTable.rows.item(i).cells;
+
+                //gets amount of cells of current row
+                var cellLength = oCells.length;
+
+                //loops through each cell in current row
+                for (var j = 0; j < cellLength; j++) {
+
+                    // get your cell info here
+
+                    var cellVal = oCells.item(j).innerHTML;
+                    alert(cellVal);
+                }
+            }
+
+
+
+            @*var urlSave = '@Url.Action("GuardarSalida","SalidasAlmacen")';
             var _idAlmacen = $("#cboAlmacenes").val();
             var _personaSolicito = $("#cboPersonas").val();
-            var _idArticulo = $("#cboArticulos").val();
-            var _condicion = $("#cboCondiciones").val();
-            var _cantidad = $("#txtCantidad").val();
-
+            
             $.ajax({
                 type: "POST",
                 url: urlSave,
@@ -164,7 +187,7 @@
                 error: function (result) {
                     alert("Woops, se produjo un error: " + result);
                 }
-            });
+            });*@
         }
     }
 </script>
