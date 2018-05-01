@@ -51,6 +51,7 @@
     <Compile Include="DO_Articulo.cs" />
     <Compile Include="DO_CategoriaArticulo.cs" />
     <Compile Include="DO_DetalleSalidaAlmacen.cs" />
+    <Compile Include="DO_DetalleSalidaArticulo.cs" />
     <Compile Include="DO_Existencia.cs" />
     <Compile Include="DO_MovimientoAlmacen.cs" />
     <Compile Include="DO_Proveedor.cs" />

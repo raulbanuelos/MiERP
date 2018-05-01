@@ -1,7 +1,9 @@
 ﻿using Model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using View.Models;
@@ -33,15 +35,23 @@ namespace View.Controllers
             return View();
         }
 
-        public JsonResult GuardarSalida(int idAlmacen, int personaSolicito, int[] idsArticulo, string[] codigos, double[] cantidades, string[] condicionsSalidas)
+        public JsonResult GuardarSalida(int idAlmacen, int personaSolicito,List<DO_DetalleSalidaArticulo> articulos)
         {
+
+            //articulos
+            int[] idsArticulo = new int[1];
+            string[] codigos = new string[1];
+            double[] cantidades = new double[1];
+            string[] condicionsSalidas = new string[1];
+            
             DO_Result_SalidaAlmacen re = new DO_Result_SalidaAlmacen();
 
             DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
             DO_Persona personaSolicita = DataManager.GetPersona(personaSolicito);
 
-            int result = DataManager.InsertSalidaArticuloAlmacen(idAlmacen, personaSolicita.Usuario, personaConectada.Usuario,idsArticulo,codigos,cantidades,condicionsSalidas);
-            
+            int result = DataManager.InsertSalidaArticuloAlmacen(idAlmacen, personaSolicita.Usuario, personaConectada.Usuario,articulos);
+
+            re.idSalidaAlmacen = result;
 
             var jsonResult = Json(re, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
@@ -49,14 +59,14 @@ namespace View.Controllers
             return jsonResult;
 
         }
+        
 
-        [ERPVerificaRol]
-        public ActionResult Details(int id)
+        public ActionResult Detalles(int id)
         {
             DO_Result_SalidaAlmacen m = DataManager.GetSalida(id);
-            
+
             return View(m);
+
         }
-        
     }
 }

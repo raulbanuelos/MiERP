@@ -39,11 +39,9 @@
             <button class="btn btn-primary" onclick="MostrarModal()">Agregar Articulo</button>
         </div>
     </div>
-    
-
     <div class="card-body">
         <div class="table-responsive">
-            <table id="myTable" class="table table-bordered" width="100%" cellspacing="0">
+            <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <td>ID ARTICULO</td>
@@ -52,21 +50,30 @@
                         <td>CONDICIONES AL SALIR</td>
                     </tr>
                 </thead>
-                <tbody id="tblArticulos"></tbody>
+                <tbody id="myTable">
 
+                </tbody>
             </table>
         </div>
     </div>
-    <button class="btn btn-success" onclick="GuardarSalida()">Guardar</button>
+
+    <button class="btn btn-success" onclick="GuardarSalida()">Guardar Vale</button>
+    
 </div>
 
 <div id="modalguardandobitacora" data-backdrop="static" data-keyboard="false" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header alert alert-success">
-                <h3 class="modal-title">Agregar articulo</h3>
+                <table>
+                    <tr>
+                        <td></td>
+                        <td><h3 class="modal-title">Agregar articulo</h3></td>
+                    </tr>
+                </table>
             </div>
             <div class="modal-body" id="div1">
+                <p><b>Articulo</b></p>
                 <div class="form-group">
                     <label>Articulo</label>
                     <select id="cboArticulos" class="form-control">
@@ -104,9 +111,6 @@
     </div>
 </div>
 
-
-
-
 <script type="text/javascript" src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
 <script type="text/javascript">
 
@@ -120,53 +124,55 @@
         var _idArticulo = $("#cboArticulos").val();
         var _condicion = $("#cboCondiciones").val();
         var _cantidad = $("#txtCantidad").val();
-        var _code = $("#cboArticulos").text();
-        var row;
-        row += "<tr>";
-        row += "<td>" + _idArticulo + "</td>";
-        row += "<td class=\"text-right\">" + _code + "</td>";
-        row += "<td class=\"text-center\">" + _cantidad + "</td>";
-        row += "<td class=\"text-center\">" + _condicion + "</td>";
-        row += "</tr>";
+        var _codigo = $("#cboArticulos option:selected").text();
         
-        $("#tblArticulos").append(row);
-    }
+        var row = "<tr>";
+        row += "<td>" + _idArticulo + "</td>";
+        row += "<td class=\"text-left\">" + _codigo + "</td>";
+        row += "<td class=\"text-center\">" + _cantidad + "</td>";
+        row += "<td class=\"text-left\">" + _condicion + "</td>";
+        row += "</tr>";
 
+        $("#myTable").append(row);
+
+    }
 
     function GuardarSalida() {
         if (ValidadAltaSalida()) {
+            var urlSave = '@Url.Action("GuardarSalida","SalidasAlmacen")';
+            var _idAlmacen = $("#cboAlmacenes").val();
+            var _personaSolicito = $("#cboPersonas").val();
 
-            //lectura de datos
-            var oTable = document.getElementById("tblArticulos");
+            //lectura de la tabla
+            //gets table
+            var oTable = document.getElementById("myTable");
+            
+            //gets rows of table
             var rowLength = oTable.rows.length;
-            for (i = 0; i < rowLength; i++) {
 
+            var _articulos = new Array();
+
+            //loops through rows    
+            for (i = 0; i < rowLength; i++) {
+                
                 //gets cells of current row  
                 var oCells = oTable.rows.item(i).cells;
 
                 //gets amount of cells of current row
                 var cellLength = oCells.length;
 
-                //loops through each cell in current row
-                for (var j = 0; j < cellLength; j++) {
-
-                    // get your cell info here
-
-                    var cellVal = oCells.item(j).innerHTML;
-                    alert(cellVal);
-                }
+                var _idCodigo = oCells.item(0).innerHTML;
+                var _codigo = oCells.item(1).innerHTML;
+                var _cantidad = oCells.item(2).innerHTML;
+                var _condicion = oCells.item(3).innerHTML;
+                _articulos.push({ idCodigo: _idCodigo, codigo: _codigo, cantidad: _cantidad, condicion: _condicion });
             }
 
-
-
-            @*var urlSave = '@Url.Action("GuardarSalida","SalidasAlmacen")';
-            var _idAlmacen = $("#cboAlmacenes").val();
-            var _personaSolicito = $("#cboPersonas").val();
-            
+            debugger;
             $.ajax({
                 type: "POST",
                 url: urlSave,
-                data: JSON.stringify({ idAlmacen : _idAlmacen, personaSolicito: _personaSolicito, idArticulo: _idArticulo, condicionEntrega : _condicion, cantidad: _cantidad }),
+                data: JSON.stringify({ idAlmacen : _idAlmacen, personaSolicito: _personaSolicito, articulos: _articulos}),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
@@ -187,7 +193,7 @@
                 error: function (result) {
                     alert("Woops, se produjo un error: " + result);
                 }
-            });*@
+            });
         }
     }
 </script>

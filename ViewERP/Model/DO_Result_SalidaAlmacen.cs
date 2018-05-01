@@ -12,14 +12,15 @@ namespace Model
         public string NombreSolicitante { get; set; }
         public string NombreAlmacen { get; set; }
 
-        public string CodigoArticulo { get; set; }
-        public string DescripcionArticulo { get; set; }
-        public double CantidadSolicitada { get; set; }
-        public byte[] codigoBarras { get; set; }
+        //public string CodigoArticulo { get; set; }
+        //public string DescripcionArticulo { get; set; }
+        //public double CantidadSolicitada { get; set; }
+        //public byte[] codigoBarras { get; set; }
+
+        public List<DO_DetalleSalidaArticulo> ListaArticulos { get; set; }
 
         public DateTime FechaSolicitud { get; set; }
         public string NombreAtendio { get; set; }
-        public string CondicionesArticuloSalida { get; set; }
 
         public string Respuesta { get; set; }
         public int ResultCode { get; set; }
