@@ -35,6 +35,44 @@ namespace Data.ServiceObject
             }
         }
 
+        public IList GetArticulosSalida(int idMovimientoSalida)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var lista = (from d in Conexion.TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN
+                                 where d.ID_MOVIMIENTO_SALIDA_ALMACEN == idMovimientoSalida
+                                 select d).ToList();
+
+                    return lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public IList GetMovimientoSalida(int idMovimientoSalida)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var lista = (from m in Conexion.TBL_MOVIMIENTO_SALIDA_ALMACEN
+                                 where m.ID_MOVIMIENTO_SALIDA_ALMACEN == idMovimientoSalida
+                                 select m).ToList();
+
+                    return lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public IList GetSalida(int idSalida)
         {
             try

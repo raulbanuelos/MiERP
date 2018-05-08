@@ -52,6 +52,10 @@ namespace View.Controllers
             int result = DataManager.InsertSalidaArticuloAlmacen(idAlmacen, personaSolicita.Usuario, personaConectada.Usuario,articulos);
 
             re.idSalidaAlmacen = result;
+            if (result != 0)
+            {
+                re.ResultCode = 1;
+            }
 
             var jsonResult = Json(re, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
@@ -60,13 +64,26 @@ namespace View.Controllers
 
         }
         
-
-        public ActionResult Detalles(int id)
+        public JsonResult ChecarExistencia(int idAlmacen, int idArticulo, double cantidadSolicitada)
         {
-            DO_Result_SalidaAlmacen m = DataManager.GetSalida(id);
+            double cantidadAlmacen = DataManager.GetExistenciaArticulo(idAlmacen, idArticulo);
+            bool respuesta = false;
 
-            return View(m);
+            respuesta = cantidadAlmacen >= cantidadSolicitada ? true : false;
 
+            var jsonResult = Json(respuesta, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+        
+        public ActionResult ValeSalida(int idMovimientoSalida)
+        {
+            DO_ValeSalidaAlmacen obj = new DO_ValeSalidaAlmacen();
+
+            obj = DataManager.GetValeSalida(idMovimientoSalida);
+
+            return View(obj);
         }
     }
 }

@@ -58,6 +58,7 @@
     <Compile Include="DO_Result_SalidaAlmacen.cs" />
     <Compile Include="DO_Rol.cs" />
     <Compile Include="DO_Unidad.cs" />
+    <Compile Include="DO_ValeSalidaAlmacen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

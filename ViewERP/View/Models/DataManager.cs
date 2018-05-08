@@ -101,8 +101,7 @@ namespace View.Models
 
             return persona;
         }
-
-
+        
         public static List<DO_Persona> GetAllPersona(int idCompania)
         {
             List<DO_Persona> lista = new List<DO_Persona>();
@@ -810,6 +809,54 @@ namespace View.Models
             }
             
             return idMovimientoSalidaAlmacen;
+        }
+
+        public static DO_ValeSalidaAlmacen GetValeSalida(int idMovimientoSalida)
+        {
+            SO_SalidasAlmacen service = new SO_SalidasAlmacen();
+            DO_ValeSalidaAlmacen vale = new DO_ValeSalidaAlmacen();
+
+
+            IList informacionBD = service.GetMovimientoSalida(idMovimientoSalida);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type tipo = item.GetType();
+                    vale.ID_MOVIMIENTO_SALIDA_ALMACEN = (int)tipo.GetProperty("ID_MOVIMIENTO_SALIDA_ALMACEN").GetValue(item, null);
+                    vale.Almacen = GetAlmacen((int)tipo.GetProperty("ID_ALMACEN").GetValue(item, null)).Nombre;
+                    vale.PersonaSolicito = (string)tipo.GetProperty("USUARIO_SOLICITO").GetValue(item, null);
+                    vale.FechaSolicito = (DateTime)tipo.GetProperty("FECHA_SALIDA").GetValue(item, null);
+                    vale.PersonaAtendio = (string)tipo.GetProperty("USUARIO_ATENDIO").GetValue(item, null);
+
+                }
+
+                IList informacionBDArticulos = service.GetArticulosSalida(idMovimientoSalida);
+
+                if (informacionBDArticulos != null)
+                {
+                    vale.ListaArticulos = new List<DO_DetalleSalidaArticulo>();
+
+                    foreach (var item in informacionBDArticulos)
+                    {
+                        Type tipo = item.GetType();
+
+                        DO_DetalleSalidaArticulo detalle = new DO_DetalleSalidaArticulo();
+
+                        detalle.idCodigo = (int)tipo.GetProperty("ID_ARTICULO").GetValue(item, null);
+                        detalle.cantidad = Convert.ToDouble(tipo.GetProperty("CANTIDAD").GetValue(item, null));
+                        DO_Articulo articulo = GetArticulo(detalle.idCodigo);
+                        detalle.codigo = articulo.Codigo;
+                        detalle.condicion = (string)tipo.GetProperty("CONDICION_ARTICULO_SALIDA").GetValue(item, null);
+                        
+
+                        vale.ListaArticulos.Add(detalle);
+                    }
+                }
+            }
+
+            return vale;
         }
 
         public static DO_Result_SalidaAlmacen GetSalida(int idSalida)
