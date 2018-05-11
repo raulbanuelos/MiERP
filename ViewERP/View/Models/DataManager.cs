@@ -823,12 +823,20 @@ namespace View.Models
             {
                 foreach (var item in informacionBD)
                 {
+                    DO_Persona personaSolicito = new DO_Persona();
+                    DO_Persona personaAtendio = new DO_Persona();
                     Type tipo = item.GetType();
+
                     vale.ID_MOVIMIENTO_SALIDA_ALMACEN = (int)tipo.GetProperty("ID_MOVIMIENTO_SALIDA_ALMACEN").GetValue(item, null);
                     vale.Almacen = GetAlmacen((int)tipo.GetProperty("ID_ALMACEN").GetValue(item, null)).Nombre;
-                    vale.PersonaSolicito = (string)tipo.GetProperty("USUARIO_SOLICITO").GetValue(item, null);
+                    vale.idPersonaSolicito = (string)tipo.GetProperty("USUARIO_SOLICITO").GetValue(item, null);
                     vale.FechaSolicito = (DateTime)tipo.GetProperty("FECHA_SALIDA").GetValue(item, null);
-                    vale.PersonaAtendio = (string)tipo.GetProperty("USUARIO_ATENDIO").GetValue(item, null);
+                    vale.idPersonaAtendio = (string)tipo.GetProperty("USUARIO_ATENDIO").GetValue(item, null);
+                    personaSolicito = GetPersona(vale.idPersonaSolicito);
+                    personaAtendio = GetPersona(vale.idPersonaAtendio);
+
+                    vale.NombrePersonaAtendio = personaAtendio.NombreCompleto;
+                    vale.NombrePersonaSolicito = personaSolicito.NombreCompleto;
 
                 }
 
