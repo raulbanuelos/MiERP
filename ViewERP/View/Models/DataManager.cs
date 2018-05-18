@@ -322,6 +322,50 @@ namespace View.Models
             return lista;
         }
 
+        public static List<DO_Articulo> GetAllArticulos(List<int> categorias)
+        {
+            SO_Articulo service = new SO_Articulo();
+
+            List<DO_Articulo> lista = new List<DO_Articulo>();
+
+            if (categorias != null)
+            {
+                foreach (int idCategoria in categorias)
+                {
+                    IList informacionBD = service.GetAllByCategory(idCategoria);
+
+                    if (informacionBD != null)
+                    {
+                        foreach (var item in informacionBD)
+                        {
+                            System.Type tipo = item.GetType();
+
+                            DO_Articulo articulo = new DO_Articulo();
+                            articulo.Codigo = (string)tipo.GetProperty("CODIGO").GetValue(item, null);
+                            articulo.Descripcion = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
+                            articulo.NumeroDeSerie = (string)tipo.GetProperty("DESCRIPCION_LARGA").GetValue(item, null);
+                            articulo.CodigoDeBarras = (byte[])tipo.GetProperty("FOTO").GetValue(item, null);
+                            articulo.idArticulo = (int)tipo.GetProperty("ID_ARTICULO").GetValue(item, null);
+                            articulo.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
+                            articulo.ID_CATEGORIA = (int)tipo.GetProperty("ID_CATEGORIA").GetValue(item, null);
+                            articulo.stockMax = (int)tipo.GetProperty("STOCK_MAX").GetValue(item, null);
+                            articulo.stockMin = (int)tipo.GetProperty("STOCK_MIN").GetValue(item, null);
+                            articulo.IsConsumible = (bool)tipo.GetProperty("CONSUMIBLE").GetValue(item, null);
+
+                            articulo.Categoria = GetCategoriaArticulo(articulo.ID_CATEGORIA);
+
+                            lista.Add(articulo);
+                        }
+                    }
+                }
+            }
+
+            
+            
+
+            return lista;
+        }
+
         public static List<SelectListItem> ConvertListDOArticuloToSelectListItem(List<DO_Articulo> lista)
         {
             List<SelectListItem> listaResultante = new List<SelectListItem>();

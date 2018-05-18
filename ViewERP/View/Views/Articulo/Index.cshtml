@@ -12,6 +12,17 @@
     @Html.ActionLink("Crear nuevo", "Create")
 </p>
 
+<div class="form-horizontal">
+    <div class="form-group">
+        <select id="cboCategorias" class="js-example-basic-multiple" name="states[]" multiple="multiple" style="width: 85%">
+            <option value="1">HERRAMIENTA GRAL</option>
+            <option value="3">RODAMIENTOS</option>
+        </select>
+    </div>
+</div>
+
+
+
 <div class="card-header">
     <i class="fa fa-table"></i> Artículos
 </div>
@@ -42,37 +53,109 @@
                     <th>Acciones</th>
                 </tr>
             </tfoot>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.Codigo)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
-                        <td>@Html.DisplayFor(modelItem => item.NumeroDeSerie)</td>
-                        <td>@Html.DisplayFor(modelItem => item.stockMin)</td>
-                        <td>@Html.DisplayFor(modelItem => item.stockMax)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Categoria.NombreCategoria)</td>
-                        @{
-                            if (item.IsConsumible)
-                            {
-                                <td>Consumible</td>
-                            }
-                            else
-                            {
-                                <td>No Consumible</td>
-                            }
-                        }
-                        <td>
-                            @Html.ActionLink("Editar", "Edit", new { id = item.idArticulo }) |
-                            @Html.ActionLink("Eliminar", "Delete", new { id = item.idArticulo }) |
-                            @Html.ActionLink("Detalles", "Details", new { id = item.idArticulo })
-                        </td>
-                    </tr>
-                }
+            <tbody id="myTable">
+                
             </tbody>
         </table>
     </div>
 </div>
+
+<script type="text/javascript">
+    var urlSave = '@Url.Action("GetAllArticulos", "Articulo")';
+    $("#dataTable").DataTable();
+
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                //llenarTabla(data);
+                $.each(data, function (index, item) {
+                    $("#dataTable").dataTable().fnAddData([
+                        item.Codigo,
+                        item.Descripcion,
+                        item.NumeroDeSerie,
+                        item.stockMin,
+                        item.stockMax,
+                        item.Categoria.NombreCategoria,
+                        item.IsConsumible,
+                        1
+                    ]);
+                });
+
+
+            },
+            error: function (result) {
+                alert("Error!");
+            }
+        });
+    });
+
+    $('.js-example-basic-multiple').select2({
+        placeholder: 'Selecciona una categoría',
+        width: 'resolve'
+    });
+
+    
+
+    function llenarTabla(data) {
+
+        $("#myTable tr").remove();
+        $.each(data, function (i, item) {
+            var _id = item.idArticulo;
+            var row = "<tr>";
+            row += "<td>" + item.Codigo + "</td>";
+            row += "<td>" + item.Descripcion + "</td>";
+            row += "<td>" + item.NumeroDeSerie + "</td>";
+            row += "<td>" + item.stockMin + "</td>";
+            row += "<td>" + item.stockMax + "</td>";
+            row += "<td>" + item.Categoria.NombreCategoria + "</td>";
+
+            if (item.IsConsumible) {
+                row += "<td>Consumible</td>"
+            } else {
+                row += "<td>No Consumible</td>"
+            }
+
+            var link = '@Html.ActionLink("Editar","Edit", new { id= "_id" })';
+            link = link.replace('_id', _id);
+
+            var linkDetails = '@Html.ActionLink("Detalles","Details", new { id= "_id" })';
+            linkDetails = linkDetails.replace('_id', _id);
+
+            var linkDelete = '@Html.ActionLink("Eliminar","Delete", new { id= "_id" })';
+            linkDelete = linkDelete.replace('_id', _id);
+
+            row += "<td>" + link + "|" + linkDetails + "|" + linkDelete + "</td>"
+            row += "</tr>"
+
+            $("#myTable").append(row);
+        });
+    }
+
+    $('#cboCategorias').on('change', function (e) {
+        var foo = $(this).val();
+
+        var urlSave = '@Url.Action("FiltarCategorias", "Articulo")';
+
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ categorias: foo }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                llenarTabla(data);
+            },
+            error: function (result) {
+                alert("Error!");
+            }
+        });
+    });
+</script>
 
 
 

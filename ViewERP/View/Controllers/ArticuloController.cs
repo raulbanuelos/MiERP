@@ -15,7 +15,19 @@ namespace View.Controllers
         [ERPVerificaRol]
         public ActionResult Index()
         {
-            return View(DataManager.GetAllArticulos(((DO_Persona)Session["UsuarioConectado"]).idCompania));
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetAllArticulos(string parametro)
+        {
+            List<DO_Articulo> lista = DataManager.GetAllArticulos(((DO_Persona)Session["UsuarioConectado"]).idCompania);
+            
+            var jsonResult = Json(lista, JsonRequestBehavior.AllowGet);
+
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
         }
 
         [ERPVerificaRol]
@@ -122,6 +134,26 @@ namespace View.Controllers
             DO_Articulo articulo = DataManager.GetArticulo(id);
 
             return View(articulo);
+        }
+
+        [HttpPost]
+        public JsonResult FiltarCategorias(List<int> categorias)
+        {
+            List<DO_Articulo> lista = new List<DO_Articulo>();
+            if (categorias != null)
+            {
+                lista = DataManager.GetAllArticulos(categorias);
+            }
+            else
+            {
+                lista = DataManager.GetAllArticulos(((DO_Persona)Session["UsuarioConectado"]).idCompania);
+            }
+
+            var jsonResult = Json(lista, JsonRequestBehavior.AllowGet);
+
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
         }
     }
 }

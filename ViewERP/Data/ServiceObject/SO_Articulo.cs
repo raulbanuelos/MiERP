@@ -104,6 +104,25 @@ namespace Data.ServiceObject
             }
         }
 
+        public IList GetAllByCategory(int idCategoria)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var list = (from v in Conexion.TBL_ARTICULO
+                                where v.ID_CATEGORIA == idCategoria
+                                select v).ToList();
+
+                    return list;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public DO_Articulo GetArticulo(int idArticulo)
         {
             try
