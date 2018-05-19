@@ -12,9 +12,11 @@ namespace Model
         [Key]
         public int ID_MOVIMIENTO_SALIDA_ALMACEN { get; set; }
         public string Almacen { get; set; }
-        public string PersonaSolicito { get; set; }
+        public string idPersonaSolicito { get; set; }
+        public string NombrePersonaSolicito { get; set; }
         public DateTime FechaSolicito { get; set; }
-        public string PersonaAtendio { get; set; }
+        public string idPersonaAtendio { get; set; }
+        public string NombrePersonaAtendio { get; set; }
 
         public List<DO_DetalleSalidaArticulo> ListaArticulos { get; set; }
 

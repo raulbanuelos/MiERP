@@ -322,6 +322,50 @@ namespace View.Models
             return lista;
         }
 
+        public static List<DO_Articulo> GetAllArticulos(List<int> categorias)
+        {
+            SO_Articulo service = new SO_Articulo();
+
+            List<DO_Articulo> lista = new List<DO_Articulo>();
+
+            if (categorias != null)
+            {
+                foreach (int idCategoria in categorias)
+                {
+                    IList informacionBD = service.GetAllByCategory(idCategoria);
+
+                    if (informacionBD != null)
+                    {
+                        foreach (var item in informacionBD)
+                        {
+                            System.Type tipo = item.GetType();
+
+                            DO_Articulo articulo = new DO_Articulo();
+                            articulo.Codigo = (string)tipo.GetProperty("CODIGO").GetValue(item, null);
+                            articulo.Descripcion = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
+                            articulo.NumeroDeSerie = (string)tipo.GetProperty("DESCRIPCION_LARGA").GetValue(item, null);
+                            articulo.CodigoDeBarras = (byte[])tipo.GetProperty("FOTO").GetValue(item, null);
+                            articulo.idArticulo = (int)tipo.GetProperty("ID_ARTICULO").GetValue(item, null);
+                            articulo.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
+                            articulo.ID_CATEGORIA = (int)tipo.GetProperty("ID_CATEGORIA").GetValue(item, null);
+                            articulo.stockMax = (int)tipo.GetProperty("STOCK_MAX").GetValue(item, null);
+                            articulo.stockMin = (int)tipo.GetProperty("STOCK_MIN").GetValue(item, null);
+                            articulo.IsConsumible = (bool)tipo.GetProperty("CONSUMIBLE").GetValue(item, null);
+
+                            articulo.Categoria = GetCategoriaArticulo(articulo.ID_CATEGORIA);
+
+                            lista.Add(articulo);
+                        }
+                    }
+                }
+            }
+
+            
+            
+
+            return lista;
+        }
+
         public static List<SelectListItem> ConvertListDOArticuloToSelectListItem(List<DO_Articulo> lista)
         {
             List<SelectListItem> listaResultante = new List<SelectListItem>();
@@ -823,12 +867,20 @@ namespace View.Models
             {
                 foreach (var item in informacionBD)
                 {
+                    DO_Persona personaSolicito = new DO_Persona();
+                    DO_Persona personaAtendio = new DO_Persona();
                     Type tipo = item.GetType();
+
                     vale.ID_MOVIMIENTO_SALIDA_ALMACEN = (int)tipo.GetProperty("ID_MOVIMIENTO_SALIDA_ALMACEN").GetValue(item, null);
                     vale.Almacen = GetAlmacen((int)tipo.GetProperty("ID_ALMACEN").GetValue(item, null)).Nombre;
-                    vale.PersonaSolicito = (string)tipo.GetProperty("USUARIO_SOLICITO").GetValue(item, null);
+                    vale.idPersonaSolicito = (string)tipo.GetProperty("USUARIO_SOLICITO").GetValue(item, null);
                     vale.FechaSolicito = (DateTime)tipo.GetProperty("FECHA_SALIDA").GetValue(item, null);
-                    vale.PersonaAtendio = (string)tipo.GetProperty("USUARIO_ATENDIO").GetValue(item, null);
+                    vale.idPersonaAtendio = (string)tipo.GetProperty("USUARIO_ATENDIO").GetValue(item, null);
+                    personaSolicito = GetPersona(vale.idPersonaSolicito);
+                    personaAtendio = GetPersona(vale.idPersonaAtendio);
+
+                    vale.NombrePersonaAtendio = personaAtendio.NombreCompleto;
+                    vale.NombrePersonaSolicito = personaSolicito.NombreCompleto;
 
                 }
 

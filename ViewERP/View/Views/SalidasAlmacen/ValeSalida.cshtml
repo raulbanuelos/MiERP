@@ -1,58 +1,44 @@
 ﻿@model Model.DO_ValeSalidaAlmacen
 
 @{
-    Layout = null;
+    ViewBag.Title = "Generar vale";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ValeSalida</title>
-</head>
-<body>
-    <div>
-        <h4>DO_ValeSalidaAlmacen</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Almacen)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Almacen)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.PersonaSolicito)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.PersonaSolicito)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.FechaSolicito)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.FechaSolicito)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.PersonaAtendio)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.PersonaAtendio)
-            </dd>
-    
-        </dl>
+<div id="valediv">
+    <div class="form-group">
+        <b>Almacen:</b>
+        <label>@Html.DisplayFor(model => model.Almacen)</label>
     </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ID_MOVIMIENTO_SALIDA_ALMACEN }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>
-</html>
+
+    <form class="form-inline">
+        <div class="form-group">
+            <b>No. Nomina solicitó</b>
+            <label>@Html.DisplayFor(model => model.idPersonaSolicito)</label>
+        </div>
+
+        <div class="form-group">
+            <b>Solicitó:</b>
+            <label>@Html.DisplayFor(model => model.NombrePersonaSolicito)</label>
+
+        </div>
+
+    </form>
+</div>
+<div>
+    <input type="button" class="btn btn-success" value="Generar Vale" onclick="generarVale()" />
+</div>
+
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+
+<script type="text/javascript">
+
+    function generarVale() {
+        var doc = new jsPDF();
+        doc.fromHTML($("#valediv").get(0), 20, 20, {
+            'width':500});
+         doc.save("vale.pdf");
+     }
+</script>

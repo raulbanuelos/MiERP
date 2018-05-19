@@ -76,7 +76,8 @@ namespace View.Controllers
 
             return jsonResult;
         }
-        
+
+        [ERPVerificaRol]
         public ActionResult ValeSalida(int idMovimientoSalida)
         {
             DO_ValeSalidaAlmacen obj = new DO_ValeSalidaAlmacen();
