@@ -76,7 +76,7 @@
                 <p><b>Articulo</b></p>
                 <div class="form-group">
                     <label>Articulo</label>
-                    <select id="cboArticulos" class="js-example-basic-multiple" name="states[]" multiple="multiple" style="width: 85%">
+                    <select id="cboArticulos" class="js-example-basic-single" style="width:90%">
                         
                     </select>
                 </div>
@@ -109,13 +109,10 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
 <script type="text/javascript">
 
-    $('.js-example-basic-multiple').select2({
-        placeholder: 'Selecciona un código',
-        width: 'resolve'
-    });
-
-
     $(function () {
+
+        $('.js-example-basic-single').select2();
+
         var urlSave = '@Url.Action("GetAllCategoriasArticulos", "SalidasAlmacen")';
         $.ajax({
             type: "POST",
@@ -153,7 +150,9 @@
         var _idArticulo = $("#cboArticulos").val();
         var _cantidad = $("#txtCantidad").val();
         var _condicion = $("#cboCondiciones").val();
-        var _codigo = $("#cboArticulos").val();
+        var _codigo = $("#cboArticulos option:selected").text();
+        var res = _codigo.split("        ", 1);
+        _codigo = res[0];
         var urlSave = '@Url.Action("ChecarExistencia", "SalidasAlmacen")';
 
         debugger;
