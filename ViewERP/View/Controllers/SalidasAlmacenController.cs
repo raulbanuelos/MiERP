@@ -19,7 +19,7 @@ namespace View.Controllers
             int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
 
             ViewBag.Personas =  DataManager.ConvertListDOPersonaToSelectListItem(DataManager.GetAllPersona(idCompania));
-            ViewBag.Articulos = DataManager.ConvertListDOArticuloToSelectListItem(DataManager.GetAllArticulos(idCompania));
+            
             ViewBag.Almacenes = DataManager.ConvertListDOAlmacenToSelectListItem(DataManager.GetAllAlmacen(idCompania));
 
             List<SelectListItem> condicionesEntrega = new List<SelectListItem>();
@@ -85,6 +85,19 @@ namespace View.Controllers
             obj = DataManager.GetValeSalida(idMovimientoSalida);
 
             return View(obj);
+        }
+
+        public JsonResult GetAllCategoriasArticulos(string parametro)
+        {
+            List<DO_CategoriaArticulo> listaCategoriaArticulo = new List<DO_CategoriaArticulo>();
+            int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+
+            listaCategoriaArticulo = DataManager.ConvertDOArticuloToCategoriaArticulo(DataManager.GetAllArticulos(idCompania));
+
+            var jsonResult = Json(listaCategoriaArticulo, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
         }
     }
 }

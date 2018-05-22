@@ -19,6 +19,21 @@ namespace View.Controllers
         }
 
         [HttpPost]
+        public JsonResult GetAllCategoria(string parametro)
+        {
+            int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+
+            List<DO_CategoriaArticulo> ListaCategorias = DataManager.GetAllCategoriaArticulo(idCompania);
+
+            var jsonResult = Json(ListaCategorias, JsonRequestBehavior.AllowGet);
+            
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+
+        }
+
+        [HttpPost]
         public JsonResult GetAllArticulos(string parametro)
         {
             List<DO_Articulo> lista = DataManager.GetAllArticulos(((DO_Persona)Session["UsuarioConectado"]).idCompania);

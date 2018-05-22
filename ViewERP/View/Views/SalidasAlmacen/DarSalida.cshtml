@@ -76,13 +76,8 @@
                 <p><b>Articulo</b></p>
                 <div class="form-group">
                     <label>Articulo</label>
-                    <select id="cboArticulos" class="form-control">
-                        @{
-                            foreach (SelectListItem articulo in ((List<SelectListItem>)ViewBag.Articulos))
-                            {
-                                <option id="@articulo.Value" value="@articulo.Value">@articulo.Text</option>
-                            }
-                        }
+                    <select id="cboArticulos" class="js-example-basic-multiple" name="states[]" multiple="multiple" style="width: 85%">
+                        
                     </select>
                 </div>
 
@@ -114,6 +109,40 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
 <script type="text/javascript">
 
+    $('.js-example-basic-multiple').select2({
+        placeholder: 'Selecciona un código',
+        width: 'resolve'
+    });
+
+
+    $(function () {
+        var urlSave = '@Url.Action("GetAllCategoriasArticulos", "SalidasAlmacen")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    var categoria = "<optgroup label='" + item.NombreCategoria + "' id='" + item.idCategoriaArticulo + "'></optgroup>";
+
+                    $("#cboArticulos").append(categoria);
+                    
+                    $.each(item.Articulos, function (i, item1) {
+                        var a = item1.Descripcion;
+                        var conca = item1.Codigo + "        " + item1.Descripcion
+                        $("#cboArticulos").append("<option value='" + item1.idArticulo + "'>" + conca + "</option>");
+                    });
+
+                });
+            },
+            error: function (result) {
+                alert("Error!");
+            }
+        });
+    });
+
     function MostrarModal() {
         $("#modalguardandobitacora").modal();
     }
@@ -124,8 +153,10 @@
         var _idArticulo = $("#cboArticulos").val();
         var _cantidad = $("#txtCantidad").val();
         var _condicion = $("#cboCondiciones").val();
-        var _codigo = $("#cboArticulos option:selected").text();
+        var _codigo = $("#cboArticulos").val();
         var urlSave = '@Url.Action("ChecarExistencia", "SalidasAlmacen")';
+
+        debugger;
 
         //Checamos si previamente el usuario ya habia agregado el mismo articulo. Sumamos la cantidad nueva con la cantidad que ya habia solicitado.
         //gets table
@@ -177,7 +208,7 @@
             }
         });
 
-        
+
 
     }
 

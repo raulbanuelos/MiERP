@@ -609,6 +609,36 @@ namespace View.Models
 
             return service.Delete(idCategoriaArticulo);
         }
+
+        public static List<DO_CategoriaArticulo> ConvertDOArticuloToCategoriaArticulo(List<DO_Articulo> ListaArticulos)
+        {
+            List<DO_CategoriaArticulo> ListaResultante = new List<DO_CategoriaArticulo>();
+
+            foreach (DO_Articulo item in ListaArticulos)
+            {
+                if (ListaResultante.Where(x => x.idCategoriaArticulo == item.ID_CATEGORIA).ToList().Count == 0)
+                {
+                    DO_CategoriaArticulo categoria = new DO_CategoriaArticulo();
+
+                    categoria.idCategoriaArticulo = item.Categoria.idCategoriaArticulo;
+                    categoria.NombreCategoria = item.Categoria.NombreCategoria;
+                    ListaResultante.Add(categoria);
+                }
+            }
+
+            foreach (DO_CategoriaArticulo categoria in ListaResultante)
+            {
+                foreach (DO_Articulo articulo in ListaArticulos)
+                {
+                    if (categoria.idCategoriaArticulo == articulo.Categoria.idCategoriaArticulo)
+                    {
+                        categoria.Articulos.Add(articulo);
+                    }
+                }
+            }
+
+            return ListaResultante;
+        }
         #endregion
 
         #region Proveedor

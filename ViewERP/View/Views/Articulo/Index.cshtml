@@ -15,13 +15,10 @@
 <div class="form-horizontal">
     <div class="form-group">
         <select id="cboCategorias" class="js-example-basic-multiple" name="states[]" multiple="multiple" style="width: 85%">
-            <option value="1">HERRAMIENTA GRAL</option>
-            <option value="3">RODAMIENTOS</option>
+            
         </select>
     </div>
 </div>
-
-
 
 <div class="card-header">
     <i class="fa fa-table"></i> Artículos
@@ -72,21 +69,26 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                //llenarTabla(data);
+                llenarTabla(data);
+            },
+            error: function (result) {
+                alert("Error!");
+            }
+        });
+
+        var urlSaveCategoria = '@Url.Action("GetAllCategoria", "Articulo")';
+        $.ajax({
+            type: "POST",
+            url: urlSaveCategoria,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
                 $.each(data, function (index, item) {
-                    $("#dataTable").dataTable().fnAddData([
-                        item.Codigo,
-                        item.Descripcion,
-                        item.NumeroDeSerie,
-                        item.stockMin,
-                        item.stockMax,
-                        item.Categoria.NombreCategoria,
-                        item.IsConsumible,
-                        1
-                    ]);
+                    var option = "<option text='" + item.NombreCategoria + "' value='" + item.idCategoriaArticulo + "'>" + item.NombreCategoria + "</opction>";
+
+                    $("#cboCategorias").append(option);
                 });
-
-
             },
             error: function (result) {
                 alert("Error!");
@@ -99,40 +101,27 @@
         width: 'resolve'
     });
 
-    
+
 
     function llenarTabla(data) {
+        //$("#dataTable tbody tr").remove();
+        var table = $('#dataTable').DataTable();
 
-        $("#myTable tr").remove();
-        $.each(data, function (i, item) {
-            var _id = item.idArticulo;
-            var row = "<tr>";
-            row += "<td>" + item.Codigo + "</td>";
-            row += "<td>" + item.Descripcion + "</td>";
-            row += "<td>" + item.NumeroDeSerie + "</td>";
-            row += "<td>" + item.stockMin + "</td>";
-            row += "<td>" + item.stockMax + "</td>";
-            row += "<td>" + item.Categoria.NombreCategoria + "</td>";
+        table
+            .clear()
+            .draw();
 
-            if (item.IsConsumible) {
-                row += "<td>Consumible</td>"
-            } else {
-                row += "<td>No Consumible</td>"
-            }
-
-            var link = '@Html.ActionLink("Editar","Edit", new { id= "_id" })';
-            link = link.replace('_id', _id);
-
-            var linkDetails = '@Html.ActionLink("Detalles","Details", new { id= "_id" })';
-            linkDetails = linkDetails.replace('_id', _id);
-
-            var linkDelete = '@Html.ActionLink("Eliminar","Delete", new { id= "_id" })';
-            linkDelete = linkDelete.replace('_id', _id);
-
-            row += "<td>" + link + "|" + linkDetails + "|" + linkDelete + "</td>"
-            row += "</tr>"
-
-            $("#myTable").append(row);
+        $.each(data, function (index, item) {
+            $("#dataTable").dataTable().fnAddData([
+                item.Codigo,
+                item.Descripcion,
+                item.NumeroDeSerie,
+                item.stockMin,
+                item.stockMax,
+                item.Categoria.NombreCategoria,
+                item.IsConsumible,
+                "<a href='Articulo/Details?id=" + item.idArticulo + "'>Detalles</a> | <a href='Articulo/Edit?id=" + item.idArticulo + "'>Editar</a> | <a href='Articulo/Delete?id=" + item.idArticulo + "'>Eliminar</a>"
+            ]);
         });
     }
 
