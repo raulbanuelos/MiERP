@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -77,6 +78,25 @@ namespace Data.ServiceObject
             catch (Exception)
             {
                 return 0;
+            }
+        }
+
+        public IList GetDetalle(int idEntradaAlmacen)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var Lista = (from a in Conexion.TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN
+                                 where a.ID_MOVIMIENTO_ENTRADA_ALMACEN == idEntradaAlmacen
+                                 select a).ToList();
+
+                    return Lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
 

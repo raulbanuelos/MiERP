@@ -866,6 +866,7 @@ namespace View.Models
 
             return service.Insert(idMovimientoEntrada, idArticulo, cantidad);
         }
+        
         #endregion
 
         #region Salidas

@@ -22,18 +22,6 @@
     </div>
 
     <div class="form-group">
-        <label>Articulo</label>
-        <select id="cboArticulos" class="form-control">
-            @{
-                foreach (SelectListItem articulo in ((List<SelectListItem>)ViewBag.Articulos))
-                {
-                    <option id="@articulo.Value" value="@articulo.Value">@articulo.Text</option>
-                }
-            }
-        </select>
-    </div>
-
-    <div class="form-group">
         <label>Proveedor</label>
         <select id="cboProveedores" class="form-control">
             @{
@@ -46,23 +34,28 @@
     </div>
 
     <div class="form-group">
-        <label>Unidad</label>
-        <select id="cboUnidad" class="form-control">
-            @{
-                foreach (SelectListItem unidad in ((List<SelectListItem>)ViewBag.Unidades))
-                {
-                    <option id="@unidad.Value" value="@unidad.Value">@unidad.Text</option>
-                }
-            }
-        </select>
-    </div>
-
-    <div class="form-group">
-        <input type="number" id="txtCantidad" class="form-control" placeholder="Cantidad" onkeypress="return soloNumeros(event)" />
-    </div>
-
-    <div class="form-group">
         <input type="text" id="txtFactura" class="form-control" placeholder="Número de factura" />
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button class="btn btn-primary" onclick="MostrarModal()">Agregar Articulo</button>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <td>ID ARTICULO</td>
+                        <td>CODIGO</td>
+                        <td>CANTIDAD</td>
+                    </tr>
+                </thead>
+                <tbody id="myTable"></tbody>
+            </table>
+        </div>
     </div>
 
 
@@ -71,13 +64,49 @@
             <button class="btn btn-success" onclick="GuardarEntrada()">Guardar</button>
         </div>
     </div>
-
 </div>
+
+<div id="modalguardandobitacora" data-backdrop="static" data-keyboard="false" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header alert alert-success">
+                <table>
+                    <tr>
+                        <td></td>
+                        <td><h3 class="modal-title">Agregar articulo</h3></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-body" id="div1">
+                <p><b>Articulo</b></p>
+                <div class="form-group">
+                    <label>Articulo</label>
+                    <select id="cboArticulos" class="js-example-basic-single" style="width:90%"></select>
+                </div>
+
+                <div class="form-group">
+                    <label>Cantidad</label>
+                    <input type="number" class="form-control" id="txtCantidad" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="agregarArticulo()">Agregar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <script type="text/javascript" src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
 
 <script type="text/javascript">
+
+    function MostrarModal() {
+        $("#modalguardandobitacora").modal();
+    }
+
     function GuardarEntrada()
     {
         if (ValidarAltaEntrada()) {
