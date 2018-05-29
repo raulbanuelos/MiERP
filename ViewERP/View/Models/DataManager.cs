@@ -840,22 +840,31 @@ namespace View.Models
         #endregion
 
         #region Entradas
-        public static int InsertEntradaArticuloAlmacen(int idAlmacen, int idArticulo, int idProveedor, int idUnidad,double cantidad,string noFactura,DateTime fecha,string usuario)
+        public static int InsertEntradaArticuloAlmacen(int idAlmacen, int idProveedor, int idUnidad,string noFactura,DateTime fecha,string usuario)
         {
             SO_EntradasAlmacen service = new SO_EntradasAlmacen();
 
-            int r = service.InsertEntrada(idAlmacen, idArticulo, idProveedor, idUnidad, cantidad, noFactura, fecha, usuario);
+            int r = service.InsertEntrada(idAlmacen, idProveedor, idUnidad, noFactura, fecha, usuario);
 
             if (r > 0)
             {
                 SO_Existencia serviceExistencia = new SO_Existencia();
 
-                return serviceExistencia.AddCantidad(idAlmacen, idArticulo, cantidad);
+                //return serviceExistencia.AddCantidad(idAlmacen, idArticulo, cantidad);
+
+                return 0;
             }
             else
             {
                 return 0;
             }
+        }
+
+        public static int InsertDetalleEntradaAlmacen(int idMovimientoEntrada, int idArticulo, decimal cantidad)
+        {
+            SO_Detalle_Entrada_Almacen service = new SO_Detalle_Entrada_Almacen();
+
+            return service.Insert(idMovimientoEntrada, idArticulo, cantidad);
         }
         #endregion
 

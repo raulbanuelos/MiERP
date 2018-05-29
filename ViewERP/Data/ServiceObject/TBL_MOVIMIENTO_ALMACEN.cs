@@ -14,18 +14,23 @@ namespace Data.ServiceObject
     
     public partial class TBL_MOVIMIENTO_ALMACEN
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TBL_MOVIMIENTO_ALMACEN()
+        {
+            this.TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN = new HashSet<TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN>();
+        }
+    
         public int ID_MOVIMIENTO_ALMACEN { get; set; }
         public Nullable<int> ID_ALMACEN { get; set; }
-        public Nullable<int> ID_ARTICULO { get; set; }
         public Nullable<int> ID_PROVEEDOR { get; set; }
         public Nullable<int> ID_UNIDAD { get; set; }
-        public Nullable<decimal> CANTIDAD { get; set; }
         public string NO_FACTURA { get; set; }
         public Nullable<System.DateTime> FECHA { get; set; }
         public string USUARIO { get; set; }
     
         public virtual TBL_ALMACEN TBL_ALMACEN { get; set; }
-        public virtual TBL_ARTICULO TBL_ARTICULO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN> TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN { get; set; }
         public virtual TBL_PROVEEDOR TBL_PROVEEDOR { get; set; }
         public virtual TBL_UNIDAD TBL_UNIDAD { get; set; }
     }

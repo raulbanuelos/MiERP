@@ -28,8 +28,8 @@ namespace View.Controllers
         public JsonResult GuardarEntrada(int idAlmacen,int idArticulo,int idProveedor,int idUnidad,double cantidad,string noFactura)
         {
             string usuario = ((DO_Persona)Session["UsuarioConectado"]).Usuario;
-            int result = DataManager.InsertEntradaArticuloAlmacen(idAlmacen, idArticulo, idProveedor, idUnidad, cantidad, noFactura, DateTime.Now, usuario);
-
+            //int result = DataManager.InsertEntradaArticuloAlmacen(idAlmacen, idArticulo, idProveedor, idUnidad, cantidad, noFactura, DateTime.Now, usuario);
+            int result = 0;
             var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 
