@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,8 +20,7 @@ namespace View.Controllers
             ViewBag.Articulos = DataManager.ConvertListDOArticuloToSelectListItem(DataManager.GetAllArticulos(idCompania));
             ViewBag.Proveedores = DataManager.ConvertListDOProveedorToSelectListItem(DataManager.GetAllProveedor(idCompania));
             ViewBag.Unidades = DataManager.ConvertListDOUnidadToSelectListItem(DataManager.GetAllUnidad());
-
-
+            
             return View();
         }
 
@@ -35,6 +35,28 @@ namespace View.Controllers
 
             return jsonResult;
         }
-        
+
+        [HttpPost]
+        public JsonResult GetAllCategoriasArticulos(string parametro)
+        {
+            List<DO_CategoriaArticulo> listaCategoriaArticulo = new List<DO_CategoriaArticulo>();
+            int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+
+            listaCategoriaArticulo = DataManager.ConvertDOArticuloToCategoriaArticulo(DataManager.GetAllArticulos(idCompania));
+
+            var jsonResult = Json(listaCategoriaArticulo, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+        public JsonResult GuardarEntrada(int idAlmacen, int idProveedor, string Factura, List<DO_DetalleEntradaArticulo> articulos)
+        {
+            var jsonResult = Json(1, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
     }
 }

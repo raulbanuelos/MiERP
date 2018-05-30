@@ -25,7 +25,9 @@ namespace Data.ServiceObject
 
                     Conexion.TBL_MOVIMIENTO_ALMACEN.Add(obj);
 
-                    return Conexion.SaveChanges();
+                    int r = Conexion.SaveChanges();
+
+                    return r > 0 ? obj.ID_MOVIMIENTO_ALMACEN : 0;
                 }
             }
             catch (Exception er)

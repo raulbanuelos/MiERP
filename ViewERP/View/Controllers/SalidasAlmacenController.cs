@@ -37,13 +37,6 @@ namespace View.Controllers
 
         public JsonResult GuardarSalida(int idAlmacen, int personaSolicito,List<DO_DetalleSalidaArticulo> articulos)
         {
-
-            //articulos
-            int[] idsArticulo = new int[1];
-            string[] codigos = new string[1];
-            double[] cantidades = new double[1];
-            string[] condicionsSalidas = new string[1];
-            
             DO_Result_SalidaAlmacen re = new DO_Result_SalidaAlmacen();
 
             DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
@@ -87,6 +80,7 @@ namespace View.Controllers
             return View(obj);
         }
 
+        [HttpPost]
         public JsonResult GetAllCategoriasArticulos(string parametro)
         {
             List<DO_CategoriaArticulo> listaCategoriaArticulo = new List<DO_CategoriaArticulo>();
