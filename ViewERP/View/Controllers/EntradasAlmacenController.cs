@@ -50,9 +50,12 @@ namespace View.Controllers
             return jsonResult;
         }
 
+        [HttpPost]
         public JsonResult GuardarEntrada(int idAlmacen, int idProveedor, string Factura, List<DO_DetalleEntradaArticulo> articulos)
         {
-            var jsonResult = Json(1, JsonRequestBehavior.AllowGet);
+            int r = DataManager.InsertEntradaArticuloAlmacen(idAlmacen, idProveedor, Factura, DateTime.Now, ((DO_Persona)Session["UsuarioConectado"]).Usuario,articulos);
+
+            var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 
             return jsonResult;

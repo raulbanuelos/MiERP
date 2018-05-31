@@ -10,7 +10,7 @@ namespace Data.ServiceObject
 {
     public class SO_Detalle_Entrada_Almacen
     {
-        public int Insert(int idMovimientoEntrada, int idArticulo, decimal cantidad)
+        public int Insert(int idMovimientoEntrada, int idArticulo, decimal cantidad,int idUnidad)
         {
             try
             {
@@ -21,6 +21,7 @@ namespace Data.ServiceObject
                     detalle.ID_MOVIMIENTO_ENTRADA_ALMACEN = idMovimientoEntrada;
                     detalle.ID_ARTICULO = idArticulo;
                     detalle.CANTIDAD = cantidad;
+                    detalle.ID_UNIDAD = idUnidad;
 
                     Conexion.TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN.Add(detalle);
 
@@ -40,7 +41,7 @@ namespace Data.ServiceObject
             }
         }
 
-        public int Update(int idDetalle, int idArticulo, int cantidad)
+        public int Update(int idDetalle, int idArticulo, int cantidad,int idUnidad)
         {
             try
             {
@@ -50,6 +51,7 @@ namespace Data.ServiceObject
 
                     obj.ID_ARTICULO = idArticulo;
                     obj.CANTIDAD = cantidad;
+                    obj.ID_UNIDAD = idUnidad;
 
                     Conexion.Entry(obj).State = EntityState.Modified;
 

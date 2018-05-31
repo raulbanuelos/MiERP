@@ -11,7 +11,7 @@ namespace Data.ServiceObject
 {
     public class SO_Existencia
     {
-        public int AddCantidad(int idAlmacen, int idArticulo,double cantidad)
+        public int AddCantidad(int idAlmacen, int idArticulo,decimal cantidad)
         {
             try
             {
@@ -21,7 +21,7 @@ namespace Data.ServiceObject
 
                     if (obj != null)
                     {
-                        obj.CANTIDAD = obj.CANTIDAD + Convert.ToDecimal(cantidad);
+                        obj.CANTIDAD = obj.CANTIDAD + cantidad;
 
                         Conexion.Entry(obj).State = EntityState.Modified;
                     }

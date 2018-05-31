@@ -18,8 +18,9 @@ namespace Data.ServiceObject
         public TBL_ARTICULO()
         {
             this.TBL_EXISTENCIA = new HashSet<TBL_EXISTENCIA>();
-            this.TBL_ALERTAS_STOCK_MIN = new HashSet<TBL_ALERTAS_STOCK_MIN>();
             this.TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN = new HashSet<TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN>();
+            this.TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN = new HashSet<TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN>();
+            this.TBL_ALERTAS_STOCK_MIN = new HashSet<TBL_ALERTAS_STOCK_MIN>();
         }
     
         public int ID_ARTICULO { get; set; }
@@ -38,8 +39,10 @@ namespace Data.ServiceObject
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_EXISTENCIA> TBL_EXISTENCIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TBL_ALERTAS_STOCK_MIN> TBL_ALERTAS_STOCK_MIN { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN> TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN> TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_ALERTAS_STOCK_MIN> TBL_ALERTAS_STOCK_MIN { get; set; }
     }
 }

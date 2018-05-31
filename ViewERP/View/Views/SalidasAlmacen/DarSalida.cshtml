@@ -156,12 +156,10 @@
         _codigo = res[0];
         var urlSave = '@Url.Action("ChecarExistencia", "SalidasAlmacen")';
 
-        debugger;
-
         //Checamos si previamente el usuario ya habia agregado el mismo articulo. Sumamos la cantidad nueva con la cantidad que ya habia solicitado.
         //gets table
         var oTable = document.getElementById("myTable");
-        debugger;
+        
         //gets rows of table
         var rowLength = oTable.rows.length;
         var cantidadTotal = parseFloat(_cantidad);
@@ -188,7 +186,6 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                debugger;
                 if (data) {
                     $("#modalguardandobitacora").modal('hide');
                     var row = "<tr>";
@@ -253,7 +250,7 @@
 
                         //generarPDF(data.NombreSolicitante, data.CodigoArticulo);
                         var li = "@Url.Action("ValeSalida","SalidasAlmacen")?idMovimientoSalida=" + data.idSalidaAlmacen + "";
-                        debugger;
+                        
                         window.location.href = li;
 
                     } else {

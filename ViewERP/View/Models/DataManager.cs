@@ -840,33 +840,38 @@ namespace View.Models
         #endregion
 
         #region Entradas
-        public static int InsertEntradaArticuloAlmacen(int idAlmacen, int idProveedor, int idUnidad,string noFactura,DateTime fecha,string usuario)
+        public static int InsertEntradaArticuloAlmacen(int idAlmacen, int idProveedor,string noFactura,DateTime fecha,string usuario, List<DO_DetalleEntradaArticulo> articulos)
         {
-            SO_EntradasAlmacen service = new SO_EntradasAlmacen();
+            SO_EntradasAlmacen ServiceEntrada = new SO_EntradasAlmacen();
+            
+            SO_Existencia ServiceExistencia = new SO_Existencia();
 
-            int r = service.InsertEntrada(idAlmacen, idProveedor, idUnidad, noFactura, fecha, usuario);
+            int idMovimientoEntrada = ServiceEntrada.InsertEntrada(idAlmacen, idProveedor, noFactura, fecha, usuario);
 
-            if (r > 0)
+            int r = 0;
+
+            if (idMovimientoEntrada > 0)
             {
-                SO_Existencia serviceExistencia = new SO_Existencia();
 
-                //return serviceExistencia.AddCantidad(idAlmacen, idArticulo, cantidad);
+                foreach (DO_DetalleEntradaArticulo detalle in articulos)
+                {
+                    if (InsertDetalleEntradaAlmacen(idMovimientoEntrada, detalle.idArticulo, detalle.cantidad, detalle.idUnidad) > 0)
+                    {
+                        r += ServiceExistencia.AddCantidad(idAlmacen, detalle.idArticulo, detalle.cantidad);
+                    }
+                }
+            }
 
-                return 0;
-            }
-            else
-            {
-                return 0;
-            }
+            return r;
         }
 
-        public static int InsertDetalleEntradaAlmacen(int idMovimientoEntrada, int idArticulo, decimal cantidad)
+        public static int InsertDetalleEntradaAlmacen(int idMovimientoEntrada, int idArticulo, decimal cantidad,int idUnidad)
         {
             SO_Detalle_Entrada_Almacen service = new SO_Detalle_Entrada_Almacen();
 
-            return service.Insert(idMovimientoEntrada, idArticulo, cantidad);
+            return service.Insert(idMovimientoEntrada, idArticulo, cantidad,idUnidad);
         }
-        
+
         #endregion
 
         #region Salidas

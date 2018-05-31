@@ -15,8 +15,8 @@ namespace Data.ServiceObject
     public partial class TBL_ALERTAS_STOCK_MIN
     {
         public int ID_ALERTA_STOCK_MIN { get; set; }
-        public int ID_ARTICULO { get; set; }
-        public decimal CANTIDAD_MINIMA { get; set; }
+        public Nullable<decimal> CANTIDAD_MINIMA { get; set; }
+        public Nullable<int> ID_ARTICULO { get; set; }
     
         public virtual TBL_ARTICULO TBL_ARTICULO { get; set; }
     }
