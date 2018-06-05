@@ -9,31 +9,6 @@
 
 <div id="valediv">
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-
-            <div class="row">
-                <div class="col-md-12">
-                    <b>Almacen:</b>
-                    <label>@Html.DisplayFor(model => model.Almacen)</label>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-6">
-                    <b>No. Nomina solicitó</b>
-                    <label>@Html.DisplayFor(model => model.idPersonaSolicito)</label>
-                </div>
-
-                <div class="col-md-6 col-sm-6 col-xs-6">
-                    <b>Solicitó:</b>
-                    <label>@Html.DisplayFor(model => model.NombrePersonaSolicito)</label>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
 </div>
 <div>
     <input type="button" class="btn btn-success" value="Generar Vale" onclick="generarVale()" />
@@ -44,14 +19,15 @@
 <script type="text/javascript">
 
     function generarVale() {
-        html2canvas(document.body, {
-            onrendered: function (canvas) {
+        html2canvas(document.querySelector("#valediv")).then(canvas => {
+            document.body.appendChild(canvas);
+            //saveImage();     //or whatever you want to execute
+            var img = canvas.toDataURL("image/png");
 
-                var img = canvas.toDataURL("image/png");
-                var doc = new jsPDF();
-                doc.addImage(img, 'JPEG', 20, 20);
-                doc.save('mipdf.pdf');
-            }
+            var doc = new jsPDF();
+            doc.addImage(img, 'JPEG', 20, 20);
+            doc.save('valeSalida.pdf');
+            
         });
     }
 </script>
