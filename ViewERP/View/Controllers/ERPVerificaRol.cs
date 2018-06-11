@@ -97,6 +97,12 @@ namespace View.Controllers
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
+            if (nombreControlador.Equals("Reportes"))
+            {
+                RolesPermitidos = "1";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
+
             return false;
         }
 

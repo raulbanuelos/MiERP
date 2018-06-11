@@ -108,6 +108,19 @@
 
                 @if ((bool)Session["ADMINISTRADOR"])
                 {
+
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reportes">
+                        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseReportes" data-parent="#exampleAccordion">
+                            <i class="fa fa-fw fa-users"></i>
+                            <span class="nav-link-text">Reportes</span>
+                        </a>
+                        <ul class="sidenav-second-level collapse" id="collapseReportes">
+                            <li>
+                                <a href="@Url.Action("EntradasArticulos","Reportes")">Entradas articulos</a>
+                            </li>
+                        </ul>
+                    </li>
+
                     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Usuarios">
                         <a class="nav-link" href="@Url.Action("Index","Usuario")">
                             <i class="fa fa-fw fa-users"></i>
