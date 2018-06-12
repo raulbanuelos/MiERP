@@ -852,7 +852,6 @@ namespace View.Models
 
             if (idMovimientoEntrada > 0)
             {
-
                 foreach (DO_DetalleEntradaArticulo detalle in articulos)
                 {
                     if (InsertDetalleEntradaAlmacen(idMovimientoEntrada, detalle.idArticulo, detalle.cantidad, detalle.idUnidad) > 0)
