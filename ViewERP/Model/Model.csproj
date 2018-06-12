@@ -56,6 +56,7 @@
     <Compile Include="DO_Existencia.cs" />
     <Compile Include="DO_MovimientoAlmacen.cs" />
     <Compile Include="DO_Proveedor.cs" />
+    <Compile Include="DO_ReporteEntradaArticulo.cs" />
     <Compile Include="DO_Result_SalidaAlmacen.cs" />
     <Compile Include="DO_Rol.cs" />
     <Compile Include="DO_Unidad.cs" />

@@ -3,6 +3,7 @@ using Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -1034,7 +1035,43 @@ namespace View.Models
             ImageConverter _imageConverter = new ImageConverter();
             byte[] xByte = (byte[])_imageConverter.ConvertTo(x, typeof(byte[]));
             return xByte;
-        } 
+        }
+        #endregion
+
+        #region Reportes
+        public static List<DO_ReporteEntradaArticulo> GetReporteEntrada(string fechaInicial, string fechaFinal, string noFactura, string usuario, int idAlmacen, int idProveedor, int idArticulo)
+        {
+            SO_Reportes service = new SO_Reportes();
+
+            List<DO_ReporteEntradaArticulo> ListaResultante = new List<DO_ReporteEntradaArticulo>();
+
+            DataSet informacionBD = service.GetEntradasArticulos(fechaInicial, fechaFinal, noFactura, usuario, idAlmacen, idProveedor, idArticulo);
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        DO_ReporteEntradaArticulo obj = new DO_ReporteEntradaArticulo();
+
+                        obj.CANTIDAD = Convert.ToDouble(item["CANTIDAD"].ToString());
+                        obj.CODIGO_ARTICULO = item["CODIGO_ARTICULO"].ToString();
+                        obj.DESCRIPCION_ARTICULO = item["DESCRIPCION_ARTICULO"].ToString();
+                        obj.FECHA = Convert.ToDateTime(item["FECHA"].ToString());
+                        obj.NOMBRE = item["NOMBRE"].ToString();
+                        obj.NOMBRE_PROVEEDOR = item["NOMBRE_PROVEEDOR"].ToString();
+                        obj.NOMBRE_UNIDAD = item["NOMBRE_UNIDAD"].ToString();
+                        obj.NO_FACTURA = item["NO_FACTURA"].ToString();
+                        obj.USUARIO = item["USUARIO"].ToString();
+
+                        ListaResultante.Add(obj);
+                    }
+                }
+            }
+
+            return ListaResultante;
+        }
         #endregion
     }
 }

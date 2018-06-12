@@ -36,7 +36,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <button class="btn btn-primary" onclick="MostrarModal()">Agregar Articulo</button>
+            <button class="btn btn-primary" onclick="MostrarModal()">Articulo</button>
         </div>
     </div>
 
@@ -58,8 +58,12 @@
         </div>
     </div>
 
-    <button class="btn btn-success" onclick="GuardarSalida()">Guardar Vale</button>
+    <div class="form-inline">
+        <button class="btn btn-success" onclick="GuardarSalida()">Guardar Vale</button>
+        <button class="btn btn-danger" onclick="Regresar()">Cancelar</button>
+    </div>
     
+
 </div>
 
 <div id="modalguardandobitacora" data-backdrop="static" data-keyboard="false" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -109,6 +113,11 @@
 
 <script type="text/javascript" src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
 <script type="text/javascript">
+    
+    function Regresar() {
+        var link = "@Url.Action("Index","Home")";
+        window.location.href = link;
+    }
 
     $(function () {
 
