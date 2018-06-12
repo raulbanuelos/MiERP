@@ -8,7 +8,51 @@
 <!DOCTYPE html>
 
 <div id="valediv">
+    <div class="form-inline">
+        <div class="form-group">
+            <b>Almacen:</b>
+            <label>@Html.DisplayFor(model => model.Almacen)</label>
+        </div>
+        <div class="form-group">
+            <img src="~/assets/logo.jpg" width="200" height="100" />
+        </div>
+    </div>
+    <div class="form-group">
+        <b>Solicitante:</b>
+        <label>@Html.DisplayFor(model => model.NombrePersonaSolicito)</label>
+    </div>
 
+    <div class="form-group">
+        <b>Persona atendió</b>
+        <label>@Html.DisplayFor(model => model.NombrePersonaAtendio)</label>
+    </div>
+
+    <div class="form-group">
+        <b>Fecha:</b>
+        <label>@Html.DisplayFor(model => model.FechaSolicito)</label>
+    </div>
+
+    <table class="table" width="60%">
+        <tr>
+            <th>Código</th>
+            <th>Cantidad</th>
+            <th>Condición</th>
+        </tr>
+        @foreach (var item in Model.ListaArticulos)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.codigo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cantidad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.condicion)
+                </td>
+            </tr>
+        }
+    </table>
 </div>
 <div>
     <input type="button" class="btn btn-success" value="Generar Vale" onclick="generarVale()" />
@@ -24,8 +68,11 @@
             //saveImage();     //or whatever you want to execute
             var img = canvas.toDataURL("image/png");
 
-            var doc = new jsPDF();
-            doc.addImage(img, 'JPEG', 20, 20);
+            var doc = new jsPDF("p", "mm", "a4");
+            var width = doc.internal.pageSize.width;
+            var height = doc.internal.pageSize.height;
+
+            doc.addImage(img, 'JPEG', 0, 0,width,height);
             doc.save('valeSalida.pdf');
             
         });
