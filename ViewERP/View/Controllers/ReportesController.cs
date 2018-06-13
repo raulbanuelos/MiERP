@@ -28,11 +28,13 @@ namespace View.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetEntradasArticulos(string fechaInicial, string fechaFinal,string noFactura,string usuario,int idAlmacen,int idProveedor,int idArticulo)
+        public JsonResult GetEntradasArticulos(string fechaInicial, string fechaFinal,string noFactura,string usuario,string idAlmacen,string idProveedor,string idArticulo)
         {
             List<DO_ReporteEntradaArticulo> lista = new List<DO_ReporteEntradaArticulo>();
 
-            lista = DataManager.GetReporteEntrada(fechaInicial, fechaFinal, noFactura, usuario, idAlmacen, idProveedor, idArticulo);
+            idArticulo = "0";
+
+            lista = DataManager.GetReporteEntrada(fechaInicial, fechaFinal, noFactura, usuario, Convert.ToInt32(idAlmacen), Convert.ToInt32(idProveedor), Convert.ToInt32(idArticulo));
 
             var jsonResult = Json(lista, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
