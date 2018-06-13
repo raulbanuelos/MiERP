@@ -60,7 +60,6 @@
 
     <button class="btn btn-primary" onclick="consultar()">Consultar</button>
 
-
 </div>
 
 <div class="card-header">
@@ -103,8 +102,36 @@
 
 <script type="text/javascript">
 
+    function llenarTabla(data) {
+        var table = $('#dataTable').DataTable();
+
+        table
+            .clear()
+            .draw();
+        $.each(data, function (index, item) {
+
+            var myDate = parseJsonDate(item.FECHA);
+
+            $("#dataTable").dataTable().fnAddData([
+                item.NO_FACTURA,
+                myDate,
+                item.USUARIO,
+                item.NOMBRE,
+                item.NOMBRE_PROVEEDOR,
+                item.DESCRIPCION_ARTICULO,
+                item.CODIGO_ARTICULO,
+                item.CANTIDAD,
+                item.NOMBRE_UNIDAD
+            ]);
+        });
+    }
+
+    function parseJsonDate(jsonDateString) {
+        return new Date(parseInt(jsonDateString.replace('/Date(', '')));
+    }
+
     function consultar() {
-        var urlSave = '@Url.Action("GetEntradasArticulos", "ReportesC")';
+        var urlSave = '@Url.Action("GetEntradasArticulos", "Reportes")';
         var _fechaInicial = $("#fechaInicial").val();
         var _fechaFinal = $("#fechaFinal").val();
         var _noFactura = $("#txtFactura").val();
@@ -120,7 +147,7 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-
+                llenarTabla(data);
             },
             error: function (result) {
                 alert("Wooops! error");
