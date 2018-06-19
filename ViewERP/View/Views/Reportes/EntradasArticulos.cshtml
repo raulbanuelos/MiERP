@@ -105,6 +105,14 @@
     function llenarTabla(data) {
         var table = $('#dataTable').DataTable();
 
+        var monthNames = [
+            "Enero", "Febrero", "Marzo",
+            "Abril", "Mayo", "Junio", "Julio",
+            "Agosto", "Septiembre", "Octubre",
+            "Noviembre", "Diciembre"
+        ];
+
+
         table
             .clear()
             .draw();
@@ -112,14 +120,20 @@
 
             var myDate = parseJsonDate(item.FECHA);
 
+            var dia = myDate.getDate();
+            var mes = myDate.getMonth();
+            var anio = myDate.getFullYear();
+
+            var fechaCompleta = dia + "/" + monthNames[mes] + "/" + anio;
+
             $("#dataTable").dataTable().fnAddData([
                 item.NO_FACTURA,
-                myDate,
+                fechaCompleta,
                 item.USUARIO,
                 item.NOMBRE,
                 item.NOMBRE_PROVEEDOR,
-                item.DESCRIPCION_ARTICULO,
                 item.CODIGO_ARTICULO,
+                item.DESCRIPCION_ARTICULO,
                 item.CANTIDAD,
                 item.NOMBRE_UNIDAD
             ]);
