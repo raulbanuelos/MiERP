@@ -1,0 +1,142 @@
+﻿
+@{
+    ViewBag.Title = "EntradasArticulos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+<script src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
+
+<h2>Reporte de salidas de artículos</h2>
+
+
+<div class="form-horizontal">
+
+    <div class="form-group">
+        <input class="form-control" id="fechaInicial" name="date" placeholder="DD/MM/YYYY" type="text" aria-describedby="fechaHelp" />
+        <small id="fechaHelp" class="form-text text-muted">Selecciona una fecha inicial</small>
+    </div>
+
+    <div class="form-group">
+        <input class="form-control" id="fechaFinal" name="date" placeholder="DD/MM/YYYY" type="text" aria-describedby="fechaFinalHelp" />
+        <small id="fechaFinalHelp" class="form-text text-muted">Selecciona una fecha final</small>
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control" id="txtUsuarioAtendio" aria-describedby="atendiolHelp" placeholder="Usuario atendió">
+        <small id="atendiolHelp" class="form-text text-muted">Usuario atendió</small>
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control" id="txtUsuarioSolicito" aria-describedby="solicitoHelp" placeholder="Usuario solicitó">
+        <small id="solicitoHelp" class="form-text text-muted">Usuario solicitó</small>
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control" id="txtCodigo" aria-describedby="codigoHelp" placeholder="Código de artículo">
+        <small id="codigoHelp" class="form-text text-muted">Código de artículo</small>
+    </div>
+
+    <button class="btn btn-primary" onclick="consultar()">Consultar</button>
+</div>
+
+<div class="card-header">
+    <i class="fa fa-table"></i> Salidas de artículos
+</div>
+
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>ALMACEN</td>
+                    <td>FECHA DE SALIDA</td>
+                    <td>FECHA DE REGRESO</td>
+                    <td>USUARIO ATENDIÓ</td>
+                    <td>USUARIO SOLICITÓ</td>
+                    <td>CODIGO ARTICULO</td>
+                    <td>DESCRIPCIÓN</td>
+                    <td>CANTIDAD</td>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td>ALMACEN</td>
+                    <td>FECHA DE SALIDA</td>
+                    <td>FECHA DE REGRESO</td>
+                    <td>USUARIO ATENDIÓ</td>
+                    <td>USUARIO SOLICITÓ</td>
+                    <td>CODIGO ARTICULO</td>
+                    <td>DESCRIPCIÓN</td>
+                    <td>CANTIDAD</td>
+                </tr>
+            </tfoot>
+            <tbody id="myTable"></tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function llenarTabla(data) {
+        var table = $('#dataTable').DataTable();
+
+        
+
+        table
+            .clear()
+            .draw();
+        $.each(data, function (index, item) {
+
+            $("#dataTable").dataTable().fnAddData([
+                item.NOMBRE_ALMACEN,
+                item.FECHA_SALIDA,
+                item.FECHA_REGRESO,
+                item.USUARIO_ATENDIO,
+                item.USUARIO_SOLICITO,
+                item.CODIGO,
+                item.DESCRIPCION_ARTICULO,
+                item.CANTIDAD,
+            ]);
+        });
+    }
+
+    function consultar() {
+        var urlSave = '@Url.Action("GetSalidasArticulos", "Reportes")';
+        var _fechaInicial = $("#fechaInicial").val();
+        var _fechaFinal = $("#fechaFinal").val();
+        var _usuarioSolicito = $("#txtUsuarioSolicito").val();
+        var _usuarioAtendio = $("#txtUsuarioAtendio").val();
+        var _codigo = $("#txtCodigo").val();
+        var _idAlmacen = 1;
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ fechaInicial: _fechaInicial, fechaFinal: _fechaFinal, usuarioSolicito: _usuarioSolicito,usuarioAtendio:_usuarioAtendio,codigoArticulo:_codigo,idAlmacen:_idAlmacen }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                llenarTabla(data);
+            },
+            error: function (result) {
+                alert("Wooops! error");
+            }
+        });
+    }
+
+    $("#dataTable").DataTable();
+
+    $(document).ready(function () {
+        var date_input = $('input[name="date"]'); //our date input has the name "date"
+        var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+        var options = {
+            format: 'dd/mm/yyyy',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+        };
+        date_input.datepicker(options);
+    });
+</script>

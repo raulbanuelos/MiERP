@@ -187,6 +187,7 @@
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\ProveedorController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
+    <Compile Include="Controllers\RetornoArticulosController.cs" />
     <Compile Include="Controllers\SalidasAlmacenController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
@@ -382,6 +383,7 @@
     <Content Include="Views\SalidasAlmacen\RefVale.cshtml" />
     <Content Include="Views\SalidasAlmacen\ValeSalida.cshtml" />
     <Content Include="Views\Reportes\EntradasArticulos.cshtml" />
+    <Content Include="Views\Reportes\SalidasArticulos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

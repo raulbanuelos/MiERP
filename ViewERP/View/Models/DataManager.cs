@@ -879,8 +879,10 @@ namespace View.Models
         {
             SO_SalidasAlmacen service = new SO_SalidasAlmacen();
             SO_DetalleMovimientoSalidaAlmacen serviceDetalle = new SO_DetalleMovimientoSalidaAlmacen();
-            
-            int idMovimientoSalidaAlmacen = service.InsertSalida(idAlmacen, usuarioSolicito, usuarioAtendio);
+
+            string folio = GetNextFolioSalida();
+
+            int idMovimientoSalidaAlmacen = service.InsertSalida(idAlmacen, usuarioSolicito, usuarioAtendio, folio);
 
             foreach (DO_DetalleSalidaArticulo item in articulos)
             {
@@ -898,6 +900,67 @@ namespace View.Models
             }
             
             return idMovimientoSalidaAlmacen;
+        }
+
+        public static string GetNextFolioSalida()
+        {
+            string lastCode = string.Empty;
+            string anio = DateTime.Now.Year.ToString().Substring(2,2);
+
+            SO_SalidasAlmacen service = new SO_SalidasAlmacen();
+
+            lastCode = service.GetLastCodeSalida();
+            if (lastCode.Equals("ERROR"))
+            {
+                return "ERROR";
+            }
+            else
+            {
+                string consecutivo = lastCode.Substring(1, 7);
+                string nextCode;
+
+                int siguiente = Convert.ToInt32(consecutivo) + 1;
+
+                if (siguiente.ToString().Length == 1)
+                {
+                    nextCode = "S" + "00000" + siguiente.ToString() + anio;
+                }
+                else
+                {
+                    if (siguiente.ToString().Length == 2)
+                    {
+                        nextCode = "S" + "0000" + siguiente.ToString() + anio;
+                    }
+                    else
+                    {
+                        if (siguiente.ToString().Length == 3)
+                        {
+                            nextCode = "S" + "000" + siguiente.ToString() + anio;
+                        }
+                        else
+                        {
+                            if (siguiente.ToString().Length == 4)
+                            {
+                                nextCode = "S" + "00" + siguiente.ToString() + anio;
+                            }
+                            else
+                            {
+                                if (siguiente.ToString().Length == 5)
+                                {
+                                    nextCode = "S" + "0" + siguiente.ToString() + anio;
+                                }
+                                else
+                                {
+                                    nextCode = "S" + siguiente.ToString() + anio;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return nextCode;
+            }
+
         }
 
         public static DO_ValeSalidaAlmacen GetValeSalida(int idMovimientoSalida)
@@ -921,6 +984,7 @@ namespace View.Models
                     vale.idPersonaSolicito = (string)tipo.GetProperty("USUARIO_SOLICITO").GetValue(item, null);
                     vale.FechaSolicito = (DateTime)tipo.GetProperty("FECHA_SALIDA").GetValue(item, null);
                     vale.idPersonaAtendio = (string)tipo.GetProperty("USUARIO_ATENDIO").GetValue(item, null);
+                    vale.Folio = (string)tipo.GetProperty("FOLIO").GetValue(item, null);
                     personaSolicito = GetPersona(vale.idPersonaSolicito);
                     personaAtendio = GetPersona(vale.idPersonaAtendio);
 
@@ -1039,7 +1103,7 @@ namespace View.Models
         #endregion
 
         #region Reportes
-        public static List<DO_ReporteEntradaArticulo> GetReporteEntrada(string fechaInicial, string fechaFinal, string noFactura, string usuario, int idAlmacen, int idProveedor, int idArticulo)
+        public static List<DO_ReporteEntradaArticulo> GetReporteEntradaAlmacen(string fechaInicial, string fechaFinal, string noFactura, string usuario, int idAlmacen, int idProveedor, int idArticulo)
         {
             SO_Reportes service = new SO_Reportes();
 
@@ -1067,6 +1131,51 @@ namespace View.Models
 
                         ListaResultante.Add(obj);
                     }
+                }
+            }
+
+            return ListaResultante;
+        }
+
+        public static List<DO_ReporteSalidaArticulo> GetReporteSalidaAlmacen(string fechaInicial, string fechaFinal, string usuarioSolicito, string usuarioAtendio, string codigoArticulo, int idAlmacen)
+        {
+            List<DO_ReporteSalidaArticulo> ListaResultante = new List<DO_ReporteSalidaArticulo>();
+
+            SO_Reportes Service = new SO_Reportes();
+
+            DataSet informacionBD = Service.GetSalidasArticulos(fechaInicial, fechaFinal, usuarioSolicito, usuarioAtendio, codigoArticulo, idAlmacen);
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        DO_ReporteSalidaArticulo salida = new DO_ReporteSalidaArticulo();
+
+                        salida.NOMBRE_ALMACEN = item["NOMBRE_ALMACEN"].ToString();
+                        DateTime fechaSalida = Convert.ToDateTime(item["FECHA_SALIDA"].ToString());
+
+                        salida.FECHA_SALIDA = fechaSalida.ToShortDateString();
+                        if (String.IsNullOrEmpty(item["FECHA_REGRESO"].ToString()))
+                        {
+                            salida.FECHA_REGRESO = "SIN REGRESO";
+                        }
+                        else
+                        {
+                            DateTime fechaRegreso = Convert.ToDateTime(item["FECHA_REGRESO"].ToString());
+                            salida.FECHA_REGRESO = fechaRegreso.ToShortDateString();
+                        }
+
+                        salida.USUARIO_ATENDIO = item["USUARIO_ATENDIO"].ToString();
+                        salida.USUARIO_SOLICITO = item["USUARIO_SOLICITO"].ToString();
+                        salida.CODIGO = item["CODIGO"].ToString();
+                        salida.DESCRIPCION_ARTICULO = item["DESCRIPCION_ARTICULO"].ToString();
+                        salida.CANTIDAD = Convert.ToDouble(item["CANTIDAD"].ToString());
+                        
+                        ListaResultante.Add(salida);
+                    }
+
                 }
             }
 

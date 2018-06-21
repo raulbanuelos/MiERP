@@ -9,7 +9,7 @@ namespace Data.ServiceObject
 {
     public class SO_SalidasAlmacen
     {
-        public int InsertSalida(int idAlmacen, string usuarioSolicito,string usuarioAtendio)
+        public int InsertSalida(int idAlmacen, string usuarioSolicito,string usuarioAtendio, string folio)
         {
             try
             {
@@ -21,6 +21,7 @@ namespace Data.ServiceObject
                     obj.USUARIO_SOLICITO = usuarioSolicito;
                     obj.FECHA_SALIDA = DateTime.Now;
                     obj.USUARIO_ATENDIO = usuarioAtendio;
+                    obj.FOLIO = folio;
 
                     Conexion.TBL_MOVIMIENTO_SALIDA_ALMACEN.Add(obj);
 
@@ -98,6 +99,27 @@ namespace Data.ServiceObject
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public string GetLastCodeSalida()
+        {
+            try
+            {
+                string lastCode = "ERROR";
+
+                using (var Conexion = new EntitiesERP())
+                {
+                    lastCode = (from a in Conexion.TBL_MOVIMIENTO_SALIDA_ALMACEN
+                                orderby a.ID_MOVIMIENTO_SALIDA_ALMACEN descending
+                                select a.FOLIO).FirstOrDefault();
+                }
+
+                return lastCode;
+            }
+            catch (Exception)
+            {
+                return "ERROR";
             }
         }
     }
