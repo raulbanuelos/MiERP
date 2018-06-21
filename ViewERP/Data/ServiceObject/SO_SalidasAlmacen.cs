@@ -113,6 +113,12 @@ namespace Data.ServiceObject
                     lastCode = (from a in Conexion.TBL_MOVIMIENTO_SALIDA_ALMACEN
                                 orderby a.ID_MOVIMIENTO_SALIDA_ALMACEN descending
                                 select a.FOLIO).FirstOrDefault();
+
+                    if (string.IsNullOrEmpty(lastCode))
+                    {
+                        string anio = DateTime.Now.Year.ToString().Substring(2, 2);
+                        lastCode = "S00000" + anio;
+                    }
                 }
 
                 return lastCode;

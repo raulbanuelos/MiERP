@@ -904,6 +904,7 @@ namespace View.Models
 
         public static string GetNextFolioSalida()
         {
+            //S000001918 -- Ejemplo
             string lastCode = string.Empty;
             string anio = DateTime.Now.Year.ToString().Substring(2,2);
 
@@ -923,36 +924,44 @@ namespace View.Models
 
                 if (siguiente.ToString().Length == 1)
                 {
-                    nextCode = "S" + "00000" + siguiente.ToString() + anio;
+                    nextCode = "S" + "000000" + siguiente.ToString() + anio;
                 }
                 else
                 {
                     if (siguiente.ToString().Length == 2)
                     {
-                        nextCode = "S" + "0000" + siguiente.ToString() + anio;
+                        nextCode = "S" + "00000" + siguiente.ToString() + anio;
                     }
                     else
                     {
                         if (siguiente.ToString().Length == 3)
                         {
-                            nextCode = "S" + "000" + siguiente.ToString() + anio;
+                            nextCode = "S" + "0000" + siguiente.ToString() + anio;
                         }
                         else
                         {
                             if (siguiente.ToString().Length == 4)
                             {
-                                nextCode = "S" + "00" + siguiente.ToString() + anio;
+                                nextCode = "S" + "000" + siguiente.ToString() + anio;
                             }
                             else
                             {
                                 if (siguiente.ToString().Length == 5)
                                 {
-                                    nextCode = "S" + "0" + siguiente.ToString() + anio;
+                                    nextCode = "S" + "00" + siguiente.ToString() + anio;
                                 }
                                 else
                                 {
-                                    nextCode = "S" + siguiente.ToString() + anio;
+                                    if (siguiente.ToString().Length == 6)
+                                    {
+                                        nextCode = "S" + "0" + siguiente.ToString() + anio;
+                                    }
+                                    else
+                                    {
+                                        nextCode = "S" + siguiente.ToString() + anio;
+                                    }
                                 }
+                                
                             }
                         }
                     }
