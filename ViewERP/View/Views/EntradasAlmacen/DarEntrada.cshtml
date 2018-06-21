@@ -63,8 +63,9 @@
 
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+        <div class="form-inline">
             <button class="btn btn-success" onclick="GuardarEntrada()">Guardar</button>
+            <button class="btn btn-danger" onclick="Regresar()">Cancelar</button>
         </div>
     </div>
 </div>
@@ -116,6 +117,11 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
 
 <script type="text/javascript">
+
+    function Regresar() {
+        var link = "@Url.Action("Index","Home")";
+        window.location.href = link;
+    }
 
     $(function () {
         $('.js-example-basic-single').select2();

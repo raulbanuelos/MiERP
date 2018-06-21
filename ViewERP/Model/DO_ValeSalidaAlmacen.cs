@@ -17,6 +17,7 @@ namespace Model
         public DateTime FechaSolicito { get; set; }
         public string idPersonaAtendio { get; set; }
         public string NombrePersonaAtendio { get; set; }
+        public string Folio { get; set; }
 
         public List<DO_DetalleSalidaArticulo> ListaArticulos { get; set; }
 

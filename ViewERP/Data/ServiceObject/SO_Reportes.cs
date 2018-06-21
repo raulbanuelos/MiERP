@@ -18,20 +18,48 @@ namespace Data.ServiceObject
 
                 ERP_SQL conexion = new ERP_SQL();
 
-                Dictionary<string, object> paramentros = new Dictionary<string, object>();
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
 
-                paramentros.Add("fechaInicial", fechaInicial);
-                paramentros.Add("fechaFinal", fechaFinal);
-                paramentros.Add("noFactura", noFactura);
-                paramentros.Add("usuario", usuario);
-                paramentros.Add("idAlmacen", idAlmacen);
-                paramentros.Add("idProveedor", idProveedor);
-                paramentros.Add("idArticulo", idArticulo);
+                parametros.Add("fechaInicial", fechaInicial);
+                parametros.Add("fechaFinal", fechaFinal);
+                parametros.Add("noFactura", noFactura);
+                parametros.Add("usuario", usuario);
+                parametros.Add("idAlmacen", idAlmacen);
+                parametros.Add("idProveedor", idProveedor);
+                parametros.Add("idArticulo", idArticulo);
                 
-                datos = conexion.EjecutarStoredProcedure("SP_ERP_GetEntradas_Articulos", paramentros);
+                datos = conexion.EjecutarStoredProcedure("SP_ERP_GetEntradas_Articulos", parametros);
 
                 return datos;
 
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public DataSet GetSalidasArticulos(string fechaInicial, string fechaFinal, string usuarioSolicito, string usuarioAtendio, string codigoArticulo, int idAlmacen)
+        {
+            try
+            {
+                DataSet datos = null;
+
+                ERP_SQL conexion = new ERP_SQL();
+
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
+
+                parametros.Add("fechaInicial", fechaInicial);
+                parametros.Add("fechaFinal", fechaFinal);
+                parametros.Add("usuarioSolicito", usuarioSolicito);
+                parametros.Add("usuarioAtendio", usuarioAtendio);
+                parametros.Add("codigoArticulo", codigoArticulo);
+                parametros.Add("idAlmancen", idAlmacen);
+
+                datos = conexion.EjecutarStoredProcedure("SP_ERP_GetSalidas_Articulos", parametros);
+
+                return datos;
+                
             }
             catch (Exception)
             {
