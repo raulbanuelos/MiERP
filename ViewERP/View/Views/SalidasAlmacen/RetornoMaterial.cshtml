@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "RetornoMaterial";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>RetornoMaterial</h2>
+
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>FOLIO</td>
+                    <td>USUARIO SOLICITO</td>
+                    <td>FECHA SALIDA</td>
+                    <td>USUARIO ATENDIO</td>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <td>FOLIO</td>
+                    <td>USUARIO SOLICITO</td>
+                    <td>FECHA SALIDA</td>
+                    <td>USUARIO ATENDIO</td>
+                </tr>
+            </tfoot>
+
+            <tbody id="myTable">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
+<script type="text/javascript">
+    $("#dataTable").DataTable();
+
+    $(function () {
+        cargarSalidasAbiertas();
+    });
+
+
+    function cargarSalidasAbiertas() {
+
+        var table = $('#dataTable').DataTable();
+        table
+            .clear()
+            .draw();
+
+        var monthNames = [
+            "Enero", "Febrero", "Marzo",
+            "Abril", "Mayo", "Junio", "Julio",
+            "Agosto", "Septiembre", "Octubre",
+            "Noviembre", "Diciembre"
+        ];
+
+        var _parametro = "";
+        var urlSave = '@Url.Action("GetSalidasAbiertas", "SalidasAlmacen")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: _parametro }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (index, item) {
+
+                    var myDate = parseJsonDate(item.FechaSalida);
+
+                    var dia = myDate.getDate();
+                    var mes = myDate.getMonth();
+                    var anio = myDate.getFullYear();
+
+                    var fechaCompleta = dia + "/" + monthNames[mes] + "/" + anio;
+
+                    $("#dataTable").dataTable().fnAddData([
+                        item.Folio,
+                        item.UsuarioSolicito,
+                        fechaCompleta,
+                        item.UsuarioAtendio
+                    ]);
+                });
+
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error: " + result);
+            }
+        });
+    }
+</script>

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Data.SQLServer;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -128,5 +130,27 @@ namespace Data.ServiceObject
                 return "ERROR";
             }
         }
+
+        public DataSet GetSalidasAbiertas()
+        {
+            DataSet datos = new DataSet();
+            try
+            {
+                ERP_SQL conexion = new ERP_SQL();
+
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
+
+                datos = conexion.EjecutarStoredProcedure("SP_ERP_GetSalidasAbiertas", parametros);
+                
+            }
+            catch (Exception)
+            {
+                return datos;
+            }
+
+            return datos;
+        }
+
+
     }
 }

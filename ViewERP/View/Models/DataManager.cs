@@ -1061,6 +1061,37 @@ namespace View.Models
 
             return result;
         }
+
+        public static List<DO_MovimientoSalidaAlmacen> GetSalidasAbiertas()
+        {
+            List<DO_MovimientoSalidaAlmacen> ListaResultante = new List<DO_MovimientoSalidaAlmacen>();
+
+            SO_SalidasAlmacen service = new SO_SalidasAlmacen();
+
+            DataSet informacionBD = service.GetSalidasAbiertas();
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow element in informacionBD.Tables[0].Rows)
+                    {
+                        DO_MovimientoSalidaAlmacen obj = new DO_MovimientoSalidaAlmacen();
+
+                        obj.IdMovimientoSalidaAlmacen = Convert.ToInt32(element["ID_MOVIMIENTO_SALIDA_ALMACEN"].ToString());
+                        obj.IdAlmacen = Convert.ToInt32(element["ID_ALMACEN"].ToString());
+                        obj.Folio = element["FOLIO"].ToString();
+                        obj.UsuarioSolicito = element["USUARIO_SOLICITO"].ToString();
+                        obj.UsuarioAtendio = element["USUARIO_ATENDIO"].ToString();
+                        obj.FechaSalida = Convert.ToDateTime(element["FECHA_SALIDA"]);
+
+                        ListaResultante.Add(obj);
+                    }
+                }
+            }
+
+            return ListaResultante;
+        }
         #endregion
 
         #region Alertas Stock

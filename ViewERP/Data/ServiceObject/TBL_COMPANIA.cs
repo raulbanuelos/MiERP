@@ -18,10 +18,10 @@ namespace Data.ServiceObject
         public TBL_COMPANIA()
         {
             this.TBL_ALMACEN = new HashSet<TBL_ALMACEN>();
-            this.TBL_ARTICULO = new HashSet<TBL_ARTICULO>();
             this.TBL_CATEGORIA_ARTICULO = new HashSet<TBL_CATEGORIA_ARTICULO>();
             this.TBL_PROVEEDOR = new HashSet<TBL_PROVEEDOR>();
             this.TBL_USUARIO = new HashSet<TBL_USUARIO>();
+            this.TBL_ARTICULO = new HashSet<TBL_ARTICULO>();
         }
     
         public int ID_COMPANIA { get; set; }
@@ -34,12 +34,12 @@ namespace Data.ServiceObject
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_ALMACEN> TBL_ALMACEN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TBL_ARTICULO> TBL_ARTICULO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_CATEGORIA_ARTICULO> TBL_CATEGORIA_ARTICULO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_PROVEEDOR> TBL_PROVEEDOR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_USUARIO> TBL_USUARIO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_ARTICULO> TBL_ARTICULO { get; set; }
     }
 }

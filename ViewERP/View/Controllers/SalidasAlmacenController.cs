@@ -93,5 +93,27 @@ namespace View.Controllers
 
             return jsonResult;
         }
+
+        [ERPVerificaRol]
+        public ActionResult RetornoMaterial()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetSalidasAbiertas()
+        {
+            List<DO_MovimientoSalidaAlmacen> ListaSalidas = new List<DO_MovimientoSalidaAlmacen>();
+
+            ListaSalidas = DataManager.GetSalidasAbiertas();
+
+            var jsonResult = Json(ListaSalidas, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+
+        }
+
+
     }
 }

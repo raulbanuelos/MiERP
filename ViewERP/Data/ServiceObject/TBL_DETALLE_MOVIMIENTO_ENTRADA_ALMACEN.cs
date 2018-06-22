@@ -16,12 +16,12 @@ namespace Data.ServiceObject
     {
         public int ID_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN { get; set; }
         public int ID_MOVIMIENTO_ENTRADA_ALMACEN { get; set; }
-        public Nullable<int> ID_ARTICULO { get; set; }
-        public Nullable<int> ID_UNIDAD { get; set; }
+        public int ID_ARTICULO { get; set; }
+        public int ID_UNIDAD { get; set; }
         public Nullable<decimal> CANTIDAD { get; set; }
     
+        public virtual TBL_UNIDAD TBL_UNIDAD { get; set; }
         public virtual TBL_ARTICULO TBL_ARTICULO { get; set; }
         public virtual TBL_MOVIMIENTO_ALMACEN TBL_MOVIMIENTO_ALMACEN { get; set; }
-        public virtual TBL_UNIDAD TBL_UNIDAD { get; set; }
     }
 }

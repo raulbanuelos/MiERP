@@ -25,7 +25,6 @@ namespace Data.ServiceObject
         public string FOLIO { get; set; }
         public string USUARIO_SOLICITO { get; set; }
         public System.DateTime FECHA_SALIDA { get; set; }
-        public Nullable<System.DateTime> FECHA_REGRESO { get; set; }
         public string USUARIO_ATENDIO { get; set; }
     
         public virtual TBL_ALMACEN TBL_ALMACEN { get; set; }
