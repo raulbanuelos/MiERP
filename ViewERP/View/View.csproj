@@ -385,6 +385,7 @@
     <Content Include="Views\Reportes\EntradasArticulos.cshtml" />
     <Content Include="Views\Reportes\SalidasArticulos.cshtml" />
     <Content Include="Views\SalidasAlmacen\RetornoMaterial.cshtml" />
+    <Content Include="Views\SalidasAlmacen\VerDetalleSalidaAbierta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -100,6 +100,13 @@ namespace View.Controllers
             return View();
         }
 
+        [ERPVerificaRol]
+        public ActionResult VerDetalleSalidaAbierta(string folio)
+        {
+
+            return View();
+        }
+
         [HttpPost]
         public JsonResult GetSalidasAbiertas()
         {
