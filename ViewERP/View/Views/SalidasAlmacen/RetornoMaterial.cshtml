@@ -15,6 +15,7 @@
                     <td>USUARIO SOLICITO</td>
                     <td>FECHA SALIDA</td>
                     <td>USUARIO ATENDIO</td>
+                    <td>ACCIONES</td>
                 </tr>
             </thead>
 
@@ -24,6 +25,7 @@
                     <td>USUARIO SOLICITO</td>
                     <td>FECHA SALIDA</td>
                     <td>USUARIO ATENDIO</td>
+                    <td>ACCIONES</td>
                 </tr>
             </tfoot>
 
@@ -35,14 +37,22 @@
 </div>
 <script src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
 <script type="text/javascript">
-    $("#dataTable").DataTable();
+    var table = $("#dataTable").DataTable();
 
     $(function () {
         cargarSalidasAbiertas();
     });
 
+    $('#dataTable').on('click', '.btn-primary', function () {
+        var data = table.row($(this).parents('tr')).data();
+        //alert(data[0] + " folio");
 
-    function cargarSalidasAbiertas() {
+        var li = "@Url.Action("VerDetalleSalidaAbierta", "SalidasAlmacen")?folio=" + data[0] + "";
+                        
+        window.location.href = li;
+    });
+
+     function cargarSalidasAbiertas() {
 
         var table = $('#dataTable').DataTable();
         table
@@ -79,7 +89,8 @@
                         item.Folio,
                         item.UsuarioSolicito,
                         fechaCompleta,
-                        item.UsuarioAtendio
+                        item.UsuarioAtendio,
+                        "<button class='btn-primary' id='" + item.Folio + "'>Ver</button>"
                     ]);
                 });
 
