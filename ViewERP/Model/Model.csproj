@@ -48,14 +48,20 @@
   <ItemGroup>
     <Compile Include="DO_AlertaStockMin.cs" />
     <Compile Include="DO_Almacen.cs" />
+    <Compile Include="DO_ArchivosOrden.cs" />
     <Compile Include="DO_Articulo.cs" />
     <Compile Include="DO_CategoriaArticulo.cs" />
+    <Compile Include="DO_CategoriaProducto.cs" />
+    <Compile Include="DO_Clientes.cs" />
     <Compile Include="DO_DetalleEntradaArticulo.cs" />
     <Compile Include="DO_DetalleSalidaAlmacen.cs" />
     <Compile Include="DO_DetalleSalidaArticulo.cs" />
+    <Compile Include="DO_EstatusOrden.cs" />
     <Compile Include="DO_Existencia.cs" />
     <Compile Include="DO_MovimientoAlmacen.cs" />
     <Compile Include="DO_MovimientoSalidaAlmacen.cs" />
+    <Compile Include="DO_Ordenes.cs" />
+    <Compile Include="DO_Productos.cs" />
     <Compile Include="DO_Proveedor.cs" />
     <Compile Include="DO_ReporteEntradaArticulo.cs" />
     <Compile Include="DO_ReporteSalidaArticulo.cs" />
@@ -63,6 +69,7 @@
     <Compile Include="DO_Rol.cs" />
     <Compile Include="DO_Unidad.cs" />
     <Compile Include="DO_ValeSalidaAlmacen.cs" />
+    <Compile Include="DO_OrdenesDetalle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
