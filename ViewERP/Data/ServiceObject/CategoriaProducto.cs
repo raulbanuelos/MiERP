@@ -12,21 +12,18 @@ namespace Data.ServiceObject
     using System;
     using System.Collections.Generic;
     
-    public partial class TBL_CATEGORIA_ARTICULO
+    public partial class CategoriaProducto
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TBL_CATEGORIA_ARTICULO()
+        public CategoriaProducto()
         {
-            this.TBL_ARTICULO = new HashSet<TBL_ARTICULO>();
+            this.Productos = new HashSet<Productos>();
         }
     
-        public int ID_CATEGORIA_ARTICULO { get; set; }
-        public Nullable<int> ID_COMPANIA { get; set; }
-        public string NOMBRE_CATEGORIA { get; set; }
-        public string NUM_CATEGORIA { get; set; }
+        public int Id_CategoriaProducto { get; set; }
+        public string NombreCategoria { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TBL_ARTICULO> TBL_ARTICULO { get; set; }
-        public virtual TBL_COMPANIA TBL_COMPANIA { get; set; }
+        public virtual ICollection<Productos> Productos { get; set; }
     }
 }

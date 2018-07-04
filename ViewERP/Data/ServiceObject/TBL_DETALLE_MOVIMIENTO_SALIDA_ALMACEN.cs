@@ -22,6 +22,7 @@ namespace Data.ServiceObject
         public string CONDICION_ARTICULO_REGRESO { get; set; }
         public Nullable<System.DateTime> FECHA_REGRESO { get; set; }
     
+        public virtual TBL_ARTICULO TBL_ARTICULO { get; set; }
         public virtual TBL_MOVIMIENTO_SALIDA_ALMACEN TBL_MOVIMIENTO_SALIDA_ALMACEN { get; set; }
     }
 }

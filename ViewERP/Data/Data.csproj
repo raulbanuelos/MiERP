@@ -68,14 +68,42 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ADOModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ServiceObject\ArchivosOrden.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceObject\CategoriaProducto.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceObject\Clientes.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceObject\EstatusOrden.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceObject\Ordenes.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceObject\OrdenesDetalle.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceObject\Productos.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ServiceObject\SO_AlertaStockMin.cs" />
     <Compile Include="ServiceObject\SO_Almacen.cs" />
+    <Compile Include="ServiceObject\SO_ArchivosOrden.cs" />
     <Compile Include="ServiceObject\SO_Articulo.cs" />
     <Compile Include="ServiceObject\SO_CategoriaArticulo.cs" />
+    <Compile Include="ServiceObject\SO_CategoriaProducto.cs" />
+    <Compile Include="ServiceObject\SO_Clientes.cs" />
     <Compile Include="ServiceObject\SO_DetalleMovimientoSalidaAlmacen.cs" />
     <Compile Include="ServiceObject\SO_Detalle_Entrada_Almacen.cs" />
     <Compile Include="ServiceObject\SO_EntradasAlmacen.cs" />
+    <Compile Include="ServiceObject\SO_EstatusOrden.cs" />
     <Compile Include="ServiceObject\SO_Existencia.cs" />
+    <Compile Include="ServiceObject\SO_OrdenDetalle.cs" />
+    <Compile Include="ServiceObject\SO_Ordenes.cs" />
+    <Compile Include="ServiceObject\SO_Productos.cs" />
     <Compile Include="ServiceObject\SO_Proveedor.cs" />
     <Compile Include="ServiceObject\SO_Reportes.cs" />
     <Compile Include="ServiceObject\SO_Rol.cs" />

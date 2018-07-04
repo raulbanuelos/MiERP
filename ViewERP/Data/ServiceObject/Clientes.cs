@@ -12,21 +12,22 @@ namespace Data.ServiceObject
     using System;
     using System.Collections.Generic;
     
-    public partial class TBL_CATEGORIA_ARTICULO
+    public partial class Clientes
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TBL_CATEGORIA_ARTICULO()
+        public Clientes()
         {
-            this.TBL_ARTICULO = new HashSet<TBL_ARTICULO>();
+            this.Ordenes = new HashSet<Ordenes>();
         }
     
-        public int ID_CATEGORIA_ARTICULO { get; set; }
-        public Nullable<int> ID_COMPANIA { get; set; }
-        public string NOMBRE_CATEGORIA { get; set; }
-        public string NUM_CATEGORIA { get; set; }
+        public int Id_Clientes { get; set; }
+        public string Nombre { get; set; }
+        public string RFC { get; set; }
+        public string Telefono { get; set; }
+        public string Direccion { get; set; }
+        public string Correo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TBL_ARTICULO> TBL_ARTICULO { get; set; }
-        public virtual TBL_COMPANIA TBL_COMPANIA { get; set; }
+        public virtual ICollection<Ordenes> Ordenes { get; set; }
     }
 }
