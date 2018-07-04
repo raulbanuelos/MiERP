@@ -16,6 +16,8 @@ namespace Model
         public double Cantidad { get; set; }
         public string condicionSalida { get; set; }
         public string condicionRegreso { get; set; }
-        
+        public DateTime? FechaRegreso { get; set; }
+
+
     }
 }

@@ -36,7 +36,7 @@ namespace Data.ServiceObject
             }
         }
 
-        public IList GetDetalle(string folio)
+        public IList GetDetalleSalida(string folio)
         {
             try
             {
@@ -45,6 +45,7 @@ namespace Data.ServiceObject
                     var lista = (from a in Conexion.TBL_MOVIMIENTO_SALIDA_ALMACEN
                                  join b in Conexion.TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN on a.ID_MOVIMIENTO_SALIDA_ALMACEN equals b.ID_MOVIMIENTO_SALIDA_ALMACEN
                                  join c in Conexion.TBL_ARTICULO on b.ID_ARTICULO equals c.ID_ARTICULO
+                                 where a.FOLIO == folio
                                  select new
                                  {
                                      c.CODIGO,

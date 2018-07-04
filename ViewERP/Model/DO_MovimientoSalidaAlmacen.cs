@@ -16,5 +16,12 @@ namespace Model
         public string UsuarioSolicito { get; set; }
         public DateTime FechaSalida { get; set; }
         public string UsuarioAtendio { get; set; }
+
+        List<DO_DetalleSalidaAlmacen> articulos;
+       
+        public DO_MovimientoSalidaAlmacen()
+        {
+            articulos = new List<DO_DetalleSalidaAlmacen>();
+        }
     }
 }

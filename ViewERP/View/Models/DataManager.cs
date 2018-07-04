@@ -1092,6 +1092,27 @@ namespace View.Models
 
             return ListaResultante;
         }
+
+        public static DO_MovimientoSalidaAlmacen GetMovimientoSalidaAlmacen(string folio)
+        {
+            DO_MovimientoSalidaAlmacen salida = new DO_MovimientoSalidaAlmacen();
+
+            SO_DetalleMovimientoSalidaAlmacen service = new SO_DetalleMovimientoSalidaAlmacen();
+
+            IList informacionBD = service.GetDetalleSalida(folio);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type tipo = item.GetType();
+
+                    salida
+                }
+            }
+
+            return salida;
+        }
         #endregion
 
         #region Alertas Stock
