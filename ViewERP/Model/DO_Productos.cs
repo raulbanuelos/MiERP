@@ -12,7 +12,7 @@ namespace Model
         public int Id_Categoria { get; set; }
         public string Codigo { get; set; }
         public string Descripcion { get; set; }
-        public BadImageFormatException foto;
+        public byte[] foto;
 
     }
 }

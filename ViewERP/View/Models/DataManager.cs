@@ -1107,7 +1107,7 @@ namespace View.Models
                 {
                     Type tipo = item.GetType();
 
-                    salida
+                    //salida
                 }
             }
 

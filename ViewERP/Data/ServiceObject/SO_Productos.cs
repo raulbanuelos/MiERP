@@ -23,7 +23,7 @@ namespace Data.ServiceObject
                     obj.Id_Categoria = productos.Id_Categoria;
                     obj.Codigo = productos.Codigo;
                     obj.Descripcion = productos.Descripcion;
-                    obj.Foto = productos.Foto;
+                    obj.foto = productos.foto;
 
                     conexion.Productos.Add(obj);
                     return conexion.SaveChanges();
@@ -67,7 +67,7 @@ namespace Data.ServiceObject
                     obj.Id_Categoria = producto.Id_Categoria;
                     obj.Codigo = producto.Codigo;
                     obj.Descripcion = producto.Descripcion;
-                    obj.Foto = producto.Foto;
+                    obj.foto = producto.foto;
 
 
 
