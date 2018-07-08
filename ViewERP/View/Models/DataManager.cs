@@ -1329,6 +1329,47 @@ namespace View.Models
             return listaResultante;
         }
 
+        public static int AltaCliente(string Correo, string Nombre, string RFC, string Telefono, string Direccion)
+        {
+            SO_Clientes service = new SO_Clientes();
+
+            DO_Clientes cliente = new DO_Clientes();
+
+            cliente.Correo = Correo;
+            cliente.Nombre = Nombre;
+            cliente.RFC = RFC;
+            cliente.Telefono = Telefono;
+            cliente.Direccion = Direccion;
+
+           return service.AltaClientes(cliente);
+        }
+
+        public static int BajaCliente(int Id_Cliente)
+        {
+            SO_Clientes service = new SO_Clientes();
+
+            return service.BorrarClientes(Id_Cliente);
+        }
+
+        public static int ActualizarCliente(string Correo, string Nombre, string RFC, string Telefono, string Direccion,int Id_Cliente)
+        {
+            SO_Clientes service = new SO_Clientes();
+
+            DO_Clientes cliente = new DO_Clientes();
+
+            cliente.Id_Cliente = Id_Cliente;
+            cliente.Correo = Correo;
+            cliente.Nombre = Nombre;
+            cliente.RFC = RFC;
+            cliente.Telefono = Telefono;
+            cliente.Direccion = Direccion;
+
+            return service.ActualizarCliente(cliente);
+        }
+
+
+
+
         #endregion
 
         #region Productos
@@ -1378,6 +1419,42 @@ namespace View.Models
 
             return listaResultante;
         }
+
+        public static int AltaProducto(int Id_Categoria, string Codigo, string Descripcion, byte[] foto)
+        {
+            SO_Productos service = new SO_Productos();
+
+            DO_Productos producto = new DO_Productos();
+
+            producto.Id_Categoria = Id_Categoria;
+            producto.Codigo = Codigo;
+            producto.Descripcion = Descripcion;
+            producto.foto =foto;
+
+            return service.AltaProductos(producto);
+        }
+
+        public static int BajaProducto(int Id_Producto)
+        {
+            SO_Productos service = new SO_Productos();
+
+            return service.BorrarProducto(Id_Producto);
+        }
+
+        public static int ActualizarProducto(int Id_Categoria, string Codigo, string Descripcion, byte[] foto,  int Id_Producto)
+        {
+            SO_Productos service = new SO_Productos();
+
+            DO_Productos producto = new DO_Productos();
+
+            producto.Id_Categoria = Id_Categoria;
+            producto.Codigo =Codigo;
+            producto.Descripcion =Descripcion;
+            producto.foto = foto;
+
+            return service.ActualizarProducto(producto);
+        }
+
 
         #endregion
 
