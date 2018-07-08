@@ -121,6 +121,27 @@ namespace View.Controllers
 
         }
 
+        [HttpPost]
+        public JsonResult GetDetalleSalida(string folio)
+        {
+            DO_MovimientoSalidaAlmacen salida = new DO_MovimientoSalidaAlmacen();
 
+            salida = DataManager.GetDetalleMovimientoSalidaAlmacen(folio);
+            
+            var jsonResult = Json(salida, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult UpdateRetornoArticulo(int idDetalle, string condiciones, double cantidad)
+        {
+            int r = DataManager.RetornoArticulo(idDetalle, condiciones,cantidad);
+            
+            var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
+        
     }
 }

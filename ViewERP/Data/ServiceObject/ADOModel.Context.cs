@@ -25,13 +25,6 @@ namespace Data.ServiceObject
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ArchivosOrden> ArchivosOrden { get; set; }
-        public virtual DbSet<CategoriaProducto> CategoriaProducto { get; set; }
-        public virtual DbSet<Clientes> Clientes { get; set; }
-        public virtual DbSet<EstatusOrden> EstatusOrden { get; set; }
-        public virtual DbSet<Ordenes> Ordenes { get; set; }
-        public virtual DbSet<OrdenesDetalle> OrdenesDetalle { get; set; }
-        public virtual DbSet<Productos> Productos { get; set; }
         public virtual DbSet<TBL_ALERTAS_STOCK_MIN> TBL_ALERTAS_STOCK_MIN { get; set; }
         public virtual DbSet<TBL_ALMACEN> TBL_ALMACEN { get; set; }
         public virtual DbSet<TBL_ARTICULO> TBL_ARTICULO { get; set; }
@@ -46,5 +39,12 @@ namespace Data.ServiceObject
         public virtual DbSet<TBL_ROLE> TBL_ROLE { get; set; }
         public virtual DbSet<TBL_UNIDAD> TBL_UNIDAD { get; set; }
         public virtual DbSet<TBL_USUARIO> TBL_USUARIO { get; set; }
+        public virtual DbSet<ArchivosOrden> ArchivosOrden { get; set; }
+        public virtual DbSet<CategoriaProducto> CategoriaProducto { get; set; }
+        public virtual DbSet<Clientes> Clientes { get; set; }
+        public virtual DbSet<EstatusOrden> EstatusOrden { get; set; }
+        public virtual DbSet<Ordenes> Ordenes { get; set; }
+        public virtual DbSet<OrdenesDetalle> OrdenesDetalle { get; set; }
+        public virtual DbSet<Productos> Productos { get; set; }
     }
 }

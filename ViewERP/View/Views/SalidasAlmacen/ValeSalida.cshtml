@@ -37,9 +37,10 @@
         <label>@Html.DisplayFor(model => model.FechaSolicito)</label>
     </div>
 
-    <table class="table" width="60%">
+    <table class="table" style="font-family:Tahoma; font-size:12px">
         <tr>
             <th>Código</th>
+            <th>Descripción</th>
             <th>Cantidad</th>
             <th>Condición</th>
         </tr>
@@ -48,6 +49,9 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.codigo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.cantidad)

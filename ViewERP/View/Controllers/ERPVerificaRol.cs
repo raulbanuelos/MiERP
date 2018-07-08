@@ -103,6 +103,12 @@ namespace View.Controllers
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
+            if (nombreControlador.Equals("Ordenes"))
+            {
+                RolesPermitidos = "1,4";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
+
             return false;
         }
 

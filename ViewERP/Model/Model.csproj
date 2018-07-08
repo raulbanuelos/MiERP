@@ -67,6 +67,7 @@
     <Compile Include="DO_ReporteSalidaArticulo.cs" />
     <Compile Include="DO_Result_SalidaAlmacen.cs" />
     <Compile Include="DO_Rol.cs" />
+    <Compile Include="DO_SolicitudProducto.cs" />
     <Compile Include="DO_Unidad.cs" />
     <Compile Include="DO_ValeSalidaAlmacen.cs" />
     <Compile Include="DO_OrdenesDetalle.cs" />

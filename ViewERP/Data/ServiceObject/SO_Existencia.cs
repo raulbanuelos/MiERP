@@ -35,9 +35,7 @@ namespace Data.ServiceObject
 
                         Conexion.TBL_EXISTENCIA.Add(objNuevo);
                     }
-
                     
-
                     return Conexion.SaveChanges();
                 }
             }

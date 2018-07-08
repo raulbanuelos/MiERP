@@ -17,11 +17,11 @@ namespace Model
         public DateTime FechaSalida { get; set; }
         public string UsuarioAtendio { get; set; }
 
-        List<DO_DetalleSalidaAlmacen> articulos;
+        public List<DO_DetalleSalidaAlmacen> DetalleArticulo { get; set; }
        
         public DO_MovimientoSalidaAlmacen()
         {
-            articulos = new List<DO_DetalleSalidaAlmacen>();
+            DetalleArticulo = new List<DO_DetalleSalidaAlmacen>();
         }
     }
 }

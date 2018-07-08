@@ -18,10 +18,13 @@ namespace Data.ServiceObject
         public Nullable<int> Id_Orden { get; set; }
         public Nullable<int> Id_Producto { get; set; }
         public Nullable<int> Id_EstatusOrden { get; set; }
-        public string Cantidad { get; set; }
+        public Nullable<int> Cantidad { get; set; }
+        public Nullable<int> EntregaParcial { get; set; }
+        public string EntregarA { get; set; }
+        public Nullable<System.DateTime> FechaActualizacionEstatus { get; set; }
     
-        public virtual ArchivosOrden ArchivosOrden { get; set; }
         public virtual EstatusOrden EstatusOrden { get; set; }
         public virtual Ordenes Ordenes { get; set; }
+        public virtual Productos Productos { get; set; }
     }
 }

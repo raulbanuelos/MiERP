@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace Data.ServiceObject
 {
-     class SO_Ordenes
+    public class SO_Ordenes
     {
         public int AltaOrdenes(DO_Ordenes ordenes)
         {
@@ -26,9 +26,14 @@ namespace Data.ServiceObject
                     obj.FechaEntrega = ordenes.FechaEntrega;
                     obj.Id_Cliente = ordenes.Id_Cliente;
                     obj.Usuario = ordenes.Usuario;
+                    obj.Requisicion = ordenes.Requisicion;
+                    obj.Proyecto = ordenes.Proyecto;
 
                     conexion.Ordenes.Add(obj);
-                    return conexion.SaveChanges();
+
+                    conexion.SaveChanges();
+
+                    return obj.Id_Orden;
                 }
             }
             catch (Exception)
@@ -71,6 +76,8 @@ namespace Data.ServiceObject
                     obj.FechaEntrega = ordenes.FechaEntrega;
                     obj.Id_Cliente = ordenes.Id_Cliente;
                     obj.Usuario = ordenes.Usuario;
+                    obj.Requisicion = ordenes.Requisicion;
+                    obj.Proyecto = ordenes.Proyecto;
 
                     conexion.Entry(obj).State = EntityState.Modified;
                     return conexion.SaveChanges();

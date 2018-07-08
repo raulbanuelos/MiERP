@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Docente LabMP\source\repos\MiERP\ViewERP\Data\ServiceObject\ADOModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\raulb\Source\Repos\MiERP\ViewERP\Data\ServiceObject\ADOModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

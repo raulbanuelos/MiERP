@@ -10,10 +10,10 @@
             <PropertyRef Name="Id_ArchivosOrden" />
           </Key>
           <Property Name="Id_ArchivosOrden" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Archivo" Type="varchar" MaxLength="50" />
+          <Property Name="Id_Orden" Type="int" />
+          <Property Name="Archivo" Type="varbinary(max)" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
           <Property Name="Extension" Type="varchar" MaxLength="50" />
-          <Property Name="Id_Orden" Type="int" />
         </EntityType>
         <EntityType Name="CategoriaProducto">
           <Key>
@@ -26,7 +26,7 @@
           <Key>
             <PropertyRef Name="Id_Clientes" />
           </Key>
-          <Property Name="Id_Clientes" Type="int" Nullable="false" />
+          <Property Name="Id_Clientes" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
           <Property Name="RFC" Type="varchar" MaxLength="50" />
           <Property Name="Telefono" Type="varchar" MaxLength="50" />
@@ -46,9 +46,11 @@
           </Key>
           <Property Name="Id_Orden" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Folio" Type="varchar" MaxLength="50" />
-          <Property Name="FechaSolicitud" Type="varchar" MaxLength="50" />
-          <Property Name="FechaEntrega" Type="varchar" MaxLength="50" />
+          <Property Name="FechaSolicitud" Type="datetime" Nullable="false" />
+          <Property Name="FechaEntrega" Type="datetime" />
           <Property Name="Id_Cliente" Type="int" />
+          <Property Name="Requisicion" Type="varchar" MaxLength="50" />
+          <Property Name="Proyecto" Type="varchar" MaxLength="50" />
           <Property Name="Usuario" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="OrdenesDetalle">
@@ -59,7 +61,10 @@
           <Property Name="Id_Orden" Type="int" />
           <Property Name="Id_Producto" Type="int" />
           <Property Name="Id_EstatusOrden" Type="int" />
-          <Property Name="Cantidad" Type="varchar" MaxLength="50" />
+          <Property Name="Cantidad" Type="int" />
+          <Property Name="EntregaParcial" Type="int" />
+          <Property Name="EntregarA" Type="varchar" MaxLength="200" />
+          <Property Name="FechaActualizacionEstatus" Type="datetime" />
         </EntityType>
         <EntityType Name="Productos">
           <Key>
@@ -69,7 +74,7 @@
           <Property Name="Id_Categoria" Type="int" />
           <Property Name="Codigo" Type="varchar" MaxLength="50" />
           <Property Name="Descripcion" Type="varchar" MaxLength="50" />
-          <Property Name="foto" Type="image" />
+          <Property Name="foto" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TBL_ALERTAS_STOCK_MIN">
           <Key>
@@ -217,6 +222,18 @@
           <Property Name="USUARIO" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="CONTRASENA" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
+        <Association Name="FK_ArchivosOrden_Ordenes">
+          <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="0..1" />
+          <End Role="ArchivosOrden" Type="Self.ArchivosOrden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ordenes">
+              <PropertyRef Name="Id_Orden" />
+            </Principal>
+            <Dependent Role="ArchivosOrden">
+              <PropertyRef Name="Id_Orden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Ordenes_Clientes">
           <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
           <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="*" />
@@ -226,18 +243,6 @@
             </Principal>
             <Dependent Role="Ordenes">
               <PropertyRef Name="Id_Cliente" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrdenesDetalle_ArchivosOrden">
-          <End Role="ArchivosOrden" Type="Self.ArchivosOrden" Multiplicity="0..1" />
-          <End Role="OrdenesDetalle" Type="Self.OrdenesDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ArchivosOrden">
-              <PropertyRef Name="Id_ArchivosOrden" />
-            </Principal>
-            <Dependent Role="OrdenesDetalle">
-              <PropertyRef Name="Id_Orden" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -262,6 +267,18 @@
             </Principal>
             <Dependent Role="OrdenesDetalle">
               <PropertyRef Name="Id_Orden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenesDetalle_Productos">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="0..1" />
+          <End Role="OrdenesDetalle" Type="Self.OrdenesDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Id_Productos" />
+            </Principal>
+            <Dependent Role="OrdenesDetalle">
+              <PropertyRef Name="Id_Producto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -527,13 +544,13 @@
           <EntitySet Name="TBL_ROLE" EntityType="Self.TBL_ROLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_UNIDAD" EntityType="Self.TBL_UNIDAD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_USUARIO" EntityType="Self.TBL_USUARIO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ArchivosOrden_Ordenes" Association="Self.FK_ArchivosOrden_Ordenes">
+            <End Role="Ordenes" EntitySet="Ordenes" />
+            <End Role="ArchivosOrden" EntitySet="ArchivosOrden" />
+          </AssociationSet>
           <AssociationSet Name="FK_Ordenes_Clientes" Association="Self.FK_Ordenes_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
             <End Role="Ordenes" EntitySet="Ordenes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrdenesDetalle_ArchivosOrden" Association="Self.FK_OrdenesDetalle_ArchivosOrden">
-            <End Role="ArchivosOrden" EntitySet="ArchivosOrden" />
-            <End Role="OrdenesDetalle" EntitySet="OrdenesDetalle" />
           </AssociationSet>
           <AssociationSet Name="FK_OrdenesDetalle_EstatusOrden" Association="Self.FK_OrdenesDetalle_EstatusOrden">
             <End Role="EstatusOrden" EntitySet="EstatusOrden" />
@@ -541,6 +558,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_OrdenesDetalle_Ordenes" Association="Self.FK_OrdenesDetalle_Ordenes">
             <End Role="Ordenes" EntitySet="Ordenes" />
+            <End Role="OrdenesDetalle" EntitySet="OrdenesDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenesDetalle_Productos" Association="Self.FK_OrdenesDetalle_Productos">
+            <End Role="Productos" EntitySet="Productos" />
             <End Role="OrdenesDetalle" EntitySet="OrdenesDetalle" />
           </AssociationSet>
           <AssociationSet Name="FK_Productos_CategoriaProducto" Association="Self.FK_Productos_CategoriaProducto">
@@ -629,33 +650,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="Data.ServiceObject" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="EntitiesERP" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ArchivosOrden" EntityType="Data.ServiceObject.ArchivosOrden" />
-          <EntitySet Name="CategoriaProducto" EntityType="Data.ServiceObject.CategoriaProducto" />
-          <EntitySet Name="Clientes" EntityType="Data.ServiceObject.Clientes" />
-          <EntitySet Name="EstatusOrden" EntityType="Data.ServiceObject.EstatusOrden" />
-          <EntitySet Name="Ordenes" EntityType="Data.ServiceObject.Ordenes" />
-          <EntitySet Name="OrdenesDetalle" EntityType="Data.ServiceObject.OrdenesDetalle" />
-          <EntitySet Name="Productos" EntityType="Data.ServiceObject.Productos" />
-          <AssociationSet Name="FK_OrdenesDetalle_ArchivosOrden" Association="Data.ServiceObject.FK_OrdenesDetalle_ArchivosOrden">
-            <End Role="ArchivosOrden" EntitySet="ArchivosOrden" />
-            <End Role="OrdenesDetalle" EntitySet="OrdenesDetalle" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Productos_CategoriaProducto" Association="Data.ServiceObject.FK_Productos_CategoriaProducto">
-            <End Role="CategoriaProducto" EntitySet="CategoriaProducto" />
-            <End Role="Productos" EntitySet="Productos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Ordenes_Clientes" Association="Data.ServiceObject.FK_Ordenes_Clientes">
-            <End Role="Clientes" EntitySet="Clientes" />
-            <End Role="Ordenes" EntitySet="Ordenes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrdenesDetalle_EstatusOrden" Association="Data.ServiceObject.FK_OrdenesDetalle_EstatusOrden">
-            <End Role="EstatusOrden" EntitySet="EstatusOrden" />
-            <End Role="OrdenesDetalle" EntitySet="OrdenesDetalle" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrdenesDetalle_Ordenes" Association="Data.ServiceObject.FK_OrdenesDetalle_Ordenes">
-            <End Role="Ordenes" EntitySet="Ordenes" />
-            <End Role="OrdenesDetalle" EntitySet="OrdenesDetalle" />
-          </AssociationSet>
           <EntitySet Name="TBL_ALERTAS_STOCK_MIN" EntityType="Data.ServiceObject.TBL_ALERTAS_STOCK_MIN" />
           <EntitySet Name="TBL_ALMACEN" EntityType="Data.ServiceObject.TBL_ALMACEN" />
           <EntitySet Name="TBL_ARTICULO" EntityType="Data.ServiceObject.TBL_ARTICULO" />
@@ -746,143 +740,38 @@
             <End Role="TBL_ROLE" EntitySet="TBL_ROLE" />
             <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
           </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="ArchivosOrden">
-          <Key>
-            <PropertyRef Name="Id_ArchivosOrden" />
-          </Key>
-          <Property Name="Id_ArchivosOrden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Archivo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Extension" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Id_Orden" Type="Int32" />
-          <NavigationProperty Name="OrdenesDetalle" Relationship="Data.ServiceObject.FK_OrdenesDetalle_ArchivosOrden" FromRole="ArchivosOrden" ToRole="OrdenesDetalle" />
-        </EntityType>
-        <EntityType Name="CategoriaProducto">
-          <Key>
-            <PropertyRef Name="Id_CategoriaProducto" />
-          </Key>
-          <Property Name="Id_CategoriaProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NombreCategoria" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Productos" Relationship="Data.ServiceObject.FK_Productos_CategoriaProducto" FromRole="CategoriaProducto" ToRole="Productos" />
-        </EntityType>
-        <EntityType Name="Clientes">
-          <Key>
-            <PropertyRef Name="Id_Clientes" />
-          </Key>
-          <Property Name="Id_Clientes" Type="Int32" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="RFC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Ordenes" Relationship="Data.ServiceObject.FK_Ordenes_Clientes" FromRole="Clientes" ToRole="Ordenes" />
-        </EntityType>
-        <EntityType Name="EstatusOrden">
-          <Key>
-            <PropertyRef Name="Id_EstatusOrden" />
-          </Key>
-          <Property Name="Id_EstatusOrden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EstatusOrden1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="OrdenesDetalle" Relationship="Data.ServiceObject.FK_OrdenesDetalle_EstatusOrden" FromRole="EstatusOrden" ToRole="OrdenesDetalle" />
-        </EntityType>
-        <EntityType Name="Ordenes">
-          <Key>
-            <PropertyRef Name="Id_Orden" />
-          </Key>
-          <Property Name="Id_Orden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Folio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaSolicitud" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FechaEntrega" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Id_Cliente" Type="Int32" />
-          <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Clientes" Relationship="Data.ServiceObject.FK_Ordenes_Clientes" FromRole="Ordenes" ToRole="Clientes" />
-          <NavigationProperty Name="OrdenesDetalle" Relationship="Data.ServiceObject.FK_OrdenesDetalle_Ordenes" FromRole="Ordenes" ToRole="OrdenesDetalle" />
-        </EntityType>
-        <EntityType Name="OrdenesDetalle">
-          <Key>
-            <PropertyRef Name="Id_OrdenDetalle" />
-          </Key>
-          <Property Name="Id_OrdenDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Id_Orden" Type="Int32" />
-          <Property Name="Id_Producto" Type="Int32" />
-          <Property Name="Id_EstatusOrden" Type="Int32" />
-          <Property Name="Cantidad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="ArchivosOrden" Relationship="Data.ServiceObject.FK_OrdenesDetalle_ArchivosOrden" FromRole="OrdenesDetalle" ToRole="ArchivosOrden" />
-          <NavigationProperty Name="EstatusOrden" Relationship="Data.ServiceObject.FK_OrdenesDetalle_EstatusOrden" FromRole="OrdenesDetalle" ToRole="EstatusOrden" />
-          <NavigationProperty Name="Ordenes" Relationship="Data.ServiceObject.FK_OrdenesDetalle_Ordenes" FromRole="OrdenesDetalle" ToRole="Ordenes" />
-        </EntityType>
-        <EntityType Name="Productos">
-          <Key>
-            <PropertyRef Name="Id_Productos" />
-          </Key>
-          <Property Name="Id_Productos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Id_Categoria" Type="Int32" />
-          <Property Name="Codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="foto" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="CategoriaProducto" Relationship="Data.ServiceObject.FK_Productos_CategoriaProducto" FromRole="Productos" ToRole="CategoriaProducto" />
-        </EntityType>
-        <Association Name="FK_OrdenesDetalle_ArchivosOrden">
-          <End Type="Data.ServiceObject.ArchivosOrden" Role="ArchivosOrden" Multiplicity="0..1" />
-          <End Type="Data.ServiceObject.OrdenesDetalle" Role="OrdenesDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ArchivosOrden">
-              <PropertyRef Name="Id_ArchivosOrden" />
-            </Principal>
-            <Dependent Role="OrdenesDetalle">
-              <PropertyRef Name="Id_Orden" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Productos_CategoriaProducto">
-          <End Type="Data.ServiceObject.CategoriaProducto" Role="CategoriaProducto" Multiplicity="0..1" />
-          <End Type="Data.ServiceObject.Productos" Role="Productos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CategoriaProducto">
-              <PropertyRef Name="Id_CategoriaProducto" />
-            </Principal>
-            <Dependent Role="Productos">
-              <PropertyRef Name="Id_Categoria" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Ordenes_Clientes">
-          <End Type="Data.ServiceObject.Clientes" Role="Clientes" Multiplicity="0..1" />
-          <End Type="Data.ServiceObject.Ordenes" Role="Ordenes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Clientes">
-              <PropertyRef Name="Id_Clientes" />
-            </Principal>
-            <Dependent Role="Ordenes">
-              <PropertyRef Name="Id_Cliente" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrdenesDetalle_EstatusOrden">
-          <End Type="Data.ServiceObject.EstatusOrden" Role="EstatusOrden" Multiplicity="0..1" />
-          <End Type="Data.ServiceObject.OrdenesDetalle" Role="OrdenesDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EstatusOrden">
-              <PropertyRef Name="Id_EstatusOrden" />
-            </Principal>
-            <Dependent Role="OrdenesDetalle">
-              <PropertyRef Name="Id_EstatusOrden" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrdenesDetalle_Ordenes">
-          <End Type="Data.ServiceObject.Ordenes" Role="Ordenes" Multiplicity="0..1" />
-          <End Type="Data.ServiceObject.OrdenesDetalle" Role="OrdenesDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ordenes">
-              <PropertyRef Name="Id_Orden" />
-            </Principal>
-            <Dependent Role="OrdenesDetalle">
-              <PropertyRef Name="Id_Orden" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+          <EntitySet Name="ArchivosOrden" EntityType="Data.ServiceObject.ArchivosOrden" />
+          <EntitySet Name="CategoriaProducto" EntityType="Data.ServiceObject.CategoriaProducto" />
+          <EntitySet Name="Clientes" EntityType="Data.ServiceObject.Clientes" />
+          <EntitySet Name="EstatusOrden" EntityType="Data.ServiceObject.EstatusOrden" />
+          <EntitySet Name="Ordenes" EntityType="Data.ServiceObject.Ordenes" />
+          <EntitySet Name="OrdenesDetalle" EntityType="Data.ServiceObject.OrdenesDetalle" />
+          <EntitySet Name="Productos" EntityType="Data.ServiceObject.Productos" />
+          <AssociationSet Name="FK_ArchivosOrden_Ordenes" Association="Data.ServiceObject.FK_ArchivosOrden_Ordenes">
+            <End Role="Ordenes" EntitySet="Ordenes" />
+            <End Role="ArchivosOrden" EntitySet="ArchivosOrden" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Productos_CategoriaProducto" Association="Data.ServiceObject.FK_Productos_CategoriaProducto">
+            <End Role="CategoriaProducto" EntitySet="CategoriaProducto" />
+            <End Role="Productos" EntitySet="Productos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ordenes_Clientes" Association="Data.ServiceObject.FK_Ordenes_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Ordenes" EntitySet="Ordenes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenesDetalle_EstatusOrden" Association="Data.ServiceObject.FK_OrdenesDetalle_EstatusOrden">
+            <End Role="EstatusOrden" EntitySet="EstatusOrden" />
+            <End Role="OrdenesDetalle" EntitySet="OrdenesDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenesDetalle_Ordenes" Association="Data.ServiceObject.FK_OrdenesDetalle_Ordenes">
+            <End Role="Ordenes" EntitySet="Ordenes" />
+            <End Role="OrdenesDetalle" EntitySet="OrdenesDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenesDetalle_Productos" Association="Data.ServiceObject.FK_OrdenesDetalle_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="OrdenesDetalle" EntitySet="OrdenesDetalle" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="TBL_ALERTAS_STOCK_MIN">
           <Key>
             <PropertyRef Name="ID_ALERTA_STOCK_MIN" />
@@ -1295,85 +1184,167 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ArchivosOrden">
+          <Key>
+            <PropertyRef Name="Id_ArchivosOrden" />
+          </Key>
+          <Property Name="Id_ArchivosOrden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Orden" Type="Int32" />
+          <Property Name="Archivo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Extension" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Ordenes" Relationship="Data.ServiceObject.FK_ArchivosOrden_Ordenes" FromRole="ArchivosOrden" ToRole="Ordenes" />
+        </EntityType>
+        <EntityType Name="CategoriaProducto">
+          <Key>
+            <PropertyRef Name="Id_CategoriaProducto" />
+          </Key>
+          <Property Name="Id_CategoriaProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreCategoria" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Productos" Relationship="Data.ServiceObject.FK_Productos_CategoriaProducto" FromRole="CategoriaProducto" ToRole="Productos" />
+        </EntityType>
+        <EntityType Name="Clientes">
+          <Key>
+            <PropertyRef Name="Id_Clientes" />
+          </Key>
+          <Property Name="Id_Clientes" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RFC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Ordenes" Relationship="Data.ServiceObject.FK_Ordenes_Clientes" FromRole="Clientes" ToRole="Ordenes" />
+        </EntityType>
+        <EntityType Name="EstatusOrden">
+          <Key>
+            <PropertyRef Name="Id_EstatusOrden" />
+          </Key>
+          <Property Name="Id_EstatusOrden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EstatusOrden1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OrdenesDetalle" Relationship="Data.ServiceObject.FK_OrdenesDetalle_EstatusOrden" FromRole="EstatusOrden" ToRole="OrdenesDetalle" />
+        </EntityType>
+        <EntityType Name="Ordenes">
+          <Key>
+            <PropertyRef Name="Id_Orden" />
+          </Key>
+          <Property Name="Id_Orden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Folio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaSolicitud" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaEntrega" Type="DateTime" Precision="3" />
+          <Property Name="Id_Cliente" Type="Int32" />
+          <Property Name="Requisicion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Proyecto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ArchivosOrden" Relationship="Data.ServiceObject.FK_ArchivosOrden_Ordenes" FromRole="Ordenes" ToRole="ArchivosOrden" />
+          <NavigationProperty Name="Clientes" Relationship="Data.ServiceObject.FK_Ordenes_Clientes" FromRole="Ordenes" ToRole="Clientes" />
+          <NavigationProperty Name="OrdenesDetalle" Relationship="Data.ServiceObject.FK_OrdenesDetalle_Ordenes" FromRole="Ordenes" ToRole="OrdenesDetalle" />
+        </EntityType>
+        <EntityType Name="OrdenesDetalle">
+          <Key>
+            <PropertyRef Name="Id_OrdenDetalle" />
+          </Key>
+          <Property Name="Id_OrdenDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Orden" Type="Int32" />
+          <Property Name="Id_Producto" Type="Int32" />
+          <Property Name="Id_EstatusOrden" Type="Int32" />
+          <Property Name="Cantidad" Type="Int32" />
+          <Property Name="EntregaParcial" Type="Int32" />
+          <Property Name="EntregarA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FechaActualizacionEstatus" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="EstatusOrden" Relationship="Data.ServiceObject.FK_OrdenesDetalle_EstatusOrden" FromRole="OrdenesDetalle" ToRole="EstatusOrden" />
+          <NavigationProperty Name="Ordenes" Relationship="Data.ServiceObject.FK_OrdenesDetalle_Ordenes" FromRole="OrdenesDetalle" ToRole="Ordenes" />
+          <NavigationProperty Name="Productos" Relationship="Data.ServiceObject.FK_OrdenesDetalle_Productos" FromRole="OrdenesDetalle" ToRole="Productos" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="Id_Productos" />
+          </Key>
+          <Property Name="Id_Productos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Categoria" Type="Int32" />
+          <Property Name="Codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="foto" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="CategoriaProducto" Relationship="Data.ServiceObject.FK_Productos_CategoriaProducto" FromRole="Productos" ToRole="CategoriaProducto" />
+          <NavigationProperty Name="OrdenesDetalle" Relationship="Data.ServiceObject.FK_OrdenesDetalle_Productos" FromRole="Productos" ToRole="OrdenesDetalle" />
+        </EntityType>
+        <Association Name="FK_ArchivosOrden_Ordenes">
+          <End Type="Data.ServiceObject.Ordenes" Role="Ordenes" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.ArchivosOrden" Role="ArchivosOrden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ordenes">
+              <PropertyRef Name="Id_Orden" />
+            </Principal>
+            <Dependent Role="ArchivosOrden">
+              <PropertyRef Name="Id_Orden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Productos_CategoriaProducto">
+          <End Type="Data.ServiceObject.CategoriaProducto" Role="CategoriaProducto" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.Productos" Role="Productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriaProducto">
+              <PropertyRef Name="Id_CategoriaProducto" />
+            </Principal>
+            <Dependent Role="Productos">
+              <PropertyRef Name="Id_Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ordenes_Clientes">
+          <End Type="Data.ServiceObject.Clientes" Role="Clientes" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.Ordenes" Role="Ordenes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="Id_Clientes" />
+            </Principal>
+            <Dependent Role="Ordenes">
+              <PropertyRef Name="Id_Cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenesDetalle_EstatusOrden">
+          <End Type="Data.ServiceObject.EstatusOrden" Role="EstatusOrden" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.OrdenesDetalle" Role="OrdenesDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstatusOrden">
+              <PropertyRef Name="Id_EstatusOrden" />
+            </Principal>
+            <Dependent Role="OrdenesDetalle">
+              <PropertyRef Name="Id_EstatusOrden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenesDetalle_Ordenes">
+          <End Type="Data.ServiceObject.Ordenes" Role="Ordenes" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.OrdenesDetalle" Role="OrdenesDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ordenes">
+              <PropertyRef Name="Id_Orden" />
+            </Principal>
+            <Dependent Role="OrdenesDetalle">
+              <PropertyRef Name="Id_Orden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenesDetalle_Productos">
+          <End Type="Data.ServiceObject.Productos" Role="Productos" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.OrdenesDetalle" Role="OrdenesDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Id_Productos" />
+            </Principal>
+            <Dependent Role="OrdenesDetalle">
+              <PropertyRef Name="Id_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DataServiceObjectStoreContainer" CdmEntityContainer="EntitiesERP">
-          <EntitySetMapping Name="ArchivosOrden">
-            <EntityTypeMapping TypeName="Data.ServiceObject.ArchivosOrden">
-              <MappingFragment StoreEntitySet="ArchivosOrden">
-                <ScalarProperty Name="Id_Orden" ColumnName="Id_Orden" />
-                <ScalarProperty Name="Extension" ColumnName="Extension" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Archivo" ColumnName="Archivo" />
-                <ScalarProperty Name="Id_ArchivosOrden" ColumnName="Id_ArchivosOrden" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CategoriaProducto">
-            <EntityTypeMapping TypeName="Data.ServiceObject.CategoriaProducto">
-              <MappingFragment StoreEntitySet="CategoriaProducto">
-                <ScalarProperty Name="NombreCategoria" ColumnName="NombreCategoria" />
-                <ScalarProperty Name="Id_CategoriaProducto" ColumnName="Id_CategoriaProducto" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Clientes">
-            <EntityTypeMapping TypeName="Data.ServiceObject.Clientes">
-              <MappingFragment StoreEntitySet="Clientes">
-                <ScalarProperty Name="Correo" ColumnName="Correo" />
-                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="RFC" ColumnName="RFC" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Id_Clientes" ColumnName="Id_Clientes" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EstatusOrden">
-            <EntityTypeMapping TypeName="Data.ServiceObject.EstatusOrden">
-              <MappingFragment StoreEntitySet="EstatusOrden">
-                <ScalarProperty Name="EstatusOrden1" ColumnName="EstatusOrden" />
-                <ScalarProperty Name="Id_EstatusOrden" ColumnName="Id_EstatusOrden" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Ordenes">
-            <EntityTypeMapping TypeName="Data.ServiceObject.Ordenes">
-              <MappingFragment StoreEntitySet="Ordenes">
-                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
-                <ScalarProperty Name="Id_Cliente" ColumnName="Id_Cliente" />
-                <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
-                <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
-                <ScalarProperty Name="Folio" ColumnName="Folio" />
-                <ScalarProperty Name="Id_Orden" ColumnName="Id_Orden" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrdenesDetalle">
-            <EntityTypeMapping TypeName="Data.ServiceObject.OrdenesDetalle">
-              <MappingFragment StoreEntitySet="OrdenesDetalle">
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="Id_EstatusOrden" ColumnName="Id_EstatusOrden" />
-                <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
-                <ScalarProperty Name="Id_Orden" ColumnName="Id_Orden" />
-                <ScalarProperty Name="Id_OrdenDetalle" ColumnName="Id_OrdenDetalle" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Productos">
-            <EntityTypeMapping TypeName="Data.ServiceObject.Productos">
-              <MappingFragment StoreEntitySet="Productos">
-                <ScalarProperty Name="foto" ColumnName="foto" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-                <ScalarProperty Name="Id_Categoria" ColumnName="Id_Categoria" />
-                <ScalarProperty Name="Id_Productos" ColumnName="Id_Productos" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TBL_ALERTAS_STOCK_MIN">
             <EntityTypeMapping TypeName="Data.ServiceObject.TBL_ALERTAS_STOCK_MIN">
               <MappingFragment StoreEntitySet="TBL_ALERTAS_STOCK_MIN">
@@ -1531,6 +1502,84 @@
                 <ScalarProperty Name="ID_COMPANIA" ColumnName="ID_COMPANIA" />
                 <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
                 <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArchivosOrden">
+            <EntityTypeMapping TypeName="Data.ServiceObject.ArchivosOrden">
+              <MappingFragment StoreEntitySet="ArchivosOrden">
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Archivo" ColumnName="Archivo" />
+                <ScalarProperty Name="Id_Orden" ColumnName="Id_Orden" />
+                <ScalarProperty Name="Id_ArchivosOrden" ColumnName="Id_ArchivosOrden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoriaProducto">
+            <EntityTypeMapping TypeName="Data.ServiceObject.CategoriaProducto">
+              <MappingFragment StoreEntitySet="CategoriaProducto">
+                <ScalarProperty Name="NombreCategoria" ColumnName="NombreCategoria" />
+                <ScalarProperty Name="Id_CategoriaProducto" ColumnName="Id_CategoriaProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clientes">
+            <EntityTypeMapping TypeName="Data.ServiceObject.Clientes">
+              <MappingFragment StoreEntitySet="Clientes">
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="RFC" ColumnName="RFC" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id_Clientes" ColumnName="Id_Clientes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstatusOrden">
+            <EntityTypeMapping TypeName="Data.ServiceObject.EstatusOrden">
+              <MappingFragment StoreEntitySet="EstatusOrden">
+                <ScalarProperty Name="EstatusOrden1" ColumnName="EstatusOrden" />
+                <ScalarProperty Name="Id_EstatusOrden" ColumnName="Id_EstatusOrden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ordenes">
+            <EntityTypeMapping TypeName="Data.ServiceObject.Ordenes">
+              <MappingFragment StoreEntitySet="Ordenes">
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Proyecto" ColumnName="Proyecto" />
+                <ScalarProperty Name="Requisicion" ColumnName="Requisicion" />
+                <ScalarProperty Name="Id_Cliente" ColumnName="Id_Cliente" />
+                <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
+                <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
+                <ScalarProperty Name="Folio" ColumnName="Folio" />
+                <ScalarProperty Name="Id_Orden" ColumnName="Id_Orden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrdenesDetalle">
+            <EntityTypeMapping TypeName="Data.ServiceObject.OrdenesDetalle">
+              <MappingFragment StoreEntitySet="OrdenesDetalle">
+                <ScalarProperty Name="FechaActualizacionEstatus" ColumnName="FechaActualizacionEstatus" />
+                <ScalarProperty Name="EntregarA" ColumnName="EntregarA" />
+                <ScalarProperty Name="EntregaParcial" ColumnName="EntregaParcial" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Id_EstatusOrden" ColumnName="Id_EstatusOrden" />
+                <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
+                <ScalarProperty Name="Id_Orden" ColumnName="Id_Orden" />
+                <ScalarProperty Name="Id_OrdenDetalle" ColumnName="Id_OrdenDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Productos">
+            <EntityTypeMapping TypeName="Data.ServiceObject.Productos">
+              <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id_Categoria" ColumnName="Id_Categoria" />
+                <ScalarProperty Name="Id_Productos" ColumnName="Id_Productos" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

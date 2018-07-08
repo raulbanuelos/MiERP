@@ -14,19 +14,12 @@ namespace Data.ServiceObject
     
     public partial class ArchivosOrden
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ArchivosOrden()
-        {
-            this.OrdenesDetalle = new HashSet<OrdenesDetalle>();
-        }
-    
         public int Id_ArchivosOrden { get; set; }
-        public string Archivo { get; set; }
+        public Nullable<int> Id_Orden { get; set; }
+        public byte[] Archivo { get; set; }
         public string Nombre { get; set; }
         public string Extension { get; set; }
-        public Nullable<int> Id_Orden { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrdenesDetalle> OrdenesDetalle { get; set; }
+        public virtual Ordenes Ordenes { get; set; }
     }
 }

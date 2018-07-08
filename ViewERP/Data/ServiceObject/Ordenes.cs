@@ -17,16 +17,21 @@ namespace Data.ServiceObject
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Ordenes()
         {
+            this.ArchivosOrden = new HashSet<ArchivosOrden>();
             this.OrdenesDetalle = new HashSet<OrdenesDetalle>();
         }
     
         public int Id_Orden { get; set; }
         public string Folio { get; set; }
-        public string FechaSolicitud { get; set; }
-        public string FechaEntrega { get; set; }
+        public System.DateTime FechaSolicitud { get; set; }
+        public Nullable<System.DateTime> FechaEntrega { get; set; }
         public Nullable<int> Id_Cliente { get; set; }
+        public string Requisicion { get; set; }
+        public string Proyecto { get; set; }
         public string Usuario { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ArchivosOrden> ArchivosOrden { get; set; }
         public virtual Clientes Clientes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrdenesDetalle> OrdenesDetalle { get; set; }

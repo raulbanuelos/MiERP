@@ -27,6 +27,7 @@ namespace View.Controllers
 
                     Session["ADMINISTRADOR"] = false;
                     Session["ALMACEN"] = false;
+                    Session["PRODUCCION"] = false;
 
                     switch (usuario.ID_ROL)
                     {
@@ -36,6 +37,10 @@ namespace View.Controllers
                         case 2:
                             Session["ALMACEN"] = true;
                             break;
+                        case 4:
+                            Session["PRODUCCION"] = true;
+                            break;
+                                  
                         default:
                             break;
                     }

@@ -137,6 +137,33 @@
                     </li>
                 }
 
+                @if ((bool)Session["PRODUCCION"] || (bool)Session["ADMINISTRADOR"])
+                {
+
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Producción">
+                        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseProduccion" data-parent="#exampleAccordion">
+                            <i class="fa fa-fw fa-users"></i>
+                            <span class="nav-link-text">Producción</span>
+                        </a>
+                        <ul class="sidenav-second-level collapse" id="collapseProduccion">
+                            <li>
+                                <a href="@Url.Action("Crear","Ordenes")">Generar órden</a>
+                            </li>
+
+                            <li>
+                                <a href="@Url.Action("Index","Ordenes")">Ver ordenes</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Usuarios">
+                        <a class="nav-link" href="@Url.Action("Index","Usuario")">
+                            <i class="fa fa-fw fa-users"></i>
+                            <span class="nav-link-text">Usuarios</span>
+                        </a>
+                    </li>
+                }
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="CerrarSession">
                     <a class="nav-link" href="@Url.Action("CerrarSession","Home")"> 
                         <i class="fa fa-fw fa-sign-out"></i>

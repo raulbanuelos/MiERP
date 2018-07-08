@@ -9,7 +9,7 @@ using System.Collections;
 
 namespace Data.ServiceObject
 {
-    class SO_OrdenDetalle
+    public class SO_OrdenDetalle
     {
         public int AltaOrdenesDetalle(DO_OrdenesDetalle ordenesdetalle)
         {
@@ -23,6 +23,9 @@ namespace Data.ServiceObject
                     obj.Id_Producto = ordenesdetalle.Id_Producto;
                     obj.Id_EstatusOrden = ordenesdetalle.Id_EstatusOrden;
                     obj.Cantidad = ordenesdetalle.Cantidad;
+                    obj.EntregaParcial = ordenesdetalle.EntregaParcial;
+                    obj.EntregarA = ordenesdetalle.EntregarA;
+                    obj.FechaActualizacionEstatus = ordenesdetalle.FechaActualizacionEstatus;
 
                     conexion.OrdenesDetalle.Add(obj);
                     return conexion.SaveChanges();
@@ -67,7 +70,9 @@ namespace Data.ServiceObject
                     obj.Id_Producto = ordenesdetalle.Id_Producto;
                     obj.Id_EstatusOrden = ordenesdetalle.Id_EstatusOrden;
                     obj.Cantidad = ordenesdetalle.Cantidad;
-
+                    obj.EntregaParcial = ordenesdetalle.EntregaParcial;
+                    obj.EntregarA = ordenesdetalle.EntregarA;
+                    obj.FechaActualizacionEstatus = DateTime.Now;
 
                     conexion.Entry(obj).State = EntityState.Modified;
                     return conexion.SaveChanges();

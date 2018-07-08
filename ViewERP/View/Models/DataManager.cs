@@ -1019,6 +1019,7 @@ namespace View.Models
                         DO_Articulo articulo = GetArticulo(detalle.idCodigo);
                         detalle.codigo = articulo.Codigo;
                         detalle.condicion = (string)tipo.GetProperty("CONDICION_ARTICULO_SALIDA").GetValue(item, null);
+                        detalle.Descripcion = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
                         
 
                         vale.ListaArticulos.Add(detalle);
@@ -1093,7 +1094,7 @@ namespace View.Models
             return ListaResultante;
         }
 
-        public static DO_MovimientoSalidaAlmacen GetMovimientoSalidaAlmacen(string folio)
+        public static DO_MovimientoSalidaAlmacen GetDetalleMovimientoSalidaAlmacen(string folio)
         {
             DO_MovimientoSalidaAlmacen salida = new DO_MovimientoSalidaAlmacen();
 
@@ -1107,11 +1108,46 @@ namespace View.Models
                 {
                     Type tipo = item.GetType();
 
-                    //salida
+                    DO_DetalleSalidaAlmacen detalleArticulo = new DO_DetalleSalidaAlmacen();
+
+                    int idArticulo = Convert.ToInt32(tipo.GetProperty("ID_ARTICULO").GetValue(item,null));
+
+                    detalleArticulo.Articulo = GetArticulo(idArticulo);
+                    detalleArticulo.Cantidad = Convert.ToDouble(tipo.GetProperty("CANTIDAD").GetValue(item,null));
+                    detalleArticulo.condicionRegreso = Convert.ToString(tipo.GetProperty("CONDICION_ARTICULO_REGRESO").GetValue(item, null));
+                    detalleArticulo.condicionSalida = Convert.ToString(tipo.GetProperty("CONDICION_ARTICULO_SALIDA").GetValue(item, null));
+                    detalleArticulo.FechaRegreso = Convert.ToDateTime(tipo.GetProperty("FECHA_REGRESO").GetValue(item, null));
+                    detalleArticulo.idDetalleSalidaAlmacen = Convert.ToInt32(tipo.GetProperty("ID_DETALLE_MOVIMIENTO_SALIDA_ALMACEN").GetValue(item, null));
+                    salida.FechaSalida = Convert.ToDateTime(tipo.GetProperty("FECHA_SALIDA").GetValue(item, null));
+                    salida.Folio = Convert.ToString(tipo.GetProperty("FOLIO").GetValue(item, null));
+                    salida.UsuarioAtendio = Convert.ToString(tipo.GetProperty("USUARIO_ATENDIO").GetValue(item, null));
+                    salida.UsuarioSolicito = Convert.ToString(tipo.GetProperty("USUARIO_SOLICITO").GetValue(item, null));
+                    
+                    salida.DetalleArticulo.Add(detalleArticulo);
                 }
             }
 
             return salida;
+        }
+
+        public static int RetornoArticulo(int idDetalle, string condiciones, double cantidad)
+        {
+            SO_SalidasAlmacen service = new SO_SalidasAlmacen();
+            
+            int r =  service.RetornoArticulo(idDetalle, condiciones);
+
+            if (r > 0)
+            {
+                SO_Existencia ServiceExistencia = new SO_Existencia();
+                SO_DetalleMovimientoSalidaAlmacen ServiceDetalle = new SO_DetalleMovimientoSalidaAlmacen();
+                int idAlmacen = ServiceDetalle.GetIdAlmacenByIdDetalleSalida(idDetalle);
+                int idArticulo = ServiceDetalle.GetIdArticuloByIdDetalleSalida(idDetalle);
+                return ServiceExistencia.AddCantidad(idAlmacen, idArticulo, Convert.ToDecimal(cantidad));
+            }
+            else
+            {
+                return 0;
+            }
         }
         #endregion
 
@@ -1242,6 +1278,213 @@ namespace View.Models
 
             return ListaResultante;
         }
+        #endregion
+
+        #region Clientes
+
+        public static List<DO_Clientes> GetAllClientes()
+        {
+            SO_Clientes Service = new SO_Clientes();
+
+            List<DO_Clientes> ListaResultante = new List<DO_Clientes>();
+
+            IList informacionBD = Service.ObtenerTodos();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    DO_Clientes cliente = new DO_Clientes();
+
+                    Type tipo = item.GetType();
+
+                    cliente.Id_Cliente = (int)tipo.GetProperty("Id_Clientes").GetValue(item, null);
+                    cliente.Nombre = (string)tipo.GetProperty("Nombre").GetValue(item, null);
+                    cliente.RFC = (string)tipo.GetProperty("RFC").GetValue(item, null);
+                    cliente.Telefono = (string)tipo.GetProperty("Telefono").GetValue(item, null);
+                    cliente.Direccion = (string)tipo.GetProperty("Direccion").GetValue(item, null);
+                    cliente.Correo = (string)tipo.GetProperty("Correo").GetValue(item, null);
+
+                    ListaResultante.Add(cliente);
+                }
+            }
+
+            return ListaResultante;
+        }
+
+        public static List<SelectListItem> ConvertListDOClienteToSelectListItem(List<DO_Clientes> lista)
+        {
+            List<SelectListItem> listaResultante = new List<SelectListItem>();
+
+            foreach (var item in lista)
+            {
+                SelectListItem obj = new SelectListItem();
+
+                obj.Text = item.Nombre;
+                obj.Value = Convert.ToString(item.Id_Cliente);
+
+                listaResultante.Add(obj);
+            }
+
+            return listaResultante;
+        }
+
+        #endregion
+
+        #region Productos
+
+        public static List<DO_Productos> GetAllProductos()
+        {
+            List<DO_Productos> listaResultante = new List<DO_Productos>();
+
+            SO_Productos service = new SO_Productos();
+
+            IList informacionBD = service.ObtenerTodos();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    DO_Productos producto = new DO_Productos();
+
+                    Type tipo = item.GetType();
+
+                    producto.Id_Productos = (int)tipo.GetProperty("Id_Productos").GetValue(item, null);
+                    producto.Id_Categoria = (int)tipo.GetProperty("Id_Categoria").GetValue(item, null);
+                    producto.Codigo = (string)tipo.GetProperty("Codigo").GetValue(item, null);
+                    producto.Descripcion = (string)tipo.GetProperty("Descripcion").GetValue(item, null);
+                    producto.foto = (byte[])tipo.GetProperty("foto").GetValue(item, null);
+
+                    listaResultante.Add(producto);
+                }
+            }
+
+            return listaResultante;
+        }
+
+        public static List<SelectListItem> ConvertListDOProductoToSelectListItem(List<DO_Productos> Lista)
+        {
+            List<SelectListItem> listaResultante = new List<SelectListItem>();
+
+            foreach (var item in Lista)
+            {
+                SelectListItem obj = new SelectListItem();
+
+                obj.Text = item.Descripcion;
+                obj.Value = Convert.ToString(item.Id_Productos);
+
+                listaResultante.Add(obj);
+            }
+
+            return listaResultante;
+        }
+
+        #endregion
+
+        #region Ordenes
+        public static int InsertOrden(string fechaSolicitud, string fechaEntrega, string requisicion, string proyecto, string folio, int idCliente, List<DO_SolicitudProducto> productos, string usuario)
+        {
+            SO_Ordenes service = new SO_Ordenes();
+
+            DO_Ordenes orden = new DO_Ordenes();
+            orden.Folio = folio;
+            orden.FechaSolicitud = Convert.ToDateTime(fechaSolicitud);
+            if (!string.IsNullOrEmpty(fechaEntrega))
+            {
+                orden.FechaEntrega = Convert.ToDateTime(fechaEntrega);
+            }
+            orden.Id_Cliente = idCliente;
+            orden.Requisicion = requisicion;
+            orden.Proyecto = proyecto;
+            orden.Usuario = usuario;
+            
+            int idNewOrden = service.AltaOrdenes(orden);
+
+            if (idNewOrden > 0)
+            {
+                foreach (var producto in productos)
+                {
+                    SO_OrdenDetalle serviceDetalle = new SO_OrdenDetalle();
+                    DO_OrdenesDetalle detalle = new DO_OrdenesDetalle();
+
+                    detalle.Id_Orden = idNewOrden;
+                    detalle.Id_Producto = producto.idProducto;
+                    detalle.Id_EstatusOrden = 1;
+                    detalle.Cantidad = producto.cantidad;
+                    detalle.EntregaParcial = 0;
+                    detalle.EntregarA = producto.EntregarA;
+                    detalle.FechaActualizacionEstatus = DateTime.Now;
+
+                    serviceDetalle.AltaOrdenesDetalle(detalle);
+                }
+            }
+
+            return idNewOrden;
+        }
+
+        public static int InsertArchivoOrden(int idOrden, byte[] archivoFisico,string extension,string nombreArchivo)
+        {
+            SO_ArchivosOrden service = new SO_ArchivosOrden();
+
+            DO_ArchivosOrden archivo = new DO_ArchivosOrden();
+
+            archivo.Archivo = archivoFisico;
+            archivo.Extension = extension;
+            archivo.Id_Orden = idOrden;
+            archivo.Nombre = nombreArchivo;
+
+            return service.AltaArchivosOrden(archivo);
+        }
+
+        public static List<DO_Ordenes> GetAllOrdenes()
+        {
+            SO_Ordenes service = new SO_Ordenes();
+
+            List<DO_Ordenes> Lista = new List<DO_Ordenes>();
+
+            IList informacionBD = service.ObtenerTodos();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type tipo = item.GetType();
+
+                    DO_Ordenes orden = new DO_Ordenes();
+
+                    orden.Id_Orden = (int)tipo.GetProperty("Id_Orden").GetValue(item, null);
+                    orden.Folio = (string)tipo.GetProperty("Folio").GetValue(item, null);
+                    orden.FechaSolicitud = (DateTime)tipo.GetProperty("FechaSolicitud").GetValue(item, null);
+                    orden.FechaEntrega = (DateTime)tipo.GetProperty("FechaEntrega").GetValue(item, null);
+                    orden.Id_Cliente = (int)tipo.GetProperty("Id_Cliente").GetValue(item, null);
+                    orden.Requisicion = (string)tipo.GetProperty("Requisicion").GetValue(item, null);
+                    orden.Proyecto = (string)tipo.GetProperty("Proyecto").GetValue(item, null);
+                    orden.Usuario = (string)tipo.GetProperty("Usuario").GetValue(item, null);
+
+                    Lista.Add(orden);
+
+                }
+            }
+
+            return Lista;
+          
+        }
+        #endregion
+        
+        #region Archivos
+        public static byte[] GetBytesFromInputStream(Stream archivo)
+        {
+            //Inicializamos la variable que regresaremos
+            byte[] ArchivoEnBytes = null;
+
+            using (var binaryReader = new BinaryReader(archivo))
+            {
+                //Guardamos el archivo en el arreglo de bytes
+                ArchivoEnBytes = binaryReader.ReadBytes((int)archivo.Length);
+                //Regresamos el arreglo
+                return ArchivoEnBytes;
+            }
+        } 
         #endregion
     }
 }

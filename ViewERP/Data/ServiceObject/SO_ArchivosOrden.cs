@@ -69,9 +69,7 @@ namespace Data.ServiceObject
                     obj.Nombre = archivosorden.Nombre;
                     obj.Extension = archivosorden.Extension;
                     obj.Id_Orden = archivosorden.Id_Orden;
-
-
-
+                    
                     conexion.Entry(obj).State = EntityState.Modified;
                     return conexion.SaveChanges();
                 }

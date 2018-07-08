@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,8 +46,15 @@ namespace Data.ServiceObject
                 using (var Conexion = new EntitiesERP())
                 {
                     var lista = (from d in Conexion.TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN
+                                 join a in Conexion.TBL_ARTICULO on d.ID_ARTICULO equals a.ID_ARTICULO
                                  where d.ID_MOVIMIENTO_SALIDA_ALMACEN == idMovimientoSalida
-                                 select d).ToList();
+                                 select new {
+                                     d.ID_ARTICULO,
+                                     d.CANTIDAD,
+                                     d.CONDICION_ARTICULO_SALIDA,
+                                     a.DESCRIPCION
+
+                                 }).ToList();
 
                     return lista;
                 }
@@ -151,6 +159,28 @@ namespace Data.ServiceObject
             return datos;
         }
 
+        public int RetornoArticulo(int idDetalle, string condiciones)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN obj = new TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN();
 
+                    obj = Conexion.TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN.Where(x => x.ID_DETALLE_MOVIMIENTO_SALIDA_ALMACEN == idDetalle).FirstOrDefault();
+
+                    obj.FECHA_REGRESO = DateTime.Now;
+                    obj.CONDICION_ARTICULO_REGRESO = condiciones;
+
+                    Conexion.Entry(obj).State = EntityState.Modified;
+                    
+                    return Conexion.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
     }
 }

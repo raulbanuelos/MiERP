@@ -11,7 +11,7 @@ using System.Collections;
 
 namespace Data.ServiceObject
 {
-    class SO_Clientes
+    public class SO_Clientes
     {
         public int AltaClientes(DO_Clientes clientes)
         {

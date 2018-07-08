@@ -12,5 +12,6 @@ namespace Model
         public string codigo { get; set; }
         public double cantidad { get; set; }
         public string condicion { get; set; }
+        public string Descripcion { get; set; }
     }
 }

@@ -14,6 +14,12 @@ namespace Data.ServiceObject
     
     public partial class Productos
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Productos()
+        {
+            this.OrdenesDetalle = new HashSet<OrdenesDetalle>();
+        }
+    
         public int Id_Productos { get; set; }
         public Nullable<int> Id_Categoria { get; set; }
         public string Codigo { get; set; }
@@ -21,5 +27,7 @@ namespace Data.ServiceObject
         public byte[] foto { get; set; }
     
         public virtual CategoriaProducto CategoriaProducto { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrdenesDetalle> OrdenesDetalle { get; set; }
     }
 }

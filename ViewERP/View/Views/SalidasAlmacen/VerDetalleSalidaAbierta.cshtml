@@ -4,8 +4,29 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .dataTables_wrapper {
+    font-family: tahoma;
+    font-size: 12px;
+}
+</style>
+
 <h2>Detalle Salida</h2>
 
+<div class="form-group">
+    <b>Fecha de salida</b>
+    <input type="text" id="txtFechaSalida" class="form-control" placeholder="Fecha de salida" readonly />
+</div>
+
+<div class="form-group">
+    <b>Usuario solicitó</b>
+    <input type="text" id="txtUsuarioSolicito" class="form-control" placeholder="Usuario solicito" readonly />
+</div>
+
+<div class="form-group">
+    <b>Usuario atendió</b>
+    <input type="text" id="txtUsuarioAtendio" class="form-control" placeholder="Usuario atendió" readonly />
+</div>
 
 
 <div class="card-body">
@@ -13,23 +34,27 @@
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
+                    <td>Id</td>
                     <td>CÓDIGO</td>
                     <td>DESCRIPCIÓN</td>
                     <td>CANTIDAD</td>
                     <td>CONDICIÓN_SALIDA</td>
                     <td>FECHA_REGRESO</td>
                     <td>CONDICIÓN_REGRESO</td>
+                    <td>ACCIONES</td>
                 </tr>
             </thead>
 
             <tfoot>
                 <tr>
+                    <td>Id</td>
                     <td>CÓDIGO</td>
                     <td>DESCRIPCIÓN</td>
                     <td>CANTIDAD</td>
                     <td>CONDICIÓN_SALIDA</td>
                     <td>FECHA_REGRESO</td>
                     <td>CONDICIÓN_REGRESO</td>
+                    <td>ACCIONES</td>
                 </tr>
             </tfoot>
             <tbody id="myTable"></tbody>
@@ -38,14 +63,172 @@
     </div>
 </div>
 
+@*Modal*@
+<div id="modalregresaarticulo" data-backdrop="static" data-keyboard="false" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header alert alert-success">
+                <table>
+                    <tr>
+                        <td></td>
+                        <td><h3 class="modal-title">Regresar articulo</h3></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-body" id="div1">
+
+                <input type="hidden" id="idDetalleSalida" name="idDetalleSalida">
+                <div class="form-group">
+                    <b>Codigo</b>
+                    <input type="text" id="txtModalCodigo" class="form-control" placeholder="Codigo" readonly />
+                </div>
+
+                <div class="form-group">
+                    <b>Descripción</b>
+                    <input type="text" id="txtModalDescripcion" class="form-control" placeholder="Descripción" readonly />
+                </div>
+
+                <div class="form-group">
+                    <b>Cantidad</b>
+                    <input type="number" id="txtModalCantidad" class="form-control" placeholder="Cantidad" readonly />
+                </div>
+
+                <div class="form-group">
+                    <b>Condición regreso</b>
+                    <input type="text" id="txtCondicionRegreso" class="form-control" placeholder="Ingrese la condición del artículo" />
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="regresarArticulo()">Regresar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*Termina modal*@
+
+<script src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
 <script type="text/javascript">
     var table = $("#dataTable").DataTable();
 
-    $(function () {
+    $('#dataTable').on('click', '.btn-danger', function () {
+        var data = table.row($(this).parents('tr')).data();
+        var idDetalleSalida = data[0];
+        $("#idDetalleSalida").val(idDetalleSalida);
+        $("#txtModalCodigo").val(data[1]);
+        $("#txtModalDescripcion").val(data[2]);
+        $("#txtModalCantidad").val(data[3]);
 
-        var folio = document.URL.split('=')[1];
+        $("#modalregresaarticulo").modal();
 
-        console.log(folio);
-
+        //window.location.href = li;
     });
+
+    function cargarTabla() {
+        table
+           .clear()
+           .draw();
+
+        var _folio = document.URL.split('=')[1];
+        var monthNames = [
+            "Enero", "Febrero", "Marzo",
+            "Abril", "Mayo", "Junio", "Julio",
+            "Agosto", "Septiembre", "Octubre",
+            "Noviembre", "Diciembre"
+        ];
+
+        var urlSave = '@Url.Action("GetDetalleSalida", "SalidasAlmacen")';
+
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ folio: _folio }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                var fechaSalida = parseJsonDate(data.FechaSalida);
+                var usuarioAtendio = data.UsuarioAtendio;
+                var usuarioSolicito = data.UsuarioSolicito;
+
+                var dia = fechaSalida.getDate();
+                var mes = fechaSalida.getMonth();
+                var anio = fechaSalida.getFullYear();
+
+                var fechaSalidaCompleta = dia + "/" + monthNames[mes] + "/" + anio;
+
+                $("#txtFechaSalida").val(fechaSalidaCompleta);
+                $("#txtUsuarioSolicito").val(usuarioSolicito);
+                $("#txtUsuarioAtendio").val(usuarioAtendio);
+
+                $.each(data.DetalleArticulo, function (index, item) {
+
+                    var fechaRegreso = parseJsonDate(item.FechaRegreso);
+                    var diaa = fechaRegreso.getDate();
+                    var mess = fechaRegreso.getMonth();
+                    var anioo = fechaRegreso.getFullYear();
+
+                    var fechaRegresoCompleta = diaa + "/" + monthNames[mess] + "/" + anioo;
+                    var boton = "";
+
+                    if (anioo == "0") {
+                        fechaRegresoCompleta = "Sin regreso";
+                        boton = "<button class='btn-danger' id='" + item.idDetalleSalidaAlmacen + "'>Entrada</button>";
+                    } else {
+                        boton = "<button class='btn-success' id='" + item.idDetalleSalidaAlmacen + "' disabled>Registrado</button>";
+                    }
+
+                    if (item.Articulo.IsConsumible) {
+                        boton = "<button class='btn-success' id='" + item.idDetalleSalidaAlmacen + "' disabled>Consumible</button>";
+                        fechaRegresoCompleta = "---";
+                        item.condicionRegreso = "---";
+                    }
+
+                    $("#dataTable").dataTable().fnAddData([
+                        item.idDetalleSalidaAlmacen,
+                        item.Articulo.Codigo,
+                        item.Articulo.Descripcion,
+                        item.Cantidad,
+                        item.condicionSalida,
+                        fechaRegresoCompleta,
+                        item.condicionRegreso,
+                        boton
+                    ]);
+
+                });
+
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error: " + result);
+            }
+        });
+    }
+
+    $(function () {
+        cargarTabla();
+    });
+
+    function regresarArticulo() {
+        //console.log($("#idDetalleSalida").val());
+        var _condicionesregreso = $("#txtCondicionRegreso").val();
+        var _idDetalleSalida = $("#idDetalleSalida").val();
+        var _cantidad = $("#txtModalCantidad").val();
+        debugger;
+        var urlSave = '@Url.Action("UpdateRetornoArticulo", "SalidasAlmacen")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ idDetalle: _idDetalleSalida, condiciones: _condicionesregreso, cantidad : _cantidad }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                cargarTabla();
+                $("#modalregresaarticulo").modal('hide');
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error: " + result);
+            }
+        });
+    }
 </script>

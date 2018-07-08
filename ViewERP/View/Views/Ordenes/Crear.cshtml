@@ -1,0 +1,234 @@
+﻿
+@{
+    ViewBag.Title = "Crear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+<script src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
+
+<h2>Crear órden</h2>
+
+<div class="form-group">
+    <input type="text" class="form-control" id="txtFolio" aria-describedby="folioHelp" placeholder="Folio">
+    <small id="folioHelp" class="form-text text-muted">Folio</small>
+</div>
+
+<div class="form-group">
+    <input class="form-control" id="txtFechaSolicitud" name="date" placeholder="DD/MM/YYYY" type="text" aria-describedby="fechaSolicitudHelp" />
+    <small id="fechaSolicitudHelp" class="form-text text-muted">Fecha de solicitud</small>
+</div>
+
+<div class="form-group">
+    <input class="form-control" id="txtFechaEntrega" name="date" placeholder="DD/MM/YYYY" type="text" aria-describedby="fechaEntregaHelp" />
+    <small id="fechaEntregaHelp" class="form-text text-muted">Fecha de entrega</small>
+</div>
+
+<div class="form-group">
+    <select id="cboCliente" class="js-example-basic-single" style="width:100%" aria-describedby="clienteHelp">
+        @{
+            foreach (SelectListItem cliente in ((List<SelectListItem>)ViewBag.Clientes))
+            {
+                <option id="@cliente.Value" value="@cliente.Value">@cliente.Text</option>
+            }
+        }
+    </select>
+    <small id="clienteHelp" class="form-text text-muted">Selecciona un cliente</small>
+</div>
+
+<div class="form-group">
+    <input class="form-control" id="txtRequisicion" name="txtRequisicion" placeholder="Requisición" type="text" aria-describedby="requisicionHelp" />
+    <small id="requisicionHelp" class="form-text text-muted">Requisición</small>
+</div>
+
+<div class="form-group">
+    <input class="form-control" id="txtProyecto" name="txtProyecto" placeholder="Proyecto" type="text" aria-describedby="proyectoHelp" />
+    <small id="proyectoHelp" class="form-text text-muted">Proyecto</small>
+</div>
+
+<div class="form-group">
+    <input class="form-control" id="FileUpload" name="FileUpload" multiple type="file" />
+</div>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <button class="btn btn-primary" onclick="MostrarModal()">Agregar producto</button>
+    </div>
+</div>
+
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-bordered" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>DESCRIPCIÓN</td>
+                    <td>CANTIDAD</td>
+                    <td>ENTREGAR A</td>
+                </tr>
+            </thead>
+            <tbody id="myTable"></tbody>
+        </table>
+    </div>
+</div>
+
+<button class="btn btn-success" onclick="Guardar()">Guardar</button>
+
+<div id="modalguardandobitacora" data-backdrop="static" data-keyboard="false" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header alert alert-success">
+                <table>
+                    <tr>
+                        <td></td>
+                        <td><h3 class="modal-title">Agregar producto</h3></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-body" id="div1">
+                
+                <div class="form-group">
+                    <label>Productos</label>
+                    <select id="cboProductos" class="form-control">
+                        @{
+                            foreach (SelectListItem producto in ((List<SelectListItem>)ViewBag.Productos))
+                            {
+                                <option id="@producto.Value" value="@producto.Value">@producto.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Cantidad</label>
+                    <input type="number" class="form-control" id="txtCantidad" />
+                </div>
+
+                <div class="form-group">
+                    <label>Entregar A</label>
+                    <input type="text" class="form-control" id="txtEntregarA" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="agregarProducto()">Agregar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var date_input = $('input[name="date"]'); //our date input has the name "date"
+        var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+        var options = {
+            format: 'dd/mm/yyyy',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+        };
+        date_input.datepicker(options);
+    });
+
+    function Guardar() {
+        var oTable = document.getElementById("myTable");
+
+        //gets rows of table
+        var rowLength = oTable.rows.length;
+
+        var _productos = new Array();
+
+        //loops through rows
+        for (i = 0; i < rowLength; i++) {
+
+            //gets cells of current row
+            var oCells = oTable.rows.item(i).cells;
+
+            //gets amount of cells of current row
+            var cellLength = oCells.length;
+
+            var _idProducto = oCells.item(0).innerHTML;
+            var _Descripcion = oCells.item(1).innerHTML;
+            var _cantidad = oCells.item(2).innerHTML;
+            var _entregarA = oCells.item(3).innerHTML;
+
+            _productos.push({ idProducto: _idProducto, descripcion: _Descripcion, cantidad: _cantidad, EntregarA: _entregarA });
+        }
+
+        var _fechaSolicitud = $("#txtFechaSolicitud").val();
+        var _fechaEntrega = $("#txtFechaEntrega").val();
+        var _requisicion = $("#txtRequisicion").val();
+        var _proyecto = $("#txtProyecto").val();
+        var _folio = $("#txtFolio").val();
+        var _idCliente = $("#cboCliente").val();
+
+        debugger;
+
+        var urlSave = '@Url.Action("GuardarOrden","Ordenes")';
+
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ fechaSolicitud: _fechaSolicitud, fechaEntrega: _fechaEntrega, requisicion: _requisicion, proyecto: _proyecto, folio: _folio, idCliente: _idCliente, productos: _productos }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                alert("success");
+                guardarArchivos(data);
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error: " + result);
+            }
+        });
+    }
+
+    function guardarArchivos(data) {
+        debugger;
+        var formData = new FormData();
+        var totalFiles = document.getElementById("FileUpload").files.length;
+
+        for (var i = 0; i < totalFiles; i++) {
+            var file = document.getElementById("FileUpload").files[i];
+            formData.append("FileUpload", file);
+        }
+
+        formData.append("idOrden", data);
+
+        var urlSave = '@Url.Action("SubirArchivosOrdenes","Ordenes")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                alert("Archivos fueron cargados.");
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error al subir los archivos.: " + result);
+            }
+        });
+
+    }
+
+    function MostrarModal() {
+        $("#modalguardandobitacora").modal();
+    }
+
+    function agregarProducto(){
+        var _idProducto = $("#cboProductos").val();
+        var _descripcionProducto = $("#cboProductos option:selected").text();
+        var _cantidad = $("#txtCantidad").val();
+        var _entregarA = $("#txtEntregarA").val();
+
+        var row = "<tr>";
+        row += "<td>" + _idProducto + "</td>";
+        row += "<td>" + _descripcionProducto + "</td>";
+        row += "<td>" + _cantidad + "</td>";
+        row += "<td>" + _entregarA + "</td>";
+        row += "</tr>";
+
+        $("#myTable").append(row);
+        $("#modalguardandobitacora").modal('hide');
+    }
+</script>

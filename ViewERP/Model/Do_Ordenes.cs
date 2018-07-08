@@ -10,11 +10,12 @@ namespace Model
     {
         public int Id_Orden { get; set; }
         public string Folio { get; set; }
-        public String FechaSolicitud { get; set; }
-        public string FechaEntrega { get; set; }
+        public DateTime FechaSolicitud { get; set; }
+        public DateTime? FechaEntrega { get; set; }
         public int Id_Cliente { get; set; }
+        public string Requisicion { get; set; }
+        public string Proyecto { get; set; }
         public string Usuario { get; set; }
-
-
+        public List<DO_OrdenesDetalle> OrdernesDetalle { get; set; }
     }
 }

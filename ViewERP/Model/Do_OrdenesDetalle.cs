@@ -12,7 +12,9 @@ namespace Model
         public int Id_Orden { get; set; }
         public int Id_Producto { get; set; }
         public int Id_EstatusOrden { get; set; }
-        public string Cantidad { get; set; }
-
+        public int Cantidad { get; set; }
+        public int EntregaParcial { get; set; }
+        public string EntregarA { get; set; }
+        public DateTime? FechaActualizacionEstatus { get; set; }
     }
 }

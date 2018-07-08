@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace Data.ServiceObject
 {
-    class SO_Productos
+    public class SO_Productos
     {
         public int Productos(DO_Productos productos)
         {

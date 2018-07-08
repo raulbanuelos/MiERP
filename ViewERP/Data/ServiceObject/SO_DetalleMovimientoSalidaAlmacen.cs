@@ -48,6 +48,7 @@ namespace Data.ServiceObject
                                  where a.FOLIO == folio
                                  select new
                                  {
+                                     c.ID_ARTICULO,
                                      c.CODIGO,
                                      c.DESCRIPCION_LARGA,
                                      a.ID_MOVIMIENTO_SALIDA_ALMACEN,
@@ -55,7 +56,9 @@ namespace Data.ServiceObject
                                      b.FECHA_REGRESO,
                                      b.CONDICION_ARTICULO_SALIDA,
                                      b.CONDICION_ARTICULO_REGRESO,
-                                     b.CANTIDAD
+                                     b.CANTIDAD,
+                                     b.ID_DETALLE_MOVIMIENTO_SALIDA_ALMACEN,
+                                     a.FECHA_SALIDA, a.USUARIO_ATENDIO,a.USUARIO_SOLICITO
                                  }).ToList();
 
                     return lista;
@@ -64,6 +67,46 @@ namespace Data.ServiceObject
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public int GetIdAlmacenByIdDetalleSalida(int idDetalle)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    int id = (from d in Conexion.TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN
+                              join s in Conexion.TBL_MOVIMIENTO_SALIDA_ALMACEN on d.ID_MOVIMIENTO_SALIDA_ALMACEN equals s.ID_MOVIMIENTO_SALIDA_ALMACEN
+                              where d.ID_DETALLE_MOVIMIENTO_SALIDA_ALMACEN == idDetalle
+                              select s.ID_ALMACEN).FirstOrDefault();
+
+                    return id;
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public int GetIdArticuloByIdDetalleSalida(int idDetalle)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    int id = (from d in Conexion.TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN
+                              join a in Conexion.TBL_ARTICULO on d.ID_ARTICULO equals a.ID_ARTICULO
+                              where d.ID_DETALLE_MOVIMIENTO_SALIDA_ALMACEN == idDetalle
+                              select a.ID_ARTICULO).FirstOrDefault();
+
+                    return id;
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
             }
         }
     }
