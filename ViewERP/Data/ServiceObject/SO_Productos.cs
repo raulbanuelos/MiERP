@@ -12,7 +12,7 @@ namespace Data.ServiceObject
 {
     public class SO_Productos
     {
-        public int Productos(DO_Productos productos)
+        public int AltaProductos(DO_Productos productos)
         {
             try
             {
