@@ -79,5 +79,11 @@ namespace View.Controllers
 
             return jsonResult;
         }
+
+        [ERPVerificaRol]
+        public ActionResult DetailsOrden(int id)
+        {
+            return View();
+        }
     }
 }

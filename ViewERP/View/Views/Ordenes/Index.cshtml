@@ -62,20 +62,48 @@
     function llenarTabla(data) {
         var table = $('#dataTable').DataTable();
 
+        var monthNames = [
+           "Enero", "Febrero", "Marzo",
+           "Abril", "Mayo", "Junio", "Julio",
+           "Agosto", "Septiembre", "Octubre",
+           "Noviembre", "Diciembre"
+        ];
+
         table
             .clear()
             .draw();
         $.each(data, function (index, item) {
+
+            var fechaSolicitud = parseJsonDate(item.FechaSolicitud);
+            var fechaEntrega = parseJsonDate(item.FechaEntrega);
+
+            var dia = fechaSolicitud.getDate();
+            var mes = fechaSolicitud.getMonth();
+            var anio = fechaSolicitud.getFullYear();
+
+            var fechaCompletaSolicitud = dia + "/" + monthNames[mes] + "/" + anio;
+
+            dia = fechaEntrega.getDate();
+            mes = fechaEntrega.getMonth();
+            anio = fechaEntrega.getFullYear();
+
+            var fechaCompletaEntrega = dia + "/" + monthNames[mes] + "/" + anio;
+            var link = "<a href='Ordenes/DetailsOrden?id=" + item.Id_Orden + "'>" + item.Folio + "</a>";
             $("#dataTable").dataTable().fnAddData([
                 item.Id_Orden,
-                item.Folio,
-                item.FechaSolicitud,
-                item.FechaEntrega,
+                link,
+                fechaCompletaSolicitud,
+                fechaCompletaEntrega,
                 item.Id_Cliente,
                 item.Requisicion,
                 item.Proyecto,
                 item.Usuario,
+                "Estatus"
             ]);
         });
+    }
+
+    function parseJsonDate(jsonDateString) {
+        return new Date(parseInt(jsonDateString.replace('/Date(', '')));
     }
 </script>

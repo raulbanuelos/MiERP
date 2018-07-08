@@ -38,6 +38,7 @@ namespace Data.ServiceObject
             }
 
         }
+
         public int BorrarOrdenesDetalle(int Id_OrdenDetalle)
         {
             try
@@ -56,6 +57,7 @@ namespace Data.ServiceObject
             }
 
         }
+
         public int ActualizarOrdenesDetalle(DO_OrdenesDetalle ordenesdetalle)
         {
             try
@@ -85,6 +87,7 @@ namespace Data.ServiceObject
             }
 
         }
+
         public IList ObtenerTodos()
         {
             try
@@ -103,5 +106,23 @@ namespace Data.ServiceObject
             }
         }
 
+        public IList GetAllByIdOrden(int idOrden)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var Lista = (from a in Conexion.OrdenesDetalle
+                                 where a.Id_Orden == idOrden
+                                 select a).ToList();
+
+                    return Lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }

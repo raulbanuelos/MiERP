@@ -108,5 +108,24 @@ namespace Data.ServiceObject
             }
         }
 
+        public IList GetOrden(int idOrden)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var Lista = (from a in Conexion.Ordenes
+                                 where a.Id_Orden == idOrden
+                                 select a).ToList();
+
+                    return Lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        
     }
 }

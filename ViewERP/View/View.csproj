@@ -389,6 +389,7 @@
     <Content Include="Views\SalidasAlmacen\VerDetalleSalidaAbierta.cshtml" />
     <Content Include="Views\Ordenes\Crear.cshtml" />
     <Content Include="Views\Ordenes\Index.cshtml" />
+    <Content Include="Views\Ordenes\DetailsOrden.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

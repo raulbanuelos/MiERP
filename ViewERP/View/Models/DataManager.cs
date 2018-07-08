@@ -1469,6 +1469,62 @@ namespace View.Models
             return Lista;
           
         }
+
+        public static DO_Ordenes GetOrden(int idOrden)
+        {
+            SO_Ordenes ServiceOrden = new SO_Ordenes();
+            DO_Ordenes orden = new DO_Ordenes();
+
+            IList informacionBD = ServiceOrden.GetOrden(idOrden);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type tipo = item.GetType();
+
+                    orden.Id_Orden = (int)tipo.GetProperty("Id_Orden").GetValue(item, null);
+                    orden.Folio = (string)tipo.GetProperty("Folio").GetValue(item, null);
+                    orden.FechaSolicitud = (DateTime)tipo.GetProperty("FechaSolicitud").GetValue(item, null);
+                    orden.FechaEntrega = (DateTime)tipo.GetProperty("FechaEntrega").GetValue(item, null);
+                    orden.Id_Cliente = (int)tipo.GetProperty("Id_Cliente").GetValue(item, null);
+                    orden.Requisicion = (string)tipo.GetProperty("Requisicion").GetValue(item, null);
+                    orden.Proyecto = (string)tipo.GetProperty("Proyecto").GetValue(item, null);
+                    orden.Usuario = (string)tipo.GetProperty("Usuario").GetValue(item, null);
+                }
+            }
+
+            if (orden.Id_Orden > 0)
+            {
+                SO_OrdenDetalle ServiceDetalleOrden = new SO_OrdenDetalle();
+
+                IList informacionDetalleBD = ServiceDetalleOrden.GetAllByIdOrden(idOrden);
+
+                orden.OrdernesDetalle = new List<DO_OrdenesDetalle>();
+
+                if (informacionDetalleBD != null)
+                {
+                    foreach (var item in informacionDetalleBD)
+                    {
+                        Type tipo = item.GetType();
+                        DO_OrdenesDetalle detalle = new DO_OrdenesDetalle();
+
+                        detalle.Id_OrdenDetalle = (int)tipo.GetProperty("Id_OrdenDetalle").GetValue(item, null);
+                        detalle.Id_Orden = (int)tipo.GetProperty("Id_Orden").GetValue(item, null);
+                        detalle.Id_Producto = (int)tipo.GetProperty("Id_Producto").GetValue(item, null);
+                        detalle.Id_EstatusOrden = (int)tipo.GetProperty("Id_EstatusOrden").GetValue(item, null);
+                        detalle.Cantidad = (int)tipo.GetProperty("Cantidad").GetValue(item, null);
+                        detalle.EntregaParcial = (int)tipo.GetProperty("EntregaParcial").GetValue(item, null);
+                        detalle.EntregarA = (string)tipo.GetProperty("EntregarA").GetValue(item, null);
+                        detalle.FechaActualizacionEstatus = (DateTime)tipo.GetProperty("FechaActualizacionEstatus").GetValue(item, null);
+                        orden.OrdernesDetalle.Add(detalle);
+
+                    }
+                }
+
+            }
+            return orden;
+        }
         #endregion
         
         #region Archivos
