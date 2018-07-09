@@ -133,7 +133,7 @@ namespace Data.ServiceObject
                     return lista;
                 }
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 return null;
             }
@@ -186,7 +186,7 @@ namespace Data.ServiceObject
                     return Conexion.SaveChanges();
                 }
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 return 0;
             }

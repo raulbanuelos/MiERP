@@ -59,3 +59,4 @@ function soloNumeros(e) {
 function parseJsonDate(jsonDateString) {
     return new Date(parseInt(jsonDateString.replace('/Date(', '')));
 }
+

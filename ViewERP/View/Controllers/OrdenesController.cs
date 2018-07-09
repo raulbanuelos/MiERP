@@ -83,7 +83,37 @@ namespace View.Controllers
         [ERPVerificaRol]
         public ActionResult DetailsOrden(int id)
         {
+
+            List<SelectListItem> Estatus = new List<SelectListItem>();
+
+            Estatus = DataManager.ConvertListDOEstatusOrdenToSelectListItem(DataManager.GetAllEstatus());
+
+            ViewBag.Estatus = Estatus;
             return View();
         }
+
+        [HttpPost]
+        public JsonResult GetOrdenDetalle(int idOrden)
+        {
+            DO_Ordenes orden = DataManager.GetOrden(idOrden);
+
+            var jsonResult = Json(orden, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult ActualizarDetalleOrden(int idDetalleOrden, int entregaParcial,string entregarA,int estatusOrden)
+        {
+
+            int r = DataManager.UpdateOrdenDetalle(idDetalleOrden, estatusOrden, entregaParcial, entregarA);
+
+            var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+        
     }
 }

@@ -107,7 +107,6 @@
         var _usuarioAtendio = $("#txtUsuarioAtendio").val();
         var _codigo = $("#txtCodigo").val();
         var _idAlmacen = 1;
-        debugger;
         $.ajax({
             type: "POST",
             url: urlSave,
@@ -115,7 +114,6 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                debugger;
                 llenarTabla(data);
             },
             error: function (result) {

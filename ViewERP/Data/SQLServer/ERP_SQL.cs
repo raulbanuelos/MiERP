@@ -57,7 +57,7 @@ namespace Data.SQLServer
                     }
                 }
             }
-            catch (Exception ER)
+            catch (Exception)
             {
                 //Registrar el error.
             }

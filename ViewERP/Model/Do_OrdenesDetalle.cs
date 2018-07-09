@@ -16,5 +16,9 @@ namespace Model
         public int EntregaParcial { get; set; }
         public string EntregarA { get; set; }
         public DateTime? FechaActualizacionEstatus { get; set; }
+
+
+        public DO_Productos Producto { get; set; }
+        public DO_EstatusOrden Estatus { get; set; }
     }
 }

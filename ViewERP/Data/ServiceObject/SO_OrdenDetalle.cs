@@ -65,13 +65,9 @@ namespace Data.ServiceObject
 
                 using (var conexion = new EntitiesERP())
                 {
-                    OrdenesDetalle obj = conexion.OrdenesDetalle.Where(x => x.Id_OrdenDetalle == ordenesdetalle.Id_Orden).FirstOrDefault();
-
-                    obj.Id_OrdenDetalle = ordenesdetalle.Id_OrdenDetalle;
-                    obj.Id_Orden = ordenesdetalle.Id_Orden;
-                    obj.Id_Producto = ordenesdetalle.Id_Producto;
+                    OrdenesDetalle obj = conexion.OrdenesDetalle.Where(x => x.Id_OrdenDetalle == ordenesdetalle.Id_OrdenDetalle).FirstOrDefault();
+                    
                     obj.Id_EstatusOrden = ordenesdetalle.Id_EstatusOrden;
-                    obj.Cantidad = ordenesdetalle.Cantidad;
                     obj.EntregaParcial = ordenesdetalle.EntregaParcial;
                     obj.EntregarA = ordenesdetalle.EntregarA;
                     obj.FechaActualizacionEstatus = DateTime.Now;

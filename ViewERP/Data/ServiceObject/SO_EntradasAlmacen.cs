@@ -29,7 +29,7 @@ namespace Data.ServiceObject
                     return r > 0 ? obj.ID_MOVIMIENTO_ALMACEN : 0;
                 }
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 return 0;
             }

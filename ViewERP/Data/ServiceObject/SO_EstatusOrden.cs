@@ -9,7 +9,7 @@ using System.Collections;
 
 namespace Data.ServiceObject
 {
-    class SO_EstatusOrden
+    public class SO_EstatusOrden
     {
         public int EstatusOrden(DO_EstatusOrden estatusorden)
         {
@@ -90,6 +90,25 @@ namespace Data.ServiceObject
             catch (Exception)
             {
 
+                return null;
+            }
+        }
+
+        public IList GetEstatusOrden(int idEstatusOrden)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var Lista = (from a in Conexion.EstatusOrden
+                                 where a.Id_EstatusOrden == idEstatusOrden
+                                 select a).ToList();
+
+                    return Lista;
+                }
+            }
+            catch (Exception)
+            {
                 return null;
             }
         }

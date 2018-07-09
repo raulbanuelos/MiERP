@@ -81,7 +81,7 @@ namespace Data.ServiceObject
 
                 }
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 return 0;
             }

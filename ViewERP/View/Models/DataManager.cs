@@ -1366,10 +1366,7 @@ namespace View.Models
 
             return service.ActualizarCliente(cliente);
         }
-
-
-
-
+        
         #endregion
 
         #region Productos
@@ -1455,7 +1452,32 @@ namespace View.Models
             return service.ActualizarProducto(producto);
         }
 
+        public static DO_Productos GetProducto(int idProducto)
+        {
+            SO_Productos service = new SO_Productos();
 
+            DO_Productos producto = new DO_Productos();
+
+            IList informacionBD = service.GetProducto(idProducto);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    producto = new DO_Productos();
+
+                    Type tipo = item.GetType();
+
+                    producto.Id_Productos = (int)tipo.GetProperty("Id_Productos").GetValue(item, null);
+                    producto.Id_Categoria = (int)tipo.GetProperty("Id_Categoria").GetValue(item, null);
+                    producto.Codigo = (string)tipo.GetProperty("Codigo").GetValue(item, null);
+                    producto.Descripcion = (string)tipo.GetProperty("Descripcion").GetValue(item, null);
+                    producto.foto = (byte[])tipo.GetProperty("foto").GetValue(item, null);
+                }
+            }
+
+            return producto;
+        }
         #endregion
 
         #region Ordenes
@@ -1568,6 +1590,7 @@ namespace View.Models
                     orden.Requisicion = (string)tipo.GetProperty("Requisicion").GetValue(item, null);
                     orden.Proyecto = (string)tipo.GetProperty("Proyecto").GetValue(item, null);
                     orden.Usuario = (string)tipo.GetProperty("Usuario").GetValue(item, null);
+                    
                 }
             }
 
@@ -1594,6 +1617,10 @@ namespace View.Models
                         detalle.EntregaParcial = (int)tipo.GetProperty("EntregaParcial").GetValue(item, null);
                         detalle.EntregarA = (string)tipo.GetProperty("EntregarA").GetValue(item, null);
                         detalle.FechaActualizacionEstatus = (DateTime)tipo.GetProperty("FechaActualizacionEstatus").GetValue(item, null);
+
+                        detalle.Producto = GetProducto(detalle.Id_Producto);
+                        detalle.Estatus = GetEstatusOrden(detalle.Id_EstatusOrden);
+
                         orden.OrdernesDetalle.Add(detalle);
 
                     }
@@ -1603,7 +1630,97 @@ namespace View.Models
             return orden;
         }
         #endregion
-        
+
+        #region OrdenesDetalle
+
+        public static int UpdateOrdenDetalle(int idOrdenDetalle,int idEstatusOrden,int entregaParcial,string entregarA)
+        {
+            SO_OrdenDetalle service = new SO_OrdenDetalle();
+
+            DO_OrdenesDetalle ordendetalle = new DO_OrdenesDetalle();
+
+            ordendetalle.Id_OrdenDetalle = idOrdenDetalle;
+            ordendetalle.Id_EstatusOrden = idEstatusOrden;
+            ordendetalle.EntregaParcial = entregaParcial;
+            ordendetalle.EntregarA = entregarA;
+            
+            return service.ActualizarOrdenesDetalle(ordendetalle);
+        }
+
+        #endregion
+
+        #region EstatusOrden
+
+        public static DO_EstatusOrden GetEstatusOrden(int idEstatusOrden)
+        {
+            SO_EstatusOrden service = new SO_EstatusOrden();
+
+            DO_EstatusOrden estatusOrden = new DO_EstatusOrden();
+
+            IList informacionBD = service.GetEstatusOrden(idEstatusOrden);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type tipo = item.GetType();
+
+                    estatusOrden = new DO_EstatusOrden();
+
+                    estatusOrden.Id_EstatusOrden = (int)tipo.GetProperty("Id_EstatusOrden").GetValue(item, null);
+                    estatusOrden.EstatusOrden = (string)tipo.GetProperty("EstatusOrden1").GetValue(item, null);
+
+                }
+            }
+
+            return estatusOrden;
+        }
+
+        public static List<DO_EstatusOrden> GetAllEstatus()
+        {
+            SO_EstatusOrden service = new SO_EstatusOrden();
+
+            IList informacionBD = service.ObtenerTodos();
+
+            List<DO_EstatusOrden> Lista = new List<DO_EstatusOrden>();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type tipo = item.GetType();
+
+                    DO_EstatusOrden estatus = new DO_EstatusOrden();
+
+                    estatus.Id_EstatusOrden = (int)tipo.GetProperty("Id_EstatusOrden").GetValue(item, null);
+                    estatus.EstatusOrden = (string)tipo.GetProperty("EstatusOrden1").GetValue(item, null);
+
+                    Lista.Add(estatus);
+                }
+            }
+
+            return Lista;
+        }
+
+        public static List<SelectListItem> ConvertListDOEstatusOrdenToSelectListItem(List<DO_EstatusOrden> Lista)
+        {
+            List<SelectListItem> listaResultante = new List<SelectListItem>();
+
+            foreach (var item in Lista)
+            {
+                SelectListItem obj = new SelectListItem();
+
+                obj.Text = item.EstatusOrden;
+                obj.Value = Convert.ToString(item.Id_EstatusOrden);
+
+                listaResultante.Add(obj);
+            }
+
+            return listaResultante;
+        }
+
+        #endregion
+
         #region Archivos
         public static byte[] GetBytesFromInputStream(Stream archivo)
         {

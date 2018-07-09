@@ -99,6 +99,25 @@ namespace Data.ServiceObject
                 return null;
             }
         }
+
+        public IList GetProducto(int idProducto)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var Lista = (from a in Conexion.Productos
+                                 where a.Id_Productos == idProducto
+                                 select a).ToList();
+
+                    return Lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }
 
