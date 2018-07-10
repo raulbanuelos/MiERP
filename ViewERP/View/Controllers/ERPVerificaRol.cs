@@ -109,6 +109,12 @@ namespace View.Controllers
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
+            if (nombreControlador.Equals("AlertasStock"))
+            {
+                RolesPermitidos = "1";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
+
             return false;
         }
 

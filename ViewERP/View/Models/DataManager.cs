@@ -1739,7 +1739,39 @@ namespace View.Models
                 //Regresamos el arreglo
                 return ArchivoEnBytes;
             }
-        } 
+        }
+        #endregion
+
+        #region ALERTAS
+        public static List<DO_AlertaStock> GetAlertas(int idCompania)
+        {
+            SO_AlertaStockMin service = new SO_AlertaStockMin();
+
+            List<DO_AlertaStock> Lista = new List<DO_AlertaStock>();
+
+            IList informacionBD = service.GetAlertaStock(idCompania);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type tipo = item.GetType();
+
+                    DO_AlertaStock alerta = new DO_AlertaStock();
+
+                    alerta.Codigo = (string)tipo.GetProperty("CODIGO").GetValue(item, null);
+                    alerta.Descripcion = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
+                    alerta.StockMin = (int)tipo.GetProperty("STOCK_MIN").GetValue(item, null);
+                    alerta.StockMax = (int)tipo.GetProperty("STOCK_MAX").GetValue(item, null);
+                    alerta.CantidadEnAlmacen = Convert.ToInt32((decimal)tipo.GetProperty("CANTIDAD_EN_ALMACEN").GetValue(item, null));
+                    
+                    Lista.Add(alerta);
+
+                }
+            }
+
+            return Lista;
+        }
         #endregion
     }
 }

@@ -177,6 +177,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AlertasStockController.cs" />
     <Compile Include="Controllers\AlmacenController.cs" />
     <Compile Include="Controllers\ArticuloController.cs" />
     <Compile Include="Controllers\CategoriaArticuloController.cs" />
@@ -390,6 +391,7 @@
     <Content Include="Views\Ordenes\Crear.cshtml" />
     <Content Include="Views\Ordenes\Index.cshtml" />
     <Content Include="Views\Ordenes\DetailsOrden.cshtml" />
+    <Content Include="Views\AlertasStock\Alertas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -13,6 +13,7 @@ namespace Model
         public int idAlertaStockMin { get; set; }
         public DO_Articulo Articulo { get; set; }
         public double Cantidad { get; set; }
+        
 
     }
 }

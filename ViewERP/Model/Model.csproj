@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DO_AlertaStock.cs" />
     <Compile Include="DO_AlertaStockMin.cs" />
     <Compile Include="DO_Almacen.cs" />
     <Compile Include="DO_ArchivosOrden.cs" />
