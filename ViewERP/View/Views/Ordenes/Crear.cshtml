@@ -171,7 +171,6 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                alert("success");
                 guardarArchivos(data);
             },
             error: function (result) {
@@ -199,7 +198,7 @@
             processData: false,
             data: formData,
             success: function (data) {
-                alert("Archivos fueron cargados.");
+                alert("Orden creada");
             },
             error: function (result) {
                 alert("Woops, se produjo un error al subir los archivos.: " + result);
