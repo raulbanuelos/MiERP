@@ -5,8 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using View.Models;
-
+using Excel = Microsoft.Office.Interop.Excel;
+using System.IO;
 namespace View.Controllers
+
 {
     public class OrdenesController : Controller
     {
@@ -114,6 +116,64 @@ namespace View.Controllers
 
             return jsonResult;
         }
-        
+
+        [ERPVerificaRol]
+        public ActionResult CargarOrden()
+        {
+
+            List<SelectListItem> ListaClientes = DataManager.ConvertListDOClienteToSelectListItem(DataManager.GetAllClientes());
+
+            ViewBag.Clientes = ListaClientes;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Import(HttpPostedFileBase excelfile)
+        {
+            List<SelectListItem> ListaClientes = DataManager.ConvertListDOClienteToSelectListItem(DataManager.GetAllClientes());
+
+            ViewBag.Clientes = ListaClientes;
+
+            if (excelfile == null || excelfile.ContentLength == 0)
+            {
+                ViewBag.Error = "Please select a excel file";
+                return View("CargarOrden");
+            }
+            else
+            {
+                if (excelfile.FileName.EndsWith("xls")|| excelfile.FileName.EndsWith("xlsx"))
+                {
+                    string path = Server.MapPath("~/Content/" + Path.GetFileName(excelfile.FileName));
+                    if (System.IO.File.Exists(path))
+                        System.IO.File.Delete(path);
+                    excelfile.SaveAs(path);
+
+                    //read data from excel file
+
+
+                    Excel.Application application = new Excel.Application();
+                    Excel.Workbook workbook = application.Workbooks.Open(path).ActiveSheet;
+                    Excel.Worksheet worksheet = workbook.ActiveSheet;
+                    Excel.Range range = worksheet.UsedRange;
+
+                    List<DO_OrdenesDetalle> orden = new List<DO_OrdenesDetalle>();
+
+
+
+                    ViewBag.Error = "Archivo cargado";
+                    return View("CargarOrden");
+                }
+                else
+                {
+                    ViewBag.Error = "File type is encorrect<br>";
+                    return View("CargarOrden");
+                }
+            }
+
+
+            
+        }
+
     }
 }
