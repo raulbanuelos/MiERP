@@ -5,8 +5,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using View.Models;
-using Excel = Microsoft.Office.Interop.Excel;
 using System.IO;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using System.Data;
+
 namespace View.Controllers
 
 {
@@ -131,6 +135,9 @@ namespace View.Controllers
         [HttpPost]
         public ActionResult Import(HttpPostedFileBase excelfile)
         {
+            string usuario = ((DO_Persona)Session["UsuarioConectado"]).Usuario;
+            int idCliente = 1;
+
             List<SelectListItem> ListaClientes = DataManager.ConvertListDOClienteToSelectListItem(DataManager.GetAllClientes());
 
             ViewBag.Clientes = ListaClientes;
@@ -151,17 +158,42 @@ namespace View.Controllers
 
                     //read data from excel file
 
+                    DataTable dataTable = new DataTable();
+                    using (SpreadsheetDocument spreadSheetDocument = SpreadsheetDocument.Open(path, false))
+                    {
+                        WorkbookPart workbookPart = spreadSheetDocument.WorkbookPart;
+                        IEnumerable<Sheet> sheets = spreadSheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheets>().Elements<Sheet>();
+                        string relationshipId = sheets.First().Id.Value;
+                        WorksheetPart worksheetPart = (WorksheetPart)spreadSheetDocument.WorkbookPart.GetPartById(relationshipId);
+                        Worksheet workSheet = worksheetPart.Worksheet;
+                        SheetData sheetData = workSheet.GetFirstChild<SheetData>();
+                        IEnumerable<Row> rows = sheetData.Descendants<Row>();
 
-                    Excel.Application application = new Excel.Application();
-                    Excel.Workbook workbook = application.Workbooks.Open(path).ActiveSheet;
-                    Excel.Worksheet worksheet = workbook.ActiveSheet;
-                    Excel.Range range = worksheet.UsedRange;
+                        foreach (Cell cell in rows.ElementAt(0))
+                        {
+                            dataTable.Columns.Add(GetCellValue(spreadSheetDocument, cell));
+                        }
 
-                    List<DO_OrdenesDetalle> orden = new List<DO_OrdenesDetalle>();
+                        foreach (Row row in rows)
+                        {
+                            DataRow dataRow = dataTable.NewRow();
+                            for (int i = 0; i < row.Descendants<Cell>().Count(); i++)
+                            {
+                                dataRow[i] = GetCellValue(spreadSheetDocument, row.Descendants<Cell>().ElementAt(i));
+                            }
 
+                            dataTable.Rows.Add(dataRow);
+                        }
 
+                    }
 
-                    ViewBag.Error = "Archivo cargado";
+                    dataTable.Rows.RemoveAt(0);
+
+                    List<DO_C_Orcen> Lista =  DataManager.ReadOrden(dataTable);
+
+                    bool ingreso = DataManager.InsertOrdenFromFile(Lista, idCliente, usuario);
+
+                    ViewBag.Error = ingreso ? "Datos cargados": "Upps, se genero un error, es posible que no se cargaron todos los datos.";
                     return View("CargarOrden");
                 }
                 else
@@ -170,10 +202,21 @@ namespace View.Controllers
                     return View("CargarOrden");
                 }
             }
-
-
-            
         }
+        
+        private static string GetCellValue(SpreadsheetDocument document, Cell cell)
+        {
+            SharedStringTablePart stringTablePart = document.WorkbookPart.SharedStringTablePart;
+            string value = cell.CellValue.InnerXml;
 
+            if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
+            {
+                return stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
+            }
+            else
+            {
+                return value;
+            }
+        }
     }
 }
