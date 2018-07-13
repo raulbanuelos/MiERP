@@ -5,8 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using View.Models;
-using Excel = Microsoft.Office.Interop.Excel;
 using System.IO;
+using System.Data.OleDb;
+using System.Data;
+
 namespace View.Controllers
 
 {
@@ -151,15 +153,58 @@ namespace View.Controllers
 
                     //read data from excel file
 
+                    string conexion = "Provider=Microsoft.ACE.OLEDB.13.0;Data Source = " + path + " ;Extended Properties = \"Excel 8.0;HDR = Yes\"";
 
-                    Excel.Application application = new Excel.Application();
-                    Excel.Workbook workbook = application.Workbooks.Open(path).ActiveSheet;
-                    Excel.Worksheet worksheet = workbook.ActiveSheet;
-                    Excel.Range range = worksheet.UsedRange;
+                    OleDbConnection conector = default(OleDbConnection);
+                    conector = new OleDbConnection(conexion);
+                    conector.Open();
 
-                    List<DO_OrdenesDetalle> orden = new List<DO_OrdenesDetalle>();
+                    OleDbCommand consulta = default(OleDbCommand);
+                    consulta = new OleDbCommand("select * from [Hoja1$]",conector);
+
+                    OleDbDataAdapter adaptador = new OleDbDataAdapter();
+                    adaptador.SelectCommand = consulta;
+
+                    DataSet ds = new DataSet();
+
+                    adaptador.Fill(ds);
+
+                    conector.Close();
+
+                    //Excel.Application application = new Excel.Application();
+                    //Excel.Workbook workbook = application.Workbooks.Open(path).ActiveSheet;
+                    //Excel.Worksheet worksheet = workbook.ActiveSheet;
+                    //Excel.Range range = worksheet.UsedRange;
+
+                    //List<DO_CargaOrden> ordenes = new List<DO_CargaOrden>();
+
+                    //for (int row = 1; row < range.Rows.Count; row++)
+                    //{
+                    //    DO_CargaOrden orden = new DO_CargaOrden();
+                    //    orden.Proyecto = ((Excel.Range)range.Cells[row, 2]).Text;
+                    //    orden.PlantaDestino = ((Excel.Range)range.Cells[row, 3]).Text;
+                    //    orden.EquipoRequerido = ((Excel.Range)range.Cells[row, 4]).Text;
+                    //    orden.EnviarA = ((Excel.Range)range.Cells[row, 5]).Text;
+                    //    orden.CantidadTotal = ((Excel.Range)range.Cells[row, 6]).Text;
+                    //    if(((Excel.Range)range.Cells[row, 7]).Text == "")
+                    //    {
+                    //        orden.EntregaParcial = 0;
+                    //    }
+                    //    else
+                    //    {
+                    //        orden.EntregaParcial = ((Excel.Range)range.Cells[row, 7]).Text;
+                    //    }
+
+                    //    orden.Entrega = ((Excel.Range)range.Cells[row, 8]).Text;
+                    //    orden.NoVale = ((Excel.Range)range.Cells[row, 9]).Text;
+                    //    orden.Requisicion = ((Excel.Range)range.Cells[row, 10]).Text;
+                    //    orden.FechaPedido = ((Excel.Range)range.Cells[row, 11]).Text;
+                    //    orden.FechaEntrega = ((Excel.Range)range.Cells[row, 12]).Text;
+                    //    orden.OrdenCompra = ((Excel.Range)range.Cells[row, 13]).Text;
 
 
+                    //    ordenes.Add(orden);
+                    //}
 
                     ViewBag.Error = "Archivo cargado";
                     return View("CargarOrden");

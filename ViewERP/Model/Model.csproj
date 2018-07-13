@@ -51,6 +51,7 @@
     <Compile Include="DO_Almacen.cs" />
     <Compile Include="DO_ArchivosOrden.cs" />
     <Compile Include="DO_Articulo.cs" />
+    <Compile Include="DO_CargaOrden.cs" />
     <Compile Include="DO_CategoriaArticulo.cs" />
     <Compile Include="DO_CategoriaProducto.cs" />
     <Compile Include="DO_Clientes.cs" />
