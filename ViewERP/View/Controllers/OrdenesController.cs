@@ -6,7 +6,9 @@ using System.Web;
 using System.Web.Mvc;
 using View.Models;
 using System.IO;
-using System.Data.OleDb;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 using System.Data;
 
 namespace View.Controllers
@@ -133,6 +135,9 @@ namespace View.Controllers
         [HttpPost]
         public ActionResult Import(HttpPostedFileBase excelfile)
         {
+            string usuario = ((DO_Persona)Session["UsuarioConectado"]).Usuario;
+            int idCliente = 1;
+
             List<SelectListItem> ListaClientes = DataManager.ConvertListDOClienteToSelectListItem(DataManager.GetAllClientes());
 
             ViewBag.Clientes = ListaClientes;
@@ -153,60 +158,42 @@ namespace View.Controllers
 
                     //read data from excel file
 
-                    string conexion = "Provider=Microsoft.ACE.OLEDB.13.0;Data Source = " + path + " ;Extended Properties = \"Excel 8.0;HDR = Yes\"";
+                    DataTable dataTable = new DataTable();
+                    using (SpreadsheetDocument spreadSheetDocument = SpreadsheetDocument.Open(path, false))
+                    {
+                        WorkbookPart workbookPart = spreadSheetDocument.WorkbookPart;
+                        IEnumerable<Sheet> sheets = spreadSheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheets>().Elements<Sheet>();
+                        string relationshipId = sheets.First().Id.Value;
+                        WorksheetPart worksheetPart = (WorksheetPart)spreadSheetDocument.WorkbookPart.GetPartById(relationshipId);
+                        Worksheet workSheet = worksheetPart.Worksheet;
+                        SheetData sheetData = workSheet.GetFirstChild<SheetData>();
+                        IEnumerable<Row> rows = sheetData.Descendants<Row>();
 
-                    OleDbConnection conector = default(OleDbConnection);
-                    conector = new OleDbConnection(conexion);
-                    conector.Open();
+                        foreach (Cell cell in rows.ElementAt(0))
+                        {
+                            dataTable.Columns.Add(GetCellValue(spreadSheetDocument, cell));
+                        }
 
-                    OleDbCommand consulta = default(OleDbCommand);
-                    consulta = new OleDbCommand("select * from [Hoja1$]",conector);
+                        foreach (Row row in rows)
+                        {
+                            DataRow dataRow = dataTable.NewRow();
+                            for (int i = 0; i < row.Descendants<Cell>().Count(); i++)
+                            {
+                                dataRow[i] = GetCellValue(spreadSheetDocument, row.Descendants<Cell>().ElementAt(i));
+                            }
 
-                    OleDbDataAdapter adaptador = new OleDbDataAdapter();
-                    adaptador.SelectCommand = consulta;
+                            dataTable.Rows.Add(dataRow);
+                        }
 
-                    DataSet ds = new DataSet();
+                    }
 
-                    adaptador.Fill(ds);
+                    dataTable.Rows.RemoveAt(0);
 
-                    conector.Close();
+                    List<DO_C_Orcen> Lista =  DataManager.ReadOrden(dataTable);
 
-                    //Excel.Application application = new Excel.Application();
-                    //Excel.Workbook workbook = application.Workbooks.Open(path).ActiveSheet;
-                    //Excel.Worksheet worksheet = workbook.ActiveSheet;
-                    //Excel.Range range = worksheet.UsedRange;
+                    bool ingreso = DataManager.InsertOrdenFromFile(Lista, idCliente, usuario);
 
-                    //List<DO_CargaOrden> ordenes = new List<DO_CargaOrden>();
-
-                    //for (int row = 1; row < range.Rows.Count; row++)
-                    //{
-                    //    DO_CargaOrden orden = new DO_CargaOrden();
-                    //    orden.Proyecto = ((Excel.Range)range.Cells[row, 2]).Text;
-                    //    orden.PlantaDestino = ((Excel.Range)range.Cells[row, 3]).Text;
-                    //    orden.EquipoRequerido = ((Excel.Range)range.Cells[row, 4]).Text;
-                    //    orden.EnviarA = ((Excel.Range)range.Cells[row, 5]).Text;
-                    //    orden.CantidadTotal = ((Excel.Range)range.Cells[row, 6]).Text;
-                    //    if(((Excel.Range)range.Cells[row, 7]).Text == "")
-                    //    {
-                    //        orden.EntregaParcial = 0;
-                    //    }
-                    //    else
-                    //    {
-                    //        orden.EntregaParcial = ((Excel.Range)range.Cells[row, 7]).Text;
-                    //    }
-
-                    //    orden.Entrega = ((Excel.Range)range.Cells[row, 8]).Text;
-                    //    orden.NoVale = ((Excel.Range)range.Cells[row, 9]).Text;
-                    //    orden.Requisicion = ((Excel.Range)range.Cells[row, 10]).Text;
-                    //    orden.FechaPedido = ((Excel.Range)range.Cells[row, 11]).Text;
-                    //    orden.FechaEntrega = ((Excel.Range)range.Cells[row, 12]).Text;
-                    //    orden.OrdenCompra = ((Excel.Range)range.Cells[row, 13]).Text;
-
-
-                    //    ordenes.Add(orden);
-                    //}
-
-                    ViewBag.Error = "Archivo cargado";
+                    ViewBag.Error = ingreso ? "Datos cargados": "Upps, se genero un error, es posible que no se cargaron todos los datos.";
                     return View("CargarOrden");
                 }
                 else
@@ -215,10 +202,21 @@ namespace View.Controllers
                     return View("CargarOrden");
                 }
             }
-
-
-            
         }
+        
+        private static string GetCellValue(SpreadsheetDocument document, Cell cell)
+        {
+            SharedStringTablePart stringTablePart = document.WorkbookPart.SharedStringTablePart;
+            string value = cell.CellValue.InnerXml;
 
+            if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
+            {
+                return stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
+            }
+            else
+            {
+                return value;
+            }
+        }
     }
 }

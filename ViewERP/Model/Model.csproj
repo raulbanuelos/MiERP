@@ -55,6 +55,7 @@
     <Compile Include="DO_CategoriaArticulo.cs" />
     <Compile Include="DO_CategoriaProducto.cs" />
     <Compile Include="DO_Clientes.cs" />
+    <Compile Include="DO_C_Orcen.cs" />
     <Compile Include="DO_DetalleEntradaArticulo.cs" />
     <Compile Include="DO_DetalleSalidaAlmacen.cs" />
     <Compile Include="DO_DetalleSalidaArticulo.cs" />

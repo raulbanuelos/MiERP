@@ -1478,6 +1478,71 @@ namespace View.Models
 
             return producto;
         }
+
+        public static int GetIdProducto(string descripcion)
+        {
+            SO_Productos service = new SO_Productos();
+
+            return service.GetIdProducto(descripcion);
+        }
+
+        public static string GetNextCodeProducto()
+        {
+            SO_Productos service = new SO_Productos();
+
+            string lastCode = service.GetLastCode();
+            string newCode = "";
+            if (lastCode != "ERROR")
+            {
+                
+                string numeric = lastCode.Substring(3);
+
+                int numero = Convert.ToInt32(numeric) + 1;
+
+                if (numero.ToString().Length == 1)
+                {
+                    newCode = "MAQ00000" + numero;
+                }
+                else
+                {
+                    if (numero.ToString().Length == 2)
+                    {
+                        newCode = "MAQ0000" + numero;
+                    }
+                    else
+                    {
+                        if (numero.ToString().Length == 3)
+                        {
+                            newCode = "MAQ000" + numero;
+                        }
+                        else
+                        {
+                            if (numero.ToString().Length == 4)
+                            {
+                                newCode = "MAQ00" + numero;
+                            }
+                            else
+                            {
+                                if (numero.ToString().Length == 5)
+                                {
+                                    newCode = "MAQ0" + numero;
+                                }
+                                else
+                                {
+                                    if (numero.ToString().Length == 6)
+                                    {
+                                        newCode = "MAQ" + numero;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return newCode;
+            }
+            else
+                return string.Empty;
+        }
         #endregion
 
         #region Ordenes
@@ -1491,7 +1556,7 @@ namespace View.Models
 
             orden.FechaSolicitud = DateTime.ParseExact(fechaSolicitud, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
 
-            if (!string.IsNullOrEmpty(fechaEntrega))
+            if (!string.IsNullOrEmpty(fechaEntrega) && fechaEntrega != "sin-fecha")
             {
                 //orden.FechaEntrega = Convert.ToDateTime(fechaEntrega);
                 orden.FechaEntrega = DateTime.ParseExact(fechaEntrega, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
@@ -1634,6 +1699,85 @@ namespace View.Models
             }
             return orden;
         }
+
+        public static List<DO_C_Orcen> ReadOrden(DataTable dt)
+        {
+            List<DO_C_Orcen> ListaResultante = new List<DO_C_Orcen>();
+
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        DO_C_Orcen orden = new DO_C_Orcen();
+
+                        orden.Proyecto = item[1].ToString();
+                        orden.PlantaDestino = item[2].ToString();
+                        orden.EquipoRequerido = item[3].ToString();
+                        orden.EnviarA = item[4].ToString();
+                        orden.CantidadTotal = Convert.ToInt32(item[5].ToString());
+
+                        if (string.IsNullOrEmpty(item[6].ToString()) )
+                        {
+                            orden.EntregaParcial = 0;
+                        }else
+                        {
+                            orden.EntregaParcial = Convert.ToInt32(item[6].ToString());
+                        }
+
+                        if (string.IsNullOrEmpty(item[7].ToString()))
+                        {
+                            orden.Entrega = 0;
+                        }
+                        else
+                        {
+                            orden.Entrega = Convert.ToInt32(item[7].ToString());
+                        }
+
+                        orden.NoVale = item[8].ToString();
+                        orden.Requisicion = item[9].ToString();
+                        orden.FechaPedido = item[10].ToString();
+                        orden.FechaEntrega = item[11].ToString();
+                        orden.OrdenCompra = item[12].ToString();
+
+                        ListaResultante.Add(orden);
+                    }
+                }
+            }
+
+            return ListaResultante;
+        }
+
+        public static bool InsertOrdenFromFile(List<DO_C_Orcen> lista,int idCliente,string usuario)
+        {
+            bool respuesta = true;
+            foreach (var item in lista)
+            {
+                int idProducto = GetIdProducto(item.EquipoRequerido);
+                //Checamos si existe el producto, si no existe, agregamos el producto
+                if (idProducto == 0)
+                {
+                    idProducto = AltaProducto(1, GetNextCodeProducto(), item.EquipoRequerido, new byte[0]);
+                }
+
+                List<DO_SolicitudProducto> productosSolicitados = new List<DO_SolicitudProducto>();
+
+                //por el momento solo sera un producto por orden.
+                DO_SolicitudProducto productoSolicitado = new DO_SolicitudProducto();
+
+                productoSolicitado.cantidad = item.CantidadTotal;
+                productoSolicitado.descripcion = item.EquipoRequerido;
+                productoSolicitado.EntregarA = item.EnviarA;
+                productoSolicitado.idProducto = idProducto;
+                productosSolicitados.Add(productoSolicitado);
+                int r = InsertOrden(item.FechaPedido, item.FechaEntrega, item.Requisicion, item.Proyecto, item.NoVale, idCliente, productosSolicitados,usuario);
+                respuesta = r > 0 && respuesta ? true : false;
+            }
+
+            return respuesta;
+        }
+
         #endregion
 
         #region OrdenesDetalle

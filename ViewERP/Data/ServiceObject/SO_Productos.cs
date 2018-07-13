@@ -26,7 +26,9 @@ namespace Data.ServiceObject
                     obj.foto = productos.foto;
 
                     conexion.Productos.Add(obj);
-                    return conexion.SaveChanges();
+                    conexion.SaveChanges();
+
+                    return obj.Id_Productos;
                 }
             }
             catch (Exception)
@@ -116,6 +118,42 @@ namespace Data.ServiceObject
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public  int GetIdProducto(string descripcion)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    Productos producto = Conexion.Productos.Where(x => x.Descripcion == descripcion).FirstOrDefault();
+
+                    return producto.Id_Productos;
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public string GetLastCode()
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    string codigo = (from a in Conexion.Productos
+                                     orderby a.Id_Productos descending
+                                     select a.Codigo).FirstOrDefault();
+
+                    return codigo;
+                }
+            }
+            catch (Exception)
+            {
+                return "ERROR";
             }
         }
     }
