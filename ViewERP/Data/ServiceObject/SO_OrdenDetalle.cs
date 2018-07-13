@@ -31,7 +31,7 @@ namespace Data.ServiceObject
                     return conexion.SaveChanges();
                 }
             }
-            catch (Exception)
+            catch (Exception er)
             {
 
                 return 0;
