@@ -96,5 +96,34 @@ namespace Data.ServiceObject
                 return 0;
             }
         }
+
+        public IList GetAlertaStock(int idCompania)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var Lista = (from a in Conexion.TBL_ARTICULO
+                                 join e in Conexion.TBL_EXISTENCIA on a.ID_ARTICULO equals e.ID_ARTICULO
+                                 where a.ID_COMPANIA == idCompania
+                                 
+                                 select new
+                                 {
+                                     a.CODIGO,
+                                     a.DESCRIPCION,
+                                     a.STOCK_MIN,
+                                     a.STOCK_MAX, 
+                                     CANTIDAD_EN_ALMACEN = e.CANTIDAD,
+                                     RESTA = e.CANTIDAD - a.STOCK_MIN
+                                 }).OrderBy(x => x.RESTA).ToList();
+
+                    return Lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }

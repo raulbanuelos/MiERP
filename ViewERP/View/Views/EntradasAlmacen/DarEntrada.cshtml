@@ -5,7 +5,6 @@
 }
 
 <h2>Entradas a almacen</h2>
-<button class="btn btn-success" onclick="irCrearNuevoArticulo()">Crear nuevo artículo</button>
 <div class="form-horizontal">
     <hr />
 
@@ -153,12 +152,6 @@
             }
         });
     });
-
-    function irCrearNuevoArticulo()
-    {
-        var link = "@Url.Action("Index","Articulo")";
-        window.location.href = link;
-    }
 
     function agregarArticulo() {
 

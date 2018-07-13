@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "CargarOrden";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CargarOrden</h2>
+
+
+<div class="form-group">
+    <label>Cliente</label>
+    <select id="cboClientes" class="form-control">
+        @{
+            foreach (SelectListItem Cliente in ((List<SelectListItem>)ViewBag.Clientes))
+            {
+                <option id="@Cliente.Value" value="@Cliente.Value">@Cliente.Text</option>
+            }
+        }
+    </select>
+</div>
+
+@using (Html.BeginForm("Import","Ordenes",FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.Raw(ViewBag.Error)
+    <span>Excel File</span><input type="file" name="excelfile" />
+    <br />
+    <input type="submit" value="Import" />
+}

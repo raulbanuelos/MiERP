@@ -64,8 +64,13 @@
                         <span class="nav-link-text">Artículos</span>
                     </a>
                     <ul class="sidenav-second-level collapse" id="collapseArticulos">
+
                         <li>
-                            <a href="@Url.Action("Index","Articulo")">Alta nuevos articulos</a>
+                            <a href="@Url.Action("Create","Articulo")">Crear nuevo artículo</a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("Index","Articulo")">Listado de articulos</a>
                         </li>
 
                         <li>
@@ -98,24 +103,25 @@
                     </ul>
                 </li> 
 
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Proveedores">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseProveedores" data-parent="#exampleAccordion">
-                        <i class="fa fa-fw fa-users"></i>
-                        <span class="nav-link-text">Proveedores</span>
-                    </a>
-                    <ul class="sidenav-second-level collapse" id="collapseProveedores">
-                        <li>
-                            <a href="@Url.Action("Index","Proveedor")">Mis proveedores</a>
-                        </li>
-                    </ul>
-                </li>
+                
 
                 @if ((bool)Session["ADMINISTRADOR"])
                 {
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Proveedores">
+                        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseProveedores" data-parent="#exampleAccordion">
+                            <i class="fa fa-fw fa-address-book-o"></i>
+                            <span class="nav-link-text">Proveedores</span>
+                        </a>
+                        <ul class="sidenav-second-level collapse" id="collapseProveedores">
+                            <li>
+                                <a href="@Url.Action("Index","Proveedor")">Mis proveedores</a>
+                            </li>
+                        </ul>
+                    </li>
 
                     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reportes">
                         <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseReportes" data-parent="#exampleAccordion">
-                            <i class="fa fa-fw fa-users"></i>
+                            <i class="fa fa-fw fa-newspaper-o"></i>
                             <span class="nav-link-text">Reportes</span>
                         </a>
                         <ul class="sidenav-second-level collapse" id="collapseReportes">
@@ -128,13 +134,6 @@
                             </li>
                         </ul>
                     </li>
-
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Usuarios">
-                        <a class="nav-link" href="@Url.Action("Index","Usuario")">
-                            <i class="fa fa-fw fa-users"></i>
-                            <span class="nav-link-text">Usuarios</span>
-                        </a>
-                    </li>
                 }
 
                 @if ((bool)Session["PRODUCCION"] || (bool)Session["ADMINISTRADOR"])
@@ -142,7 +141,7 @@
 
                     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Producción">
                         <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseProduccion" data-parent="#exampleAccordion">
-                            <i class="fa fa-fw fa-users"></i>
+                            <i class="fa fa-fw fa-first-order"></i>
                             <span class="nav-link-text">Producción</span>
                         </a>
                         <ul class="sidenav-second-level collapse" id="collapseProduccion">
@@ -153,6 +152,26 @@
                             <li>
                                 <a href="@Url.Action("Index","Ordenes")">Ver ordenes</a>
                             </li>
+
+                            <li>
+                                <a href="@Url.Action("CargarOrden","Ordenes")">Cargar órden</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                }
+
+                @if ((bool)Session["ADMINISTRADOR"])
+                {
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Alertas stock">
+                        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseAlertas" data-parent="#exampleAccordion">
+                            <i class="fa fa-fw fa-warning"></i>
+                            <span class="nav-link-text">Alertas</span>
+                        </a>
+                        <ul class="sidenav-second-level collapse" id="collapseAlertas">
+                            <li>
+                                <a href="@Url.Action("Alertas", "AlertasStock")">Ver alertas</a>
+                            </li>
                         </ul>
                     </li>
 
@@ -162,6 +181,7 @@
                             <span class="nav-link-text">Usuarios</span>
                         </a>
                     </li>
+
                 }
 
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="CerrarSession">

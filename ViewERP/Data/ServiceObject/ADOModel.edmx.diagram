@@ -13,7 +13,7 @@
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN" Width="1.5" PointX="18.125" PointY="25.5" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN" Width="1.5" PointX="15.125" PointY="25.5" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_EXISTENCIA" Width="1.5" PointX="12.875" PointY="18" />
-        <EntityTypeShape EntityType="Data.ServiceObject.TBL_MOVIMIENTO_ALMACEN" Width="1.5" PointX="15.875" PointY="21.25" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_MOVIMIENTO_ALMACEN" Width="3.25" PointX="15.875" PointY="21.25" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_MOVIMIENTO_SALIDA_ALMACEN" Width="1.5" PointX="12.875" PointY="24.625" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_PROVEEDOR" Width="1.5" PointX="10.625" PointY="24.875" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ROLE" Width="1.5" PointX="11.375" PointY="21.625" />
