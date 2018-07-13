@@ -11,7 +11,7 @@ namespace Model
         public int Id_Orden { get; set; }
         public string Folio { get; set; }
         public DateTime FechaSolicitud { get; set; }
-        public DateTime? FechaEntrega { get; set; }
+        public string FechaEntrega { get; set; }
         public int Id_Cliente { get; set; }
         public string Requisicion { get; set; }
         public string Proyecto { get; set; }

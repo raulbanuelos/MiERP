@@ -198,8 +198,15 @@
             success: function (data) {
 
                 var fecha = convertirJsonDateToStringDate(data.FechaSolicitud);
-                var fecha2 = convertirJsonDateToStringDate(data.FechaEntrega);
 
+                var fecha2 = "";
+                if (data.FechaEntrega == "Sin Fecha") {
+                    fecha2 = "Sin fecha";
+                }
+                else {
+                    var fecha2 = convertirJsonDateToStringDate(data.FechaEntrega);
+                }
+                
                 $("#txtFolio").val(data.Folio);
                 $("#txtFechaSolicitud").val(fecha);
                 $("#txtFechaEntrega").val(fecha2);

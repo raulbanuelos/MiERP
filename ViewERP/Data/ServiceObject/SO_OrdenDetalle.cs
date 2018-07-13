@@ -120,5 +120,38 @@ namespace Data.ServiceObject
                 return null;
             }
         }
+
+        public IList GetDetallesOrdenes()
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var Lista = (from d in Conexion.OrdenesDetalle
+                                 join o in Conexion.Ordenes on d.Id_Orden equals o.Id_Orden
+                                 join p in Conexion.Productos on d.Id_Producto equals p.Id_Productos
+                                 orderby o.FechaSolicitud descending
+                                 select new
+                                 {
+                                     ID_DETALLE_ORDEN = d.Id_OrdenDetalle,
+                                     PROYECTO = o.Proyecto,
+                                     EQUIPO_REQUERIDO = p.Descripcion,
+                                     ENVIAR_A = d.EntregarA,
+                                     CANTIDAD_TOTAL = d.Cantidad,
+                                     ENTREGA_PARCIAL = d.EntregaParcial,
+                                     REQUISICION = o.Requisicion,
+                                     FECHA_PEDIDO = o.FechaSolicitud,
+                                     FECHA_ENTREGA = o.FechaEntrega.ToString(),
+                                     ORDEN = o.Folio,
+                                 }).ToList();
+
+                    return Lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }

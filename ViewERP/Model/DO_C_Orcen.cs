@@ -20,5 +20,8 @@ namespace Model
         public string FechaPedido { get; set; }
         public string FechaEntrega { get; set; }
         public string OrdenCompra { get; set; }
+
+        public string Estatus { get; set; }
+        public int idDetalle { get; set; }
     }
 }
