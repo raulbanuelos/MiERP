@@ -18,7 +18,7 @@ namespace Data.ServiceObject
                 using (var conexion = new EntitiesERP())
                 {
                     OrdenesDetalle obj = new OrdenesDetalle();
-                    obj.Id_OrdenDetalle = ordenesdetalle.Id_OrdenDetalle;
+
                     obj.Id_Orden = ordenesdetalle.Id_Orden;
                     obj.Id_Producto = ordenesdetalle.Id_Producto;
                     obj.Id_EstatusOrden = ordenesdetalle.Id_EstatusOrden;
@@ -31,7 +31,7 @@ namespace Data.ServiceObject
                     return conexion.SaveChanges();
                 }
             }
-            catch (Exception)
+            catch (Exception er)
             {
 
                 return 0;

@@ -1487,10 +1487,13 @@ namespace View.Models
 
             DO_Ordenes orden = new DO_Ordenes();
             orden.Folio = folio;
-            orden.FechaSolicitud = Convert.ToDateTime(fechaSolicitud);
+            //orden.FechaSolicitud = Convert.ToDateTime(fechaSolicitud);
+
+            orden.FechaSolicitud = DateTime.ParseExact(fechaSolicitud, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
             if (!string.IsNullOrEmpty(fechaEntrega))
             {
-                orden.FechaEntrega = Convert.ToDateTime(fechaEntrega);
+                //orden.FechaEntrega = Convert.ToDateTime(fechaEntrega);
+                orden.FechaEntrega = DateTime.ParseExact(fechaEntrega, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
             }
             orden.Id_Cliente = idCliente;
             orden.Requisicion = requisicion;
