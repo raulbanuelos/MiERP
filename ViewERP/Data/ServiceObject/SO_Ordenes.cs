@@ -20,10 +20,14 @@ namespace Data.ServiceObject
                 { 
 
                     Ordenes obj = new Ordenes();
-                    obj.Id_Orden = ordenes.Id_Orden;
+                    //obj.Id_Orden = ordenes.Id_Orden;
                     obj.Folio = ordenes.Folio;
                     obj.FechaSolicitud = ordenes.FechaSolicitud;
-                    obj.FechaEntrega = Convert.ToDateTime(ordenes.FechaEntrega);
+                    if (!string.IsNullOrEmpty(ordenes.FechaEntrega))
+                    {
+                        obj.FechaEntrega = Convert.ToDateTime(ordenes.FechaEntrega);
+                    }
+                    
                     obj.Id_Cliente = ordenes.Id_Cliente;
                     obj.Usuario = ordenes.Usuario;
                     obj.Requisicion = ordenes.Requisicion;
@@ -36,7 +40,7 @@ namespace Data.ServiceObject
                     return obj.Id_Orden;
                 }
             }
-            catch (Exception)
+            catch (Exception er)
             {
 
                 return 0;

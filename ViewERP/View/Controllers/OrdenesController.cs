@@ -173,35 +173,43 @@ namespace View.Controllers
                     //read data from excel file
 
                     DataTable dataTable = new DataTable();
-                    using (SpreadsheetDocument spreadSheetDocument = SpreadsheetDocument.Open(path, false))
+                    try
                     {
-                        WorkbookPart workbookPart = spreadSheetDocument.WorkbookPart;
-                        IEnumerable<Sheet> sheets = spreadSheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheets>().Elements<Sheet>();
-                        string relationshipId = sheets.First().Id.Value;
-                        WorksheetPart worksheetPart = (WorksheetPart)spreadSheetDocument.WorkbookPart.GetPartById(relationshipId);
-                        Worksheet workSheet = worksheetPart.Worksheet;
-                        SheetData sheetData = workSheet.GetFirstChild<SheetData>();
-                        IEnumerable<Row> rows = sheetData.Descendants<Row>();
-
-                        foreach (Cell cell in rows.ElementAt(0))
+                        using (SpreadsheetDocument spreadSheetDocument = SpreadsheetDocument.Open(path, false))
                         {
-                            dataTable.Columns.Add(GetCellValue(spreadSheetDocument, cell));
-                        }
+                            WorkbookPart workbookPart = spreadSheetDocument.WorkbookPart;
+                            IEnumerable<Sheet> sheets = spreadSheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheets>().Elements<Sheet>();
+                            string relationshipId = sheets.First().Id.Value;
+                            WorksheetPart worksheetPart = (WorksheetPart)spreadSheetDocument.WorkbookPart.GetPartById(relationshipId);
+                            Worksheet workSheet = worksheetPart.Worksheet;
+                            SheetData sheetData = workSheet.GetFirstChild<SheetData>();
+                            IEnumerable<Row> rows = sheetData.Descendants<Row>();
 
-                        foreach (Row row in rows)
-                        {
-                            DataRow dataRow = dataTable.NewRow();
-                            for (int i = 0; i < row.Descendants<Cell>().Count(); i++)
+                            foreach (Cell cell in rows.ElementAt(0))
                             {
-                                dataRow[i] = GetCellValue(spreadSheetDocument, row.Descendants<Cell>().ElementAt(i));
+                                dataTable.Columns.Add(GetCellValue(spreadSheetDocument, cell));
                             }
 
-                            dataTable.Rows.Add(dataRow);
+                            foreach (Row row in rows)
+                            {
+                                DataRow dataRow = dataTable.NewRow();
+                                for (int i = 0; i < row.Descendants<Cell>().Count(); i++)
+                                {
+                                    dataRow[i] = GetCellValue(spreadSheetDocument, row.Descendants<Cell>().ElementAt(i));
+                                }
+
+                                dataTable.Rows.Add(dataRow);
+                            }
+
                         }
 
+                        dataTable.Rows.RemoveAt(0);
                     }
+                    catch (Exception er)
+                    {
 
-                    dataTable.Rows.RemoveAt(0);
+                        throw;
+                    }
 
                     List<DO_C_Orcen> Lista =  DataManager.ReadOrden(dataTable);
 

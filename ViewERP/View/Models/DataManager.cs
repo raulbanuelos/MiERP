@@ -1844,7 +1844,8 @@ namespace View.Models
                     ordenDetalle.CantidadTotal = (int)tipo.GetProperty("CANTIDAD_TOTAL").GetValue(item, null);
                     ordenDetalle.EntregaParcial = (int)tipo.GetProperty("ENTREGA_PARCIAL").GetValue(item, null);
                     ordenDetalle.Requisicion = (string)tipo.GetProperty("REQUISICION").GetValue(item, null);
-                    ordenDetalle.FechaPedido = Convert.ToDateTime(tipo.GetProperty("FECHA_PEDIDO").GetValue(item, null)).ToShortDateString();
+                    DateTime fechaPedido = Convert.ToDateTime(tipo.GetProperty("FECHA_PEDIDO").GetValue(item, null));
+                    ordenDetalle.FechaPedido = fechaPedido.Day + "/" + fechaPedido.Month + "/" + fechaPedido.Year;
                     
                     ordenDetalle.FechaEntrega = (string)tipo.GetProperty("FECHA_ENTREGA").GetValue(item, null);
                     ordenDetalle.OrdenCompra = (string)tipo.GetProperty("ORDEN").GetValue(item, null);
