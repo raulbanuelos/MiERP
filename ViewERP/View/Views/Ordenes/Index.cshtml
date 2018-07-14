@@ -4,34 +4,44 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .dataTables_wrapper {
+    font-family: Tahoma;
+    font-size: 9px;
+}
+</style>
 <h2>Index</h2>
 <div class="card-body">
     <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>Id Orden</th>
-                    <th>Folio</th>
-                    <th>Fecha Solicitud</th>
-                    <th>Fecha Entrega</th>
-                    <th>Cliente</th>
-                    <th>Requisición</th>
-                    <th>Proyecto</th>
-                    <th>Usuario</th>
-                    <th>Estatus</th>
+                    <th>ID</th>
+                    <th>PROYECTO</th>
+                    <th>EQUIPO REQUERIDO</th>
+                    <th>ENVIAR A</th>
+                    <th>CANTIDAD TOTAL</th>
+                    <th>ENTREGA PARCIAL</th>
+                    <th>REQUSICIÓN</th>
+                    <th>FECHA_PEDIDO</th>
+                    <th>FECHA_ENTREGA</th>
+                    <th>ORDEN</th>
+                    <th>ACCIONES</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <th>Id Orden</th>
-                    <th>Folio</th>
-                    <th>Fecha Solicitud</th>
-                    <th>Fecha Entrega</th>
-                    <th>Cliente</th>
-                    <th>Requisición</th>
-                    <th>Proyecto</th>
-                    <th>Usuario</th>
-                    <th>Estatus</th>
+                    <th>ID</th>
+                    <th>PROYECTO</th>
+                    <th>EQUIPO REQUERIDO</th>
+                    <th>ENVIAR A</th>
+                    <th>CANTIDAD TOTAL</th>
+                    <th>ENTREGA PARCIAL</th>
+                    <th>REQUSICIÓN</th>
+                    <th>FECHA_PEDIDO</th>
+                    <th>FECHA_ENTREGA</th>
+                    <th>ORDEN</th>
+                    <th>ACCIONES</th>
                 </tr>
             </tfoot>
             <tbody id="myTable"></tbody>
@@ -39,10 +49,104 @@
     </div>
 </div>
 
+<div id="modalactualizardetalleorden" data-backdrop="static" data-keyboard="false" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header alert alert-success">
+                <table>
+                    <tr>
+                        <td></td>
+                        <td><h3 class="modal-title">Regresar articulo</h3></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-body" id="div1">
+
+                <input type="hidden" id="idDetalleOrden" name="idDetalleOrden">
+
+                <div class="form-group">
+                    <b>Producto</b>
+                    <input type="number" id="txtProducto" class="form-control" placeholder="producto" readonly />
+                </div>
+
+                <div class="form-group">
+                    <b>Entrega Parcial</b>
+                    <input type="number" id="txtEntregaParcial" class="form-control" placeholder="Entrega parcial" />
+                </div>
+
+                <div class="form-group">
+                    <b>Entregar A</b>
+                    <input type="text" id="txtEntregarA" class="form-control" placeholder="Entregar A" />
+                </div>
+
+                <div class="form-group">
+                    <label>Estatus</label>
+                    <select id="cboEstatus" class="form-control">
+                        @{
+                            foreach (SelectListItem estatus in ((List<SelectListItem>)ViewBag.Estatus))
+                            {
+                                <option id="@estatus.Value" value="@estatus.Value">@estatus.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="actualizarDetalleOrden()">Actualizar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*Termina modal*@
+
 <script type="text/javascript">
-    $("#dataTable").DataTable();
+    var table = $("#dataTable").DataTable();
+
+    function actualizarDetalleOrden() {
+        var _idDetalleOrden = $("#idDetalleOrden").val();
+        var _entregaPacial = $("#txtEntregaParcial").val();
+        var _entregarA = $("#txtEntregarA").val();
+        var _estatusOrden = $("#cboEstatus option:selected").val();
+        var urlSave = '@Url.Action("ActualizarDetalleOrden","Ordenes")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ idDetalleOrden: _idDetalleOrden, entregaParcial: _entregaPacial, entregarA: _entregarA, estatusOrden: _estatusOrden }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                inicialize();
+                alert("Orden actualizada!");
+
+            },
+            error: function (result) {
+                alert("Error!");
+            }
+        });
+
+        $("#modalactualizardetalleorden").modal('hide');
+    }
+
+    $('#dataTable').on('click', '.btn-primary', function () {
+        var data = table.row($(this).parents('tr')).data();
+
+        //alert("Hola" + data[0]);
+
+        $("#idDetalleOrden").val(data[0]);
+        $("#txtProducto").val(data[1]);
+        $("#txtEntregaParcial").val(data[5]);
+        $("#txtEntregarA").val(data[3]);
+        $("#cboEstatus").val(data[8]);
+        $("#modalactualizardetalleorden").modal();
+    });
 
     $(function () {
+        inicialize();
+    });
+
+    function inicialize() {
         var urlSave = '@Url.Action("GetAllOrdenes", "Ordenes")';
         $.ajax({
             type: "POST",
@@ -57,7 +161,7 @@
                 alert("Error!");
             }
         });
-    });
+    }
 
     function llenarTabla(data) {
         var table = $('#dataTable').DataTable();
@@ -74,31 +178,42 @@
             .draw();
         $.each(data, function (index, item) {
 
-            var fechaSolicitud = parseJsonDate(item.FechaSolicitud);
-            var fechaEntrega = parseJsonDate(item.FechaEntrega);
+            var fechaEntrega = "";
+            var fechaCompletaEntrega = "";
+            if (item.FechaEntrega == "Sin Fecha" || item.FechaEntrega == "") {
+                fechaEntrega = "Sin Fecha";
+                fechaCompletaEntrega = "Sin Fecha";
+            }
+            else {
+                fechaEntrega = parseJsonDate(item.FechaEntrega);
+                dia = fechaEntrega.getDate();
+                mes = fechaEntrega.getMonth();
+                anio = fechaEntrega.getFullYear();
 
+                fechaCompletaEntrega = dia + "/" + monthNames[mes] + "/" + anio;
+
+            }
+
+            var fechaSolicitud = parseJsonDate(item.FechaPedido);
             var dia = fechaSolicitud.getDate();
             var mes = fechaSolicitud.getMonth();
             var anio = fechaSolicitud.getFullYear();
-
             var fechaCompletaSolicitud = dia + "/" + monthNames[mes] + "/" + anio;
 
-            dia = fechaEntrega.getDate();
-            mes = fechaEntrega.getMonth();
-            anio = fechaEntrega.getFullYear();
 
-            var fechaCompletaEntrega = dia + "/" + monthNames[mes] + "/" + anio;
-            var link = "<a href='Ordenes/DetailsOrden?id=" + item.Id_Orden + "'>" + item.Folio + "</a>";
+            //var link = "<a href='Ordenes/DetailsOrden?id=" + item.Id_Orden + "'>" + item.Folio + "</a>";
             $("#dataTable").dataTable().fnAddData([
-                item.Id_Orden,
-                link,
+                item.idDetalle,
+                item.Proyecto,
+                item.EquipoRequerido,
+                item.EnviarA,
+                item.CantidadTotal,
+                item.EntregaParcial,
+                item.Requisicion,
                 fechaCompletaSolicitud,
                 fechaCompletaEntrega,
-                item.Id_Cliente,
-                item.Requisicion,
-                item.Proyecto,
-                item.Usuario,
-                "Estatus"
+                item.OrdenCompra,
+                "<button class='btn-primary' id='" + item.idDetalle + "'>Actualizar</button>"
             ]);
         });
     }

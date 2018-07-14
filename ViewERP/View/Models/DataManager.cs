@@ -1556,10 +1556,10 @@ namespace View.Models
 
             orden.FechaSolicitud = DateTime.ParseExact(fechaSolicitud, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
 
-            if (!string.IsNullOrEmpty(fechaEntrega) && fechaEntrega != "sin-fecha")
+            if (!string.IsNullOrEmpty(fechaEntrega) && fechaEntrega != "Sin-Fecha")
             {
                 //orden.FechaEntrega = Convert.ToDateTime(fechaEntrega);
-                orden.FechaEntrega = DateTime.ParseExact(fechaEntrega, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                orden.FechaEntrega = DateTime.ParseExact(fechaEntrega, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture).ToShortDateString();
 
             }
             orden.Id_Cliente = idCliente;
@@ -1624,7 +1624,20 @@ namespace View.Models
                     orden.Id_Orden = (int)tipo.GetProperty("Id_Orden").GetValue(item, null);
                     orden.Folio = (string)tipo.GetProperty("Folio").GetValue(item, null);
                     orden.FechaSolicitud = (DateTime)tipo.GetProperty("FechaSolicitud").GetValue(item, null);
-                    orden.FechaEntrega = (DateTime)tipo.GetProperty("FechaEntrega").GetValue(item, null);
+                    if ((string)tipo.GetProperty("FechaEntrega").GetValue(item, null) == "Sin Fecha")
+                    {
+                        orden.FechaEntrega = "Sin Fecha";
+                    }
+                    else
+                    {
+                        orden.FechaEntrega = Convert.ToDateTime(tipo.GetProperty("FechaEntrega").GetValue(item, null)).ToShortDateString();
+                        if (orden.FechaEntrega == "01/01/0001")
+                        {
+                            orden.FechaEntrega = "Sin Fecha";
+                        }
+                        
+                    }
+                    
                     orden.Id_Cliente = (int)tipo.GetProperty("Id_Cliente").GetValue(item, null);
                     orden.Requisicion = (string)tipo.GetProperty("Requisicion").GetValue(item, null);
                     orden.Proyecto = (string)tipo.GetProperty("Proyecto").GetValue(item, null);
@@ -1655,7 +1668,19 @@ namespace View.Models
                     orden.Id_Orden = (int)tipo.GetProperty("Id_Orden").GetValue(item, null);
                     orden.Folio = (string)tipo.GetProperty("Folio").GetValue(item, null);
                     orden.FechaSolicitud = (DateTime)tipo.GetProperty("FechaSolicitud").GetValue(item, null);
-                    orden.FechaEntrega = (DateTime)tipo.GetProperty("FechaEntrega").GetValue(item, null);
+                    if ((string)tipo.GetProperty("FechaEntrega").GetValue(item, null) == "Sin fecha")
+                    {
+                        orden.FechaEntrega = "Sin Fecha";
+                    }
+                    else
+                    {
+                        orden.FechaEntrega = Convert.ToDateTime(tipo.GetProperty("FechaEntrega").GetValue(item, null)).ToShortDateString();
+                        if (orden.FechaEntrega == "01/01/0001")
+                        {
+                            orden.FechaEntrega = "Sin Fecha";
+                        }
+                    }
+                    
                     orden.Id_Cliente = (int)tipo.GetProperty("Id_Cliente").GetValue(item, null);
                     orden.Requisicion = (string)tipo.GetProperty("Requisicion").GetValue(item, null);
                     orden.Proyecto = (string)tipo.GetProperty("Proyecto").GetValue(item, null);
@@ -1794,6 +1819,42 @@ namespace View.Models
             ordendetalle.EntregarA = entregarA;
             
             return service.ActualizarOrdenesDetalle(ordendetalle);
+        }
+
+        public static List<DO_C_Orcen> GetAllDetalleOrden()
+        {
+            List<DO_C_Orcen> Lista = new List<DO_C_Orcen>();
+
+            SO_OrdenDetalle service = new SO_OrdenDetalle();
+
+            IList informacionBD = service.GetDetallesOrdenes();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type tipo = item.GetType();
+
+                    DO_C_Orcen ordenDetalle = new DO_C_Orcen();
+
+                    ordenDetalle.idDetalle = (int)tipo.GetProperty("ID_DETALLE_ORDEN").GetValue(item, null);
+                    ordenDetalle.Proyecto = (string)tipo.GetProperty("PROYECTO").GetValue(item, null);
+                    ordenDetalle.EquipoRequerido = (string)tipo.GetProperty("EQUIPO_REQUERIDO").GetValue(item, null);
+                    ordenDetalle.EnviarA = (string)tipo.GetProperty("ENVIAR_A").GetValue(item, null);
+                    ordenDetalle.CantidadTotal = (int)tipo.GetProperty("CANTIDAD_TOTAL").GetValue(item, null);
+                    ordenDetalle.EntregaParcial = (int)tipo.GetProperty("ENTREGA_PARCIAL").GetValue(item, null);
+                    ordenDetalle.Requisicion = (string)tipo.GetProperty("REQUISICION").GetValue(item, null);
+                    ordenDetalle.FechaPedido = Convert.ToDateTime(tipo.GetProperty("FECHA_PEDIDO").GetValue(item, null)).ToShortDateString();
+                    
+                    ordenDetalle.FechaEntrega = (string)tipo.GetProperty("FECHA_ENTREGA").GetValue(item, null);
+                    ordenDetalle.OrdenCompra = (string)tipo.GetProperty("ORDEN").GetValue(item, null);
+
+                    Lista.Add(ordenDetalle);
+
+                }
+            }
+
+            return Lista;
         }
 
         #endregion

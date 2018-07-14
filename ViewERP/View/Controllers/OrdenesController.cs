@@ -20,6 +20,12 @@ namespace View.Controllers
         [ERPVerificaRol]
         public ActionResult Index()
         {
+            List<SelectListItem> Estatus = new List<SelectListItem>();
+
+            Estatus = DataManager.ConvertListDOEstatusOrdenToSelectListItem(DataManager.GetAllEstatus());
+
+            ViewBag.Estatus = Estatus;
+
             return View();
         }
 
@@ -78,7 +84,15 @@ namespace View.Controllers
         [HttpPost]
         public JsonResult GetAllOrdenes(string parametro)
         {
-            List<DO_Ordenes> listaOrdenes = DataManager.GetAllOrdenes();
+            //List<DO_Ordenes> listaOrdenes = DataManager.GetAllOrdenes();
+
+            List<SelectListItem> Estatus = new List<SelectListItem>();
+
+            Estatus = DataManager.ConvertListDOEstatusOrdenToSelectListItem(DataManager.GetAllEstatus());
+
+            ViewBag.Estatus = Estatus;
+
+            List<DO_C_Orcen> listaOrdenes = DataManager.GetAllDetalleOrden();
 
             var jsonResult = Json(listaOrdenes, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
