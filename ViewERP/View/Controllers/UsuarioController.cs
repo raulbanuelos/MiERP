@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -73,15 +74,32 @@ namespace View.Controllers
             return View();
         }
 
+        [HttpPost]
         public JsonResult GuardarNuevaContrasena(string contrasenaAnterior, string nuevaContrasena)
         {
             int idPersona = ((DO_Persona)Session["UsuarioConectado"]).idUsuario;
+
+            DO_ResponseRequest response = new DO_ResponseRequest();
             if (DataManager.CheckPass(idPersona,contrasenaAnterior))
             {
-
+                response.Code = 1;
+                if (DataManager.UpdateContrasena(idPersona, nuevaContrasena) > 0)
+                {
+                    response.Result = "La contraseña fué actualizada correctamente.";
+                }
+                else
+                {
+                    response.Code = 2;
+                    response.Result = "Ocurrio un error al actualizar la contraseña, por favor intente mas tarde.";
+                }
+                
+            }else
+            {
+                response.Code = 2;
+                response.Result = "La contraseña anterior no es valida.";
             }
 
-            var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
+            var jsonResult = Json(response, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 
             return jsonResult;

@@ -68,6 +68,7 @@
     <Compile Include="DO_Proveedor.cs" />
     <Compile Include="DO_ReporteEntradaArticulo.cs" />
     <Compile Include="DO_ReporteSalidaArticulo.cs" />
+    <Compile Include="DO_ResponseRequest.cs" />
     <Compile Include="DO_Result_SalidaAlmacen.cs" />
     <Compile Include="DO_Rol.cs" />
     <Compile Include="DO_SolicitudProducto.cs" />

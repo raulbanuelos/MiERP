@@ -24,7 +24,7 @@
                         <input type="password" id="txtRepetirNuevaContraseña" class="form-control" placeholder="Repetir nueva contraseña" />
                     </div>
 
-                    <button class="btn btn-primary btn-block" onclick="actualizarContrasena()">Actializar contraseña</button>
+                    <button class="btn btn-primary btn-block" onclick="actualizarContrasena()">Actualizar contraseña</button>
             </div>
         </div>
     </div>
@@ -36,18 +36,18 @@
         if (validarNuevaContrasena()) {
             var newPass = $("#txtNuevaContraseña").val();
             var contrasenaAnterior = $("#txtContrasenaAnterior").val();
-            var urlSave = '@Url.Action("GetAllOrdenes", "Ordenes")';
+            var urlSave = '@Url.Action("GuardarNuevaContrasena", "Usuario")';
             $.ajax({
                 type: "POST",
                 url: urlSave,
-                data: JSON.stringify({ parametro: "" }),
+                data: JSON.stringify({ contrasenaAnterior: contrasenaAnterior, nuevaContrasena : newPass }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    llenarTabla(data);
+                    alert(data.Result);
                 },
                 error: function (result) {
-                    alert("Error!");
+                    alert("Error al actualizar la contraseña, por favor intente mas tarde.");
                 }
             });
         }
