@@ -210,5 +210,43 @@ namespace Data.ServiceObject
                 return 0;
             }
         }
+
+        public int UpdateContrasena(int idPersona, string contrasena)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    TBL_USUARIO usuario = Conexion.TBL_USUARIO.Where(x => x.ID_USUARIO == idPersona).FirstOrDefault();
+
+                    usuario.CONTRASENA = contrasena;
+
+                    Conexion.Entry(usuario).State = EntityState.Modified;
+
+                    return Conexion.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public bool CheckPassword(int idPersona, string password)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    TBL_USUARIO r = Conexion.TBL_USUARIO.Where(x => x.ID_USUARIO == idPersona && x.CONTRASENA == password).FirstOrDefault();
+
+                    return true ? r.ID_USUARIO > 0 : false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
