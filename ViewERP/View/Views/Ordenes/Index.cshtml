@@ -185,24 +185,10 @@
                 fechaCompletaEntrega = "Sin Fecha";
             }
             else {
-                //fechaEntrega = parseJsonDate(item.FechaEntrega);
-                //dia = fechaEntrega.getDate();
-                //mes = fechaEntrega.getMonth();
-                //anio = fechaEntrega.getFullYear();
-
-                //fechaCompletaEntrega = dia + "/" + monthNames[mes] + "/" + anio;
                 fechaCompletaEntrega = item.FechaEntrega;
-
             }
-            debugger;
-            //var fechaSolicitud = parseJsonDate(item.FechaPedido);
-            //var dia = fechaSolicitud.getDate();
-            //var mes = fechaSolicitud.getMonth();
-            //var anio = fechaSolicitud.getFullYear();
-            //var fechaCompletaSolicitud = dia + "/" + monthNames[mes] + "/" + anio;
             var fechaCompletaSolicitud = item.FechaPedido;
 
-            //var link = "<a href='Ordenes/DetailsOrden?id=" + item.Id_Orden + "'>" + item.Folio + "</a>";
             $("#dataTable").dataTable().fnAddData([
                 item.idDetalle,
                 item.Proyecto,

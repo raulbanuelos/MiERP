@@ -185,6 +185,19 @@
 
                 }
 
+                
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Mis datos">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMisDatos" data-parent="#exampleAccordion">
+                        <i class="fa fa-fw fa-warning"></i>
+                        <span class="nav-link-text">Mis datos</span>
+                    </a>
+                    <ul class="sidenav-second-level collapse" id="collapseMisDatos">
+                        <li>
+                            <a href="@Url.Action("ActualizarContrasena", "Usuario")">Cambiar contraseña</a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="CerrarSession">
                     <a class="nav-link" href="@Url.Action("CerrarSession","Home")"> 
                         <i class="fa fa-fw fa-sign-out"></i>

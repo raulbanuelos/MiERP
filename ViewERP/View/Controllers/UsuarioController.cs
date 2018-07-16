@@ -66,5 +66,25 @@ namespace View.Controllers
             DataManager.DeletePersona(id);
             return RedirectToAction("Index", "Usuario");
         }
+
+        [ERPVerificaRol]
+        public ActionResult ActualizarContrasena()
+        {
+            return View();
+        }
+
+        public JsonResult GuardarNuevaContrasena(string contrasenaAnterior, string nuevaContrasena)
+        {
+            int idPersona = ((DO_Persona)Session["UsuarioConectado"]).idUsuario;
+            if (DataManager.CheckPass(idPersona,contrasenaAnterior))
+            {
+
+            }
+
+            var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
     }
 }

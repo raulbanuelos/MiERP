@@ -130,6 +130,7 @@ namespace Data.ServiceObject
                     var Lista = (from d in Conexion.OrdenesDetalle
                                  join o in Conexion.Ordenes on d.Id_Orden equals o.Id_Orden
                                  join p in Conexion.Productos on d.Id_Producto equals p.Id_Productos
+                                 join e in Conexion.EstatusOrden on d.Id_EstatusOrden equals e.Id_EstatusOrden
                                  orderby o.FechaSolicitud descending
                                  select new
                                  {
@@ -143,6 +144,8 @@ namespace Data.ServiceObject
                                      FECHA_PEDIDO = o.FechaSolicitud,
                                      FECHA_ENTREGA = o.FechaEntrega.ToString(),
                                      ORDEN = o.Folio,
+                                     ID_ESTATUS = e.Id_EstatusOrden,
+                                     ESTATUS = e.EstatusOrden1
                                  }).ToList();
 
                     return Lista;

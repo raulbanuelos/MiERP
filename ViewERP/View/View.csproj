@@ -468,6 +468,7 @@
     <Content Include="Views\Ordenes\DetailsOrden.cshtml" />
     <Content Include="Views\AlertasStock\Alertas.cshtml" />
     <Content Include="Views\Ordenes\CargarOrden.cshtml" />
+    <Content Include="Views\Usuario\ActualizarContrasena.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

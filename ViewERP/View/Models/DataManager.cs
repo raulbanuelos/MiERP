@@ -210,6 +210,20 @@ namespace View.Models
 
             return service.ExistNameUser(numeroNomina) ? string.Empty : numeroNomina;
         }
+
+        public static int UpdateContrasena(int idPersona, string contrasena)
+        {
+            SO_Usuario service = new SO_Usuario();
+
+            return service.UpdateContrasena(idPersona, contrasena);
+        }
+
+        public static bool CheckPass(int idPersona, string password)
+        {
+            SO_Usuario service = new SO_Usuario();
+
+            return service.CheckPassword(idPersona, password);
+        }
         #endregion
 
         #region Almacen
@@ -1847,6 +1861,7 @@ namespace View.Models
                     DateTime fechaPedido = Convert.ToDateTime(tipo.GetProperty("FECHA_PEDIDO").GetValue(item, null));
                     ordenDetalle.FechaPedido = fechaPedido.Day + "/" + fechaPedido.Month + "/" + fechaPedido.Year;
                     
+
                     ordenDetalle.FechaEntrega = (string)tipo.GetProperty("FECHA_ENTREGA").GetValue(item, null);
                     ordenDetalle.OrdenCompra = (string)tipo.GetProperty("ORDEN").GetValue(item, null);
 
