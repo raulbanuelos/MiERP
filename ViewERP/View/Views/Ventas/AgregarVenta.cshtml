@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "AgregarVenta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Agregar</h2>
+
+<div class="form-group">
+    <div class="row">
+        
+        <div class="form-group">
+            <div class='input-group date' id='datetimepicker1'>
+                <input type='text' class="form-control" id="txtFecha" />
+                <span class="input-group-addon">
+                    <span class="fa fa fa-calendar"></span>
+                </span>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker({
+                    format:'DD/MM/YYYY'
+                });
+                $("#inlineFormInputGroup").val("0.0");
+            });
+        </script>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <label class="sr-only" for="inlineFormInputGroup">Mont</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">$</div>
+                </div>
+                <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Monto">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button class="btn btn-success" onclick="guardarVenta()">Guardar cambios</button>
+        </div>
+    </div>
+
+    
+</div>
+<script type="text/javascript">
+    function guardarVenta() {
+        var _monto = $("#inlineFormInputGroup").val();
+        var _fecha = $("#txtFecha").val();
+
+        var urlSave = '@Url.Action("GuardarVenta", "Ventas")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ monto: _monto, fecha: _fecha }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                alert("Venta agregada correctamente");
+                $("#inlineFormInputGroup").val("0.0");
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
+
+
+
+    }
+</script>
+
+
+
+
+
+

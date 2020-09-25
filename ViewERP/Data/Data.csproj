@@ -110,6 +110,7 @@
     <Compile Include="ServiceObject\SO_SalidasAlmacen.cs" />
     <Compile Include="ServiceObject\SO_Unidad.cs" />
     <Compile Include="ServiceObject\SO_Usuario.cs" />
+    <Compile Include="ServiceObject\SO_Venta.cs" />
     <Compile Include="ServiceObject\TBL_ALERTAS_STOCK_MIN.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
@@ -150,6 +151,9 @@
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ServiceObject\TBL_USUARIO.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceObject\TBL_VENTA.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SQLServer\ERP_SQL.cs" />

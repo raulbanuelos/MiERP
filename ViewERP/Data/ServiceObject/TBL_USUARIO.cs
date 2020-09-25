@@ -14,6 +14,12 @@ namespace Data.ServiceObject
     
     public partial class TBL_USUARIO
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TBL_USUARIO()
+        {
+            this.TBL_VENTA = new HashSet<TBL_VENTA>();
+        }
+    
         public int ID_USUARIO { get; set; }
         public int ID_ROL { get; set; }
         public int ID_COMPANIA { get; set; }
@@ -25,5 +31,7 @@ namespace Data.ServiceObject
     
         public virtual TBL_COMPANIA TBL_COMPANIA { get; set; }
         public virtual TBL_ROLE TBL_ROLE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_VENTA> TBL_VENTA { get; set; }
     }
 }

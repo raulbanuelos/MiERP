@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Mi ERP</title>
 
-    
-
     <link href="@Url.Content("~/theme/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/theme/css/sb-admin.css")" rel="stylesheet" />
 
@@ -18,6 +16,9 @@
     <script src="@Url.Content("~/theme/vendor/jquery-easing/jquery.easing.min.js")"></script>
     <script src="@Url.Content("~/theme/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
 
+    <script src="@Url.Content("~/Scripts/moment.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap-datetimepicker.js")"></script>
+
     <script src="@Url.Content("~/theme/vendor/datatables/jquery.dataTables.js")"></script>
     <script src="@Url.Content("~/theme/vendor/datatables/dataTables.bootstrap4.js")"></script>
 
@@ -26,6 +27,8 @@
     <script src="@Url.Content("~/theme/js/sb-admin.min.js")"></script>
 
     <link href="@Url.Content("~/theme/vendor/font-awesome/css/font-awesome.min.css")" rel="stylesheet" />
+
+    <link href="@Url.Content("~/Content/bootstrap-datetimepicker.css")" rel="stylesheet" />
 
     @*SELECT 2*@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
@@ -42,13 +45,37 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+                @* Home *@
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
                     <a class="nav-link" href="@Url.Action("Index","Home")">
                         <i class="fa fa-fw fa-dashboard"></i>
                         <span class="nav-link-text">Inicio</span>
                     </a>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Almacenes">
+
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Entradas">
+                    <a class="nav-link" href="@Url.Action("DarEntrada","EntradasAlmacen")">
+                        <i class="fa fa-fw fa-arrow-circle-right"></i>
+                        <span class="nav-link-text">Entradas</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Salidas">
+                    <a class="nav-link" href="@Url.Action("DarSalida","SalidasAlmacen")">
+                        <i class="fa fa-fw fa-arrow-circle-left"></i>
+                        <span class="nav-link-text">Salidas</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Ventas">
+                    <a class="nav-link" href="@Url.Action("AgregarVenta","Ventas")">
+                        <i class="fa fa-fw fa-dollar"></i>
+                        <span class="nav-link-text">Ventas</span>
+                    </a>
+                </li>
+
+                @* Almacenes *@
+                @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Almacenes">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
                         <i class="fa fa-fw fa-database"></i>
                         <span class="nav-link-text">Almacenes</span>
@@ -58,8 +85,10 @@
                             <a href="@Url.Action("Index","Almacen")">Mis Almacenes</a>
                         </li>
                     </ul>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Articulos">
+                </li>*@
+
+                @* Articulos *@
+                @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Articulos">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseArticulos" data-parent="#exampleAccordion">
                         <i class="fa fa-fw fa-barcode"></i>
                         <span class="nav-link-text">Artículos</span>
@@ -90,9 +119,10 @@
                             <a href="@Url.Action("Index","Existencia")">Existencias</a>
                         </li>
                     </ul>
-                </li>
+                </li>*@
 
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Categorias articulos">
+                @* Categorias *@
+                @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Categorias articulos">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseCategorias" data-parent="#exampleAccordion">
                         <i class="fa fa-fw fa-list"></i>
                         <span class="nav-link-text">Categorías</span>
@@ -102,13 +132,12 @@
                             <a href="@Url.Action("Index","CategoriaArticulo")">Mis categorías</a>
                         </li>
                     </ul>
-                </li> 
-
-                
+                </li>*@ 
 
                 @if ((bool)Session["ADMINISTRADOR"])
                 {
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Proveedores">
+                    //Proveedores
+                    @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Proveedores">
                         <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseProveedores" data-parent="#exampleAccordion">
                             <i class="fa fa-fw fa-address-book-o"></i>
                             <span class="nav-link-text">Proveedores</span>
@@ -118,9 +147,10 @@
                                 <a href="@Url.Action("Index","Proveedor")">Mis proveedores</a>
                             </li>
                         </ul>
-                    </li>
+                    </li>*@
 
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reportes">
+                    //Reportes
+                    @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reportes">
                         <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseReportes" data-parent="#exampleAccordion">
                             <i class="fa fa-fw fa-newspaper-o"></i>
                             <span class="nav-link-text">Reportes</span>
@@ -134,13 +164,14 @@
                                 <a href="@Url.Action("SalidasArticulos","Reportes")">Salidas artículos</a>
                             </li>
                         </ul>
-                    </li>
+                    </li>*@
                 }
 
                 @if ((bool)Session["PRODUCCION"] || (bool)Session["ADMINISTRADOR"])
                 {
 
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Producción">
+                    //Produccion
+                    @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Producción">
                         <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseProduccion" data-parent="#exampleAccordion">
                             <i class="fa fa-fw fa-first-order"></i>
                             <span class="nav-link-text">Producción</span>
@@ -158,13 +189,14 @@
                                 <a href="@Url.Action("CargarOrden","Ordenes")">Cargar órden</a>
                             </li>
                         </ul>
-                    </li>
+                    </li>*@
                     
                 }
 
                 @if ((bool)Session["ADMINISTRADOR"])
                 {
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Alertas stock">
+                    //Alertas stock
+                    @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Alertas stock">
                         <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseAlertas" data-parent="#exampleAccordion">
                             <i class="fa fa-fw fa-warning"></i>
                             <span class="nav-link-text">Alertas</span>
@@ -174,19 +206,20 @@
                                 <a href="@Url.Action("Alertas", "AlertasStock")">Ver alertas</a>
                             </li>
                         </ul>
-                    </li>
+                    </li>*@
 
-                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Usuarios">
+                    //Usuarios
+                    @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Usuarios">
                         <a class="nav-link" href="@Url.Action("Index","Usuario")">
                             <i class="fa fa-fw fa-users"></i>
                             <span class="nav-link-text">Usuarios</span>
                         </a>
-                    </li>
+                    </li>*@
 
                 }
 
-                
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Mis datos">
+                @* Mis Datos *@
+                @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Mis datos">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMisDatos" data-parent="#exampleAccordion">
                         <i class="fa fa-fw fa-user"></i>
                         <span class="nav-link-text">Mis datos</span>
@@ -196,8 +229,9 @@
                             <a href="@Url.Action("ActualizarContrasena", "Usuario")">Cambiar contraseña</a>
                         </li>
                     </ul>
-                </li>
+                </li>*@
 
+                @* Cerrar sesion *@
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="CerrarSession">
                     <a class="nav-link" href="@Url.Action("CerrarSession","Home")"> 
                         <i class="fa fa-fw fa-sign-out"></i>

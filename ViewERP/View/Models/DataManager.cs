@@ -1994,5 +1994,14 @@ namespace View.Models
             return Lista;
         }
         #endregion
+
+        #region Ventas
+        public static int InsertVenta(int idUsuario, double monto, DateTime fechaIngreso)
+        {
+            SO_Venta serviceVenta = new SO_Venta();
+
+            return serviceVenta.Insert(idUsuario, monto, fechaIngreso);
+        }
+        #endregion
     }
 }
