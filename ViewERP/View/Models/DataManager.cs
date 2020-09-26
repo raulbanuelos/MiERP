@@ -1212,7 +1212,7 @@ namespace View.Models
             return xByte;
         }
         #endregion
-
+        
         #region Reportes
         public static List<DO_ReporteEntradaArticulo> GetReporteEntradaAlmacen(string fechaInicial, string fechaFinal, string noFactura, string usuario, int idAlmacen, int idProveedor, int idArticulo)
         {
@@ -2001,6 +2001,33 @@ namespace View.Models
             SO_Venta serviceVenta = new SO_Venta();
 
             return serviceVenta.Insert(idUsuario, monto, fechaIngreso);
+        }
+
+        public static List<DO_ResultMorris> GetVentaDiaria(int idUsuario)
+        {
+            SO_Venta serviceVenta = new SO_Venta();
+
+            List<DO_ResultMorris> listaResultante = new List<DO_ResultMorris>();
+
+            DataSet informacionBD = serviceVenta.GetVentaDiaria(idUsuario);
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        DO_ResultMorris result = new DO_ResultMorris();
+
+                        result.label = item["FECHA"].ToString();
+                        result.value = Convert.ToInt32(item["MONTO"].ToString());
+
+                        listaResultante.Add(result);
+                    }
+                }
+            }
+
+            return listaResultante;
         }
         #endregion
     }

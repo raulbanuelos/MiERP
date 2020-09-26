@@ -2,3 +2,135 @@
     ViewBag.Title = "Home Page";
 }
 
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Existencias</h4>
+                </div>
+                <div class="card-body">
+                    <div id="morris-donut" style="width: 100%; height:250px;">
+
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-8">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Ventas diarias</h4>
+                </div>
+                <div class="card-body">
+                    <div id="morris-line-chart" style="width: 100%; height:250px;"></div>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+    var dataExistencias;
+    var dataVentasDiarias;
+
+    var MorrisCharts = function () {
+        return {
+            chartColours: function () {
+                var chartColours = {
+                    gray_lighter: '#ECEFF1',
+                    gray_light: '#CFD8DC',
+                    gray: '#607D8B',
+                    gray_dark: '#455A64',
+                    gray_darker: '#263238',
+                    blue_lighter: '#E3F2FD',
+                    blue_light: '#90CAF9',
+                    blue: '#2196F3',
+                    blue_dark: '#1976D2',
+                    blue_darker: '#0D47A1',
+                    red_lighter: '#FFEBEE',
+                    red_light: '#FFCDD2',
+                    red: '#F44336',
+                    red_dark: '#D32F2F',
+                    red_darker: '#B71C1C',
+                    yellow_lighter: '#FFFDE7',
+                    yello_light: '#FFF59D',
+                    yellow: '#FFEB3B',
+                    yellow_dark: '#FBC02D',
+                    yellow_darker: '#F57F17',
+                    green_lighter: '#E8F5E9',
+                    green_light: '#A5D6A7',
+                    green: '#4CAF50',
+                    green_dark: '#388E3C',
+                    green_darker: '#1B5E20',
+
+                    gridColor: '#bfbfbf' //FAFAFA
+                }
+                return chartColours;
+            },
+
+            donutChart: function (chartColours) {
+                Morris.Donut({
+                    element: 'morris-donut',
+                    data: dataExistencias,
+                    formatter: function (x) { return x },
+                    colors: [chartColours.gray_light, chartColours.blue, chartColours.red, chartColours.gray_dark],
+                    resize: true
+                });
+            },
+
+            lineChartPoints: function (chartColours) {
+
+                Morris.Line({
+                    element: 'morris-line-chart',
+                    data: dataVentasDiarias,
+                    xkey: 'label',
+                    ykeys: ['value'],
+                    labels: ['Venta'],
+                    
+                });
+            }
+        }
+    }();
+
+    $(function () {
+        var urlSave = '@Url.Action("GetExistencias", "Home")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data1) {
+                dataExistencias = data1;
+                MorrisCharts.donutChart(MorrisCharts.chartColours());
+            },
+            error: function (result) {
+                alert("Error!");
+            }
+        });
+
+        var urlSave2 = '@Url.Action("GetVentasDiarias", "Home")';
+
+        $.ajax({
+            type: "POST",
+            url: urlSave2,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data2) {
+                dataVentasDiarias = data2;
+                MorrisCharts.lineChartPoints(MorrisCharts.chartColours());
+            },
+            error: function (result) {
+                alert("Error!");
+            }
+        });
+
+    });
+</script>

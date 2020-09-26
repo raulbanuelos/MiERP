@@ -40,7 +40,7 @@ namespace Data.ServiceObject
                     return obj.Id_Orden;
                 }
             }
-            catch (Exception er)
+            catch (Exception)
             {
 
                 return 0;

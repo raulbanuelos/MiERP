@@ -28,6 +28,16 @@
 
     <link href="@Url.Content("~/theme/vendor/font-awesome/css/font-awesome.min.css")" rel="stylesheet" />
 
+   
+
+    @*<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">*@
+    <link href="@Url.Content("~/Content/morris.css")" rel="stylesheet" />
+
+    @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>*@
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    @*<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>*@
+    <script src="@Url.Content("~/Scripts/morris.min.js")"></script>
+
     <link href="@Url.Content("~/Content/bootstrap-datetimepicker.css")" rel="stylesheet" />
 
     @*SELECT 2*@
@@ -88,7 +98,7 @@
                 </li>*@
 
                 @* Articulos *@
-                @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Articulos">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Articulos">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseArticulos" data-parent="#exampleAccordion">
                         <i class="fa fa-fw fa-barcode"></i>
                         <span class="nav-link-text">Artículos</span>
@@ -119,7 +129,7 @@
                             <a href="@Url.Action("Index","Existencia")">Existencias</a>
                         </li>
                     </ul>
-                </li>*@
+                </li>
 
                 @* Categorias *@
                 @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Categorias articulos">

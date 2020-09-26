@@ -205,7 +205,7 @@ namespace View.Controllers
 
                         dataTable.Rows.RemoveAt(0);
                     }
-                    catch (Exception er)
+                    catch (Exception)
                     {
 
                         throw;

@@ -133,7 +133,7 @@ namespace Data.ServiceObject
                     return lista;
                 }
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 return null;
             }
