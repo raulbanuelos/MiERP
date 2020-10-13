@@ -2,27 +2,138 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="container">
+<div class="content">
     <div class="row">
-        <div class="col-4">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
+        <div class="col-md-8">
+            <div class="row">
+                <!-- .row start -->
+                <div class="col-lg-4 col-md-6 col-xs-6 col-small-enlarge">
+                    <!-- col-md-6 start here -->
+                    <div class="panel panel-default">
+                        <!-- Start .panel -->
+                        <div class="panel-body">
+                            <a class="lead-stats" href="#">
+                                <span class="stats-number dolar" data-from="0" data-to="518">10,500</span>
+                                <span class="stats-icon">
+                                    <i class="fa fa-money color-green"></i>
+                                </span>
+                                <h5>Ventas Totales</h5>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- End .panel -->
+                </div>
+                <!-- col-md-6 end here -->
+                <div class="col-lg-4 col-md-6 col-xs-6 col-small-enlarge">
+                    <!-- col-md-6 start here -->
+                    <div class="panel panel-default">
+                        <!-- Start .panel -->
+                        <div class="panel-body">
+                            <a class="lead-stats" href="#">
+                                <span class="stats-number" data-from="0" data-to="317">85</span>
+                                <span class="stats-icon">
+                                    <i class="fa fa-shopping-cart color-yellow-dark"></i>
+                                </span>
+                                <h5>Productos Vendidos</h5>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- End .panel -->
+                </div>
+                <!-- col-md-6 end here -->
+                <div class="col-lg-4 col-md-6 col-xs-6 col-small-enlarge">
+                    <!-- col-md-4 start here -->
+                    <div class="panel panel-default">
+                        <!-- Start .panel -->
+                        <div class="panel-body">
+                            <a class="lead-stats" href="#">
+                                <span class="stats-number" data-from="0" data-to="17">5</span>
+                                <span class="stats-icon">
+                                    <i class="fa fa-comments color-blue"></i>
+                                </span>
+                                <h5>Comentarios por revisar</h5>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- End .panel -->
+                </div>
+                <!-- col-md-4 end here -->
+                <div class="col-lg-4 col-md-6 col-xs-6 col-small-enlarge">
+                    <!-- col-md-4 start here -->
+                    <div class="panel panel-default">
+                        <!-- Start .panel -->
+                        <div class="panel-body">
+                            <a class="lead-stats" href="#">
+                                <span class="stats-number" data-from="0" data-to="48">1</span>
+                                <span class="stats-icon">
+                                    <i class="fa fa-support color-red"></i>
+                                </span>
+                                <h5>Almacenes</h5>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- End .panel -->
+                </div>
+                <!-- col-md-4 end here -->
+                <div class="col-lg-4 col-md-6 col-xs-6 col-small-enlarge">
+                    <!-- col-md-4 start here -->
+                    <div class="panel panel-default">
+                        <!-- Start .panel -->
+                        <div class="panel-body">
+                            <a class="lead-stats" href="#">
+                                <span class="stats-number" data-from="0" data-to="5">3</span>
+                                <span class="stats-icon">
+                                    <i class="fa fa-calendar color-gray"></i>
+                                </span>
+                                <h5>Calendario</h5>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- End .panel -->
+                </div>
+                <!-- col-md-4 end here -->
+                <div class="col-lg-4 col-md-6 col-xs-6 col-small-enlarge">
+                    <!-- col-md-4 start here -->
+                    <div class="panel panel-default">
+                        <!-- Start .panel -->
+                        <div class="panel-body">
+                            <a class="lead-stats" href="#">
+                                <span class="stats-number" data-from="0" data-to="3">3</span>
+                                <span class="stats-icon">
+                                    <i class="fa fa-envelope color-green-light"></i>
+                                </span>
+                                <h5>Email por revisar</h5>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- End .panel -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
                     <h4 class="my-0 font-weight-normal">Existencias</h4>
                 </div>
-                <div class="card-body">
+                <div class="panel-body">
                     <div id="morris-donut" style="width: 100%; height:250px;">
 
                     </div>
                 </div>
             </div>
-            
         </div>
-        <div class="col-8">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
+
+        
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
                     <h4 class="my-0 font-weight-normal">Ventas diarias</h4>
                 </div>
-                <div class="card-body">
+                <div class="panel-body">
                     <div id="morris-line-chart" style="width: 100%; height:250px;"></div>
                 </div>
             </div>
@@ -89,9 +200,10 @@
                 Morris.Line({
                     element: 'morris-line-chart',
                     data: dataVentasDiarias,
-                    xkey: 'label',
-                    ykeys: ['value'],
-                    labels: ['Venta'],
+                    xkey: 'period',
+                    ykeys: ['Sales'],
+                    labels: ['Sales'],
+                    preUnits: '$',
                     
                 });
             }

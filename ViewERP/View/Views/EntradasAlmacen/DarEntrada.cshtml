@@ -1,65 +1,79 @@
 ﻿
 @{
     ViewBag.Title = "DarEntrada";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Entradas a almacen</h2>
-<div class="form-horizontal">
-    <hr />
+<div class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Entradas</h4>
+                </div>
+                <div class="panel-body pb-0">
+                    <div class="bs-callout bs-callout-info mt0">
+                        <p>Por favor ingrese la información requerida</p>
+                    </div>
 
-    <div class="form-group">
-        <label>Almacen</label>
-        <select id="cboAlmacenes" class="form-control">
-            @{
-                foreach (SelectListItem almacen in ((List<SelectListItem>)ViewBag.Almacenes))
-                {
-                    <option id="@almacen.Value" value="@almacen.Value">@almacen.Text</option>
-                }
-            }
-        </select>
-    </div>
+                    <div class="form-horizontal group-border stripped">
 
-    <div class="form-group">
-        <label>Proveedor</label>
-        <select id="cboProveedores" class="form-control">
-            @{
-                foreach (SelectListItem proveedor in ((List<SelectListItem>)ViewBag.Proveedores))
-                {
-                    <option id="@proveedor.Value" value="@proveedor.Value">@proveedor.Text</option>
-                }
-            }
-        </select>
-    </div>
+                        <div class="form-group">
+                            <label>Almacen</label>
+                            <select id="cboAlmacenes" class="form-control">
+                                @{
+                                    foreach (SelectListItem almacen in ((List<SelectListItem>)ViewBag.Almacenes))
+                                    {
+                                        <option id="@almacen.Value" value="@almacen.Value">@almacen.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
 
-    <div class="form-group">
-        <input type="text" id="txtFactura" class="form-control" placeholder="Número de factura" />
-    </div>
+                        <div class="form-group">
+                            <label>Proveedor</label>
+                            <select id="cboProveedores" class="form-control">
+                                @{
+                                    foreach (SelectListItem proveedor in ((List<SelectListItem>)ViewBag.Proveedores))
+                                    {
+                                        <option id="@proveedor.Value" value="@proveedor.Value">@proveedor.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button class="btn btn-primary" onclick="MostrarModal()">Agregar Articulo</button>
+                        <div class="form-group">
+                            <input type="text" id="txtFactura" class="form-control" placeholder="Número de factura" />
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button class="btn btn-primary" onclick="MostrarModal()">Agregar Articulo</button>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <td>ID ARTICULO</td>
+                                            <td>CODIGO</td>
+                                            <td>DESCRIPCIÓN</td>
+                                            <td>CANTIDAD</td>
+                                            <td>UNIDAD</td>
+                                            <td class="td_hide">idUnidad</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <td>ID ARTICULO</td>
-                        <td>CODIGO</td>
-                        <td>DESCRIPCIÓN</td>
-                        <td>CANTIDAD</td>
-                        <td>UNIDAD</td>
-                        <td class="td_hide">idUnidad</td>
-                    </tr>
-                </thead>
-                <tbody id="myTable"></tbody>
-            </table>
-        </div>
-    </div>
-
 
     <div class="form-group">
         <div class="form-inline">
@@ -83,9 +97,7 @@
             <div class="modal-body" id="div1">
                 <div class="form-group">
                     <label>Articulo</label>
-                    <select id="cboArticulos" class="js-example-basic-single" style="width:90%">
-
-                    </select>
+                    <select id="cboArticulos" class="js-example-basic-single" style="width:90%"></select>
                 </div>
 
                 <div class="form-group">
@@ -105,7 +117,7 @@
                     </select>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div>
                 <button type="button" class="btn btn-primary" onclick="agregarArticulo()">Agregar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>

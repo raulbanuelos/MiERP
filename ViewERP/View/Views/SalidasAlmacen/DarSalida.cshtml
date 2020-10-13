@@ -4,66 +4,75 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>DarSalida</h2>
+<div class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Salidas</h4>
+                </div>
+                <div class="panel-body pb-0">
+                    <div class="bs-callout bs-callout-info mt0">
+                        <p>Por favor ingrese la información requerida</p>
+                    </div>
 
-<div class="form-horizontal">
-    <hr />
+                    <div class="form-horizontal group-border stripped">
+                        <div class="form-group">
+                            <label>Almacen</label>
+                            <select id="cboAlmacenes" class="form-control">
+                                @{
+                                    foreach (SelectListItem almacen in ((List<SelectListItem>)ViewBag.Almacenes))
+                                    {
+                                        <option id="@almacen.Value" value="@almacen.Value">@almacen.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
 
-    <div class="form-group">
-        <label>Almacen</label>
-        <select id="cboAlmacenes" class="form-control">
-            @{
-                foreach (SelectListItem almacen in ((List<SelectListItem>)ViewBag.Almacenes))
-                {
-                    <option id="@almacen.Value" value="@almacen.Value">@almacen.Text</option>
-                }
-            }
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>Persona solicitante</label>
-        <select id="cboPersonas" class="form-control">
-            @{
-                foreach (SelectListItem persona in ((List<SelectListItem>)ViewBag.Personas))
-                {
-                    <option id="@persona.Value" value="@persona.Value">@persona.Text</option>
-                }
-            }
-        </select>
-    </div>
+                        <div class="form-group">
+                            <label>Persona solicitante</label>
+                            <select id="cboPersonas" class="form-control">
+                                @{
+                                    foreach (SelectListItem persona in ((List<SelectListItem>)ViewBag.Personas))
+                                    {
+                                        <option id="@persona.Value" value="@persona.Value">@persona.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
 
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button class="btn btn-primary" onclick="MostrarModal()">Articulo</button>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button class="btn btn-primary" onclick="MostrarModal()">Articulo</button>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <td>ID ARTICULO</td>
+                                            <td>CODIGO</td>
+                                            <td>CANTIDAD</td>
+                                            <td>CONDICIONES AL SALIR</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="form-inline">
+                            <button class="btn btn-success" onclick="GuardarSalida()">Guardar Vale</button>
+                            <button class="btn btn-danger" onclick="Regresar()">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <td>ID ARTICULO</td>
-                        <td>CODIGO</td>
-                        <td>CANTIDAD</td>
-                        <td>CONDICIONES AL SALIR</td>
-                    </tr>
-                </thead>
-                <tbody id="myTable">
-
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="form-inline">
-        <button class="btn btn-success" onclick="GuardarSalida()">Guardar Vale</button>
-        <button class="btn btn-danger" onclick="Regresar()">Cancelar</button>
-    </div>
-    
-
 </div>
 
 <div id="modalguardandobitacora" data-backdrop="static" data-keyboard="false" class="modal fade bd-example-modal-lg" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

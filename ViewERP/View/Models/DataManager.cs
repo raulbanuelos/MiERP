@@ -2018,9 +2018,10 @@ namespace View.Models
                     foreach (DataRow item in informacionBD.Tables[0].Rows)
                     {
                         DO_ResultMorris result = new DO_ResultMorris();
+                        DateTime date = Convert.ToDateTime(item["FECHA"]);
 
-                        result.label = item["FECHA"].ToString();
-                        result.value = Convert.ToInt32(item["MONTO"].ToString());
+                        result.period = date.Day + "/" + date.Month + "/" + date.Year;
+                        result.Sales = Convert.ToInt32(item["MONTO"].ToString());
 
                         listaResultante.Add(result);
                     }

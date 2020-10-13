@@ -5,55 +5,64 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Nuevo artículo</h2>
+<div class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Alta de producto</h4>
+                </div>
+                <div class="panel-body pb-0">
+                    <div class="bs-callout bs-callout-info mt0">
+                        <p>Por favor ingrese la información requerida</p>
+                    </div>
+                    <div class="form-horizontal group-border stripped">
+                        <div class="form-group">
+                            <select id="cboCategorias" class="form-control">
+                                @{
+                                    foreach (SelectListItem categoria in ((List<SelectListItem>)ViewBag.CategoriasArticulo))
+                                    {
+                                        <option id="@categoria.Value" value="@categoria.Value">@categoria.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
 
-    <div class="form-horizontal">
-        <hr />
-        <div class="form-group">
-            <select id="cboCategorias" class="form-control">
-                @{
-                    foreach (SelectListItem categoria in  ((List<SelectListItem>) ViewBag.CategoriasArticulo))
-                    {
-                        <option id="@categoria.Value" value="@categoria.Value">@categoria.Text</option>
-                    }
-                }
-            </select>
-        </div>
+                        <div class="form-group">
+                            <input type="text" id="txtCodigo" class="form-control" placeholder="Código" readonly />
+                        </div>
 
-        <div class="form-group">
-            <input type="text" id="txtCodigo" class="form-control" placeholder="Código" readonly />
-        </div>
+                        <div class="form-group">
+                            <input type="text" id="txtDescripcionCorta" class="form-control" placeholder="Descripción corta" />
+                        </div>
 
-        <div class="form-group">
-            <input type="text" id="txtDescripcionCorta" class="form-control" placeholder="Descripción corta" />
-        </div>
+                        <div class="form-group">
+                            <input type="text" id="txtDescripcionLarga" class="form-control" placeholder="# de serie" />
+                        </div>
 
-        <div class="form-group">
-            <input type="text" id="txtDescripcionLarga" class="form-control" placeholder="# de serie" />
-        </div>
+                        <div class="form-group">
+                            <input type="number" id="txtStockMinimo" class="form-control" placeholder="Stock mínimo" onkeypress="return soloNumeros(event)" />
+                        </div>
 
-        <div class="form-group">
-            <input type="number" id="txtStockMinimo" class="form-control" placeholder="Stock mínimo" onkeypress="return soloNumeros(event)" />
-        </div>
+                        <div class="form-group">
+                            <input type="number" id="txtStockMaximo" class="form-control" placeholder="Stock máximo" onkeypress="return soloNumeros(event)" />
+                        </div>
 
-        <div class="form-group">
-            <input type="number" id="txtStockMaximo" class="form-control" placeholder="Stock máximo" onkeypress="return soloNumeros(event)" />
-        </div>
+                        <div class="form-inline">
+                            <label>Es consumible</label>
+                            <input class="form-check-input" type="checkbox" id="ckbIsConsumible" checked />
+                        </div>
 
-        <div class="form-inline">
-            <label>Es consumible</label>
-            <input class="form-check-input" type="checkbox" id="ckbIsConsumible" checked />
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <button class="btn btn-success" onclick="GuardarArticulo()">Guardar</button>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button class="btn btn-success" onclick="GuardarArticulo()">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-<div>
-    @Html.ActionLink("Regresar", "Index")
 </div>
 
 <script type="text/javascript" src="@Url.Content("~/Scripts/ValidationForm.js")"></script>

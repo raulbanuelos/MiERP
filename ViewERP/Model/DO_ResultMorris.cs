@@ -10,5 +10,8 @@ namespace Model
     {
         public int value { get; set; }
         public string label { get; set; }
+
+        public string period { get; set; }
+        public int Sales { get; set; }
     }
 }

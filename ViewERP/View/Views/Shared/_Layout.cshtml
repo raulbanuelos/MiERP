@@ -6,276 +6,547 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Mi ERP</title>
 
-    <link href="@Url.Content("~/theme/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/theme/css/sb-admin.css")" rel="stylesheet" />
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="js/libs/jquery.min.js">\x3C/script>')
+    </script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="js/libs/jquery-ui-1.11.4.min.js">\x3C/script>')
+    </script>
 
-    <link href="@Url.Content("~/theme/vendor/datatables/dataTables.bootstrap4.css")" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&amp;subset=all' rel='stylesheet' type='text/css'>
 
+    <link href="@Url.Content("~/css/icons/font-awesome.css")" rel="stylesheet" />
+    <!-- Bootstrap stylesheets -->
+    <link href="@Url.Content("~/css/bootstrap/bootstrap.css")" rel="stylesheet" />
+    <!-- Main stylesheets (template main css file) -->
+    <link href="@Url.Content("~/css/main.css")" rel="stylesheet" />
+    <!-- Plugins stylesheets (all plugin custom css) -->
+    <link href="@Url.Content("~/css/plugins.css")" rel="stylesheet" />
+    <!-- Theme stylesheets ( Theme css file ) -->
+    <link href="@Url.Content("~/css/theme/theme-default.css")" rel="stylesheet" />
+    <!-- Responsive stylesheets ( breakpoints responsive styles ) -->
+    <link href="@Url.Content("~/css/responsive.css")" rel="stylesheet" />
+    <!-- Custom stylesheets ( Put your own changes here ) -->
+    <link href="@Url.Content("~/css/custom.css")" rel="stylesheet" />
 
-    <script src="@Url.Content("~/theme/vendor/jquery/jquery.min.js")"></script>
-    <script src="@Url.Content("~/theme/vendor/jquery-easing/jquery.easing.min.js")"></script>
-    <script src="@Url.Content("~/theme/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
-
-    <script src="@Url.Content("~/Scripts/moment.js")"></script>
-    <script src="@Url.Content("~/Scripts/bootstrap-datetimepicker.js")"></script>
-
-    <script src="@Url.Content("~/theme/vendor/datatables/jquery.dataTables.js")"></script>
-    <script src="@Url.Content("~/theme/vendor/datatables/dataTables.bootstrap4.js")"></script>
-
-    <script src="@Url.Content("~/theme/js/sb-admin-datatables.min.js")"></script>
-
-    <script src="@Url.Content("~/theme/js/sb-admin.min.js")"></script>
-
-    <link href="@Url.Content("~/theme/vendor/font-awesome/css/font-awesome.min.css")" rel="stylesheet" />
-
+    <link rel="apple-touch-icon" sizes="57x57" href="@Url.Content("~/favicons/apple-touch-icon-57x57.png")">
+    <link rel="apple-touch-icon" sizes="60x60" href="@Url.Content("~/favicons/apple-touch-icon-60x60.png")">
+    <link rel="apple-touch-icon" sizes="72x72" href="@Url.Content("~/favicons/apple-touch-icon-72x72.png")">
+    <link rel="apple-touch-icon" sizes="76x76" href="@Url.Content("~/favicons/apple-touch-icon-76x76.png")">
+    <link rel="apple-touch-icon" sizes="114x114" href="@Url.Content("~/favicons/apple-touch-icon-114x114.png")">
+    <link rel="apple-touch-icon" sizes="120x120" href="@Url.Content("~/favicons/apple-touch-icon-120x120.png")">
+    <link rel="apple-touch-icon" sizes="144x144" href="@Url.Content("~/favicons/apple-touch-icon-144x144.png")">
+    <link rel="apple-touch-icon" sizes="152x152" href="@Url.Content("~/favicons/apple-touch-icon-152x152.png")">
+    <link rel="apple-touch-icon" sizes="180x180" href="@Url.Content("~/favicons/apple-touch-icon-180x180.png")">
+    <link rel="icon" type="image/png" href="@Url.Content("~/favicons/favicon-32x32.png")" sizes="32x32">
+    <link rel="icon" type="image/png" href="@Url.Content("~/favicons/favicon-194x194.png")" sizes="194x194">
+    <link rel="icon" type="image/png" href="@Url.Content("~/favicons/favicon-96x96.png")" sizes="96x96">
+    <link rel="icon" type="image/png" href="@Url.Content("~/favicons/android-chrome-192x192.png")" sizes="192x192">
+    <link rel="icon" type="image/png" href="@Url.Content("~/favicons/favicon-16x16.png")" sizes="16x16">
+    <link rel="manifest" href="@Url.Content("~/favicons/manifest.json")">
+    <link rel="mask-icon" href="@Url.Content("~/favicons/safari-pinned-tab.svg")" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
    
-
-    @*<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">*@
-    <link href="@Url.Content("~/Content/morris.css")" rel="stylesheet" />
-
-    @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>*@
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    @*<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>*@
-    <script src="@Url.Content("~/Scripts/morris.min.js")"></script>
-
-    <link href="@Url.Content("~/Content/bootstrap-datetimepicker.css")" rel="stylesheet" />
-
-    @*SELECT 2*@
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-    <meta name="description" content="The description of my page" />
+    <meta name="description" content="Mi erp" />
 </head>
 
-<body class="fixed-nav sticky-footer bg-dark" id="page-top">
-    <!--Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-        <a class="navbar-brand" href="@Url.Action("Index","Home")">ERP</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-                @* Home *@
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                    <a class="nav-link" href="@Url.Action("Index","Home")">
-                        <i class="fa fa-fw fa-dashboard"></i>
-                        <span class="nav-link-text">Inicio</span>
-                    </a>
-                </li>
-
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Entradas">
-                    <a class="nav-link" href="@Url.Action("DarEntrada","EntradasAlmacen")">
-                        <i class="fa fa-fw fa-arrow-circle-right"></i>
-                        <span class="nav-link-text">Entradas</span>
-                    </a>
-                </li>
-
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Salidas">
-                    <a class="nav-link" href="@Url.Action("DarSalida","SalidasAlmacen")">
-                        <i class="fa fa-fw fa-arrow-circle-left"></i>
-                        <span class="nav-link-text">Salidas</span>
-                    </a>
-                </li>
-
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Ventas">
-                    <a class="nav-link" href="@Url.Action("AgregarVenta","Ventas")">
-                        <i class="fa fa-fw fa-dollar"></i>
-                        <span class="nav-link-text">Ventas</span>
-                    </a>
-                </li>
-
-                @* Almacenes *@
-                @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Almacenes">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-                        <i class="fa fa-fw fa-database"></i>
-                        <span class="nav-link-text">Almacenes</span>
-                    </a>
-                    <ul class="sidenav-second-level collapse" id="collapseComponents">
-                        <li>
-                            <a href="@Url.Action("Index","Almacen")">Mis Almacenes</a>
-                        </li>
-                    </ul>
-                </li>*@
-
-                @* Articulos *@
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Articulos">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseArticulos" data-parent="#exampleAccordion">
-                        <i class="fa fa-fw fa-barcode"></i>
-                        <span class="nav-link-text">Artículos</span>
-                    </a>
-                    <ul class="sidenav-second-level collapse" id="collapseArticulos">
-
-                        <li>
-                            <a href="@Url.Action("Create","Articulo")">Crear nuevo artículo</a>
-                        </li>
-
-                        <li>
-                            <a href="@Url.Action("Index","Articulo")">Listado de articulos</a>
-                        </li>
-
-                        <li>
-                            <a href="@Url.Action("DarSalida","SalidasAlmacen")">Salida de artículo</a>
-                        </li>
-
-                        <li>
-                            <a href="@Url.Action("RetornoMaterial","SalidasAlmacen")">Retorno de articulos</a>
-                        </li>
-
-                        <li>
-                            <a href="@Url.Action("DarEntrada","EntradasAlmacen")">Entrada de artículo</a>
-                        </li>
-
-                        <li>
-                            <a href="@Url.Action("Index","Existencia")">Existencias</a>
-                        </li>
-                    </ul>
-                </li>
-
-                @* Categorias *@
-                @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Categorias articulos">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseCategorias" data-parent="#exampleAccordion">
-                        <i class="fa fa-fw fa-list"></i>
-                        <span class="nav-link-text">Categorías</span>
-                    </a>
-                    <ul class="sidenav-second-level collapse" id="collapseCategorias">
-                        <li>
-                            <a href="@Url.Action("Index","CategoriaArticulo")">Mis categorías</a>
-                        </li>
-                    </ul>
-                </li>*@ 
-
-                @if ((bool)Session["ADMINISTRADOR"])
-                {
-                    //Proveedores
-                    @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Proveedores">
-                        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseProveedores" data-parent="#exampleAccordion">
-                            <i class="fa fa-fw fa-address-book-o"></i>
-                            <span class="nav-link-text">Proveedores</span>
-                        </a>
-                        <ul class="sidenav-second-level collapse" id="collapseProveedores">
-                            <li>
-                                <a href="@Url.Action("Index","Proveedor")">Mis proveedores</a>
-                            </li>
-                        </ul>
-                    </li>*@
-
-                    //Reportes
-                    @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reportes">
-                        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseReportes" data-parent="#exampleAccordion">
-                            <i class="fa fa-fw fa-newspaper-o"></i>
-                            <span class="nav-link-text">Reportes</span>
-                        </a>
-                        <ul class="sidenav-second-level collapse" id="collapseReportes">
-                            <li>
-                                <a href="@Url.Action("EntradasArticulos","Reportes")">Entradas artículos</a>
-                            </li>
-
-                            <li>
-                                <a href="@Url.Action("SalidasArticulos","Reportes")">Salidas artículos</a>
-                            </li>
-                        </ul>
-                    </li>*@
-                }
-
-                @if ((bool)Session["PRODUCCION"] || (bool)Session["ADMINISTRADOR"])
-                {
-
-                    //Produccion
-                    @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Producción">
-                        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseProduccion" data-parent="#exampleAccordion">
-                            <i class="fa fa-fw fa-first-order"></i>
-                            <span class="nav-link-text">Producción</span>
-                        </a>
-                        <ul class="sidenav-second-level collapse" id="collapseProduccion">
-                            <li>
-                                <a href="@Url.Action("Crear","Ordenes")">Generar órden</a>
-                            </li>
-
-                            <li>
-                                <a href="@Url.Action("Index","Ordenes")">Ver ordenes</a>
-                            </li>
-
-                            <li>
-                                <a href="@Url.Action("CargarOrden","Ordenes")">Cargar órden</a>
-                            </li>
-                        </ul>
-                    </li>*@
-                    
-                }
-
-                @if ((bool)Session["ADMINISTRADOR"])
-                {
-                    //Alertas stock
-                    @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Alertas stock">
-                        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseAlertas" data-parent="#exampleAccordion">
-                            <i class="fa fa-fw fa-warning"></i>
-                            <span class="nav-link-text">Alertas</span>
-                        </a>
-                        <ul class="sidenav-second-level collapse" id="collapseAlertas">
-                            <li>
-                                <a href="@Url.Action("Alertas", "AlertasStock")">Ver alertas</a>
-                            </li>
-                        </ul>
-                    </li>*@
-
-                    //Usuarios
-                    @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Usuarios">
-                        <a class="nav-link" href="@Url.Action("Index","Usuario")">
-                            <i class="fa fa-fw fa-users"></i>
-                            <span class="nav-link-text">Usuarios</span>
-                        </a>
-                    </li>*@
-
-                }
-
-                @* Mis Datos *@
-                @*<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Mis datos">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMisDatos" data-parent="#exampleAccordion">
-                        <i class="fa fa-fw fa-user"></i>
-                        <span class="nav-link-text">Mis datos</span>
-                    </a>
-                    <ul class="sidenav-second-level collapse" id="collapseMisDatos">
-                        <li>
-                            <a href="@Url.Action("ActualizarContrasena", "Usuario")">Cambiar contraseña</a>
-                        </li>
-                    </ul>
-                </li>*@
-
-                @* Cerrar sesion *@
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="CerrarSession">
-                    <a class="nav-link" href="@Url.Action("CerrarSession","Home")"> 
-                        <i class="fa fa-fw fa-sign-out"></i>
-                        <span class="nav-link-text">Cerrar sesión</span>
-                    </a>
-                </li>
-            </ul>
-
-            <ul class="navbar-nav sidenav-toggler">
-                <li class="nav-item">
-                    <a class="nav-link text-center" id="sidenavToggler">
-                        <i class="fa fa-fw fa-angle-left"></i>
-                    </a>
-                </li>
-            </ul>
+<body class="loading ball-scale-multiple top-bar-fixed left-sidebar-fixed page-footer ovh">
+    
+    <!-- Start .preloader -->
+    <div class="preloader">
+        <div class="loader-inner">
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
-    </nav>
-
-    <div class="content-wrapper">
-        <div class="container-fluid">
-            @RenderBody()
-        </div>
-
-        <!--Footer-->
-        <footer class="sticky-footer">
-            <div class="container">
-                <div class="text-center">
-                    <p class="pull-left">
-                        Copyrights &copy; 2018 <a href="http://rcode.com/" class="color-blue strong underline-effect" target="_blank">R.Bañuelos</a>. All rights reserved.
-                    </p>
-                </div>
-            </div>
-        </footer>
     </div>
+    <!-- End .preloader -->
+    <!-- Start header .top-bar -->
+    <header class="top-bar">
+        <nav class="navbar navbar-default">
+            <ul class="nav navbar-nav">
+                <li class="sidebar-toggle">
+                    <a id="left-sidebar-toggle" href="#">
+                        <i class="fa fa-navicon"></i>
+                    </a>
+                </li>
+                <li class="sidebar-hide">
+                    <a id="left-sidebar-hide" href="#">
+                        <i class="fa fa-navicon"></i>
+                    </a>
+                </li>
+                <li class="page-title">
+                    <h2>Panel de administración</h2>
+                </li>
+            </ul>
+            
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" class="reset-layout hint--bottom" data-hint="Reset panel position for this page">
+                        <i class="fa fa-history"></i>
+                        <span class="sr-only">Reset panel positions</span>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    
+                    <ul class="dropdown-menu dropdown-lg right with-header with-scroll" role="menu">
+                        <li class="dropdown-header">
+                            <h4><strong>7 unread</strong> notifications</h4>
+                            <a href="#">view all</a>
+                        </li>
+                        <li class="with-scroll">
+                            <ul class="scroll-it">
+                                <li>
+                                    <a href="#"><i class="fa fa-calendar"></i>Your shedule is created</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-futbol-o"></i>New goal! Barca 1-0 Real</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-life-buoy"></i>2 New support requests</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-cc-paypal"></i>You got new payment</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-area-chart"></i>Raport is generated</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-users"></i>12 new users are registred</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-shield"></i>Firewall block 2 attacks</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown">
+                        <img class="avatar mr5" src="~/img/avatars/1.jpg" alt="SuggeElson">
+                        <span class="user-name">@Session["NombrePersona"]</span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu right" role="menu">
+
+                        <li class="divider"></li>
+                        
+                        <li>
+                            <a href="@Url.Action("CerrarSession","Home")"><i class="fa fa-power-off"></i> Cerrar Sesión</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!-- End header / .top-bar -->
+    <!-- Start .page-container -->
+    <div class="page-container">
+        <!-- Start .left-sidebar-wrapper  -->
+        <div class="left-sidebar-wrapper">
+            <!-- Start .left-sidebar  -->
+            <div class="left-sidebar">
+                <!-- Start .sidebar-header  -->
+                <header class="sidebar-header">
+                    <!-- .navbar  -->
+                    <nav class="navbar navbar-default">
+                        <!-- .navbar-header  -->
+                        <div class="navbar-header">
+                            <!-- .navbar-brand  -->
+                            <a class="navbar-brand" href="index.html">
+                                <img src="~/img/logo.png" class="logo" alt="Dash logo">
+                                <img src="~/img/logosm.png" class="logo-sm" alt="Dash logo">
+                            </a>
+                            <!-- / .navbar-brand  -->
+                        </div>
+                        <!-- / .navbar-header  -->
+                    </nav>
+                    <!-- / .navbar  -->
+                </header>
+                <!-- End / .sidebar-header  -->
+                <!-- Start .scroll-area  -->
+                <div class="scroll-area">
+                    <!-- Start .sidebar-nav  -->
+                    <ul class="sidebar-nav" data-open-speed="250" data-close-speed="200" data-easing="linear">
+                        <!-- li (nav item )  -->
+                        <li class="active">
+                            <a href="@Url.Action("Index","Home")">
+                                <i class="fa fa-fw fa-dashboard"></i>
+                                <span class="nav-item-text">Inicio</span>
+                            </a>
+                        </li>
+                        <!-- / li -->
+                        <!-- .nav-section-header  -->
+                        <li class="nav-section-header">
+                            <h5>Herramientas</h5>
+                        </li>
+                        <!-- / .nav-section-header  -->
+                        <!-- li (nav item )  -->
+                        <li>
+                            <a href="@Url.Action("DarEntrada","EntradasAlmacen")">
+                                <i class="fa fa-fw fa-arrow-circle-right"></i>
+                                <span class="nav-item-text">Entradas</span>
+                            </a>
+                        </li>
+                        <!-- / li -->
+                        <!-- li (nav item )  -->
+                        <li>
+                            <a href="@Url.Action("DarSalida","SalidasAlmacen")">
+                                <i class="fa fa-fw fa-arrow-circle-left"></i>
+                                <span class="nav-item-text">Salidas</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("AgregarVenta","Ventas")">
+                                <i class="fa fa-fw fa-usd"></i>
+                                <span class="nav-item-text">Ventas</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("Create","Articulo")">
+                                <i class="fa fa-database"></i>
+                                <span class="nav-item-text">Alta Productos</span>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                    <!-- End / .sidebar-nav  -->
+                </div>
+                <!-- End / .scroll-area  -->
+            </div>
+            <!-- End / .left-sidebar  -->
+        </div>
+        <!-- End / .left-sidebar-wrapper  -->
+        <!-- Start #right-sidebar -->
+        <aside class="right-sidebar hide-sidebar">
+            <!-- Start .sidebar-inner -->
+            <div class="sidebar-inner">
+                <!-- Start .sidebar-scrollarea -->
+                <div class="sidebar-scrollarea">
+                    <div class="chat-app">
+                        <div class="chat-app-header">
+                            <h4 class="chat-app-title">Users</h4>
+                            <button type="button" class="close close-right-sidebar" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="chat-user-list">
+                            <form class="form-vertical chat-search" role="form">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control input-sm" placeholder="Search for user">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-sm" type="submit"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- End .form-group  -->
+                            </form>
+                            <ul class="user-list list-group">
+                                <li class="list-group-item clearfix">
+                                    <a href="#">
+                                        <img src="~/img/avatars/2.jpg" alt="avatar" class="avatar">
+                                        <span class="name">Martin Frazier</span>
+                                        <span class="status status-online">online</span>
+                                    </a>
+                                    <div class="chat-messages">
+                                        <ul>
+                                            <li class="chat-back">
+                                                <a href="#"><i class="fa fa-chevron-left mr5"></i> Back</a>
+                                            </li>
+                                            <li>
+                                                <div class="avatar">
+                                                    <img src="~/img/avatars/2.jpg">
+                                                </div>
+                                                <p class="chat-name">
+                                                    Dean Huges <span class="chat-time">15 sec ago</span>
+                                                </p>
+                                                <div class="message">
+                                                    <p class="chat-txt">We need to meet today. I have some things to show you.</p>
+                                                </div>
+                                            </li>
+                                            <li class="chat-me">
+                                                <div class="avatar">
+                                                    <img src="~/img/avatars/1.jpg">
+                                                </div>
+                                                <p class="chat-name">
+                                                    SuggeElson <span class="chat-time">10 sec ago</span>
+                                                </p>
+                                                <div class="message message-info">
+                                                    <p class="chat-txt">I have tons of work today maybe tomorrow will be fine</p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="avatar">
+                                                    <img src="~/img/avatars/2.jpg">
+                                                </div>
+                                                <p class="chat-name">
+                                                    Dean Huges <span class="chat-time">just now</span>
+                                                </p>
+                                                <div class="message">
+                                                    <p class="chat-txt">Okay i will wait..</p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="list-group-item clearfix">
+                                    <a href="#">
+                                        <img src="~/img/avatars/4.jpg" alt="avatar" class="avatar">
+                                        <span class="name">Joann Wheeler</span>
+                                        <span class="status status-offline">offline from 1 day</span>
+                                    </a>
+                                    <div class="chat-messages">
+                                        <ul>
+                                            <li class="chat-back">
+                                                <a href="#"><i class="fa fa-chevron-left mr5"></i> Back</a>
+                                            </li>
+                                            <li class="no-messages">
+                                                <p class="text-center color-red">No previous conversation found</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="list-group-item clearfix">
+                                    <a href="#">
+                                        <img src="~/img/avatars/5.jpg" alt="avatar" class="avatar">
+                                        <span class="name">Tracy Obrien</span>
+                                        <span class="status status-online">online</span>
+                                    </a>
+                                    <div class="chat-messages">
+                                        <ul>
+                                            <li class="chat-back">
+                                                <a href="#"><i class="fa fa-chevron-left mr5"></i> Back</a>
+                                            </li>
+                                            <li class="no-messages">
+                                                <p class="text-center color-red">No previous conversation found</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="list-group-item clearfix">
+                                    <a href="#">
+                                        <img src="~/img/avatars/6.jpg" alt="avatar" class="avatar">
+                                        <span class="name">Alicia Howard</span>
+                                        <span class="status status-online">online</span>
+                                    </a>
+                                    <div class="chat-messages">
+                                        <ul>
+                                            <li class="chat-back">
+                                                <a href="#"><i class="fa fa-chevron-left mr5"></i> Back</a>
+                                            </li>
+                                            <li class="no-messages">
+                                                <p class="text-center color-red">No previous conversation found</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="list-group-item clearfix">
+                                    <a href="#">
+                                        <img src="~/img/avatars/7.jpg" alt="avatar" class="avatar">
+                                        <span class="name">Jerome Bowman</span>
+                                        <span class="status status-online">online</span>
+                                    </a>
+                                    <div class="chat-messages">
+                                        <ul>
+                                            <li class="chat-back">
+                                                <a href="#"><i class="fa fa-chevron-left mr5"></i> Back</a>
+                                            </li>
+                                            <li class="no-messages">
+                                                <p class="text-center color-red">No previous conversation found</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="list-group-item clearfix">
+                                    <a href="#">
+                                        <img src="~/img/avatars/8.jpg" alt="avatar" class="avatar">
+                                        <span class="name">Joel Lynch</span>
+                                        <span class="status status-online">online</span>
+                                    </a>
+                                    <div class="chat-messages">
+                                        <ul>
+                                            <li class="chat-back">
+                                                <a href="#"><i class="fa fa-chevron-left mr5"></i> Back</a>
+                                            </li>
+                                            <li class="no-messages">
+                                                <p class="text-center color-red">No previous conversation found</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="list-group-item clearfix">
+                                    <a href="#">
+                                        <img src="~/img/avatars/9.jpg" alt="avatar" class="avatar">
+                                        <span class="name">Virgil Warren</span>
+                                        <span class="status status-online">online</span>
+                                    </a>
+                                    <div class="chat-messages">
+                                        <ul>
+                                            <li class="chat-back">
+                                                <a href="#"><i class="fa fa-chevron-left mr5"></i> Back</a>
+                                            </li>
+                                            <li class="no-messages">
+                                                <p class="text-center color-red">No previous conversation found</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="list-group-item clearfix">
+                                    <a href="#">
+                                        <img src="~/img/avatars/10.jpg" alt="avatar" class="avatar">
+                                        <span class="name">Charlene Welch</span>
+                                        <span class="status status-online">online</span>
+                                    </a>
+                                    <div class="chat-messages">
+                                        <ul>
+                                            <li class="chat-back">
+                                                <a href="#"><i class="fa fa-chevron-left mr5"></i> Back</a>
+                                            </li>
+                                            <li class="no-messages">
+                                                <p class="text-center color-red">No previous conversation found</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="list-group-item clearfix">
+                                    <a href="#">
+                                        <img src="~/img/avatars/11.jpg" alt="avatar" class="avatar">
+                                        <span class="name">Ronnie Newman</span>
+                                        <span class="status status-online">online</span>
+                                    </a>
+                                    <div class="chat-messages">
+                                        <ul>
+                                            <li class="chat-back">
+                                                <a href="#"><i class="fa fa-chevron-left mr5"></i> Back</a>
+                                            </li>
+                                            <li class="no-messages">
+                                                <p class="text-center color-red">No previous conversation found</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div id="chat-write">
+                                <form id="chat-write-form" class="form-vertical" role="form">
+                                    <div class="form-group mb5">
+                                        <textarea name="writetext" id="chatwritearea" rows="3" class="form-control" placeholder="Type message ..."></textarea>
+                                    </div>
+                                    <!-- End .form-group  -->
+                                    <div class="form-group mb0">
+                                        <a href="#" class="btn btn-link btn-sm p0 mr5 color-gray"><i class="fa fa-picture-o"></i> </a>
+                                        <a href="#" class="btn btn-link btn-sm p0 color-gray"><i class="fa fa-file"></i> </a>
+                                        <a href="#" class="btn btn-default btn-sm pull-right">Send</a>
+                                    </div>
+                                    <!-- End .form-group  -->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End .sidebar-scrollarea -->
+            </div>
+            <!-- End .sidebar-inner -->
+        </aside>
+        <!-- End #right-sidebar -->
+        <!-- Start .main-content -->
+        <div class="main-content">
+            <!-- Start .content -->
+            @RenderBody()
+            <!-- End .content -->
+            <div id="footer" class="clearfix">
+                <!-- Start #footer  -->
+                <p class="pull-left">
+                    Copyrights &copy; 2015 <a href="http://suggeelson.com/" class="color-blue strong underline-effect" target="_blank">SuggeElson</a>. All rights reserved.
+                </p>
+                <p class="pull-right">
+                    <a href="#" class="mr5 strong underline-effect">Terms of use</a>
+                    |
+                    <a href="#" class="ml5 mr25 strong underline-effect">Privacy police</a>
+                </p>
+            </div>
+            <!-- End #footer  -->
+        </div>
+        <!-- End / .main-content -->
+    </div>
+    <!-- End / .page-container -->
+    <!-- Back to top -->
+    <div id="back-to-top">
+        <a href="#">Back to Top</a>
+    </div>
+    <!-- Javascripts -->
+    <!-- Important javascript libs(put in all pages) -->
+
+
+
+
+    
+
+    <script src="@Url.Content("~/js/bootstrap/bootstrap.js")"></script>
+    <script src="@Url.Content("~/js/libs/modernizr.custom.js")"></script>
+    <script src="@Url.Content("~/js/libs/jRespond.js")"></script>
+    <script src="@Url.Content("~/plugins/core/retinajs/retina.js")"></script>
+    <script src="@Url.Content("~/plugins/core/quicksearch/jquery.quicksearch.js")"></script>
+    <script src="@Url.Content("~/plugins/core/fastclick/fastclick.js")"></script>
+    <script src="@Url.Content("~/plugins/core/velocity/velocity.min.js")"></script>
+    <script src="@Url.Content("~/plugins/core/nicescroll/jquery.nicescroll.js")"></script>
+    <script src="@Url.Content("~/plugins/ui/match-height/jcolumn.min.js")"></script>
+    <script src="@Url.Content("~/plugins/ui/bootbox/bootbox.js")"></script>
+    <script src="@Url.Content("~/plugins/misc/touchpunch/jquery.ui.touch-punch.js")"></script>
+    <script src="@Url.Content("~/js/libs/moment.js")"></script>
+    <script src="@Url.Content("~/plugins/misc/countTo/jquery.countTo.js")"></script>
+    <script src="@Url.Content("~/plugins/misc/ionsound/ion.sound.js")"></script>
+    <script src="@Url.Content("~/plugins/misc/waypoint/jquery.waypoints.js")"></script>
+    <script src="@Url.Content("~/plugins/charts/flot/jquery.flot.custom.js")"></script>
+    <script src="@Url.Content("~/plugins/charts/flot/jquery.flot.pie.js")"></script>
+    <script src="@Url.Content("~/plugins/charts/flot/jquery.flot.resize.js")"></script>
+    <script src="@Url.Content("~/plugins/charts/flot/jquery.flot.time.js")"></script>
+    <script src="@Url.Content("~/plugins/charts/flot/jquery.flot.growraf.js")"></script>
+    <script src="@Url.Content("~/plugins/charts/flot/jquery.flot.categories.js")"></script>
+    <script src="@Url.Content("~/plugins/charts/flot/jquery.flot.stack.js")"></script>
+    <script src="@Url.Content("~/plugins/charts/flot/jquery.flot.orderBars.js")"></script>
+    <script src="@Url.Content("~/plugins/charts/flot/jquery.flot.tooltip.min.js")"></script>
+    <script src="@Url.Content("~/js/libs/raphael.js")"></script>
+    <script src="@Url.Content("~/plugins/charts/morris/morris.js")"></script>
+    <script src="@Url.Content("~/plugins/charts/sparklines/jquery.sparkline.js")"></script>
+    <script src="@Url.Content("~/plugins/charts/pie-chart/jquery.easy-pie-chart.js")"></script>
+    <script src="@Url.Content("~/plugins/ui/skycons/skycons.js")"></script>
+    <script src="@Url.Content("~/plugins/ui/calendar/fullcalendar.js")"></script>
+    <script src="@Url.Content("~/plugins/ui/noty/jquery.noty.packaged.js")"></script>
+    <script src="@Url.Content("~/plugins/misc/vectormaps/jquery-jvectormap-2.0.4.min.js")"></script>
+    <script src="@Url.Content("~/plugins/misc/vectormaps/maps/jquery-jvectormap-world-mill.js")"></script>
+    <script src="@Url.Content("~/js/jquery.adminPlugin.js")"></script>
+    <script src="@Url.Content("~/js/main.js")"></script>
+    <script src="@Url.Content("~/js/pages/dashboard.js")"></script>
+
+
+    <script src="@Url.Content("~/plugins/forms/bootstrap-duallistbox/jquery.bootstrap-duallistbox.js")"></script>
+    <script src="@Url.Content("~/plugins/forms/fancyselect/fancySelect.js")"></script>
+    <script src="@Url.Content("~/plugins/forms/select2/select2.full.js")"></script>
+    <script src="@Url.Content("~/plugins/forms/maskedinput/jquery.maskedinput.js")"></script>
+    <script src="@Url.Content("~/plugins/forms/bootstrap-tagsinput/bootstrap-tagsinput.js")"></script>
+    <script src="@Url.Content("~/js/libs/typeahead.bundle.js")"></script>
+    <script src="@Url.Content("~/plugins/forms/bootstrap-touchspin/jquery.bootstrap-touchspin.js")"></script>
+    <script src="@Url.Content("~/plugins/forms/bootstrap-timepicker/bootstrap-timepicker.js")"></script>
+    <script src="@Url.Content("~/plugins/forms/bootstrap-colorpicker/bootstrap-colorpicker.js")"></script>
+    <script src="@Url.Content("~/plugins/forms/bootstrap-datepicker/bootstrap-datepicker.js")"></script>
+    <script src="@Url.Content("~/plugins/forms/dropzone/dropzone.js")"></script>
+    <script src="@Url.Content("~/plugins/forms/bootstrap-markdown/bootstrap-markdown.js")"></script>
+    <script src="@Url.Content("~/plugins/forms/summernote/summernote.js")"></script>
+    <script src="@Url.Content("~/js/jquery.adminPlugin.js")"></script>
+    <script src="@Url.Content("~/js/pages/forms-advanced.js")"></script>
+
+
 </body>
 
 </html>

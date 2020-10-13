@@ -20,7 +20,7 @@ namespace View.Controllers
         public JsonResult GetExistencias(string parametro)
         {
             //HARDCODE
-            List<DO_Existencia> lista = DataManager.GetExistenciaArticulos(1);
+            List<DO_Existencia> lista = DataManager.GetExistenciaArticulos(2005);
 
             List<DO_ResultMorris> listaResultante = new List<DO_ResultMorris>();
 

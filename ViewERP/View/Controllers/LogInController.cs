@@ -24,6 +24,7 @@ namespace View.Controllers
                 if (usuario != null)
                 {
                     Session["UsuarioConectado"] = usuario;
+                    Session["NombrePersona"] = usuario.NombreCompleto;
 
                     Session["ADMINISTRADOR"] = false;
                     Session["ALMACEN"] = false;
