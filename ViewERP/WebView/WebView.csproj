@@ -161,6 +161,7 @@
     <Compile Include="Controllers\ERPVerificaRol.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogInController.cs" />
+    <Compile Include="Controllers\SalidasAlmacenController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -803,6 +804,7 @@
     <Content Include="Views\LogIn\Index.cshtml" />
     <Content Include="Views\Ventas\AgregarVenta.cshtml" />
     <Content Include="Views\EntradasAlmacen\DarEntrada.cshtml" />
+    <Content Include="Views\SalidasAlmacen\DarSalida.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

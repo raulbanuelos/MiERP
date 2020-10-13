@@ -12,19 +12,13 @@ namespace WebView.Controllers
         {
             return View();
         }
-
-        public ActionResult About()
+        
+        [ERPVerificaRol]
+        public ActionResult CerrarSession()
         {
-            ViewBag.Message = "Your application description page.";
+            Session.Abandon();
 
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return RedirectToAction("Index", "LogIn");
         }
     }
 }

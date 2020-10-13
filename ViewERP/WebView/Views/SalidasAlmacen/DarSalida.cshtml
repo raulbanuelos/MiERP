@@ -1,14 +1,15 @@
 ﻿
 @{
-    ViewBag.Title = "DarEntrada";
+    ViewBag.Title = "DarSalida";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title">Entradas</h4>
+                <h4 class="panel-title">Salidas</h4>
             </div>
             <div class="panel-body pb-0">
                 <div class="bs-callout bs-callout-info mt0">
@@ -16,7 +17,6 @@
                 </div>
 
                 <div class="form-horizontal group-border stripped">
-
                     <div class="form-group">
                         <label>Mi Bodega</label>
                         <select id="cboAlmacenes" class="form-control">
@@ -30,24 +30,21 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Bodega origen</label>
-                        <select id="cboProveedores" class="form-control">
+                        <label>Persona solicitante</label>
+                        <select id="cboPersonas" class="form-control">
                             @{
-                                foreach (SelectListItem proveedor in ((List<SelectListItem>)ViewBag.Proveedores))
+                                foreach (SelectListItem persona in ((List<SelectListItem>)ViewBag.Personas))
                                 {
-                                    <option id="@proveedor.Value" value="@proveedor.Value">@proveedor.Text</option>
+                                    <option id="@persona.Value" value="@persona.Value">@persona.Text</option>
                                 }
                             }
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <input type="text" id="txtFactura" class="form-control" placeholder="Número de referencia" />
-                    </div>
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <button class="btn btn-primary" onclick="MostrarModal()">Agregar Articulo</button>
+                            <button class="btn btn-primary" onclick="MostrarModal()">Articulo</button>
                         </div>
                     </div>
 
@@ -58,10 +55,8 @@
                                     <tr>
                                         <td>ID ARTICULO</td>
                                         <td>CODIGO</td>
-                                        <td>DESCRIPCIÓN</td>
                                         <td>CANTIDAD</td>
-                                        <td>UNIDAD</td>
-                                        <td class="td_hide">idUnidad</td>
+                                        <td>CONDICIONES AL SALIR</td>
                                     </tr>
                                 </thead>
                                 <tbody id="myTable"></tbody>
@@ -69,19 +64,17 @@
                         </div>
                     </div>
 
+                    <div class="form-inline">
+                        <button class="btn btn-success" onclick="GuardarSalida()">Guardar Vale</button>
+                        <button class="btn btn-danger" onclick="Regresar()">Cancelar</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="form-group">
-    <div class="form-inline">
-        <button class="btn btn-success" onclick="GuardarEntrada()">Guardar</button>
-        <button class="btn btn-danger" onclick="Regresar()">Cancelar</button>
-    </div>
-</div>
 
-<div id="modalguardandobitacora" data-backdrop="static" data-keyboard="false" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div id="modalguardandobitacora" data-backdrop="static" data-keyboard="false" class="modal fade bd-example-modal-lg" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header alert alert-success">
@@ -93,40 +86,38 @@
                 </table>
             </div>
             <div class="modal-body" id="div1">
+                <p><b>Articulo</b></p>
                 <div class="form-group">
                     <label>Articulo</label>
                     <select id="cboArticulos" class="js-example-basic-single" style="width:90%"></select>
                 </div>
 
                 <div class="form-group">
-                    <label>Cantidad</label>
-                    <input type="number" class="form-control" id="txtCantidad" />
-                </div>
-
-                <div class="form-group">
-                    <label>Unidad</label>
-                    <select id="cboUnidad" class="js-example-basic-single" style="width:90%">
+                    <label>Condiciones al entregar</label>
+                    <select id="cboCondiciones" class="form-control">
                         @{
-                            foreach (SelectListItem unidad in ((List<SelectListItem>)ViewBag.Unidades))
+                            foreach (SelectListItem condicion in ((List<SelectListItem>)ViewBag.CondicionesEntrega))
                             {
-                                <option id="@unidad.Value" value="@unidad.Value">@unidad.Text</option>
+                                <option id="@condicion.Value" value="@condicion.Value">@condicion.Text</option>
                             }
                         }
                     </select>
                 </div>
+
+                <div class="form-group">
+                    <label>Cantidad</label>
+                    <input type="number" class="form-control" id="txtCantidad" />
+                </div>
             </div>
-            <div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="agregarArticulo()">Agregar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
 </div>
 
-
-
 <script type="text/javascript" src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
-
 <script type="text/javascript">
 
     function Regresar() {
@@ -135,10 +126,10 @@
     }
 
     $(function () {
-        $('.js-example-basic-single').select2();
-        $("#td_1").hide();
 
-        var urlSave = '@Url.Action("GetAllCategoriasArticulos", "EntradasAlmacen")';
+        $('.js-example-basic-single').select2();
+
+        var urlSave = '@Url.Action("GetAllCategoriasArticulos", "SalidasAlmacen")';
         $.ajax({
             type: "POST",
             url: urlSave,
@@ -165,43 +156,79 @@
         });
     });
 
-    function agregarArticulo() {
-
-        var _idArticulo = $("#cboArticulos").val();
-        var _cantidad = $("#txtCantidad").val();
-        var _codigo = $("#cboArticulos option:selected").text();
-        var _unidad = $("#cboUnidad").text();
-        var _idUnidad = $("#cboUnidad").val();
-        var res = _codigo.split("        ", 2);
-        _codigo = res[0];
-        var _descripcion = res[1];
-
-        var row = "<tr>";
-        row += "<td>" + _idArticulo + "</td>";
-        row += "<td>" + _codigo + "</td>";
-        row += "<td>" + _descripcion + "</td>";
-        row += "<td>" + _cantidad + "</td>";
-        row += "<td>" + _unidad + "</td>";
-        row += "<td class='td_hide'>" + _idUnidad + "</td>";
-        row += "</tr>";
-
-        $("#myTable").append(row);
-
-        $("#modalguardandobitacora").modal('hide');
-    }
-
     function MostrarModal() {
         $("#modalguardandobitacora").modal();
     }
 
-    function GuardarEntrada()
-    {
-        if (ValidarAltaEntrada()) {
+    function agregarArticulo() {
 
+        var _idAlmacen = $("#cboAlmacenes").val();
+        var _idArticulo = $("#cboArticulos").val();
+        var _cantidad = $("#txtCantidad").val();
+        var _condicion = $("#cboCondiciones").val();
+        var _codigo = $("#cboArticulos option:selected").text();
+        var res = _codigo.split("        ", 1);
+        _codigo = res[0];
+        var urlSave = '@Url.Action("ChecarExistencia", "SalidasAlmacen")';
+
+        //Checamos si previamente el usuario ya habia agregado el mismo articulo. Sumamos la cantidad nueva con la cantidad que ya habia solicitado.
+        //gets table
+        var oTable = document.getElementById("myTable");
+
+        //gets rows of table
+        var rowLength = oTable.rows.length;
+        var cantidadTotal = parseFloat(_cantidad);
+        //loops through rows
+        for (i = 0; i < rowLength; i++) {
+
+            //gets cells of current row
+            var oCells = oTable.rows.item(i).cells;
+
+            //gets amount of cells of current row
+            var cellLength = oCells.length;
+
+            var _idCodigo = oCells.item(0).innerHTML;
+            if (_idCodigo == _idArticulo) {
+                var _cantidadAnterior = oCells.item(2).innerHTML;
+                cantidadTotal = cantidadTotal + parseFloat(_cantidadAnterior);
+            }
+        }
+
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ idAlmacen: _idAlmacen, idArticulo: _idArticulo, cantidadSolicitada: cantidadTotal }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data) {
+                    $("#modalguardandobitacora").modal('hide');
+                    var row = "<tr>";
+                    row += "<td>" + _idArticulo + "</td>";
+                    row += "<td class=\"text-left\">" + _codigo + "</td>";
+                    row += "<td class=\"text-center\">" + _cantidad + "</td>";
+                    row += "<td class=\"text-left\">" + _condicion + "</td>";
+                    row += "</tr>";
+
+                    $("#myTable").append(row);
+                } else {
+                    alert("La cantidad solicitada no esta disponible");
+                }
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error: " + result);
+            }
+        });
+
+
+
+    }
+
+    function GuardarSalida() {
+        if (ValidadAltaSalida()) {
+            var urlSave = '@Url.Action("GuardarSalida","SalidasAlmacen")';
             var _idAlmacen = $("#cboAlmacenes").val();
-            var _idProveedor = $("#cboProveedores").val();
-            var _noFactura = $("#txtFactura").val();
-            var urlSave = '@Url.Action("GuardarEntrada", "EntradasAlmacen")';
+            var _personaSolicito = $("#cboPersonas").val();
 
             //gets table
             var oTable = document.getElementById("myTable");
@@ -209,9 +236,9 @@
             //gets rows of table
             var rowLength = oTable.rows.length;
 
-            //We declare a Array.
             var _articulos = new Array();
 
+            //loops through rows
             for (i = 0; i < rowLength; i++) {
 
                 //gets cells of current row
@@ -220,34 +247,38 @@
                 //gets amount of cells of current row
                 var cellLength = oCells.length;
 
-                var _idArticulo = oCells.item(0).innerHTML;
+                var _idCodigo = oCells.item(0).innerHTML;
                 var _codigo = oCells.item(1).innerHTML;
-                var _descripcion = oCells.item(2).innerHTML;
-                var _cantidad = oCells.item(3).innerHTML;
-                var _idUnidad = oCells.item(5).innerHTML;
-
-                _articulos.push({ idArticulo: _idArticulo, codigo: _codigo, descripcion: _descripcion, cantidad: _cantidad, idUnidad: _idUnidad });
+                var _cantidad = oCells.item(2).innerHTML;
+                var _condicion = oCells.item(3).innerHTML;
+                _articulos.push({ idCodigo: _idCodigo, codigo: _codigo, cantidad: _cantidad, condicion: _condicion });
             }
 
             $.ajax({
                 type: "POST",
                 url: urlSave,
-                data: JSON.stringify({ idAlmacen: _idAlmacen, idProveedor: _idProveedor, Factura: _noFactura, articulos: _articulos }),
+                data: JSON.stringify({ idAlmacen : _idAlmacen, personaSolicito: _personaSolicito, articulos: _articulos}),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    if (data >= 1) {
-                        alert("Articulos agregados correctamente.");
+                    if (data.ResultCode == 1) {
 
+                        //generarPDF(data.NombreSolicitante, data.CodigoArticulo);
+                        var li = "@Url.Action("ValeSalida","SalidasAlmacen")?idMovimientoSalida=" + data.idSalidaAlmacen + "";
+
+                        window.location.href = li;
+
+                    } else {
+                        alert(data.Respuesta);
                         var link = "@Url.Action("Index","Home")";
                         window.location.href = link;
                     }
+
                 },
                 error: function (result) {
-                    alert("ERROR");
+                    alert("Woops, se produjo un error: " + result);
                 }
             });
-
         }
     }
 </script>
