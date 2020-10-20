@@ -4,6 +4,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .modalColor{
+        background-color: #495057;
+    }
+
+    .colorBlack{
+        color: #212529;
+    }
+
+
+</style>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
@@ -81,31 +93,37 @@
     </div>
 </div>
 
-<div id="modalguardandobitacora" data-backdrop="static" data-keyboard="false" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<!-- Modal -->
+<div class="modal fade bg-theme1" id="modalguardandobitacora" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header alert alert-success">
-                <table>
-                    <tr>
-                        <td></td>
-                        <td><h3 class="modal-title">Agregar articulo</h3></td>
-                    </tr>
-                </table>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="modal-body" id="div1">
+            <div class="modal-body">
                 <div class="form-group">
-                    <label>Articulo</label>
-                    <select id="cboArticulos" class="js-example-basic-single" style="width:90%"></select>
+                    <label class="colorBlack">Articulo</label>
+                    <select id="cboArticulos" class="form-control modalColor" style="width:90%">
+                        @{
+                            foreach (SelectListItem articulo in ((List<SelectListItem>)ViewBag.Articulos))
+                            {
+                                <option id="@articulo.Value" value="@articulo.Value">@articulo.Text</option>
+                            }
+                        }
+                    </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Cantidad</label>
-                    <input type="number" class="form-control" id="txtCantidad" />
+                    <label class="colorBlack">Cantidad</label>
+                    <input type="number" class="form-control modalColor" style="width:90%" id="txtCantidad" />
                 </div>
 
                 <div class="form-group">
-                    <label>Unidad</label>
-                    <select id="cboUnidad" class="js-example-basic-single" style="width:90%">
+                    <label class="colorBlack">Unidad</label>
+                    <select id="cboUnidad" class="form-control modalColor" style="width:90%">
                         @{
                             foreach (SelectListItem unidad in ((List<SelectListItem>)ViewBag.Unidades))
                             {
@@ -115,13 +133,14 @@
                     </select>
                 </div>
             </div>
-            <div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="agregarArticulo()">Agregar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
 </div>
+
 
 
 
@@ -196,8 +215,9 @@
 
     function GuardarEntrada()
     {
-        if (ValidarAltaEntrada()) {
-
+       
+        
+            debugger;
             var _idAlmacen = $("#cboAlmacenes").val();
             var _idProveedor = $("#cboProveedores").val();
             var _noFactura = $("#txtFactura").val();
@@ -248,6 +268,6 @@
                 }
             });
 
-        }
+        
     }
 </script>

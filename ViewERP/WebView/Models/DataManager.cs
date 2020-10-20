@@ -2031,6 +2031,50 @@ namespace WebView.Models
 
             return listaResultante;
         }
+
+        public static double GetVentaDiaActual(int idUsuario)
+        {
+            double monto = 0;
+
+            SO_Venta serviceVenta = new SO_Venta();
+
+            DataSet informacionBD = serviceVenta.GetVentaHoy(idUsuario);
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        monto = Convert.ToDouble(item["MONTO_VENTA_DIARIA"].ToString());
+                    }
+                }
+            }
+
+            return monto;
+        }
+
+        public static double GetVentaMesActual(int idUsuario)
+        {
+            double monto = 0;
+
+            SO_Venta serviceVenta = new SO_Venta();
+
+            DataSet informacionBD = serviceVenta.GetVentaMesActual(idUsuario);
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        monto = Convert.ToDouble(item["MONTO_VENTA_MENSUAL"].ToString());
+                    }
+                }
+            }
+
+            return monto;
+        }
         #endregion
     }
 }
