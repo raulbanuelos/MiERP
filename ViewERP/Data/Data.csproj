@@ -96,6 +96,7 @@
     <Compile Include="ServiceObject\SO_CategoriaArticulo.cs" />
     <Compile Include="ServiceObject\SO_CategoriaProducto.cs" />
     <Compile Include="ServiceObject\SO_Clientes.cs" />
+    <Compile Include="ServiceObject\SO_Depositos.cs" />
     <Compile Include="ServiceObject\SO_DetalleMovimientoSalidaAlmacen.cs" />
     <Compile Include="ServiceObject\SO_Detalle_Entrada_Almacen.cs" />
     <Compile Include="ServiceObject\SO_EntradasAlmacen.cs" />
@@ -126,6 +127,9 @@
     <Compile Include="ServiceObject\TBL_COMPANIA.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ServiceObject\TBL_DEPOSITOS.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ServiceObject\TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
@@ -145,6 +149,9 @@
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ServiceObject\TBL_ROLE.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceObject\TBL_SEMANA.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ServiceObject\TBL_UNIDAD.cs">

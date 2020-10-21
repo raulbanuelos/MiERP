@@ -2076,5 +2076,14 @@ namespace WebView.Models
             return monto;
         }
         #endregion
+
+        #region Depositos
+        public static int InsertDeposito(int idUsuario, double monto, DateTime fechaIngreso)
+        {
+            SO_Depositos serviceDeposito = new SO_Depositos();
+
+            return serviceDeposito.Insert(idUsuario, monto, fechaIngreso);
+        }
+        #endregion
     }
 }

@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "AgregarDeposito";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">Depositos</h4>
+            </div>
+            <div class="panel-body pb-0">
+                <div class="bs-callout bs-callout-info mt0">
+                    <p>Por favor ingrese la información requerida</p>
+                </div>
+
+                <div class="form-horizontal group-border stripped">
+                    <div class="form-group">
+                        <label class="col-lg-1 col-md-1 control-label" for="">Fecha</label>
+                        <div class="col-lg-10 col-md-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input id="txtFecha" type="text" class="form-control" placeholder="dd-mm-yyyy">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-1 col-md-1 control-label" for="">Monto</label>
+                        <div class="col-lg-10 col-md-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                                <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Monto">
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button class="btn btn-success" onclick="guardarVenta()">Guardar cambios</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    //$(document).ready(function () {
+    //    $("#txtFecha").datetimepicker({
+    //        format: 'yyyy-mm-dd'
+    //    });
+    //});
+
+    function guardarVenta() {
+        var _monto = $("#inlineFormInputGroup").val();
+        var _fecha = $("#txtFecha").val();
+
+        var urlSave = '@Url.Action("GuardarDeposito", "Depositos")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ monto: _monto, fecha: _fecha }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                alert("Deposito agregado correctamente");
+                $("#inlineFormInputGroup").val("0.0");
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+    }
+
+//    USE [ERP]
+//    GO
+
+//    /****** Object:  Table [dbo].[TBL_DEPOSITOS]    Script Date: 20/10/2020 09:48:37 p. m. ******/
+//    SET ANSI_NULLS ON
+//    GO
+
+//    SET QUOTED_IDENTIFIER ON
+//    GO
+
+//    CREATE TABLE [dbo].[TBL_DEPOSITOS](
+//        [ID_DEPOSITO] [int] IDENTITY(1,1) NOT NULL,
+//	[ID_USUARIO] [int] NULL,
+//	[FECHA_INGRESO] [datetime] NULL,
+//	[FECHA_REGISTRO] [datetime] NULL,
+//	[MONTO] [float] NULL,
+// CONSTRAINT [PK_TBL_DEPOSITOS] PRIMARY KEY CLUSTERED
+//(
+//	[ID_DEPOSITO] ASC
+//)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+//) ON [PRIMARY]
+
+//GO
+
+//ALTER TABLE [dbo].[TBL_DEPOSITOS]  WITH CHECK ADD  CONSTRAINT [FK_TBL_DEPOSITOS_TBL_USUARIO] FOREIGN KEY([ID_USUARIO])
+//REFERENCES [dbo].[TBL_USUARIO] ([ID_USUARIO])
+//GO
+
+//ALTER TABLE [dbo].[TBL_DEPOSITOS] CHECK CONSTRAINT [FK_TBL_DEPOSITOS_TBL_USUARIO]
+//GO
+
+</script>

@@ -12,12 +12,12 @@ namespace Data.ServiceObject
     using System;
     using System.Collections.Generic;
     
-    public partial class TBL_ALERTAS_STOCK_MIN
+    public partial class TBL_SEMANA
     {
-        public int ID_ALERTA_STOCK_MIN { get; set; }
-        public int ID_ARTICULO { get; set; }
-        public decimal CANTIDAD_MINIMA { get; set; }
-    
-        public virtual TBL_ARTICULO TBL_ARTICULO { get; set; }
+        public int ID_SEMANA { get; set; }
+        public Nullable<int> NO_SEMANA { get; set; }
+        public Nullable<int> ANIO { get; set; }
+        public Nullable<System.DateTime> DIA_INICIAL { get; set; }
+        public Nullable<System.DateTime> DIA_FINAL { get; set; }
     }
 }
