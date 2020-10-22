@@ -11,7 +11,7 @@
                     <div class="progress my-3" style="height:3px;">
                         <div class="progress-bar" style="width:55%"></div>
                     </div>
-                    <p class="mb-0 text-white small-font">Articulos vendidos <span class="float-right">+4.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                    <p class="mb-0 text-white small-font">Venta Semanal <span class="float-right"></span></p>
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-xl-3 border-light">
@@ -20,7 +20,7 @@
                     <div class="progress my-3" style="height:3px;">
                         <div class="progress-bar" style="width:55%"></div>
                     </div>
-                    <p class="mb-0 text-white small-font">Venta Total Semanal<span class="float-right">+1.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                    <p class="mb-0 text-white small-font">Venta Hoy<span class="float-right"></span></p>
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-xl-3 border-light">
@@ -29,16 +29,16 @@
                     <div class="progress my-3" style="height:3px;">
                         <div class="progress-bar" style="width:55%"></div>
                     </div>
-                    <p class="mb-0 text-white small-font">Venta Total Mensual <span class="float-right">+5.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                    <p class="mb-0 text-white small-font">Venta Mensual <span class="float-right"></span></p>
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-xl-3 border-light">
                 <div class="card-body">
-                    <h5 class="text-white mb-0">5630 <span class="float-right"><i class="fa fa-envira"></i></span></h5>
+                    <h5 class="text-white mb-0">5630 <span class="float-right"></span></h5>
                     <div class="progress my-3" style="height:3px;">
-                        <div class="progress-bar" style="width:55%"></div>
+                        <div class="progress-bar" style="width:10%"></div>
                     </div>
-                    <p class="mb-0 text-white small-font">Messages <span class="float-right">+2.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                    <p class="mb-0 text-white small-font">Messages <span class="float-right">+2.2%</span></p>
                 </div>
             </div>
         </div>
@@ -47,8 +47,49 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#lblCantidadVendida").html(" 850 <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
-        $("#lblVentaTotal").html("8,323 <span class=\"float-right\"><i class=\"fa fa-usd\"></i></span>");
-        $("#lblVentaTotalMensual").html("35,500 <span class=\"float-right\"><i class=\"fa fa-usd\"></i></span>")
+        //$("#lblCantidadVendida").html(" 850 <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
+        //$("#lblVentaTotal").html("8,323 <span class=\"float-right\"><i class=\"fa fa-usd\"></i></span>");
+        //$("#lblVentaTotalMensual").html("35,500 <span class=\"float-right\"><i class=\"fa fa-usd\"></i></span>")
+       
+        var urlSave = '@Url.Action("GetVentaDiaActual", "Ventas")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var number = new Intl.NumberFormat("en-IN").format(data);
+                if (data == 0) {
+                    number = "0,0";
+                }
+                $("#lblVentaTotal").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
+        urlSave = '@Url.Action("GetVentaMesActual", "Ventas")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var number = new Intl.NumberFormat("en-IN").format(data);
+                if (data == 0) {
+                    number = "0,0";
+                }
+                $("#lblVentaTotalMensual").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
     });
+
+
 </script>

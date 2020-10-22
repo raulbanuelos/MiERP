@@ -26,5 +26,29 @@ namespace WebView.Controllers
 
             return jsonResult;
         }
+
+        [HttpPost]
+        public JsonResult GetVentaDiaActual(string parametro)
+        {
+            int idUsuario = ((DO_Persona)Session["UsuarioConectado"]).idUsuario;
+            double venta = DataManager.GetVentaDiaActual(idUsuario);
+
+            var jsonResult = Json(venta, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult GetVentaMesActual(string parametro)
+        {
+            int idUsuario = ((DO_Persona)Session["UsuarioConectado"]).idUsuario;
+            double venta = DataManager.GetVentaMesActual(idUsuario);
+
+            var jsonResult = Json(venta, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
     }
 }
