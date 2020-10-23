@@ -2084,6 +2084,28 @@ namespace WebView.Models
 
             return serviceDeposito.Insert(idUsuario, monto, fechaIngreso);
         }
+
+        public static double GetVentaSemanaActual(int idUsuario)
+        {
+            double monto = 0;
+
+            SO_Venta serviceVenta = new SO_Venta();
+
+            DataSet informacionBD = serviceVenta.GetVentaSemanaActual(idUsuario);
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        monto = Convert.ToDouble(item["MONTO_SEMANAL"].ToString());
+                    }
+                }
+            }
+
+            return monto;
+        }
         #endregion
     }
 }
