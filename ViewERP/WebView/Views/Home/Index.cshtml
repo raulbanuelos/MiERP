@@ -5,31 +5,34 @@
 <div class="card mt-3">
     <div class="card-content">
         <div class="row row-group m-0">
-            <div class="col-12 col-lg-6 col-xl-3 border-light">
-                <div class="card-body">
-                    <h5 id="lblCantidadVendida" class="text-white mb-0"></h5>
-                    <div class="progress my-3" style="height:3px;">
-                        <div class="progress-bar" style="width:55%"></div>
-                    </div>
-                    <p class="mb-0 text-white small-font">Venta Semanal <span class="float-right"></span></p>
-                </div>
-            </div>
+            
             <div class="col-12 col-lg-6 col-xl-3 border-light">
                 <div class="card-body">
                     <h5 id="lblVentaTotal" class="text-white mb-0"></h5>
                     <div class="progress my-3" style="height:3px;">
-                        <div class="progress-bar" style="width:55%"></div>
+                        <div id="divVentaDiaria" class="progress-bar" style="width:0%"></div>
                     </div>
-                    <p class="mb-0 text-white small-font">Venta Hoy<span class="float-right"></span></p>
+                    <p class="mb-0 text-white small-font" id="lblPctVentaDiaria"></p>
                 </div>
             </div>
+
+            <div class="col-12 col-lg-6 col-xl-3 border-light">
+                <div class="card-body">
+                    <h5 id="lblCantidadVendida" class="text-white mb-0"></h5>
+                    <div class="progress my-3" style="height:3px;">
+                        <div id="divVentaSemanal" class="progress-bar" style="width:0%"></div>
+                    </div>
+                    <p class="mb-0 text-white small-font" id="lblPctVenta"></p>
+                </div>
+            </div>
+
             <div class="col-12 col-lg-6 col-xl-3 border-light">
                 <div class="card-body">
                     <h5 id="lblVentaTotalMensual"  class="text-white mb-0"></h5>
                     <div class="progress my-3" style="height:3px;">
-                        <div class="progress-bar" style="width:55%"></div>
+                        <div id="divVentaMensual" class="progress-bar" style="width:0%"></div>
                     </div>
-                    <p class="mb-0 text-white small-font">Venta Mensual <span class="float-right"></span></p>
+                    <p class="mb-0 text-white small-font" id="lblPctVentaMensual"></p>
                 </div>
             </div>
             <div class="col-12 col-lg-6 col-xl-3 border-light">
@@ -50,7 +53,7 @@
         //$("#lblCantidadVendida").html(" 850 <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
         //$("#lblVentaTotal").html("8,323 <span class=\"float-right\"><i class=\"fa fa-usd\"></i></span>");
         //$("#lblVentaTotalMensual").html("35,500 <span class=\"float-right\"><i class=\"fa fa-usd\"></i></span>")
-       
+
         var urlSave = '@Url.Action("GetVentaDiaActual", "Ventas")';
         $.ajax({
             type: "POST",
@@ -60,10 +63,20 @@
             dataType: "json",
             success: function (data) {
                 var number = new Intl.NumberFormat("en-IN").format(data);
+                var lpct = "";
+                var pct = 0;
                 if (data == 0) {
                     number = "0,0";
+                    lpct = "0%";
+                } else {
+                    pct = Math.round((data / 4285) * 100);
+                    lpct = pct + "%";
                 }
                 $("#lblVentaTotal").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
+
+                $("#divVentaDiaria").css({ "width": lpct });
+
+                $("#lblPctVentaDiaria").html("Venta Hoy<span class=\"float-right\">" + lpct + "</span>");
             },
             error: function (result) {
                 alert("Woops, se produjo un error");
@@ -79,10 +92,53 @@
             dataType: "json",
             success: function (data) {
                 var number = new Intl.NumberFormat("en-IN").format(data);
+                var lpct = "";
+                var pct = 0;
+
                 if (data == 0) {
                     number = "0,0";
+                    lpct = "0%";
+                } else {
+                    pct = Math.round((data / 120000) * 100);
+                    lpct = pct + "%";
+
                 }
                 $("#lblVentaTotalMensual").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
+
+                $("#divVentaMensual").css({ "width": lpct });
+
+                $("#lblPctVentaMensual").html("Venta Mensual<span class=\"float-right\">" + lpct + "</span>");
+
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
+        urlSave = '@Url.Action("GetVentaSemanaActual", "Ventas")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var number = new Intl.NumberFormat("en-IN").format(data);
+                var lpct = "";
+                var pct = 0;
+                if (data == 0) {
+                    number = "0,0";
+                    lpct = "0%";
+                } else {
+                    pct = Math.round((data / 30000) * 100);
+                    lpct = pct + "%";
+                }
+                $("#lblCantidadVendida").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
+
+                $("#divVentaSemanal").css({ "width": lpct });
+
+                $("#lblPctVenta").html("Venta Semanal<span class=\"float-right\">" + lpct + "</span>");
+
             },
             error: function (result) {
                 alert("Woops, se produjo un error");
@@ -90,6 +146,42 @@
         });
 
     });
+
+
+    @*-- ================================================
+-- Template generated from Template Explorer using:
+        -- Create Procedure (New Menu).SQL
+        --
+        -- Use the Specify Values for Template Parameters 
+        -- command (Ctrl-Shift-M) to fill in the parameter 
+    -- values below.
+    --
+    -- This block of comments will not be included in
+    -- the definition of the procedure.
+    -- ================================================
+    SET ANSI_NULLS ON
+    GO
+    SET QUOTED_IDENTIFIER ON
+    GO
+    -- =============================================
+    -- Author:		RAÚL BAÑUELOS
+    -- Create date: 22 OCT 2020
+    -- Description:	
+    -- =============================================
+    CREATE PROCEDURE SP_ERP_GET_VENTA_SEMANAL
+	@idUsuario INT
+    AS
+    BEGIN
+    DECLARE @fechaInicial AS DATE = (SELECT TOP 1 DIA_INICIAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
+	DECLARE @fechaFinal AS DATE = (SELECT TOP 1 DIA_FINAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
+
+	SELECT SUM(MONTO) AS MONTO_SEMANAL
+	FROM TBL_VENTA
+	WHERE FECHA_INGRESO BETWEEN @fechaInicial AND @fechaFinal
+	AND ID_USUARIO = @idUsuario
+	GROUP BY ID_USUARIO
+END
+GO*@
 
 
 </script>
