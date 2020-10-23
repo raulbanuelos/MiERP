@@ -146,42 +146,4 @@
         });
 
     });
-
-
-    @*-- ================================================
--- Template generated from Template Explorer using:
-        -- Create Procedure (New Menu).SQL
-        --
-        -- Use the Specify Values for Template Parameters 
-        -- command (Ctrl-Shift-M) to fill in the parameter 
-    -- values below.
-    --
-    -- This block of comments will not be included in
-    -- the definition of the procedure.
-    -- ================================================
-    SET ANSI_NULLS ON
-    GO
-    SET QUOTED_IDENTIFIER ON
-    GO
-    -- =============================================
-    -- Author:		RAÚL BAÑUELOS
-    -- Create date: 22 OCT 2020
-    -- Description:	
-    -- =============================================
-    CREATE PROCEDURE SP_ERP_GET_VENTA_SEMANAL
-	@idUsuario INT
-    AS
-    BEGIN
-    DECLARE @fechaInicial AS DATE = (SELECT TOP 1 DIA_INICIAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
-	DECLARE @fechaFinal AS DATE = (SELECT TOP 1 DIA_FINAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
-
-	SELECT SUM(MONTO) AS MONTO_SEMANAL
-	FROM TBL_VENTA
-	WHERE FECHA_INGRESO BETWEEN @fechaInicial AND @fechaFinal
-	AND ID_USUARIO = @idUsuario
-	GROUP BY ID_USUARIO
-END
-GO*@
-
-
 </script>
