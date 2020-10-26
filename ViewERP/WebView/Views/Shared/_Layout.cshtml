@@ -236,48 +236,22 @@
 </body>
 </html>
 
-@*USE [RGP2-PBA]
-GO
-/****** Object:  StoredProcedure [dbo].[SP_ERP_GET_MONTO_VENTA_DIARIA]    Script Date: 10/23/2020 4:02:15 PM ******/
-SET ANSI_NULLS ON
+@*SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 -- =============================================
--- Author:		RAUL BAÑUELOS
--- Create date: 20 OCT 2020
--- Description:	PROCEDIMIENTO ALMACENADO QUE OBTIENE LA VENTA ACUMULADA DEL DÍA ACTUAL DE UN USUARIO.
--- =============================================
-ALTER PROCEDURE [dbo].[SP_ERP_GET_MONTO_VENTA_DIARIA]
-@idUsuario INT
-AS
-BEGIN
-	SELECT FECHA_INGRESO, SUM(MONTO) AS MONTO_VENTA_DIARIA
-	FROM TBL_VENTA
-	WHERE ID_USUARIO = @idUsuario AND FECHA_INGRESO = CAST(GETDATE() AS date)
-    GROUP BY FECHA_INGRESO
-    END
-
-
-
-    USE [RGP2-PBA]
-    GO
-    /****** Object:  StoredProcedure [dbo].[SP_ERP_GET_MONTO_VENTA_MENSUAL]    Script Date: 10/23/2020 4:02:35 PM ******/
-    SET ANSI_NULLS ON
-    GO
-    SET QUOTED_IDENTIFIER ON
-    GO
+-- Author:		RAÚL BAÑUELOS
+-- Create date: 25 OCT 2020
+-- Description:	<Description,,>
     -- =============================================
-    -- Author:		RAUL BAÑUELOS
-    -- Create date: 20 OCT 2020
-    -- Description:	PROCEDIMIENTO ALMACENADO QUE OBTIENE LA VENTA ACUMULADA DEL MES ACTUAL DE UN USUARIO.
-    -- =============================================
-    ALTER PROCEDURE [dbo].[SP_ERP_GET_MONTO_VENTA_MENSUAL]
+    CREATE PROCEDURE SP_ERP_GET_VENTA_ULTIMOS_MESES
     @idUsuario INT
     AS
     BEGIN
-    SELECT SUM(MONTO) AS MONTO_VENTA_MENSUAL
+    SELECT CAST(MONTH(FECHA_INGRESO) AS VARCHAR(2)) + '-' + CAST(YEAR(FECHA_INGRESO) AS VARCHAR(4)) AS MESES, SUM(MONTO) AS MONTO
     FROM TBL_VENTA
-    WHERE ID_USUARIO = @idUsuario AND FECHA_INGRESO BETWEEN  DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AND CAST(GETDATE() AS date)
-    GROUP BY ID_USUARIO
-    END*@
+    WHERE (ID_USUARIO = @idUsuario) AND (FECHA_INGRESO BETWEEN DATEADD(DAY,1,EOMONTH(GETDATE(),-11))  AND GETDATE())
+    GROUP BY CAST(MONTH(FECHA_INGRESO) AS VARCHAR(2)) + '-' + CAST(YEAR(FECHA_INGRESO) AS VARCHAR(4))
+    END
+    GO*@

@@ -16,13 +16,6 @@ $(function() {
 						borderColor: "transparent",
 						pointRadius :"0",
 						borderWidth: 3
-					}, {
-						label: 'Old Visitor',
-						data: [7, 5, 14, 7, 12, 6, 10, 6, 11, 5],
-						backgroundColor: "rgba(255, 255, 255, 0.25)",
-						borderColor: "transparent",
-						pointRadius :"0",
-						borderWidth: 1
 					}]
 				},
 			options: {

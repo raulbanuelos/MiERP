@@ -62,5 +62,17 @@ namespace WebView.Controllers
 
             return jsonResult;
         }
+
+        [HttpPost]
+        public JsonResult GetVentaUltimosMeses(string parametro)
+        {
+            int idUsuario = ((DO_Persona)Session["UsuarioConectado"]).idUsuario;
+            List<FO_Item> lista = DataManager.GetVentaUltimosMeses(idUsuario);
+
+            var jsonResult = Json(lista, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
     }
 }

@@ -169,6 +169,7 @@
     </Compile>
     <Compile Include="Models\DataManager.cs" />
     <Compile Include="Models\DO_Persona.cs" />
+    <Compile Include="Models\FO_Item.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2075,6 +2075,32 @@ namespace WebView.Models
 
             return monto;
         }
+
+        public static List<FO_Item> GetVentaUltimosMeses(int idUsuario)
+        {
+            List<FO_Item> lista = new List<FO_Item>();
+
+            SO_Venta serviceVenta = new SO_Venta();
+
+            DataSet informacionBD = serviceVenta.GetVentaUltimosMeses(idUsuario);
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        FO_Item foItem = new FO_Item();
+
+                        foItem.ValueDouble = Convert.ToDouble(item["MONTO"].ToString());
+                        foItem.Nombre = item["MESES"].ToString();
+                        lista.Add(foItem);
+                    }
+                }
+            }
+
+            return lista;
+        }
         #endregion
 
         #region Depositos
