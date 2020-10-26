@@ -8,7 +8,7 @@ namespace Data.ServiceObject
 {
     public class SO_Depositos
     {
-        public int Insert(int idUsuario, double monto, DateTime fechaIngreso)
+        public int Insert(int idUsuario, double monto, DateTime fechaIngreso, string banco, string descripcion, string urlArchivo)
         {
             try
             {
@@ -20,6 +20,9 @@ namespace Data.ServiceObject
                     deposito.ID_USUARIO = idUsuario;
                     deposito.MONTO = monto;
                     deposito.FECHA_REGISTRO = DateTime.Now;
+                    deposito.BANCO = banco;
+                    deposito.DESCRIPCION = descripcion;
+                    deposito.URL_ARCHIVO = urlArchivo;
 
                     Conexion.TBL_DEPOSITOS.Add(deposito);
 

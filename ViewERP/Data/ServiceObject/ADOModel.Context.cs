@@ -47,7 +47,7 @@ namespace Data.ServiceObject
         public virtual DbSet<OrdenesDetalle> OrdenesDetalle { get; set; }
         public virtual DbSet<Productos> Productos { get; set; }
         public virtual DbSet<TBL_VENTA> TBL_VENTA { get; set; }
-        public virtual DbSet<TBL_DEPOSITOS> TBL_DEPOSITOS { get; set; }
         public virtual DbSet<TBL_SEMANA> TBL_SEMANA { get; set; }
+        public virtual DbSet<TBL_DEPOSITOS> TBL_DEPOSITOS { get; set; }
     }
 }

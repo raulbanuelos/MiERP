@@ -109,6 +109,7 @@
     <Compile Include="ServiceObject\SO_Reportes.cs" />
     <Compile Include="ServiceObject\SO_Rol.cs" />
     <Compile Include="ServiceObject\SO_SalidasAlmacen.cs" />
+    <Compile Include="ServiceObject\SO_Semana.cs" />
     <Compile Include="ServiceObject\SO_Unidad.cs" />
     <Compile Include="ServiceObject\SO_Usuario.cs" />
     <Compile Include="ServiceObject\SO_Venta.cs" />

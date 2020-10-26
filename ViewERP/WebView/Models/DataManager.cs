@@ -2094,8 +2094,65 @@ namespace WebView.Models
 
                         foItem.ValueDouble = Convert.ToDouble(item["MONTO"].ToString());
                         foItem.Nombre = item["MESES"].ToString();
+
+                        DateTime fecha = Convert.ToDateTime(item["MESES"].ToString());
+                        foItem.ValueDate = fecha;
+
                         lista.Add(foItem);
                     }
+                }
+            }
+
+            lista = lista.OrderBy(x => x.ValueDate).ToList();
+
+            foreach (var item in lista)
+            {
+                int mes = item.ValueDate.Month;
+                if (mes == 1)
+                {
+                    item.Nombre = "Ene-" + item.ValueDate.Year;
+                }else if(mes == 2)
+                {
+                    item.Nombre = "Feb-" + item.ValueDate.Year;
+                }else if(mes == 3)
+                {
+                    item.Nombre = "Mar-" + item.ValueDate.Year;
+                }
+                else if (mes == 4)
+                {
+                    item.Nombre = "Abr-" + item.ValueDate.Year;
+                }
+                else if (mes == 5)
+                {
+                    item.Nombre = "May-" + item.ValueDate.Year;
+                }
+                else if (mes == 6)
+                {
+                    item.Nombre = "Jun-" + item.ValueDate.Year;
+                }
+                else if (mes == 7)
+                {
+                    item.Nombre = "Jul-" + item.ValueDate.Year;
+                }
+                else if (mes == 8)
+                {
+                    item.Nombre = "Ago-" + item.ValueDate.Year;
+                }
+                else if (mes == 9)
+                {
+                    item.Nombre = "Sep-" + item.ValueDate.Year;
+                }
+                else if (mes == 10)
+                {
+                    item.Nombre = "Oct-" + item.ValueDate.Year;
+                }
+                else if (mes == 11)
+                {
+                    item.Nombre = "Nov-" + item.ValueDate.Year;
+                }
+                else if(mes == 12)
+                {
+                    item.Nombre = "Dic-" + item.ValueDate.Year;
                 }
             }
 
@@ -2104,11 +2161,11 @@ namespace WebView.Models
         #endregion
 
         #region Depositos
-        public static int InsertDeposito(int idUsuario, double monto, DateTime fechaIngreso)
+        public static int InsertDeposito(int idUsuario, double monto, DateTime fechaIngreso, string banco, string descripcion, string urlArchivo)
         {
             SO_Depositos serviceDeposito = new SO_Depositos();
 
-            return serviceDeposito.Insert(idUsuario, monto, fechaIngreso);
+            return serviceDeposito.Insert(idUsuario, monto, fechaIngreso, banco,descripcion,urlArchivo);
         }
 
         public static double GetVentaSemanaActual(int idUsuario)
@@ -2131,6 +2188,37 @@ namespace WebView.Models
             }
 
             return monto;
+        }
+        #endregion
+
+        #region Semana
+        public static DO_Semana GetSemanaActual()
+        {
+            DO_Semana dO_Semana = new DO_Semana();
+
+            SO_Semana sO_Semana = new SO_Semana();
+
+            DataSet dataSet = sO_Semana.GetSemanaActual();
+
+            if (dataSet != null)
+            {
+                if (dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in dataSet.Tables[0].Rows)
+                    {
+                        dO_Semana.NoSemana = Convert.ToInt32(item["NO_SEMANA"].ToString());
+                        dO_Semana.Year = Convert.ToInt32(item["ANIO"].ToString());
+                        dO_Semana.FechaInicial = Convert.ToDateTime(item["DIA_INICIAL"].ToString());
+                        dO_Semana.FechaFinal = Convert.ToDateTime(item["DIA_FINAL"].ToString());
+
+                        dO_Semana.SFechaInicial = dO_Semana.FechaInicial.ToShortDateString();
+                        dO_Semana.SFechaFinal = dO_Semana.FechaFinal.ToShortDateString();
+
+                    }
+                }
+            }
+
+            return dO_Semana;
         }
         #endregion
     }

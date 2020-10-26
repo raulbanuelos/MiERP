@@ -16,6 +16,7 @@
                 </div>
 
                 <div class="form-horizontal group-border stripped">
+                    <!--Fecha-->
                     <div class="form-group">
                         <label class="col-lg-1 col-md-1 control-label" for="">Fecha</label>
                         <div class="col-lg-10 col-md-9">
@@ -26,21 +27,57 @@
                         </div>
                     </div>
 
+                    <!--Importe-->
                     <div class="form-group">
-                        <label class="col-lg-1 col-md-1 control-label" for="">Monto</label>
+                        <label class="col-lg-1 col-md-1 control-label" for="">Importe</label>
                         <div class="col-lg-10 col-md-9">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                                <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Monto">
+                                <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Importe">
                             </div>
                         </div>
+                    </div>
 
+                    <!--Banco-->
+                    <div class="form-group">
+                        <label class="col-lg-1 col-md-1 control-label" for="">Importe</label>
+                        <div class="col-lg-10 col-md-9">
+                            <div class="input-group">
+                                <select class="form-control" id="cboBanco">
+                                    <option>BANCOMER</option>
+                                    <option>BANAMEX</option>
+                                    <option>SANTANDER</option>
+                                    <option>BANORTE</option>
+                                    <option>SANTANDER</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!--Descripcion-->
+                    <div class="form-group">
+                        <label class="col-lg-1 col-md-1 control-label" for="">Descripción</label>
+                        <div class="col-lg-10 col-md-9">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-info"></i></span>
+                                <input type="text" class="form-control" id="txtDescripcion" placeholder="Descripción">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--File-->
+                    <div class="form-group">
+                        <label class="col-lg-1 col-md-1 control-label" for="">Ficha de depósito</label>
+                        <div class="col-lg-10 col-md-9">
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="customFiles" placeholder="Descripción">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <button class="btn btn-success" onclick="guardarVenta()">Guardar cambios</button>
+                            <button class="btn btn-success" onclick="guardarDeposito()">Guardar cambios</button>
                         </div>
                     </div>
 
@@ -52,23 +89,27 @@
 
 <script type="text/javascript">
 
-    //$(document).ready(function () {
-    //    $("#txtFecha").datetimepicker({
-    //        format: 'yyyy-mm-dd'
-    //    });
-    //});
-
-    function guardarVenta() {
+    function guardarDeposito() {
         var _monto = $("#inlineFormInputGroup").val();
         var _fecha = $("#txtFecha").val();
+        var _banco = $("#cboBanco").val();
+        var _descripcion = $("#txtDescripcion").val();
+
+        var fd = new FormData();
+
+        fd.append('file', $("#customFiles")[0].files[0]);
+        fd.append('monto', _monto);
+        fd.append('fecha', _fecha);
+        fd.append('banco', _banco);
+        fd.append('descripcion', _descripcion);
 
         var urlSave = '@Url.Action("GuardarDeposito", "Depositos")';
         $.ajax({
             type: "POST",
             url: urlSave,
-            data: JSON.stringify({ monto: _monto, fecha: _fecha }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            data: fd,
+            contentType: false,
+            processData: false,
             success: function (data) {
                 alert("Deposito agregado correctamente");
                 $("#inlineFormInputGroup").val("0.0");

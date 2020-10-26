@@ -5,7 +5,7 @@
 <div class="card mt-3">
     <div class="card-content">
         <div class="row row-group m-0">
-            
+
             <div class="col-12 col-lg-6 col-xl-3 border-light">
                 <div class="card-body">
                     <h5 id="lblVentaTotal" class="text-white mb-0"></h5>
@@ -28,14 +28,24 @@
 
             <div class="col-12 col-lg-6 col-xl-3 border-light">
                 <div class="card-body">
-                    <h5 id="lblVentaTotalMensual"  class="text-white mb-0"></h5>
+                    <h5 id="lblVentaTotalMensual" class="text-white mb-0"></h5>
                     <div class="progress my-3" style="height:3px;">
                         <div id="divVentaMensual" class="progress-bar" style="width:0%"></div>
                     </div>
                     <p class="mb-0 text-white small-font" id="lblPctVentaMensual"></p>
                 </div>
             </div>
-            
+
+            <div class="col-12 col-lg-6 col-xl-3 border-light">
+                <div class="card-body">
+                    <h5 id="lblNoSemana" class="text-white mb-0"></h5>
+                    <div class="progress my-3" style="height:3px;">
+                        <div class="progress-bar" style="width:0%"></div>
+                    </div>
+                    <p class="mb-0 text-white small-font" id="lblSemanaActual"></p>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -83,10 +93,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        //$("#lblCantidadVendida").html(" 850 <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
-        //$("#lblVentaTotal").html("8,323 <span class=\"float-right\"><i class=\"fa fa-usd\"></i></span>");
-        //$("#lblVentaTotalMensual").html("35,500 <span class=\"float-right\"><i class=\"fa fa-usd\"></i></span>")
-
+        
         var urlSave = '@Url.Action("GetVentaDiaActual", "Ventas")';
         $.ajax({
             type: "POST",
@@ -178,5 +185,102 @@
             }
         });
 
+        urlSave = '@Url.Action("GetVentaUltimosMeses", "Ventas")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var c = 0;
+                var vnombre = [];
+                var vvalues = [];
+
+                $.each(data, function (k, v) {
+                    vnombre[c] = v.Nombre;
+                    c++;
+                });
+
+                c = 0;
+                $.each(data, function (k, v) {
+                    vvalues[c] = v.ValueDouble;
+                    c++;
+                });
+
+                var ctx = document.getElementById('chart1').getContext('2d');
+
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: vnombre,
+                        datasets: [{
+                            label: 'Ventas',
+                            data: vvalues,
+                            backgroundColor: '#fff',
+                            borderColor: "transparent",
+                            pointRadius: "0",
+                            borderWidth: 3
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        legend: {
+                            display: false,
+                            labels: {
+                                fontColor: '#ddd',
+                                boxWidth: 40
+                            }
+                        },
+                        tooltips: {
+                            displayColors: false
+                        },
+                        scales: {
+                            xAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    fontColor: '#ddd'
+                                },
+                                gridLines: {
+                                    display: true,
+                                    color: "rgba(221, 221, 221, 0.08)"
+                                },
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    fontColor: '#ddd'
+                                },
+                                gridLines: {
+                                    display: true,
+                                    color: "rgba(221, 221, 221, 0.08)"
+                                },
+                            }]
+                        }
+
+                    }
+                });
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
+        urlSave = '@Url.Action("GetSemanaActual", "Home")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $("#lblNoSemana").html("Semana #" + data.NoSemana + " <span class=\"float-right\"><i class=\"fa fa-calendar-check-o\"></i></span>");
+
+                $("#lblSemanaActual").html("<span class=\"float-left\">Inicia: " + data.SFechaInicial + "</span> <span class=\"float-right\">Finaliza: " + data.SFechaFinal + "</span> ");
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
     });
 </script>

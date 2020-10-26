@@ -19,6 +19,9 @@ namespace Data.ServiceObject
         public Nullable<System.DateTime> FECHA_INGRESO { get; set; }
         public Nullable<System.DateTime> FECHA_REGISTRO { get; set; }
         public Nullable<double> MONTO { get; set; }
+        public string BANCO { get; set; }
+        public string DESCRIPCION { get; set; }
+        public string URL_ARCHIVO { get; set; }
     
         public virtual TBL_USUARIO TBL_USUARIO { get; set; }
     }

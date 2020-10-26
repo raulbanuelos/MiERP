@@ -235,23 +235,3 @@
 
 </body>
 </html>
-
-@*SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:		RAÚL BAÑUELOS
--- Create date: 25 OCT 2020
--- Description:	<Description,,>
-    -- =============================================
-    CREATE PROCEDURE SP_ERP_GET_VENTA_ULTIMOS_MESES
-    @idUsuario INT
-    AS
-    BEGIN
-    SELECT CAST(MONTH(FECHA_INGRESO) AS VARCHAR(2)) + '-' + CAST(YEAR(FECHA_INGRESO) AS VARCHAR(4)) AS MESES, SUM(MONTO) AS MONTO
-    FROM TBL_VENTA
-    WHERE (ID_USUARIO = @idUsuario) AND (FECHA_INGRESO BETWEEN DATEADD(DAY,1,EOMONTH(GETDATE(),-11))  AND GETDATE())
-    GROUP BY CAST(MONTH(FECHA_INGRESO) AS VARCHAR(2)) + '-' + CAST(YEAR(FECHA_INGRESO) AS VARCHAR(4))
-    END
-    GO*@

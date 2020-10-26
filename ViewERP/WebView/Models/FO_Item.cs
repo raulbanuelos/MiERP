@@ -11,5 +11,7 @@ namespace WebView.Models
         public String ValueString { get; set; }
         public double ValueDouble { get; set; }
         public string Nombre { get; set; }
+
+        public DateTime ValueDate { get; set; }
     }
 }
