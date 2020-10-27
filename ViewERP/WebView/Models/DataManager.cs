@@ -2189,6 +2189,38 @@ namespace WebView.Models
 
             return monto;
         }
+
+        public static List<DO_Deposito> GetUltimosDepositos(int idUsuario)
+        {
+            SO_Depositos sO_Depositos = new SO_Depositos();
+
+            IList informacionBD = sO_Depositos.GetUltimosDepositos(idUsuario);
+
+            List<DO_Deposito> dO_Depositos = new List<DO_Deposito>();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type type = item.GetType();
+
+                    DO_Deposito dO_Deposito = new DO_Deposito();
+
+                    dO_Deposito.IdDeposito = Convert.ToInt32(type.GetProperty("ID_DEPOSITO").GetValue(item, null));
+                    dO_Deposito.IdUsuario = Convert.ToInt32(type.GetProperty("ID_USUARIO").GetValue(item, null));
+                    dO_Deposito.FechaIngreso = Convert.ToDateTime(type.GetProperty("FECHA_INGRESO").GetValue(item, null));
+                    dO_Deposito.FechaRegistro = Convert.ToDateTime(type.GetProperty("FECHA_REGISTRO").GetValue(item, null));
+                    dO_Deposito.Importe = Convert.ToDouble(type.GetProperty("MONTO").GetValue(item, null));
+                    dO_Deposito.Banco = Convert.ToString(type.GetProperty("BANCO").GetValue(item, null));
+                    dO_Deposito.Descripcion = Convert.ToString(type.GetProperty("DESCRIPCION").GetValue(item, null));
+                    dO_Deposito.UrlArchivo = Convert.ToString(type.GetProperty("URL_ARCHIVO").GetValue(item, null));
+
+                    dO_Depositos.Add(dO_Deposito);
+                }
+            }
+
+            return dO_Depositos;
+        }
         #endregion
 
         #region Semana

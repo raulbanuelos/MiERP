@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,26 @@ namespace Data.ServiceObject
             catch (Exception)
             {
                 return 0;
+            }
+        }
+
+        public IList GetUltimosDepositos(int idUsuario)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var lista = (from a in Conexion.TBL_DEPOSITOS
+                                 where a.ID_USUARIO == idUsuario
+                                 orderby a.FECHA_INGRESO descending
+                                 select a).Take(5).ToList();
+
+                    return lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
     }

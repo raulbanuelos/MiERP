@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using WebView.Models;
@@ -48,6 +49,18 @@ namespace WebView.Controllers
             int r = DataManager.InsertDeposito(idUsuario, monto, fecha, banco,descripcion,urlArchivo);
 
             var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult GetUltimosDepositos(string parametro)
+        {
+            int idUsuario = ((DO_Persona)Session["UsuarioConectado"]).idUsuario;
+            List<DO_Deposito> list= DataManager.GetUltimosDepositos(idUsuario);
+
+            var jsonResult = Json(list, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 
             return jsonResult;

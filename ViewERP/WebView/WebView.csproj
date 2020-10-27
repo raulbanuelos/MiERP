@@ -343,6 +343,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DataManager.cs" />
+    <Compile Include="Models\DO_Deposito.cs" />
     <Compile Include="Models\DO_Persona.cs" />
     <Compile Include="Models\DO_Semana.cs" />
     <Compile Include="Models\FO_Item.cs" />
