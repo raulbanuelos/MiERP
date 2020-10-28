@@ -96,6 +96,7 @@
     <Compile Include="ServiceObject\SO_CategoriaArticulo.cs" />
     <Compile Include="ServiceObject\SO_CategoriaProducto.cs" />
     <Compile Include="ServiceObject\SO_Clientes.cs" />
+    <Compile Include="ServiceObject\SO_Compania.cs" />
     <Compile Include="ServiceObject\SO_Depositos.cs" />
     <Compile Include="ServiceObject\SO_DetalleMovimientoSalidaAlmacen.cs" />
     <Compile Include="ServiceObject\SO_Detalle_Entrada_Almacen.cs" />

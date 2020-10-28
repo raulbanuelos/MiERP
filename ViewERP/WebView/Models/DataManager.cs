@@ -2253,5 +2253,14 @@ namespace WebView.Models
             return dO_Semana;
         }
         #endregion
+
+        #region Compañia
+        public static int InsertCompania(string nombre, string rfc, string direccion, string telefono, string correo)
+        {
+            SO_Compania sO_Compania = new SO_Compania();
+
+            return sO_Compania.Insert(nombre, rfc, direccion, telefono, correo);
+        }
+        #endregion
     }
 }

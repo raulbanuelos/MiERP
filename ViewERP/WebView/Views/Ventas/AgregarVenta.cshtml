@@ -52,6 +52,13 @@
 
 <script type="text/javascript">
 
+
+    $(document).ready(function () {
+        $("#txtFecha").datepicker();
+    });
+
+    
+
     function guardarVenta() {
         var _monto = $("#inlineFormInputGroup").val();
         var _fecha = $("#txtFecha").val();

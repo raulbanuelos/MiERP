@@ -1,0 +1,164 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Dashtreme Admin - Free Dashboard for Bootstrap 4 by Codervent</title>
+    <!-- loader-->
+    @*<link href="@Url.Content("assets/css/pace.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("assets/js/pace.min.js")"></script>*@
+    <!--favicon-->
+    <link rel="icon" href="@Url.Content("~/assets/images/favicon.ico")" type="image/x-icon">
+    <!-- Bootstrap core CSS-->
+    <link href="@Url.Content("~/assets/css/bootstrap.min.css")" rel="stylesheet" />
+    <!-- animate CSS-->
+    <link href="@Url.Content("~/assets/css/animate.css")" rel="stylesheet" type="text/css" />
+    <!-- Icons CSS-->
+    <link href="@Url.Content("~/assets/css/icons.css")" rel="stylesheet" type="text/css" />
+    <!-- Custom Style-->
+    <link href="@Url.Content("~/assets/css/app-style.css")" rel="stylesheet" />
+
+</head>
+
+<body class="bg-theme bg-theme1">
+
+    <!-- start loader -->
+    <div id="pageloader-overlay" class="visible incoming"><div class="loader-wrapper-outer"><div class="loader-wrapper-inner"><div class="loader"></div></div></div></div>
+    <!-- end loader -->
+    <!-- Start wrapper-->
+    <div id="wrapper">
+
+        <div class="card card-authentication1 mx-auto my-4">
+            <div class="card-body">
+                <div class="card-content p-2">
+                    <div class="text-center">
+                        <img src="@Url.Content("~/assets/images/logo-icon.png")" alt="logo icon">
+                    </div>
+                    <div class="card-title text-uppercase text-center py-3">Crea tu cuenta</div>
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputName" class="sr-only">Nombre</label>
+                            <div class="position-relative has-icon-right">
+                                <input type="text" id="txtNombre" class="form-control input-shadow" placeholder="Ingresa tu nombre">
+                                <div class="form-control-position">
+                                    <i class="icon-user"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmailId" class="sr-only">Email ID</label>
+                            <div class="position-relative has-icon-right">
+                                <input type="text" id="txtEmail" class="form-control input-shadow" placeholder="Ingresa tu correo">
+                                <div class="form-control-position">
+                                    <i class="icon-envelope-open"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputName" class="sr-only">Telefono</label>
+                            <div class="position-relative has-icon-right">
+                                <input type="text" id="txtTelefono" class="form-control input-shadow" placeholder="Ingresa tu teléfono">
+                                <div class="form-control-position">
+                                    <i class="icon-phone"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputPassword" class="sr-only">Password</label>
+                            <div class="position-relative has-icon-right">
+                                <input type="text" id="txtContrasena" class="form-control input-shadow" placeholder="Ingresa tu contraseña">
+                                <div class="form-control-position">
+                                    <i class="icon-lock"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="icheck-material-white">
+                                <input type="checkbox" id="user-checkbox" checked="" />
+                                <label for="user-checkbox">Estoy de acuerdo con los terminos y condiciones</label>
+                            </div>
+                        </div>
+
+                        <button type="button" onclick="crearCuenta()" class="btn btn-light btn-block waves-effect waves-light">Crear cuenta</button>
+
+                    </form>
+                </div>
+            </div>
+            <div class="card-footer text-center py-3">
+                <p class="text-warning mb-0">¿Ya tienes cuenta? <a href="@Url.Action("Index","LogIn")"> Ingresa aquí</a></p>
+            </div>
+        </div>
+
+        <!--Start Back To Top Button-->
+        <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+        <!--End Back To Top Button-->
+        
+
+    </div><!--wrapper-->
+    <!-- Bootstrap core JavaScript-->
+    <script src="@Url.Content("~/assets/js/jquery.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/popper.min.js")"></script>
+    <script src="@Url.Content("~/assets/js/bootstrap.min.js")"></script>
+
+    <!-- sidebar-menu js -->
+    <script src="@Url.Content("~/assets/js/sidebar-menu.js")"></script>
+
+    <!-- Custom scripts -->
+    <script src="@Url.Content("~/assets/js/app-script.js")"></script>
+
+    <script type="text/javascript">
+        function crearCuenta() {
+            if (validarFormulario()) {
+                var _nombre = $("#txtNombre").val();
+                var _email = $("#txtEmail").val();
+                var _contrasena = $("#txtContrasena").val();
+                var _telefono = $("#txtTelefono").val();
+
+                var urlSave = '@Url.Action("CrearCuenta", "CreateAccount")';
+                $.ajax({
+                    type: "POST",
+                    url: urlSave,
+                    data: JSON.stringify({ nombre: _nombre, email: _email, contrasena: _contrasena, telefono: _telefono }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        alert("Tu cuenta a sido activada!");
+                        var url = '@Url.Action("Ingresar", "LogIn")';
+                        window.location.href = url;
+                    },
+                    error: function (result) {
+                        alert("Woops, se produjo un error");
+                    }
+                });
+            } else {
+                alert("Favor ingresar toda la información");
+            }
+        }
+
+        function validarFormulario() {
+            var _nombre = $("#txtNombre").val();
+            var _email = $("#txtEmail").val();
+            var _contrasena = $("#txtContrasena").val();
+            var _telefono = $("#txtTelefono").val();
+
+            if (_nombre == "" || _email == "" || _contrasena == "" || _telefono == "") {
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+</body>
+</html>
+
