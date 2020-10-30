@@ -19,7 +19,7 @@ namespace Data.ServiceObject
                 {
                     TBL_CATEGORIA_ARTICULO tblCategoriaArticulo = new TBL_CATEGORIA_ARTICULO();
 
-                    tblCategoriaArticulo.ID_CATEGORIA_ARTICULO = categoriaArticulo.idCategoriaArticulo;
+                    //tblCategoriaArticulo.ID_CATEGORIA_ARTICULO = categoriaArticulo.idCategoriaArticulo;
                     tblCategoriaArticulo.NOMBRE_CATEGORIA = categoriaArticulo.NombreCategoria;
                     tblCategoriaArticulo.ID_COMPANIA = categoriaArticulo.idCompania;
                     tblCategoriaArticulo.NUM_CATEGORIA = categoriaArticulo.numeroCategoria;

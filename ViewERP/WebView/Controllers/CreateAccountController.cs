@@ -41,6 +41,29 @@ namespace WebView.Controllers
 
                 int rAlmacen = DataManager.InsertAlmacen(almacen);
 
+                DO_CategoriaArticulo categoriaArticulo = new DO_CategoriaArticulo();
+
+                categoriaArticulo.idCompania = idCompania;
+                categoriaArticulo.NombreCategoria = "ARTICULOS DE VENTA";
+                categoriaArticulo.numeroCategoria = "01";
+
+                int c = DataManager.InsertCategoriaArticulo(categoriaArticulo);
+
+                DO_CategoriaArticulo categoriaArticulo1 = new DO_CategoriaArticulo();
+                categoriaArticulo1.idCompania = idCompania;
+                categoriaArticulo1.NombreCategoria = "OTROS";
+                categoriaArticulo1.numeroCategoria = "02";
+
+                DO_Proveedor proveedor = new DO_Proveedor();
+                proveedor.Correo = "miproveedor@email.com";
+                proveedor.Direccion = "Dirección";
+                proveedor.idCompania = idCompania;
+                proveedor.Nombre = "BODEGA ORIGEN 1";
+                proveedor.RFC = "RFC";
+                proveedor.Telefono1 = "TELEFONO 1";
+                proveedor.Telefono2 = "TELEFONO 2";
+                int rp = DataManager.InsertProveedor(proveedor);
+
                 var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
 

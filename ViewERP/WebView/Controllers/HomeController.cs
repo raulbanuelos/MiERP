@@ -14,8 +14,6 @@ namespace WebView.Controllers
             return View();
         }
 
-
-        
         [ERPVerificaRol]
         public ActionResult CerrarSession()
         {

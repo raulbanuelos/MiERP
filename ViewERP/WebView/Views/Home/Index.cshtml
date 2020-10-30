@@ -55,7 +55,6 @@
         <div class="card">
             <div class="card-header">
                 Ventas
-                
             </div>
             <div class="card-body">
                 <ul class="list-inline">
@@ -87,6 +86,31 @@
                     </div>
                 </div>
             </div>*@
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-lg-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                Existencias
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Descripción</th>
+                                <th>Numero de serie</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblExistencia"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -277,6 +301,30 @@
                 $("#lblNoSemana").html("Semana #" + data.NoSemana + " <span class=\"float-right\"><i class=\"fa fa-calendar-check-o\"></i></span>");
 
                 $("#lblSemanaActual").html("<span class=\"float-left\">Inicia: " + data.SFechaInicial + "</span> <span class=\"float-right\">Finaliza: " + data.SFechaFinal + "</span> ");
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
+        urlSave = '@Url.Action("GetExistencias", "Existencias")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var row = "";
+                $.each(data, function (index, item) {
+                    row += "<tr>";
+                    row += "<td>" + item.CodigoArticulo + "</td>";
+                    row += "<td>" + item.Descripcion + "</td>";
+                    row += "<td>" + item.NumeroSerie + "</td>";
+                    row += "<td>" + item.Cantidad + "</td>";
+                    row += "</tr>";
+                });
+                $("#tblExistencia").append(row);
             },
             error: function (result) {
                 alert("Woops, se produjo un error");
