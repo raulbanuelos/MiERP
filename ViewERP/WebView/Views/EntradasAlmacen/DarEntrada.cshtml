@@ -53,9 +53,9 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <input type="text" id="txtFactura" class="form-control" placeholder="Número de referencia" />
-                    </div>
+                    </div>*@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
@@ -68,12 +68,12 @@
                             <table class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <td>ID ARTICULO</td>
+                                        <td hidden>ID ARTICULO</td>
                                         <td>CODIGO</td>
                                         <td>DESCRIPCIÓN</td>
                                         <td>CANTIDAD</td>
-                                        <td>UNIDAD</td>
-                                        <td class="td_hide">idUnidad</td>
+                                        <td hidden>UNIDAD</td>
+                                        <td hidden class="td_hide">idUnidad</td>
                                     </tr>
                                 </thead>
                                 <tbody id="myTable"></tbody>
@@ -121,7 +121,7 @@
                     <input type="number" class="form-control modalColor" style="width:90%" id="txtCantidad" />
                 </div>
 
-                <div class="form-group">
+                @*<div class="form-group">
                     <label class="colorBlack">Unidad</label>
                     <select id="cboUnidad" class="form-control modalColor" style="width:90%">
                         @{
@@ -131,7 +131,7 @@
                             }
                         }
                     </select>
-                </div>
+                </div>*@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="agregarArticulo()">Agregar</button>
@@ -189,19 +189,19 @@
         var _idArticulo = $("#cboArticulos").val();
         var _cantidad = $("#txtCantidad").val();
         var _codigo = $("#cboArticulos option:selected").text();
-        var _unidad = $("#cboUnidad").text();
-        var _idUnidad = $("#cboUnidad").val();
+        var _unidad = "PIEZA"
+        var _idUnidad = 1;
         var res = _codigo.split("        ", 2);
         _codigo = res[0];
         var _descripcion = res[1];
 
         var row = "<tr>";
-        row += "<td>" + _idArticulo + "</td>";
+        row += "<td hidden>" + _idArticulo + "</td>";
         row += "<td>" + _codigo + "</td>";
         row += "<td>" + _descripcion + "</td>";
         row += "<td>" + _cantidad + "</td>";
-        row += "<td>" + _unidad + "</td>";
-        row += "<td class='td_hide'>" + _idUnidad + "</td>";
+        row += "<td hidden>" + _unidad + "</td>";
+        row += "<td hidden class='td_hide'>" + _idUnidad + "</td>";
         row += "</tr>";
 
         $("#myTable").append(row);
@@ -220,7 +220,7 @@
             debugger;
             var _idAlmacen = $("#cboAlmacenes").val();
             var _idProveedor = $("#cboProveedores").val();
-            var _noFactura = $("#txtFactura").val();
+            var _noFactura = "ref";
             var urlSave = '@Url.Action("GuardarEntrada", "EntradasAlmacen")';
 
             //gets table

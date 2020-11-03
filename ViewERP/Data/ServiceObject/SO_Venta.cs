@@ -28,7 +28,9 @@ namespace Data.ServiceObject
 
                     Conexion.TBL_VENTA.Add(venta);
 
-                    return Conexion.SaveChanges();
+                    Conexion.SaveChanges();
+
+                    return venta.ID_VENTA;
                 }
             }
             catch (Exception)

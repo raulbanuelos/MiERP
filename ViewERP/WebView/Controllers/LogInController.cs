@@ -25,6 +25,7 @@ namespace WebView.Controllers
                 {
                     Session["UsuarioConectado"] = usuario;
                     Session["NombrePersona"] = usuario.NombreCompleto;
+                    Session["CorreoPersona"] = usuario.Usuario;
 
                     Session["ADMINISTRADOR"] = false;
                     Session["ALMACEN"] = false;

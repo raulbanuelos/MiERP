@@ -91,7 +91,7 @@
 </div>
 
 <div class="row">
-    <div class="col-12 col-lg-12 col-xl-12">
+    <div class="col-12 col-lg-8 col-xl-8">
         <div class="card">
             <div class="card-header">
                 Existencias
@@ -101,9 +101,7 @@
                     <table class="table align-items-center table-flush table-borderless">
                         <thead>
                             <tr>
-                                <th>Código</th>
-                                <th>Descripción</th>
-                                <th>Numero de serie</th>
+                                <th>Artículo</th>
                                 <th>Cantidad</th>
                             </tr>
                         </thead>
@@ -113,11 +111,38 @@
             </div>
         </div>
     </div>
+
+    <div class="col-12 col-lg-4 col-xl-4">
+        <div class="card">
+            <div class="card-header">
+                Ventas resientes
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Artículo</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblLastVentas"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+    
+
 
 <script type="text/javascript">
     $(document).ready(function () {
-        
+
         var urlSave = '@Url.Action("GetVentaDiaActual", "Ventas")';
         $.ajax({
             type: "POST",
@@ -318,13 +343,35 @@
                 var row = "";
                 $.each(data, function (index, item) {
                     row += "<tr>";
-                    row += "<td>" + item.CodigoArticulo + "</td>";
                     row += "<td>" + item.Descripcion + "</td>";
-                    row += "<td>" + item.NumeroSerie + "</td>";
                     row += "<td>" + item.Cantidad + "</td>";
                     row += "</tr>";
                 });
                 $("#tblExistencia").append(row);
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
+        urlSave = '@Url.Action("GetLastVentas", "Ventas")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var row = "";
+                $.each(data, function (index, item) {
+                    row += "<tr>";
+                    row += "<td>" + item.Nombre + "</td>";
+                    row += "<td>" + item.Cantidad + "</td>";
+                    row += "<td>" + item.Precio + "</td>";
+                    row += "<td>" + item.Total + "</td>";
+                    row += "</tr>";
+                });
+                $("#tblLastVentas").append(row);
             },
             error: function (result) {
                 alert("Woops, se produjo un error");

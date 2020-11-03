@@ -69,7 +69,7 @@ namespace WebView.Controllers
 
         [HttpPost]
         [ERPVerificaRol]
-        public JsonResult GuardarArticulo(string codigo, string descripocionCorta, string descripcionLarga, int stockMinimo, int stockMaximo, int idCategoria, bool isConsumible)
+        public JsonResult GuardarArticulo(string codigo, string descripocionCorta, string descripcionLarga, int stockMinimo, int stockMaximo, int idCategoria, bool isConsumible, double precioUnidad, double precioMaster, double precioPromotor, double precioGerente)
         {
             BarcodeLib.Barcode codigoBarras = new BarcodeLib.Barcode();
             codigoBarras.IncludeLabel = true;
@@ -89,9 +89,11 @@ namespace WebView.Controllers
             articulo.idCompania = idCompania;
             articulo.IsConsumible = isConsumible;
 
-            int result = DataManager.InsertArticulo(articulo);
+            int idArticulo = DataManager.InsertArticulo(articulo);
 
-            var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
+            int idDetailsArticulo = DataManager.InsertDetailsArticulo(idArticulo, precioUnidad, precioMaster, precioPromotor, precioGerente);
+
+            var jsonResult = Json(idDetailsArticulo, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 
             return jsonResult;

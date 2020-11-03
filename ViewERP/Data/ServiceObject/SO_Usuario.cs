@@ -162,7 +162,7 @@ namespace Data.ServiceObject
                     return tblUsuario.ID_USUARIO;
                 }
             }
-            catch (Exception)
+            catch (Exception er)
             {
                 return 0;
             }

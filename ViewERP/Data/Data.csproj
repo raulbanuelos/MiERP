@@ -98,6 +98,8 @@
     <Compile Include="ServiceObject\SO_Clientes.cs" />
     <Compile Include="ServiceObject\SO_Compania.cs" />
     <Compile Include="ServiceObject\SO_Depositos.cs" />
+    <Compile Include="ServiceObject\SO_Details_Articulo.cs" />
+    <Compile Include="ServiceObject\SO_Details_Venta.cs" />
     <Compile Include="ServiceObject\SO_DetalleMovimientoSalidaAlmacen.cs" />
     <Compile Include="ServiceObject\SO_Detalle_Entrada_Almacen.cs" />
     <Compile Include="ServiceObject\SO_EntradasAlmacen.cs" />
@@ -130,6 +132,12 @@
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ServiceObject\TBL_DEPOSITOS.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceObject\TBL_DETAILS_ARTICULO.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceObject\TBL_DETAILS_VENTA.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ServiceObject\TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN.cs">

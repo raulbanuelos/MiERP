@@ -389,7 +389,7 @@ namespace WebView.Models
             {
                 SelectListItem obj = new SelectListItem();
 
-                obj.Text = item.Codigo + "          " + item.Descripcion;
+                obj.Text = item.Descripcion;
                 obj.Value = Convert.ToString(item.idArticulo);
                 listaResultante.Add(obj);
             }
@@ -524,6 +524,42 @@ namespace WebView.Models
 
             return listaResultante;
         }
+
+        public static int InsertDetailsArticulo(int idArticulo, double precioUnidad, double precioMaster, double precioPromotor, double precioGerente)
+        {
+            SO_Details_Articulo details_Articulo = new SO_Details_Articulo();
+
+            return details_Articulo.Insert(idArticulo, precioUnidad, precioMaster, precioPromotor, precioGerente);
+        }
+
+        public static double GetPrecioUnidad(int idArticulo)
+        {
+            SO_Details_Articulo sO_Details_Articulo = new SO_Details_Articulo();
+
+            return sO_Details_Articulo.GetPrecioUnidad(idArticulo);
+        }
+
+        public static double GetPrecioGerente(int idArticulo)
+        {
+            SO_Details_Articulo sO_Details_Articulo = new SO_Details_Articulo();
+
+            return sO_Details_Articulo.GetPrecioGerente(idArticulo);
+        }
+
+        public static double GetPrecioMaster(int idArticulo)
+        {
+            SO_Details_Articulo sO_Details_Articulo = new SO_Details_Articulo();
+
+            return sO_Details_Articulo.GetPrecioMaster(idArticulo);
+        }
+
+        public static double GetPrecioPromotor(int idArticulo)
+        {
+            SO_Details_Articulo sO_Details_Articulo = new SO_Details_Articulo();
+
+            return sO_Details_Articulo.GetPrecioPromotor(idArticulo);
+        }
+
         #endregion
 
         #region Categoria Articulo
@@ -2157,6 +2193,40 @@ namespace WebView.Models
             }
 
             return lista;
+        }
+
+        public static int InsertDetailVenta(int idVenta, int idArticulo, int cantidad, double precio)
+        {
+            SO_Details_Venta sO_Details_Venta = new SO_Details_Venta();
+
+            return sO_Details_Venta.Insert(idVenta, idArticulo, cantidad, precio);
+        }
+
+        public static List<DO_Ventas> GetListLastVentas(int idCompania)
+        {
+            SO_Details_Venta sO_Details_Venta = new SO_Details_Venta();
+
+            IList informacionBD = sO_Details_Venta.GetLastVenta(idCompania);
+
+            List<DO_Ventas> dO_Ventas = new List<DO_Ventas>();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type type = item.GetType();
+
+                    DO_Ventas venta = new DO_Ventas();
+
+                    venta.Nombre = type.GetProperty("DESCRIPCION").GetValue(item, null).ToString();
+                    venta.Cantidad = Convert.ToInt32(type.GetProperty("CANTIDAD").GetValue(item, null).ToString());
+                    venta.Precio = Convert.ToDouble(type.GetProperty("PRECIO").GetValue(item, null));
+
+                    dO_Ventas.Add(venta);
+                }
+            }
+
+            return dO_Ventas;
         }
         #endregion
 

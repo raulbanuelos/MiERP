@@ -31,7 +31,9 @@ namespace Data.ServiceObject
                     tblArticulo.CONSUMIBLE = articulo.IsConsumible;
 
                     Conexion.TBL_ARTICULO.Add(tblArticulo);
-                    return Conexion.SaveChanges();
+                    Conexion.SaveChanges();
+
+                    return tblArticulo.ID_ARTICULO;
                 }
             }
             catch (Exception)

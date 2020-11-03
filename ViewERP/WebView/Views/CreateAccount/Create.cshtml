@@ -76,7 +76,7 @@
                         <div class="form-group">
                             <label for="exampleInputPassword" class="sr-only">Password</label>
                             <div class="position-relative has-icon-right">
-                                <input type="text" id="txtContrasena" class="form-control input-shadow" placeholder="Ingresa tu contraseña">
+                                <input type="password" id="txtContrasena" class="form-control input-shadow" maxlength="8" placeholder="Ingresa tu contraseña">
                                 <div class="form-control-position">
                                     <i class="icon-lock"></i>
                                 </div>
@@ -142,7 +142,7 @@
                     }
                 });
             } else {
-                alert("Favor ingresar toda la información");
+                
             }
         }
 
@@ -152,7 +152,13 @@
             var _contrasena = $("#txtContrasena").val();
             var _telefono = $("#txtTelefono").val();
 
+            if (_contrasena.length != 8) {
+                alert("La contraseña debe ser de 8 digitos");
+                return false;
+            }
+
             if (_nombre == "" || _email == "" || _contrasena == "" || _telefono == "") {
+                alert("Favor ingresar toda la información");
                 return false;
             }
             return true;

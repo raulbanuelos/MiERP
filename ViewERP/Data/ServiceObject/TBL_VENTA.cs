@@ -14,6 +14,12 @@ namespace Data.ServiceObject
     
     public partial class TBL_VENTA
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TBL_VENTA()
+        {
+            this.TBL_DETAILS_VENTA = new HashSet<TBL_DETAILS_VENTA>();
+        }
+    
         public int ID_VENTA { get; set; }
         public Nullable<int> ID_USUARIO { get; set; }
         public Nullable<System.DateTime> FECHA_INGRESO { get; set; }
@@ -21,5 +27,7 @@ namespace Data.ServiceObject
         public Nullable<double> MONTO { get; set; }
     
         public virtual TBL_USUARIO TBL_USUARIO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_DETAILS_VENTA> TBL_DETAILS_VENTA { get; set; }
     }
 }

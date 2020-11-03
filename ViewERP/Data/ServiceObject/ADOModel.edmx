@@ -141,6 +141,27 @@
           <Property Name="DESCRIPCION" Type="varchar(max)" />
           <Property Name="URL_ARCHIVO" Type="varchar(max)" />
         </EntityType>
+        <EntityType Name="TBL_DETAILS_ARTICULO">
+          <Key>
+            <PropertyRef Name="ID_DETAILS_ARTICULO" />
+          </Key>
+          <Property Name="ID_DETAILS_ARTICULO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_ARTICULO" Type="int" Nullable="false" />
+          <Property Name="PRECIO_UNIDAD" Type="float" Nullable="false" />
+          <Property Name="PRECIO_MASTER" Type="float" Nullable="false" />
+          <Property Name="PRECIO_PROMOTOR" Type="float" Nullable="false" />
+          <Property Name="PRECIO_GERENTE" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_DETAILS_VENTA">
+          <Key>
+            <PropertyRef Name="ID_DETAIL_VENTA" />
+          </Key>
+          <Property Name="ID_DETAIL_VENTA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_VENTA" Type="int" />
+          <Property Name="ID_ARTICULO" Type="int" />
+          <Property Name="CANTIDAD" Type="int" />
+          <Property Name="PRECIO" Type="float" />
+        </EntityType>
         <EntityType Name="TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN">
           <Key>
             <PropertyRef Name="ID_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN" />
@@ -399,6 +420,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO">
+          <End Role="TBL_ARTICULO" Type="Self.TBL_ARTICULO" Multiplicity="1" />
+          <End Role="TBL_DETAILS_ARTICULO" Type="Self.TBL_DETAILS_ARTICULO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ARTICULO">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Principal>
+            <Dependent Role="TBL_DETAILS_ARTICULO">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_ARTICULO_TBL_DETAILS_VENTA">
+          <End Role="TBL_ARTICULO" Type="Self.TBL_ARTICULO" Multiplicity="0..1" />
+          <End Role="TBL_DETAILS_VENTA" Type="Self.TBL_DETAILS_VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ARTICULO">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Principal>
+            <Dependent Role="TBL_DETAILS_VENTA">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA">
           <End Role="TBL_COMPANIA" Type="Self.TBL_COMPANIA" Multiplicity="0..1" />
           <End Role="TBL_CATEGORIA_ARTICULO" Type="Self.TBL_CATEGORIA_ARTICULO" Multiplicity="*" />
@@ -567,6 +612,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TBL_VENTA_TBL_DETAILS_VENTA">
+          <End Role="TBL_VENTA" Type="Self.TBL_VENTA" Multiplicity="0..1" />
+          <End Role="TBL_DETAILS_VENTA" Type="Self.TBL_DETAILS_VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_VENTA">
+              <PropertyRef Name="ID_VENTA" />
+            </Principal>
+            <Dependent Role="TBL_DETAILS_VENTA">
+              <PropertyRef Name="ID_VENTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_USUARIO">
           <End Role="TBL_USUARIO" Type="Self.TBL_USUARIO" Multiplicity="0..1" />
           <End Role="TBL_VENTA" Type="Self.TBL_VENTA" Multiplicity="*" />
@@ -593,6 +650,8 @@
           <EntitySet Name="TBL_CATEGORIA_ARTICULO" EntityType="Self.TBL_CATEGORIA_ARTICULO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_COMPANIA" EntityType="Self.TBL_COMPANIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DEPOSITOS" EntityType="Self.TBL_DEPOSITOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DETAILS_ARTICULO" EntityType="Self.TBL_DETAILS_ARTICULO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DETAILS_VENTA" EntityType="Self.TBL_DETAILS_VENTA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN" EntityType="Self.TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN" EntityType="Self.TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_EXISTENCIA" EntityType="Self.TBL_EXISTENCIA" Schema="dbo" store:Type="Tables" />
@@ -652,6 +711,14 @@
             <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
             <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
           </AssociationSet>
+          <AssociationSet Name="FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO" Association="Self.FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO">
+            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
+            <End Role="TBL_DETAILS_ARTICULO" EntitySet="TBL_DETAILS_ARTICULO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_ARTICULO_TBL_DETAILS_VENTA" Association="Self.FK_TBL_ARTICULO_TBL_DETAILS_VENTA">
+            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
+            <End Role="TBL_DETAILS_VENTA" EntitySet="TBL_DETAILS_VENTA" />
+          </AssociationSet>
           <AssociationSet Name="FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA" Association="Self.FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA">
             <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
             <End Role="TBL_CATEGORIA_ARTICULO" EntitySet="TBL_CATEGORIA_ARTICULO" />
@@ -707,6 +774,10 @@
           <AssociationSet Name="FK_TBL_PROVEEDOR_TBL_COMPANIA1" Association="Self.FK_TBL_PROVEEDOR_TBL_COMPANIA1">
             <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
             <End Role="TBL_PROVEEDOR" EntitySet="TBL_PROVEEDOR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_VENTA_TBL_DETAILS_VENTA" Association="Self.FK_TBL_VENTA_TBL_DETAILS_VENTA">
+            <End Role="TBL_VENTA" EntitySet="TBL_VENTA" />
+            <End Role="TBL_DETAILS_VENTA" EntitySet="TBL_DETAILS_VENTA" />
           </AssociationSet>
           <AssociationSet Name="FK_USUARIO" Association="Self.FK_USUARIO">
             <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
@@ -850,6 +921,20 @@
             <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
             <End Role="TBL_DEPOSITOS" EntitySet="TBL_DEPOSITOS" />
           </AssociationSet>
+          <EntitySet Name="TBL_DETAILS_ARTICULO" EntityType="Data.ServiceObject.TBL_DETAILS_ARTICULO" />
+          <AssociationSet Name="FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO" Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO">
+            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
+            <End Role="TBL_DETAILS_ARTICULO" EntitySet="TBL_DETAILS_ARTICULO" />
+          </AssociationSet>
+          <EntitySet Name="TBL_DETAILS_VENTA" EntityType="Data.ServiceObject.TBL_DETAILS_VENTA" />
+          <AssociationSet Name="FK_TBL_ARTICULO_TBL_DETAILS_VENTA" Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_DETAILS_VENTA">
+            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
+            <End Role="TBL_DETAILS_VENTA" EntitySet="TBL_DETAILS_VENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_VENTA_TBL_DETAILS_VENTA" Association="Data.ServiceObject.FK_TBL_VENTA_TBL_DETAILS_VENTA">
+            <End Role="TBL_VENTA" EntitySet="TBL_VENTA" />
+            <End Role="TBL_DETAILS_VENTA" EntitySet="TBL_DETAILS_VENTA" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="TBL_ALERTAS_STOCK_MIN">
           <Key>
@@ -893,6 +978,8 @@
           <NavigationProperty Name="TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN" Relationship="Data.ServiceObject.FK_TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN_TBL_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN" />
           <NavigationProperty Name="TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN" Relationship="Data.ServiceObject.FK_TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN_TBL_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN" />
           <NavigationProperty Name="TBL_EXISTENCIA" Relationship="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_EXISTENCIA" />
+          <NavigationProperty Name="TBL_DETAILS_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_DETAILS_ARTICULO" />
+          <NavigationProperty Name="TBL_DETAILS_VENTA" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_DETAILS_VENTA" FromRole="TBL_ARTICULO" ToRole="TBL_DETAILS_VENTA" />
         </EntityType>
         <EntityType Name="TBL_CATEGORIA_ARTICULO">
           <Key>
@@ -1430,6 +1517,7 @@
           <Property Name="FECHA_REGISTRO" Type="DateTime" Precision="3" />
           <Property Name="MONTO" Type="Double" />
           <NavigationProperty Name="TBL_USUARIO" Relationship="Data.ServiceObject.FK_USUARIO" FromRole="TBL_VENTA" ToRole="TBL_USUARIO" />
+          <NavigationProperty Name="TBL_DETAILS_VENTA" Relationship="Data.ServiceObject.FK_TBL_VENTA_TBL_DETAILS_VENTA" FromRole="TBL_VENTA" ToRole="TBL_DETAILS_VENTA" />
         </EntityType>
         <Association Name="FK_USUARIO">
           <End Type="Data.ServiceObject.TBL_USUARIO" Role="TBL_USUARIO" Multiplicity="0..1" />
@@ -1476,6 +1564,66 @@
             </Principal>
             <Dependent Role="TBL_DEPOSITOS">
               <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TBL_DETAILS_ARTICULO">
+          <Key>
+            <PropertyRef Name="ID_DETAILS_ARTICULO" />
+          </Key>
+          <Property Name="ID_DETAILS_ARTICULO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_ARTICULO" Type="Int32" Nullable="false" />
+          <Property Name="PRECIO_UNIDAD" Type="Double" Nullable="false" />
+          <Property Name="PRECIO_MASTER" Type="Double" Nullable="false" />
+          <Property Name="PRECIO_PROMOTOR" Type="Double" Nullable="false" />
+          <Property Name="PRECIO_GERENTE" Type="Double" Nullable="false" />
+          <NavigationProperty Name="TBL_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO" FromRole="TBL_DETAILS_ARTICULO" ToRole="TBL_ARTICULO" />
+        </EntityType>
+        <Association Name="FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO">
+          <End Type="Data.ServiceObject.TBL_ARTICULO" Role="TBL_ARTICULO" Multiplicity="1" />
+          <End Type="Data.ServiceObject.TBL_DETAILS_ARTICULO" Role="TBL_DETAILS_ARTICULO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ARTICULO">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Principal>
+            <Dependent Role="TBL_DETAILS_ARTICULO">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TBL_DETAILS_VENTA">
+          <Key>
+            <PropertyRef Name="ID_DETAIL_VENTA" />
+          </Key>
+          <Property Name="ID_DETAIL_VENTA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_VENTA" Type="Int32" />
+          <Property Name="ID_ARTICULO" Type="Int32" />
+          <Property Name="CANTIDAD" Type="Int32" />
+          <Property Name="PRECIO" Type="Double" />
+          <NavigationProperty Name="TBL_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_DETAILS_VENTA" FromRole="TBL_DETAILS_VENTA" ToRole="TBL_ARTICULO" />
+          <NavigationProperty Name="TBL_VENTA" Relationship="Data.ServiceObject.FK_TBL_VENTA_TBL_DETAILS_VENTA" FromRole="TBL_DETAILS_VENTA" ToRole="TBL_VENTA" />
+        </EntityType>
+        <Association Name="FK_TBL_ARTICULO_TBL_DETAILS_VENTA">
+          <End Type="Data.ServiceObject.TBL_ARTICULO" Role="TBL_ARTICULO" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.TBL_DETAILS_VENTA" Role="TBL_DETAILS_VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ARTICULO">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Principal>
+            <Dependent Role="TBL_DETAILS_VENTA">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_VENTA_TBL_DETAILS_VENTA">
+          <End Type="Data.ServiceObject.TBL_VENTA" Role="TBL_VENTA" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.TBL_DETAILS_VENTA" Role="TBL_DETAILS_VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_VENTA">
+              <PropertyRef Name="ID_VENTA" />
+            </Principal>
+            <Dependent Role="TBL_DETAILS_VENTA">
+              <PropertyRef Name="ID_VENTA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1756,6 +1904,29 @@
                 <ScalarProperty Name="FECHA_INGRESO" ColumnName="FECHA_INGRESO" />
                 <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
                 <ScalarProperty Name="ID_DEPOSITO" ColumnName="ID_DEPOSITO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DETAILS_ARTICULO">
+            <EntityTypeMapping TypeName="Data.ServiceObject.TBL_DETAILS_ARTICULO">
+              <MappingFragment StoreEntitySet="TBL_DETAILS_ARTICULO">
+                <ScalarProperty Name="PRECIO_GERENTE" ColumnName="PRECIO_GERENTE" />
+                <ScalarProperty Name="PRECIO_PROMOTOR" ColumnName="PRECIO_PROMOTOR" />
+                <ScalarProperty Name="PRECIO_MASTER" ColumnName="PRECIO_MASTER" />
+                <ScalarProperty Name="PRECIO_UNIDAD" ColumnName="PRECIO_UNIDAD" />
+                <ScalarProperty Name="ID_ARTICULO" ColumnName="ID_ARTICULO" />
+                <ScalarProperty Name="ID_DETAILS_ARTICULO" ColumnName="ID_DETAILS_ARTICULO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DETAILS_VENTA">
+            <EntityTypeMapping TypeName="Data.ServiceObject.TBL_DETAILS_VENTA">
+              <MappingFragment StoreEntitySet="TBL_DETAILS_VENTA">
+                <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+                <ScalarProperty Name="CANTIDAD" ColumnName="CANTIDAD" />
+                <ScalarProperty Name="ID_ARTICULO" ColumnName="ID_ARTICULO" />
+                <ScalarProperty Name="ID_VENTA" ColumnName="ID_VENTA" />
+                <ScalarProperty Name="ID_DETAIL_VENTA" ColumnName="ID_DETAIL_VENTA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

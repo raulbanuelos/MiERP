@@ -10,8 +10,15 @@
 
     <!-- Bootstrap core JavaScript-->
     <script src="@Url.Content("~/assets/js/jquery.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/moment.min.js")"></script>
+
     <script src="@Url.Content("~/assets/js/popper.min.js")"></script>
     <script src="@Url.Content("~/assets/js/bootstrap.min.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/bootstrap-datetimepicker.js")"></script>
+
+    <link href="@Url.Content("~/Content/bootstrap-datetimepicker.css")" rel="stylesheet" />
 
     <!-- loader-->
     @*<link href="@Url.Content("~/assets/css/pace.min.css")" rel="stylesheet" />
@@ -33,10 +40,9 @@
     <!-- Custom Style-->
     <link href="@Url.Content("~/assets/css/app-style.css")" rel="stylesheet" />
 
-    <!--DateTimePicker-->
-    <link href="@Url.Content("~/Content/bootstrap-datetimepicker.min.css")" rel="stylesheet" />
-    <script src="@Url.Content("~/assets/plugins/fullcalendar/js/moment.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/bootstrap-datetimepicker.min.js")"></script>
+
+
+
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -55,7 +61,7 @@
             <ul class="sidebar-menu do-nicescrol">
                 <li class="sidebar-header">Navegación</li>
                 <li>
-                    <a href="@Url.Action("Index","Home")">
+                    <a href="@Url.Action("Index", "Home")">
                         <i class="fa fa-dashboard"></i> <span>Inicio</span>
                     </a>
                 </li>
@@ -67,13 +73,13 @@
                 </li>
 
                 <li>
-                    <a href="@Url.Action("DarEntrada","EntradasAlmacen")">
+                    <a href="@Url.Action("DarEntrada", "EntradasAlmacen")">
                         <i class="fa fa-sign-in"></i> <span>Entradas</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="@Url.Action("DarSalida","SalidasAlmacen")">
+                    <a href="@Url.Action("DarSalida", "SalidasAlmacen")">
                         <i class="fa fa-sign-out"></i> <span>Salidas</span>
                     </a>
                 </li>
@@ -85,7 +91,7 @@
                 </li>
 
                 <li>
-                    <a href="@Url.Action("Create","Articulo")">
+                    <a href="@Url.Action("Create", "Articulo")">
                         <i class="fa fa-product-hunt"></i><span>Alta de artículos</span>
                     </a>
                 </li>
@@ -112,8 +118,8 @@
                 </ul>
 
                 <ul class="navbar-nav align-items-center right-nav-link">
-                    
-                    
+
+
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
                             <span class="user-profile"><img src="https://via.placeholder.com/110x110" class="img-circle" alt="user avatar"></span>
@@ -124,8 +130,8 @@
                                     <div class="media">
                                         <div class="avatar"><img class="align-self-start mr-3" src="https://via.placeholder.com/110x110" alt="user avatar"></div>
                                         <div class="media-body">
-                                            <h6 class="mt-2 user-title">Sarajhon Mccoy</h6>
-                                            <p class="user-subtitle">mccoy@example.com</p>
+                                            <h6 class="mt-2 user-title">@Session["NombrePersona"]</h6>
+                                            <p class="user-subtitle">@Session["CorreoPersona"]</p>
                                         </div>
                                     </div>
                                 </a>
@@ -223,3 +229,91 @@
 
 </body>
 </html>
+
+
+@*--DELETE FROM TBL_PROVEEDOR
+    --DELETE FROM TBL_CATEGORIA_ARTICULO
+    --DELETE FROM TBL_ARTICULO
+    --DELETE FROM TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN
+    --DELETE FROM TBL_MOVIMIENTO_ALMACEN
+    --DELETE FROM TBL_EXISTENCIA
+    --DELETE FROM TBL_ALMACEN
+    --DELETE FROM TBL_DEPOSITOS
+    --DELETE FROM TBL_VENTA
+    --DELETE FROM TBL_USUARIO
+    --DELETE FROM TBL_COMPANIA*@
+
+
+@*USE [RGP2-PBA]
+    GO
+
+    /****** Object:  Table [dbo].[TBL_DETAILS_VENTA]    Script Date: 11/3/2020 2:02:00 PM ******/
+    SET ANSI_NULLS ON
+    GO
+
+    SET QUOTED_IDENTIFIER ON
+    GO
+
+    CREATE TABLE [dbo].[TBL_DETAILS_VENTA](
+        [ID_DETAIL_VENTA] [int] IDENTITY(1,1) NOT NULL,
+        [ID_VENTA] [int] NULL,
+        [ID_ARTICULO] [int] NULL,
+        [CANTIDAD] [int] NULL,
+        [PRECIO] [float] NULL,
+     CONSTRAINT [PK_TBL_DETAILS_VENTA] PRIMARY KEY CLUSTERED
+    (
+        [ID_DETAIL_VENTA] ASC
+    )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+    ) ON [PRIMARY]
+    GO
+
+    ALTER TABLE [dbo].[TBL_DETAILS_VENTA]  WITH CHECK ADD  CONSTRAINT [FK_TBL_ARTICULO_TBL_DETAILS_VENTA] FOREIGN KEY([ID_ARTICULO])
+    REFERENCES [dbo].[TBL_ARTICULO] ([ID_ARTICULO])
+    GO
+
+    ALTER TABLE [dbo].[TBL_DETAILS_VENTA] CHECK CONSTRAINT [FK_TBL_ARTICULO_TBL_DETAILS_VENTA]
+    GO
+
+    ALTER TABLE [dbo].[TBL_DETAILS_VENTA]  WITH CHECK ADD  CONSTRAINT [FK_TBL_VENTA_TBL_DETAILS_VENTA] FOREIGN KEY([ID_VENTA])
+    REFERENCES [dbo].[TBL_VENTA] ([ID_VENTA])
+    GO
+
+    ALTER TABLE [dbo].[TBL_DETAILS_VENTA] CHECK CONSTRAINT [FK_TBL_VENTA_TBL_DETAILS_VENTA]
+    GO*@
+
+
+
+
+
+@*USE [RGP2-PBA]
+GO
+
+/****** Object:  Table [dbo].[TBL_DETAILS_ARTICULO]    Script Date: 11/3/2020 10:55:38 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TBL_DETAILS_ARTICULO](
+	[ID_DETAILS_ARTICULO] [int] IDENTITY(1,1) NOT NULL,
+	[ID_ARTICULO] [int] NOT NULL,
+	[PRECIO_UNIDAD] [float] NOT NULL,
+	[PRECIO_MASTER] [float] NOT NULL,
+	[PRECIO_PROMOTOR] [float] NOT NULL,
+	[PRECIO_GERENTE] [float] NOT NULL,
+ CONSTRAINT [PK_TBL_DETAILS_ARTICULO] PRIMARY KEY CLUSTERED
+(
+	[ID_DETAILS_ARTICULO] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[TBL_DETAILS_ARTICULO]  WITH CHECK ADD  CONSTRAINT [FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO] FOREIGN KEY([ID_ARTICULO])
+REFERENCES [dbo].[TBL_ARTICULO] ([ID_ARTICULO])
+GO
+
+ALTER TABLE [dbo].[TBL_DETAILS_ARTICULO] CHECK CONSTRAINT [FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO]
+GO*@
+
+

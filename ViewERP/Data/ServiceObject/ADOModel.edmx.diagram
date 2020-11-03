@@ -56,6 +56,11 @@
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_SEMANA" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_DEPOSITOS" Width="1.5" PointX="15.875" PointY="10.25" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_DEPOSITOS_TBL_USUARIO" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_DETAILS_ARTICULO" Width="3.75" PointX="15.125" PointY="37.125" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_DETAILS_VENTA" Width="1.5" PointX="20.125" PointY="22.375" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_DETAILS_VENTA" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_VENTA_TBL_DETAILS_VENTA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

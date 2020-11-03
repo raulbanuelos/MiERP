@@ -10,14 +10,21 @@ namespace WebView.Controllers
         // GET: Ventas
         public ActionResult AgregarVenta()
         {
+            int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+            ViewBag.Articulos = DataManager.ConvertListDOArticuloToSelectListItem(DataManager.GetAllArticulos(idCompania));
             return View();
         }
 
         [HttpPost]
-        public JsonResult GuardarVenta(double monto, DateTime fecha)
+        public JsonResult GuardarVenta(int cantidad, DateTime fecha, int idArticulo)
         {
             int idUsuario = ((DO_Persona)Session["UsuarioConectado"]).idUsuario;
-            int r = DataManager.InsertVenta(idUsuario, monto, fecha);
+            double precio = DataManager.GetPrecioMaster(idArticulo);
+            double monto = cantidad * precio;
+
+            int idVenta = DataManager.InsertVenta(idUsuario, monto, fecha);
+
+            int r = DataManager.InsertDetailVenta(idVenta, idArticulo, cantidad, precio);
 
             var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
@@ -68,6 +75,20 @@ namespace WebView.Controllers
             List<FO_Item> lista = DataManager.GetVentaUltimosMeses(idUsuario);
 
             var jsonResult = Json(lista, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+
+        [HttpPost]
+        public JsonResult GetLastVentas(string parametro)
+        {
+            int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+
+            List<DO_Ventas> lastVentas = DataManager.GetListLastVentas(idCompania);
+
+            var jsonResult = Json(lastVentas, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 
             return jsonResult;

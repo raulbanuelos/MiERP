@@ -19,10 +19,12 @@
                                 <!--Fecha-->
                                 <div class="form-group">
                                     <label class="col-lg-1 col-md-1 control-label" for="">Fecha</label>
-                                    <div class="col-lg-10 col-md-9">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input id="txtFecha" type="text" class="form-control" placeholder="dd-mm-yyyy">
+                                    <div class="col-lg-7 col-md-6">
+                                        <div class="input-group date" id="txtFecha">
+                                            <input type="text" class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="fa fa-calendar"></span>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -119,6 +121,10 @@
 <script type="text/javascript">
 
     $(function () {
+        $('#txtFecha').datetimepicker({
+            format: 'L'
+        });
+
         var urlSave = '@Url.Action("GetUltimosDepositos", "Depositos")';
         $.ajax({
             type: "POST",
