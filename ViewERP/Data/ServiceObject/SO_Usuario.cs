@@ -157,7 +157,9 @@ namespace Data.ServiceObject
 
                     Conexion.TBL_USUARIO.Add(tblUsuario);
 
-                    return Conexion.SaveChanges();
+                    Conexion.SaveChanges();
+
+                    return tblUsuario.ID_USUARIO;
                 }
             }
             catch (Exception)

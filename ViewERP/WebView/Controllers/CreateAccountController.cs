@@ -54,6 +54,8 @@ namespace WebView.Controllers
                 categoriaArticulo1.NombreCategoria = "OTROS";
                 categoriaArticulo1.numeroCategoria = "02";
 
+                c = DataManager.InsertCategoriaArticulo(categoriaArticulo1);
+
                 DO_Proveedor proveedor = new DO_Proveedor();
                 proveedor.Correo = "miproveedor@email.com";
                 proveedor.Direccion = "Dirección";
