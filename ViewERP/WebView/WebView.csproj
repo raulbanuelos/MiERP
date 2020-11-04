@@ -904,6 +904,7 @@
     <Content Include="assets\images\timeline\css-3.svg" />
     <Content Include="assets\images\timeline\html5.svg" />
     <Content Include="assets\images\timeline\react.svg" />
+    <Content Include="assets\images\user2.jpg" />
     <Content Include="assets\js\app-script.js" />
     <Content Include="assets\js\bootstrap.js" />
     <Content Include="assets\js\bootstrap.min.js" />

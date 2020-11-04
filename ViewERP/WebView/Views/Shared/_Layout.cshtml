@@ -39,10 +39,6 @@
     <link href="@Url.Content("~/assets/css/sidebar-menu.css")" rel="stylesheet" />
     <!-- Custom Style-->
     <link href="@Url.Content("~/assets/css/app-style.css")" rel="stylesheet" />
-
-
-
-
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -54,7 +50,7 @@
         <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
             <div class="brand-logo">
                 <a href="index.html">
-                    <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+                    <img src="@Url.Content("~/assets/images/logo-icon.png")" class="logo-icon" alt="logo icon">
                     <h5 class="logo-text">Dashtreme Admin</h5>
                 </a>
             </div>
@@ -102,6 +98,12 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="@Url.Action("CerrarSession", "Home")">
+                        <i class="fa fa-close"></i><span>Salir</span>
+                    </a>
+                </li>
+
             </ul>
 
         </div>
@@ -124,17 +126,15 @@
                 </ul>
 
                 <ul class="navbar-nav align-items-center right-nav-link">
-
-
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-                            <span class="user-profile"><img src="https://via.placeholder.com/110x110" class="img-circle" alt="user avatar"></span>
+                            <span class="user-profile"><img src="@Url.Content("~/assets/images/user2.jpg")" class="img-circle" alt="user avatar"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li class="dropdown-item user-details">
                                 <a href="javaScript:void();">
                                     <div class="media">
-                                        <div class="avatar"><img class="align-self-start mr-3" src="https://via.placeholder.com/110x110" alt="user avatar"></div>
+                                        <div class="avatar"><img class="align-self-start mr-3" src="@Url.Content("~/assets/images/user2.jpg")" alt="user avatar"></div>
                                         <div class="media-body">
                                             <h6 class="mt-2 user-title">@Session["NombrePersona"]</h6>
                                             <p class="user-subtitle">@Session["CorreoPersona"]</p>
@@ -165,7 +165,8 @@
             </div>
             <!-- End container-fluid-->
 
-        </div><!--End content-wrapper-->
+        </div>
+        <!--End content-wrapper-->
         <!--Start Back To Top Button-->
         <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
         <!--End Back To Top Button-->
@@ -211,7 +212,6 @@
                     <li id="theme14"></li>
                     <li id="theme15"></li>
                 </ul>
-
             </div>
         </div>
         <!--end color switcher-->
@@ -231,3 +231,156 @@
     <script src="@Url.Content("~/assets/js/index.js")"></script>
 </body>
 </html>
+
+@*USE [RGP2-PBA]
+    GO
+
+    /****** Object:  Table [dbo].[TBL_DETAILS_VENTA]    Script Date: 11/4/2020 4:46:30 PM ******/
+    SET ANSI_NULLS ON
+    GO
+
+    SET QUOTED_IDENTIFIER ON
+    GO
+
+    CREATE TABLE [dbo].[TBL_DETAILS_VENTA](
+        [ID_DETAIL_VENTA] [int] IDENTITY(1,1) NOT NULL,
+        [ID_VENTA] [int] NULL,
+        [ID_ARTICULO] [int] NULL,
+        [CANTIDAD] [int] NULL,
+        [PRECIO] [float] NULL,
+     CONSTRAINT [PK_TBL_DETAILS_VENTA] PRIMARY KEY CLUSTERED
+    (
+        [ID_DETAIL_VENTA] ASC
+    )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+    ) ON [PRIMARY]
+    GO
+
+    ALTER TABLE [dbo].[TBL_DETAILS_VENTA]  WITH CHECK ADD  CONSTRAINT [FK_TBL_ARTICULO_TBL_DETAILS_VENTA] FOREIGN KEY([ID_ARTICULO])
+    REFERENCES [dbo].[TBL_ARTICULO] ([ID_ARTICULO])
+    GO
+
+    ALTER TABLE [dbo].[TBL_DETAILS_VENTA] CHECK CONSTRAINT [FK_TBL_ARTICULO_TBL_DETAILS_VENTA]
+    GO
+
+    ALTER TABLE [dbo].[TBL_DETAILS_VENTA]  WITH CHECK ADD  CONSTRAINT [FK_TBL_VENTA_TBL_DETAILS_VENTA] FOREIGN KEY([ID_VENTA])
+    REFERENCES [dbo].[TBL_VENTA] ([ID_VENTA])
+    GO
+
+    ALTER TABLE [dbo].[TBL_DETAILS_VENTA] CHECK CONSTRAINT [FK_TBL_VENTA_TBL_DETAILS_VENTA]
+    GO*@
+
+
+@*USE [RGP2-PBA]
+    GO
+
+    /****** Object:  Table [dbo].[TBL_DETAILS_ARTICULO]    Script Date: 11/4/2020 4:46:53 PM ******/
+    SET ANSI_NULLS ON
+    GO
+
+    SET QUOTED_IDENTIFIER ON
+    GO
+
+    CREATE TABLE [dbo].[TBL_DETAILS_ARTICULO](
+        [ID_DETAILS_ARTICULO] [int] IDENTITY(1,1) NOT NULL,
+        [ID_ARTICULO] [int] NOT NULL,
+        [PRECIO_UNIDAD] [float] NOT NULL,
+        [PRECIO_MASTER] [float] NOT NULL,
+        [PRECIO_PROMOTOR] [float] NOT NULL,
+        [PRECIO_GERENTE] [float] NOT NULL,
+     CONSTRAINT [PK_TBL_DETAILS_ARTICULO] PRIMARY KEY CLUSTERED
+    (
+        [ID_DETAILS_ARTICULO] ASC
+    )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+    ) ON [PRIMARY]
+    GO
+
+    ALTER TABLE [dbo].[TBL_DETAILS_ARTICULO]  WITH CHECK ADD  CONSTRAINT [FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO] FOREIGN KEY([ID_ARTICULO])
+    REFERENCES [dbo].[TBL_ARTICULO] ([ID_ARTICULO])
+    GO
+
+    ALTER TABLE [dbo].[TBL_DETAILS_ARTICULO] CHECK CONSTRAINT [FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO]
+    GO*@
+
+
+
+@*-- ================================================
+    -- Template generated from Template Explorer using:
+    -- Create Procedure (New Menu).SQL
+    --
+    -- Use the Specify Values for Template Parameters
+    -- command (Ctrl-Shift-M) to fill in the parameter
+    -- values below.
+    --
+    -- This block of comments will not be included in
+    -- the definition of the procedure.
+    -- ================================================
+    SET ANSI_NULLS ON
+    GO
+    SET QUOTED_IDENTIFIER ON
+    GO
+    -- =============================================
+    -- Author:		RAÚL BAÑUELOS
+    -- Create date: 04 NOV 2020
+    -- Description:	PROCEDIMIENTO ALMACENADO QUE OBTIENE LOS MOVIMIENTOS DE SALIDA DE LA SEMANA ACTUAL
+    -- =============================================
+    CREATE PROCEDURE SP_ERP_GET_SALIDAS_ALMACEN_CURRENT_WEEK
+    @idCompania INT
+    AS
+    BEGIN
+        --DECLARE @idCompania AS INT
+        --SET @idCompania = 10
+
+        DECLARE @diaFinal AS DATETIME = (SELECT DIA_FINAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
+        DECLARE @diaInicial AS DATETIME = (SELECT DIA_INICIAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
+
+        SELECT A.ID_ARTICULO, A.DESCRIPCION, SUM(N.CANTIDAD) AS CANTIDAD, 'BODEGA ' + U.NOMBRE AS 'DESTINO'
+        FROM TBL_MOVIMIENTO_SALIDA_ALMACEN AS M
+        INNER JOIN TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN AS N ON M.ID_MOVIMIENTO_SALIDA_ALMACEN = N.ID_MOVIMIENTO_SALIDA_ALMACEN
+        INNER JOIN TBL_ARTICULO AS A ON N.ID_ARTICULO = A.ID_ARTICULO
+        INNER JOIN TBL_USUARIO AS U ON M.USUARIO_SOLICITO = U.USUARIO
+        WHERE M.FECHA_SALIDA BETWEEN @diaInicial AND @diaFinal AND A.ID_COMPANIA = @idCompania
+        GROUP BY A.ID_ARTICULO, A.DESCRIPCION, U.NOMBRE
+        END
+        GO*@
+
+
+@*-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters
+-- command (Ctrl-Shift-M) to fill in the parameter
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		RAÚL BAÑUELOS
+-- Create date: 04 NOV 2020
+-- Description:	PROCEDIMIENTO ALMACENADO QUE OBTIENE LOS MOVIMIENTOS DE ENTRADA DE LA SEMANA ACTUAL
+-- =============================================
+CREATE PROCEDURE SP_ERP_GET_ENTRADAS_ALMACEN_CURRENT_WEEK
+@idCompania INT
+AS
+BEGIN
+	--DECLARE @idCompania AS INT
+    --SET @idCompania = 10
+
+    DECLARE @diaFinal AS DATETIME = (SELECT DIA_FINAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
+    DECLARE @diaInicial AS DATETIME = (SELECT DIA_INICIAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
+
+    SELECT A.ID_ARTICULO,A.DESCRIPCION,SUM(D.CANTIDAD) AS CANTIDAD, P.NOMBRE AS 'DESTINO'
+    FROM TBL_MOVIMIENTO_ALMACEN AS M
+    INNER JOIN TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN AS D ON M.ID_MOVIMIENTO_ALMACEN = D.ID_MOVIMIENTO_ENTRADA_ALMACEN
+    INNER JOIN TBL_ARTICULO AS A ON D.ID_ARTICULO = A.ID_ARTICULO
+    INNER JOIN TBL_COMPANIA AS C ON A.ID_COMPANIA = C.ID_COMPANIA
+    INNER JOIN TBL_PROVEEDOR AS P ON M.ID_PROVEEDOR = P.ID_PROVEEDOR
+    WHERE M.FECHA BETWEEN @diaInicial AND @diaFinal AND C.ID_COMPANIA = @idCompania
+    GROUP BY A.ID_ARTICULO, A.DESCRIPCION, P.NOMBRE
+    END
+    GO*@

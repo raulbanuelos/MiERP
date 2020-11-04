@@ -48,20 +48,6 @@
                             </div>
                         </div>
 
-                        @*<div class="form-group">
-                            <label class="col-lg-9 col-md-9 control-label" for="">Stock mínimo</label>
-                            <div class="col-lg-10 col-md-9">
-                                <input type="number" id="txtStockMinimo" class="form-control" placeholder="Stock mínimo" onkeypress="return soloNumeros(event)" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-lg-9 col-md-9 control-label" for="">Stock máximo</label>
-                            <div class="col-lg-10 col-md-9">
-                                <input type="number" id="txtStockMaximo" class="form-control" placeholder="Stock máximo" onkeypress="return soloNumeros(event)" />
-                            </div>
-                        </div>*@
-
                         <div class="form-group">
                             <label class="col-lg-9 col-md-9 control-label" for="">Precio Unidad</label>
                             <div class="col-lg-10 col-md-9">
@@ -89,11 +75,6 @@
                                 <input id="txtPrecioGerente" type="text" class="form-control" placeholder="Precio Gerente" onkeypress="return filterFloat(event,this);" />
                             </div>
                         </div>
-
-                        @*<div class="form-inline">
-                            <label>Es consumible</label>
-                            <input class="form-check-input" type="checkbox" id="ckbIsConsumible" checked />
-                        </div>*@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
@@ -141,12 +122,8 @@
             var _codigo = $("#txtCodigo").val();
             var _descripcionCorta = $("#txtDescripcionCorta").val();
             var _descripcionLarga = $("#txtDescripcionLarga").val();
-            //var _stockMinimo = $("#txtStockMinimo").val();
-            //var _stockMaximo = $("#txtStockMaximo").val();
             var _stockMinimo = 0;
             var _stockMaximo = 0;
-
-            
 
             var _idCategoria = $("#cboCategorias").val();
             var esConsumible = true;

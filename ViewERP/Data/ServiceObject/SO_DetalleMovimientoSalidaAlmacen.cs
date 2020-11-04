@@ -1,7 +1,9 @@
-﻿using Model;
+﻿using Data.SQLServer;
+using Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +12,7 @@ namespace Data.ServiceObject
 {
     public class SO_DetalleMovimientoSalidaAlmacen
     {
+        private string SP_ERP_GET_SALIDAS_ALMACEN_CURRENT_WEEK = "SP_ERP_GET_SALIDAS_ALMACEN_CURRENT_WEEK";
         public int Insert(DO_DetalleSalidaAlmacen detalleSalida)
         {
             try
@@ -107,6 +110,26 @@ namespace Data.ServiceObject
             catch (Exception)
             {
                 return 0;
+            }
+        }
+
+        public DataSet GetSalidasCurrentWeek()
+        {
+            try
+            {
+                DataSet datos = null;
+
+                ERP_SQL conexion = new ERP_SQL();
+
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
+
+                datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_SALIDAS_ALMACEN_CURRENT_WEEK, parametros);
+
+                return datos;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
     }

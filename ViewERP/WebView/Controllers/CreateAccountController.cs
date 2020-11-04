@@ -11,6 +11,7 @@ namespace WebView.Controllers
 {
     public class CreateAccountController : Controller
     {
+       
         public ActionResult Create()
         {
             return View();
@@ -56,15 +57,15 @@ namespace WebView.Controllers
 
                 c = DataManager.InsertCategoriaArticulo(categoriaArticulo1);
 
-                DO_Proveedor proveedor = new DO_Proveedor();
-                proveedor.Correo = "miproveedor@email.com";
-                proveedor.Direccion = "Dirección";
-                proveedor.idCompania = idCompania;
-                proveedor.Nombre = "BODEGA ORIGEN 1";
-                proveedor.RFC = "RFC";
-                proveedor.Telefono1 = "TELEFONO 1";
-                proveedor.Telefono2 = "TELEFONO 2";
-                int rp = DataManager.InsertProveedor(proveedor);
+                //DO_Proveedor proveedor = new DO_Proveedor();
+                //proveedor.Correo = "miproveedor@email.com";
+                //proveedor.Direccion = "Dirección";
+                //proveedor.idCompania = idCompania;
+                //proveedor.Nombre = "BODEGA ORIGEN 1";
+                //proveedor.RFC = "RFC";
+                //proveedor.Telefono1 = "TELEFONO 1";
+                //proveedor.Telefono2 = "TELEFONO 2";
+                //int rp = DataManager.InsertProveedor(proveedor);
 
                 var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;

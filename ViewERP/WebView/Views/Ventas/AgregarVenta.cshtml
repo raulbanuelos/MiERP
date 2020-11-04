@@ -12,15 +12,6 @@
                 <hr />
                 <div class="panel-body pb-0">
                     <div class="form-horizontal group-border stripped">
-                        @*<div class="form-group">
-                            <label class="col-lg-1 col-md-1 control-label" for="">Fecha</label>
-                            <div class="col-lg-10 col-md-9">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input id="txtFecha" type="text" class="form-control" placeholder="dd-mm-yyyy">
-                                </div>
-                            </div>
-                        </div>*@
 
                         <div class="form-group">
                             <label class="col-lg-1 col-md-1 control-label" for="">Fecha</label>
@@ -55,16 +46,6 @@
                             </div>
                         </div>
 
-                        @*<div class="form-group">
-                            <label class="col-lg-1 col-md-1 control-label" for="">Monto</label>
-                            <div class="col-lg-10 col-md-9">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Monto">
-                                </div>
-                            </div>
-                        </div>*@
-
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
                                 <button class="btn btn-success" onclick="guardarVenta()">Guardar cambios</button>
@@ -87,9 +68,6 @@
     });
 
     function guardarVenta() {
-
-        //var _monto = $("#inlineFormInputGroup").val();
-        //var _fecha = $("#datetimepicker1").val();
         var _fecha = $("#datetimepicker1").data("date");
         var _cantidad = $("#txtCantidad").val();
         var _idArticulo = $("#cboArticulos").val();
@@ -102,7 +80,7 @@
             dataType: "json",
             success: function (data) {
                 alert("Venta agregada correctamente");
-                $("#inlineFormInputGroup").val("0.0");
+                $("#txtCantidad").val("0");
             },
             error: function (result) {
                 alert("Woops, se produjo un error");

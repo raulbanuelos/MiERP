@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Data.SQLServer;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,7 @@ namespace Data.ServiceObject
 {
     public class SO_Detalle_Entrada_Almacen
     {
+        private string SP_ERP_GET_ENTRADAS_ALMACEN_CURRENT_WEEK = "SP_ERP_GET_ENTRADAS_ALMACEN_CURRENT_WEEK";
         public int Insert(int idMovimientoEntrada, int idArticulo, decimal cantidad,int idUnidad)
         {
             try
@@ -102,5 +105,24 @@ namespace Data.ServiceObject
             }
         }
 
+        public DataSet GetEntradasCurrentWeek()
+        {
+            try
+            {
+                DataSet datos = null;
+
+                ERP_SQL conexion = new ERP_SQL();
+
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
+
+                datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_ENTRADAS_ALMACEN_CURRENT_WEEK, parametros);
+
+                return datos;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }

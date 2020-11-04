@@ -20,6 +20,8 @@ namespace WebView.Controllers
 
             ViewBag.Almacenes = DataManager.ConvertListDOAlmacenToSelectListItem(DataManager.GetAllAlmacen(idCompania));
 
+            ViewBag.Articulos = DataManager.ConvertListDOArticuloToSelectListItem(DataManager.GetAllArticulos(idCompania));
+
             List<SelectListItem> condicionesEntrega = new List<SelectListItem>();
 
             condicionesEntrega.Add(new SelectListItem { Text = "NUEVO", Value = "NUEVO" });

@@ -114,7 +114,6 @@ namespace WebView.Controllers
                 RolesPermitidos = "1";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
-
             return false;
         }
 

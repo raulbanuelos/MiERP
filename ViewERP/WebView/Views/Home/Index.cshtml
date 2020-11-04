@@ -65,27 +65,6 @@
                     <canvas id="chart1"></canvas>
                 </div>
             </div>
-
-            @*<div class="row m-0 row-group text-center border-top border-light-3">
-                <div class="col-12 col-lg-4">
-                    <div class="p-3">
-                        <h5 class="mb-0">45.87M</h5>
-                        <small class="mb-0">- <span> <i class="fa fa-arrow-up"></i> -</span></small>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-4">
-                    <div class="p-3">
-                        <h5 class="mb-0">15:48</h5>
-                        <small class="mb-0">Visitor Duration <span> <i class="fa fa-arrow-up"></i> 12.65%</span></small>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-4">
-                    <div class="p-3">
-                        <h5 class="mb-0">245.65</h5>
-                        <small class="mb-0">Pages/Visit <span> <i class="fa fa-arrow-up"></i> 5.62%</span></small>
-                    </div>
-                </div>
-            </div>*@
         </div>
     </div>
 </div>
@@ -360,11 +339,14 @@
             success: function (data) {
                 var row = "";
                 $.each(data, function (index, item) {
+                    var _precio = new Intl.NumberFormat("en-IN").format(item.Precio);
+                    var _total = new Intl.NumberFormat("en-IN").format(item.Total);
+
                     row += "<tr>";
                     row += "<td>" + item.Nombre + "</td>";
                     row += "<td>" + item.Cantidad + "</td>";
-                    row += "<td>" + item.Precio + "</td>";
-                    row += "<td>" + item.Total + "</td>";
+                    row += "<td>$" + _precio + "</td>";
+                    row += "<td>$" + _total + "</td>";
                     row += "</tr>";
                 });
                 $("#tblLastVentas").append(row);
