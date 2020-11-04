@@ -53,7 +53,6 @@
                             <div class="col-lg-7 col-md-6">
                                 <input type="number" class="form-control modalColor" style="width:90%" id="txtCantidad" />
                             </div>
-                            
                         </div>
 
                         @*<div class="form-group">
@@ -94,7 +93,6 @@
         var _fecha = $("#datetimepicker1").data("date");
         var _cantidad = $("#txtCantidad").val();
         var _idArticulo = $("#cboArticulos").val();
-        debugger;
         var urlSave = '@Url.Action("GuardarVenta", "Ventas")';
         $.ajax({
             type: "POST",

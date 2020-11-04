@@ -96,6 +96,12 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="@Url.Action("Create", "Contactos")">
+                        <i class="fa fa-users"></i><span>Contactos</span>
+                    </a>
+                </li>
+
             </ul>
 
         </div>
@@ -220,100 +226,8 @@
     <!-- Custom scripts -->
     <script src="@Url.Content("~/assets/js/app-script.js")"></script>
     <!-- Chart js -->
-
     <script src="@Url.Content("~/assets/plugins/Chart.js/Chart.min.js")"></script>
-
     <!-- Index js -->
     <script src="@Url.Content("~/assets/js/index.js")"></script>
-
-
 </body>
 </html>
-
-
-@*--DELETE FROM TBL_PROVEEDOR
-    --DELETE FROM TBL_CATEGORIA_ARTICULO
-    --DELETE FROM TBL_ARTICULO
-    --DELETE FROM TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN
-    --DELETE FROM TBL_MOVIMIENTO_ALMACEN
-    --DELETE FROM TBL_EXISTENCIA
-    --DELETE FROM TBL_ALMACEN
-    --DELETE FROM TBL_DEPOSITOS
-    --DELETE FROM TBL_VENTA
-    --DELETE FROM TBL_USUARIO
-    --DELETE FROM TBL_COMPANIA*@
-
-
-@*USE [RGP2-PBA]
-    GO
-
-    /****** Object:  Table [dbo].[TBL_DETAILS_VENTA]    Script Date: 11/3/2020 2:02:00 PM ******/
-    SET ANSI_NULLS ON
-    GO
-
-    SET QUOTED_IDENTIFIER ON
-    GO
-
-    CREATE TABLE [dbo].[TBL_DETAILS_VENTA](
-        [ID_DETAIL_VENTA] [int] IDENTITY(1,1) NOT NULL,
-        [ID_VENTA] [int] NULL,
-        [ID_ARTICULO] [int] NULL,
-        [CANTIDAD] [int] NULL,
-        [PRECIO] [float] NULL,
-     CONSTRAINT [PK_TBL_DETAILS_VENTA] PRIMARY KEY CLUSTERED
-    (
-        [ID_DETAIL_VENTA] ASC
-    )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-    ) ON [PRIMARY]
-    GO
-
-    ALTER TABLE [dbo].[TBL_DETAILS_VENTA]  WITH CHECK ADD  CONSTRAINT [FK_TBL_ARTICULO_TBL_DETAILS_VENTA] FOREIGN KEY([ID_ARTICULO])
-    REFERENCES [dbo].[TBL_ARTICULO] ([ID_ARTICULO])
-    GO
-
-    ALTER TABLE [dbo].[TBL_DETAILS_VENTA] CHECK CONSTRAINT [FK_TBL_ARTICULO_TBL_DETAILS_VENTA]
-    GO
-
-    ALTER TABLE [dbo].[TBL_DETAILS_VENTA]  WITH CHECK ADD  CONSTRAINT [FK_TBL_VENTA_TBL_DETAILS_VENTA] FOREIGN KEY([ID_VENTA])
-    REFERENCES [dbo].[TBL_VENTA] ([ID_VENTA])
-    GO
-
-    ALTER TABLE [dbo].[TBL_DETAILS_VENTA] CHECK CONSTRAINT [FK_TBL_VENTA_TBL_DETAILS_VENTA]
-    GO*@
-
-
-
-
-
-@*USE [RGP2-PBA]
-GO
-
-/****** Object:  Table [dbo].[TBL_DETAILS_ARTICULO]    Script Date: 11/3/2020 10:55:38 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE TABLE [dbo].[TBL_DETAILS_ARTICULO](
-	[ID_DETAILS_ARTICULO] [int] IDENTITY(1,1) NOT NULL,
-	[ID_ARTICULO] [int] NOT NULL,
-	[PRECIO_UNIDAD] [float] NOT NULL,
-	[PRECIO_MASTER] [float] NOT NULL,
-	[PRECIO_PROMOTOR] [float] NOT NULL,
-	[PRECIO_GERENTE] [float] NOT NULL,
- CONSTRAINT [PK_TBL_DETAILS_ARTICULO] PRIMARY KEY CLUSTERED
-(
-	[ID_DETAILS_ARTICULO] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-
-ALTER TABLE [dbo].[TBL_DETAILS_ARTICULO]  WITH CHECK ADD  CONSTRAINT [FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO] FOREIGN KEY([ID_ARTICULO])
-REFERENCES [dbo].[TBL_ARTICULO] ([ID_ARTICULO])
-GO
-
-ALTER TABLE [dbo].[TBL_DETAILS_ARTICULO] CHECK CONSTRAINT [FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO]
-GO*@
-
-

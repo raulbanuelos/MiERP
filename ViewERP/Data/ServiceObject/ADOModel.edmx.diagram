@@ -18,7 +18,6 @@
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_PROVEEDOR" Width="2.375" PointX="9.75" PointY="24.875" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ROLE" Width="1.5" PointX="11.375" PointY="21.625" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_UNIDAD" Width="1.5" PointX="13.625" PointY="14.875" />
-        <EntityTypeShape EntityType="Data.ServiceObject.TBL_USUARIO" Width="1.5" PointX="13.625" PointY="21" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_ALERTAS_STOCK_MIN_TBL_ARTICULO" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_ALMACEN_TBL_COMPANIA" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ALMACEN" />
@@ -31,13 +30,11 @@
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ARTICULO" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_PROVEEDOR_TBL_COMPANIA1" />
-        <AssociationConnector Association="Data.ServiceObject.FK_TBL_USUARIO_TBL_COMPANIA" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN_TBL_MOVIMIENTO_ALMACEN" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN_TBL_UNIDAD" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN_TBL_MOVIMIENTO_SALIDA_ALMACEN" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_PROVEEDOR" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_UNIDAD" />
-        <AssociationConnector Association="Data.ServiceObject.FK_TBL_USUARIO_TBL_ROLE" />
         <EntityTypeShape EntityType="Data.ServiceObject.ArchivosOrden" Width="1.5" PointX="5.25" PointY="7.875" />
         <EntityTypeShape EntityType="Data.ServiceObject.CategoriaProducto" Width="1.5" PointX="0.75" PointY="8.5" />
         <EntityTypeShape EntityType="Data.ServiceObject.Clientes" Width="1.5" PointX="0.75" PointY="3.875" />
@@ -52,15 +49,18 @@
         <AssociationConnector Association="Data.ServiceObject.FK_OrdenesDetalle_Ordenes" />
         <AssociationConnector Association="Data.ServiceObject.FK_OrdenesDetalle_Productos" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_VENTA" Width="1.5" PointX="15.875" PointY="14.5" />
-        <AssociationConnector Association="Data.ServiceObject.FK_USUARIO" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_SEMANA" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_DEPOSITOS" Width="1.5" PointX="15.875" PointY="10.25" />
-        <AssociationConnector Association="Data.ServiceObject.FK_TBL_DEPOSITOS_TBL_USUARIO" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_DETAILS_ARTICULO" Width="3.75" PointX="15.125" PointY="37.125" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_DETAILS_VENTA" Width="1.5" PointX="20.125" PointY="22.375" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_DETAILS_VENTA" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_VENTA_TBL_DETAILS_VENTA" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_USUARIO" Width="1.5" PointX="18.625" PointY="16.75" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_USUARIO_TBL_COMPANIA" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_DEPOSITOS_TBL_USUARIO" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_USUARIO_TBL_ROLE" />
+        <AssociationConnector Association="Data.ServiceObject.FK_USUARIO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

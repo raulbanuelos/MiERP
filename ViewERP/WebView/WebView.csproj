@@ -339,6 +339,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ArticuloController.cs" />
+    <Compile Include="Controllers\ContactosController.cs" />
     <Compile Include="Controllers\CreateAccountController.cs" />
     <Compile Include="Controllers\DepositosController.cs" />
     <Compile Include="Controllers\EntradasAlmacenController.cs" />
@@ -1197,6 +1198,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\CreateAccount\Create.cshtml" />
     <Content Include="Views\Articulo\Create.cshtml" />
+    <Content Include="Views\Contactos\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
