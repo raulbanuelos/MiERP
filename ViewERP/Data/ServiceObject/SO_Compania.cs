@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace Data.ServiceObject
                     compania.DIRECCION = direccion;
                     compania.TELEFONO = telefono;
                     compania.CORREO = correo;
+                    compania.FECHA_REGISTRO = DateTime.Now;
 
                     Conexion.TBL_COMPANIA.Add(compania);
 
@@ -32,6 +34,25 @@ namespace Data.ServiceObject
             catch (Exception)
             {
                 return 0;
+            }
+        }
+
+        public IList Get(int idCompania)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var lista = (from a in Conexion.TBL_COMPANIA
+                                 where a.ID_COMPANIA == idCompania
+                                 select a).ToList();
+
+                    return lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
     }

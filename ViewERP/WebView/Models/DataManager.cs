@@ -327,6 +327,10 @@ namespace WebView.Models
                     articulo.stockMax = (int)tipo.GetProperty("STOCK_MAX").GetValue(item, null);
                     articulo.stockMin = (int)tipo.GetProperty("STOCK_MIN").GetValue(item, null);
                     articulo.IsConsumible = (bool)tipo.GetProperty("CONSUMIBLE").GetValue(item, null);
+                    articulo.PRECIO_GERENTE = Convert.ToDouble(tipo.GetProperty("PRECIO_GERENTE").GetValue(item, null));
+                    articulo.PRECIO_MASTER = Convert.ToDouble(tipo.GetProperty("PRECIO_MASTER").GetValue(item, null));
+                    articulo.PRECIO_PROMOTOR = Convert.ToDouble(tipo.GetProperty("PRECIO_PROMOTOR").GetValue(item, null));
+                    articulo.PRECIO_UNIDAD = Convert.ToDouble(tipo.GetProperty("PRECIO_UNIDAD").GetValue(item, null));
 
                     articulo.Categoria = GetCategoriaArticulo(articulo.ID_CATEGORIA);
 
@@ -403,7 +407,33 @@ namespace WebView.Models
 
             DO_Articulo articulo = new DO_Articulo();
 
-            articulo = service.GetArticulo(idArticulo);
+            //articulo = service.GetArticulo(idArticulo);
+
+            IList informacionBD = service.GetArticulo(idArticulo);
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type type = item.GetType();
+
+                    articulo = new DO_Articulo();
+
+                    articulo.Codigo = (string)type.GetProperty("CODIGO").GetValue(item, null);
+                    articulo.Descripcion = (string)type.GetProperty("DESCRIPCION").GetValue(item, null);
+                    articulo.NumeroDeSerie = (string)type.GetProperty("DESCRIPCION_LARGA").GetValue(item, null);
+                    articulo.CodigoDeBarras = (byte[])type.GetProperty("FOTO").GetValue(item, null);
+                    articulo.idArticulo = (int)type.GetProperty("ID_ARTICULO").GetValue(item, null);
+                    articulo.idCompania = (int)type.GetProperty("ID_COMPANIA").GetValue(item, null);
+                    articulo.ID_CATEGORIA = (int)type.GetProperty("ID_CATEGORIA").GetValue(item, null);
+                    articulo.stockMax = (int)type.GetProperty("STOCK_MAX").GetValue(item, null);
+                    articulo.stockMin = (int)type.GetProperty("STOCK_MIN").GetValue(item, null);
+                    articulo.IsConsumible = (bool)type.GetProperty("CONSUMIBLE").GetValue(item, null);
+                    articulo.PRECIO_GERENTE = Convert.ToDouble(type.GetProperty("PRECIO_GERENTE").GetValue(item, null));
+                    articulo.PRECIO_MASTER = Convert.ToDouble(type.GetProperty("PRECIO_MASTER").GetValue(item, null));
+                    articulo.PRECIO_PROMOTOR = Convert.ToDouble(type.GetProperty("PRECIO_PROMOTOR").GetValue(item, null));
+                    articulo.PRECIO_UNIDAD = Convert.ToDouble(type.GetProperty("PRECIO_UNIDAD").GetValue(item, null));
+                }
+            }
 
             articulo.Categoria = GetCategoriaArticulo(articulo.ID_CATEGORIA);
 
@@ -530,6 +560,13 @@ namespace WebView.Models
             SO_Details_Articulo details_Articulo = new SO_Details_Articulo();
 
             return details_Articulo.Insert(idArticulo, precioUnidad, precioMaster, precioPromotor, precioGerente);
+        }
+
+        public static int UpdateDetailsArticulo(int idArticulo, double precioUnidad, double precioMaster, double precioPromotor, double precioGerente)
+        {
+            SO_Details_Articulo sO_Details_Articulo = new SO_Details_Articulo();
+
+            return sO_Details_Articulo.Update(idArticulo, precioUnidad, precioMaster, precioPromotor, precioGerente);
         }
 
         public static double GetPrecioUnidad(int idArticulo)
@@ -949,6 +986,33 @@ namespace WebView.Models
             return dO_Movimientos;
         }
 
+        public static List<DO_Movimiento> GetMovimientoSalidasPorWeek(int idCompania, int idSemana)
+        {
+            SO_DetalleMovimientoSalidaAlmacen sO_SalidasAlmacen = new SO_DetalleMovimientoSalidaAlmacen();
+
+            DataSet informacionBD = sO_SalidasAlmacen.GetSalidasPorWeek(idCompania, idSemana);
+
+            List<DO_Movimiento> dO_Movimientos = new List<DO_Movimiento>();
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        DO_Movimiento dO_Movimiento = new DO_Movimiento();
+
+                        dO_Movimiento.Nombre = item["DESCRIPCION"].ToString();
+                        dO_Movimiento.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
+                        dO_Movimiento.BodegaDestino = item["DESTINO"].ToString();
+
+                        dO_Movimientos.Add(dO_Movimiento);
+                    }
+                }
+            }
+            return dO_Movimientos;
+        }
+
         public static List<DO_Movimiento> GetMovimientoEntradasCurrentWeek(int idCompania)
         {
             SO_Detalle_Entrada_Almacen so_Entradas = new SO_Detalle_Entrada_Almacen();
@@ -975,6 +1039,35 @@ namespace WebView.Models
             }
             return dO_Movimientos;
         }
+
+        public static List<DO_Movimiento> GetMovimientoEntradasPorWeek(int idCompania, int idSemana)
+        {
+            SO_Detalle_Entrada_Almacen so_Entradas = new SO_Detalle_Entrada_Almacen();
+
+            DataSet informacionBD = so_Entradas.GetEntradasPorWeek(idCompania, idSemana);
+
+            List<DO_Movimiento> dO_Movimientos = new List<DO_Movimiento>();
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        DO_Movimiento dO_Movimiento = new DO_Movimiento();
+
+                        dO_Movimiento.Nombre = item["DESCRIPCION"].ToString();
+                        dO_Movimiento.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
+                        dO_Movimiento.BodegaDestino = item["DESTINO"].ToString();
+
+                        dO_Movimientos.Add(dO_Movimiento);
+                    }
+                }
+            }
+            return dO_Movimientos;
+        }
+
+
 
         #endregion
 
@@ -2362,6 +2455,7 @@ namespace WebView.Models
                 {
                     foreach (DataRow item in dataSet.Tables[0].Rows)
                     {
+                        dO_Semana.IdSemana = Convert.ToInt32(item["ID_SEMANA"]);
                         dO_Semana.NoSemana = Convert.ToInt32(item["NO_SEMANA"].ToString());
                         dO_Semana.Year = Convert.ToInt32(item["ANIO"].ToString());
                         dO_Semana.FechaInicial = Convert.ToDateTime(item["DIA_INICIAL"].ToString());
@@ -2376,6 +2470,38 @@ namespace WebView.Models
 
             return dO_Semana;
         }
+
+        public static List<DO_Semana> GetSemanas(DateTime dateTime)
+        {
+            List<DO_Semana> dO_Semanas = new List<DO_Semana>();
+
+            SO_Semana sO_Semana = new SO_Semana();
+
+            IList list = sO_Semana.GetSemanas(dateTime);
+
+            if (list != null)
+            {
+                foreach (var item in list)
+                {
+                    Type type = item.GetType();
+
+                    DO_Semana dO_Semana = new DO_Semana();
+
+                    dO_Semana.IdSemana = Convert.ToInt32(type.GetProperty("ID_SEMANA").GetValue(item, null));
+                    dO_Semana.NoSemana = Convert.ToInt32(type.GetProperty("NO_SEMANA").GetValue(item, null));
+                    dO_Semana.Year = Convert.ToInt32(type.GetProperty("ANIO").GetValue(item, null));
+                    dO_Semana.FechaInicial = Convert.ToDateTime(type.GetProperty("DIA_INICIAL").GetValue(item, null));
+                    dO_Semana.FechaFinal = Convert.ToDateTime(type.GetProperty("DIA_FINAL").GetValue(item, null));
+
+                    dO_Semana.SFechaInicial = dO_Semana.FechaInicial.ToShortDateString();
+                    dO_Semana.SFechaFinal = dO_Semana.FechaFinal.ToShortDateString();
+
+                    dO_Semanas.Add(dO_Semana);
+                }
+            }
+
+            return dO_Semanas;
+        }
         #endregion
 
         #region Compañia
@@ -2384,6 +2510,34 @@ namespace WebView.Models
             SO_Compania sO_Compania = new SO_Compania();
 
             return sO_Compania.Insert(nombre, rfc, direccion, telefono, correo);
+        }
+
+        public static DO_Compania GetCompania(int idCompania)
+        {
+            SO_Compania sO_Compania = new SO_Compania();
+
+            IList informacionBD = sO_Compania.Get(idCompania);
+
+            DO_Compania dO_Compania = new DO_Compania();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type type = item.GetType();
+
+                    dO_Compania = new DO_Compania();
+
+                    dO_Compania.Correo = type.GetProperty("CORREO").GetValue(item, null).ToString();
+                    dO_Compania.Direccion = type.GetProperty("DIRECCION").GetValue(item, null).ToString();
+                    dO_Compania.RFC = type.GetProperty("RFC").GetValue(item, null).ToString();
+                    dO_Compania.Telefono = type.GetProperty("TELEFONO").GetValue(item, null).ToString();
+                    dO_Compania.IdCompania = Convert.ToInt32(type.GetProperty("ID_COMPANIA").GetValue(item, null).ToString());
+                    dO_Compania.FechaRegistro = Convert.ToDateTime(type.GetProperty("FECHA_REGISTRO").GetValue(item, null));
+                }
+            }
+
+            return dO_Compania;
         }
         #endregion
     }

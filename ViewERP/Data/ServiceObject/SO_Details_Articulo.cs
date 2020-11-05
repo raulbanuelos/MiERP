@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,30 @@ namespace Data.ServiceObject
                     tBL_DETAILS_ARTICULO.PRECIO_GERENTE = precioGerente;
 
                     Conexion.TBL_DETAILS_ARTICULO.Add(tBL_DETAILS_ARTICULO);
+
+                    return Conexion.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public int Update(int idArticulo, double precioUnidad, double precioMaster, double precioPromotor, double precioGerente)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    TBL_DETAILS_ARTICULO tBL_DETAILS_ARTICULO = Conexion.TBL_DETAILS_ARTICULO.Where(x => x.ID_ARTICULO == idArticulo).FirstOrDefault();
+
+                    tBL_DETAILS_ARTICULO.PRECIO_UNIDAD = precioUnidad;
+                    tBL_DETAILS_ARTICULO.PRECIO_MASTER = precioMaster;
+                    tBL_DETAILS_ARTICULO.PRECIO_PROMOTOR = precioPromotor;
+                    tBL_DETAILS_ARTICULO.PRECIO_GERENTE = precioGerente;
+
+                    Conexion.Entry(tBL_DETAILS_ARTICULO).State = EntityState.Modified;
 
                     return Conexion.SaveChanges();
                 }

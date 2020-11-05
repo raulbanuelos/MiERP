@@ -87,6 +87,12 @@
                 </li>
 
                 <li>
+                    <a href="@Url.Action("Index", "Articulo")">
+                        <i class="fa fa-list"></i><span>Articulos</span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="@Url.Action("Create", "Articulo")">
                         <i class="fa fa-product-hunt"></i><span>Alta de artículos</span>
                     </a>
@@ -95,6 +101,12 @@
                 <li>
                     <a href="@Url.Action("Create", "Contactos")">
                         <i class="fa fa-users"></i><span>Contactos</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="@Url.Action("Index", "RecordsWeek")">
+                        <i class="fa fa-calendar-check-o"></i><span>Consultar Semanas</span>
                     </a>
                 </li>
 
@@ -231,3 +243,73 @@
     <script src="@Url.Content("~/assets/js/index.js")"></script>
 </body>
 </html>
+
+
+@*Agregar campo FECHA_REGISTRO Datetime not null a la tabla TBL_COMPANIA*@
+
+@*USE [RGP2-PBA]
+    GO
+    /****** Object:  StoredProcedure [dbo].[SP_ERP_GET_ENTRADAS_ALMACEN_CURRENT_WEEK]    Script Date: 11/5/2020 4:51:13 PM ******/
+    SET ANSI_NULLS ON
+    GO
+    SET QUOTED_IDENTIFIER ON
+    GO
+    -- =============================================
+    -- Author:		RAÚL BAÑUELOS
+    -- Create date: 05 NOV 2020
+    -- Description:	PROCEDIMIENTO ALMACENADO QUE OBTIENE LOS MOVIMIENTOS DE ENTRADA DE LA SEMANA ACTUAL
+    -- =============================================
+    CREATE PROCEDURE [dbo].[SP_ERP_GET_ENTRADAS_ALMACEN_POR_WEEK]
+    @idCompania INT,
+    @idSemana INT
+    AS
+    BEGIN
+        --DECLARE @idCompania AS INT
+        --SET @idCompania = 10
+
+        DECLARE @diaFinal AS DATETIME = (SELECT DIA_FINAL FROM TBL_SEMANA WHERE ID_SEMANA = @idSemana)
+        DECLARE @diaInicial AS DATETIME = (SELECT DIA_INICIAL FROM TBL_SEMANA WHERE ID_SEMANA = @idSemana)
+
+        SELECT A.ID_ARTICULO,A.DESCRIPCION,SUM(D.CANTIDAD) AS CANTIDAD, P.NOMBRE AS 'DESTINO'
+        FROM TBL_MOVIMIENTO_ALMACEN AS M
+        INNER JOIN TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN AS D ON M.ID_MOVIMIENTO_ALMACEN = D.ID_MOVIMIENTO_ENTRADA_ALMACEN
+        INNER JOIN TBL_ARTICULO AS A ON D.ID_ARTICULO = A.ID_ARTICULO
+        INNER JOIN TBL_COMPANIA AS C ON A.ID_COMPANIA = C.ID_COMPANIA
+        INNER JOIN TBL_PROVEEDOR AS P ON M.ID_PROVEEDOR = P.ID_PROVEEDOR
+        WHERE M.FECHA BETWEEN @diaInicial AND @diaFinal AND C.ID_COMPANIA = @idCompania
+        GROUP BY A.ID_ARTICULO, A.DESCRIPCION, P.NOMBRE
+        END*@
+
+
+
+@*USE [RGP2-PBA]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ERP_GET_SALIDAS_ALMACEN_CURRENT_WEEK]    Script Date: 11/5/2020 4:53:12 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		RAÚL BAÑUELOS
+-- Create date: 04 NOV 2020
+-- Description:	PROCEDIMIENTO ALMACENADO QUE OBTIENE LOS MOVIMIENTOS DE SALIDA DE LA SEMANA ACTUAL
+-- =============================================
+CREATE PROCEDURE [dbo].[SP_ERP_GET_SALIDAS_ALMACEN_POR_WEEK]
+@idCompania INT,
+@idSemana INT
+AS
+BEGIN
+	--DECLARE @idCompania AS INT
+    --SET @idCompania = 10
+
+    DECLARE @diaFinal AS DATETIME = (SELECT DIA_FINAL FROM TBL_SEMANA WHERE ID_SEMANA = @idSemana)
+    DECLARE @diaInicial AS DATETIME = (SELECT DIA_INICIAL FROM TBL_SEMANA WHERE ID_SEMANA = @idSemana)
+
+    SELECT A.ID_ARTICULO, A.DESCRIPCION, SUM(N.CANTIDAD) AS CANTIDAD, 'BODEGA ' + U.NOMBRE AS 'DESTINO'
+    FROM TBL_MOVIMIENTO_SALIDA_ALMACEN AS M
+    INNER JOIN TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN AS N ON M.ID_MOVIMIENTO_SALIDA_ALMACEN = N.ID_MOVIMIENTO_SALIDA_ALMACEN
+    INNER JOIN TBL_ARTICULO AS A ON N.ID_ARTICULO = A.ID_ARTICULO
+    INNER JOIN TBL_USUARIO AS U ON M.USUARIO_SOLICITO = U.USUARIO
+    WHERE M.FECHA_SALIDA BETWEEN @diaInicial AND @diaFinal AND A.ID_COMPANIA = @idCompania
+    GROUP BY A.ID_ARTICULO, A.DESCRIPCION, U.NOMBRE
+    END*@

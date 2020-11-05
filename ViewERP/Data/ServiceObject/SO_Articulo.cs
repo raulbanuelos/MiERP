@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -94,8 +95,24 @@ namespace Data.ServiceObject
                 using (var Conexion = new EntitiesERP())
                 {
                     var list = (from v in Conexion.TBL_ARTICULO
+                                join d in Conexion.TBL_DETAILS_ARTICULO on v.ID_ARTICULO equals d.ID_ARTICULO
                                 where v.ID_COMPANIA == idCompania
-                                select v).ToList();
+                                select new {
+                                    v.CODIGO,
+                                    v.DESCRIPCION,
+                                    v.DESCRIPCION_LARGA,
+                                    v.FOTO,
+                                    v.ID_ARTICULO,
+                                    v.ID_COMPANIA,
+                                    v.ID_CATEGORIA,
+                                    v.STOCK_MAX,
+                                    v.STOCK_MIN,
+                                    v.CONSUMIBLE,
+                                    d.PRECIO_GERENTE,
+                                    d.PRECIO_MASTER,
+                                    d.PRECIO_PROMOTOR,
+                                    d.PRECIO_UNIDAD
+                                }).ToList();
 
                     return list;
                 }
@@ -125,28 +142,35 @@ namespace Data.ServiceObject
             }
         }
 
-        public DO_Articulo GetArticulo(int idArticulo)
+        public IList GetArticulo(int idArticulo)
         {
             try
             {
                 using (var Conexion = new EntitiesERP())
                 {
-                    TBL_ARTICULO obj = Conexion.TBL_ARTICULO.Where(x => x.ID_ARTICULO == idArticulo).FirstOrDefault();
 
-                    DO_Articulo articulo = new DO_Articulo();
+                    var list = (from a in Conexion.TBL_ARTICULO
+                               join d in Conexion.TBL_DETAILS_ARTICULO on a.ID_ARTICULO equals d.ID_ARTICULO
+                               where a.ID_ARTICULO == idArticulo
+                               select new
+                               {
+                                   a.ID_ARTICULO,
+                                   a.ID_CATEGORIA,
+                                   a.ID_COMPANIA,
+                                   a.CODIGO,
+                                   a.DESCRIPCION,
+                                   a.DESCRIPCION_LARGA,
+                                   a.STOCK_MAX,
+                                   a.STOCK_MIN, 
+                                   a.FOTO,
+                                   a.CONSUMIBLE,
+                                   d.PRECIO_GERENTE,
+                                   d.PRECIO_MASTER,
+                                   d.PRECIO_PROMOTOR,
+                                   d.PRECIO_UNIDAD
+                               }).ToList();
 
-                    articulo.idArticulo = obj.ID_ARTICULO;
-                    articulo.ID_CATEGORIA = obj.ID_CATEGORIA;
-                    articulo.idCompania = obj.ID_COMPANIA;
-                    articulo.Codigo = obj.CODIGO;
-                    articulo.Descripcion = obj.DESCRIPCION;
-                    articulo.NumeroDeSerie = obj.DESCRIPCION_LARGA;
-                    articulo.stockMax = Convert.ToInt32(obj.STOCK_MAX);
-                    articulo.stockMin = Convert.ToInt32(obj.STOCK_MIN);
-                    articulo.CodigoDeBarras = obj.FOTO;
-                    articulo.IsConsumible = obj.CONSUMIBLE;
-
-                    return articulo;
+                    return list;
                 }
             }
             catch (Exception)

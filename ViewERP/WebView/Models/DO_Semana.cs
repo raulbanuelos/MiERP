@@ -8,11 +8,13 @@ namespace WebView.Models
 {
     public class DO_Semana
     {
+        public int IdSemana { get; set; }
         public DateTime FechaInicial { get; set; }
         public DateTime FechaFinal { get; set; }
         public int NoSemana { get; set; }
         public int Year { get; set; }
         public string SFechaInicial { get; set; }
         public string SFechaFinal { get; set; }
+        public double PctDia { get; set; }
     }
 }

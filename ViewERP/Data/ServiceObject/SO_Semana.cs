@@ -1,5 +1,6 @@
 ﻿using Data.SQLServer;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -26,6 +27,25 @@ namespace Data.ServiceObject
                 datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_SEMANA_ACTUAL, parametros);
 
                 return datos;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public IList GetSemanas(DateTime dateTimeFirst)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var lista = (from s in Conexion.TBL_SEMANA
+                                 where s.DIA_FINAL > dateTimeFirst && DateTime.Now > s.DIA_INICIAL
+                                 orderby s.DIA_INICIAL descending
+                                 select s).ToList();
+                    return lista;
+                }
             }
             catch (Exception)
             {

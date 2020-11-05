@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.Web.Management;
 using System.Web.Mvc;
 using WebView.Models;
 
@@ -102,7 +103,7 @@ namespace WebView.Controllers
 
         [HttpPost]
         [ERPVerificaRol]
-        public JsonResult GuardarCambiosArticulo(string codigo, string descripcionCorta, string descripcionLarga, int stockMinimo, int stockMaximo, bool isConsumible)
+        public JsonResult GuardarCambiosArticulo(string codigo, string descripcionCorta, string descripcionLarga, int stockMinimo, int stockMaximo, bool isConsumible, double precioUnidad, double precioMaster, double precioGerente, double precioPromotor, int idArticulo)
         {
             int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
             DO_Articulo articulo = new DO_Articulo();
@@ -113,8 +114,15 @@ namespace WebView.Controllers
             articulo.stockMin = stockMinimo;
             articulo.idCompania = idCompania;
             articulo.IsConsumible = isConsumible;
+            articulo.PRECIO_UNIDAD = precioUnidad;
+            articulo.PRECIO_MASTER = precioMaster;
+            articulo.PRECIO_GERENTE = precioGerente;
+            articulo.PRECIO_PROMOTOR = precioPromotor;
+            articulo.idArticulo = idArticulo;
 
             int result = DataManager.UpdateArticulo(articulo);
+
+            result = DataManager.UpdateDetailsArticulo(articulo.idArticulo, articulo.PRECIO_UNIDAD, articulo.PRECIO_MASTER, articulo.PRECIO_PROMOTOR, articulo.PRECIO_GERENTE);
 
             var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;

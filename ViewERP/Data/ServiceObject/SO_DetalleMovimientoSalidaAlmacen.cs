@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,6 +14,8 @@ namespace Data.ServiceObject
     public class SO_DetalleMovimientoSalidaAlmacen
     {
         private string SP_ERP_GET_SALIDAS_ALMACEN_CURRENT_WEEK = "SP_ERP_GET_SALIDAS_ALMACEN_CURRENT_WEEK";
+        private string SP_ERP_GET_SALIDAS_ALMACEN_POR_WEEK = "SP_ERP_GET_SALIDAS_ALMACEN_POR_WEEK";
+
         public int Insert(DO_DetalleSalidaAlmacen detalleSalida)
         {
             try
@@ -125,6 +128,28 @@ namespace Data.ServiceObject
                 parametros.Add("idCompania", idCompania);
 
                 datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_SALIDAS_ALMACEN_CURRENT_WEEK, parametros);
+
+                return datos;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public DataSet GetSalidasPorWeek(int idCompania, int idSemana)
+        {
+            try
+            {
+                DataSet datos = null;
+
+                ERP_SQL conexion = new ERP_SQL();
+
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
+                parametros.Add("idCompania", idCompania);
+                parametros.Add("idSemana", idSemana);
+
+                datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_SALIDAS_ALMACEN_POR_WEEK, parametros);
 
                 return datos;
             }

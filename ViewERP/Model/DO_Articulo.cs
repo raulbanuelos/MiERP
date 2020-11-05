@@ -42,5 +42,20 @@ namespace Model
         [Display(Name = "Es consumible")]
         public bool IsConsumible { get; set; }
 
+        [Display(Name = "Precio gerente")]
+        public double PRECIO_GERENTE { get; set; }
+
+        [Display(Name = "Precio master")]
+        public double PRECIO_MASTER { get; set; }
+
+        [Display(Name = "Precio promotor")]
+        public double PRECIO_PROMOTOR { get; set; }
+
+        [Display(Name = "Precio unidad")]
+        public double PRECIO_UNIDAD { get; set; }
+
+
+
+
     }
 }

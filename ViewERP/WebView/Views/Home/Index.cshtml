@@ -40,7 +40,7 @@
                 <div class="card-body">
                     <h5 id="lblNoSemana" class="text-white mb-0"></h5>
                     <div class="progress my-3" style="height:3px;">
-                        <div class="progress-bar" style="width:0%"></div>
+                        <div id="divPctSemana" class="progress-bar" style="width:0%"></div>
                     </div>
                     <p class="mb-0 text-white small-font" id="lblSemanaActual"></p>
                 </div>
@@ -347,6 +347,12 @@
             dataType: "json",
             success: function (data) {
                 $("#lblNoSemana").html("Semana #" + data.NoSemana + " <span class=\"float-right\"><i class=\"fa fa-calendar-check-o\"></i></span>");
+
+
+                var lpct = ""
+                lpct = data.PctDia + "%";
+
+                $("#divPctSemana").css({ "width": lpct });
 
                 $("#lblSemanaActual").html("<span class=\"float-left\">Inicia: " + data.SFechaInicial + "</span> <span class=\"float-right\">Finaliza: " + data.SFechaFinal + "</span> ");
             },

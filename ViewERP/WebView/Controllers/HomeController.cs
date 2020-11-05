@@ -27,6 +27,10 @@ namespace WebView.Controllers
         {
             DO_Semana semana = DataManager.GetSemanaActual();
 
+            double numDia = Convert.ToDouble((int)DateTime.Now.DayOfWeek);
+
+            semana.PctDia = Math.Round(numDia / 7.0 * 100.0,0);
+
             var jsonResult = Json(semana, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 

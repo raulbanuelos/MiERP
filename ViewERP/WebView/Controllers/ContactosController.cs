@@ -25,7 +25,7 @@ namespace WebView.Controllers
             DO_Persona dO_Persona = new DO_Persona();
             dO_Persona.Nombre = nombre;
             dO_Persona.idCompania = idCompania;
-            dO_Persona.ID_ROL = 1;
+            dO_Persona.ID_ROL = 2;
             dO_Persona.ApellidoPaterno = string.Empty;
             dO_Persona.ApellidoMaterno = string.Empty;
             dO_Persona.Usuario = correo;

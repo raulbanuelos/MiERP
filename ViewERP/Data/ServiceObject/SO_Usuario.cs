@@ -128,7 +128,7 @@ namespace Data.ServiceObject
                 using (var Conexion = new EntitiesERP())
                 {
                     var lista = (from u in Conexion.TBL_USUARIO
-                                 where u.USUARIO == usuario && u.CONTRASENA == contrasena
+                                 where u.USUARIO == usuario && u.CONTRASENA == contrasena && u.ID_ROL == 1
                                  select u).ToList();
                     return lista;
                 }

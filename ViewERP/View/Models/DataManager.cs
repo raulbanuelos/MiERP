@@ -403,7 +403,7 @@ namespace View.Models
 
             DO_Articulo articulo = new DO_Articulo();
 
-            articulo = service.GetArticulo(idArticulo);
+            //articulo = service.GetArticulo(idArticulo);
 
             articulo.Categoria = GetCategoriaArticulo(articulo.ID_CATEGORIA);
 
