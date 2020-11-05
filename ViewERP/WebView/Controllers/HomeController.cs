@@ -32,5 +32,37 @@ namespace WebView.Controllers
 
             return jsonResult;
         }
+
+        [HttpPost]
+        public JsonResult GetEntradasCurretnWeek(string parametro)
+        {
+            int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+
+            List<DO_Movimiento> dO_Movimientos = new List<DO_Movimiento>();
+
+            dO_Movimientos = DataManager.GetMovimientoEntradasCurrentWeek(idCompania);
+
+            var jsonResult = Json(dO_Movimientos, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult GetSalidasCurretnWeek(string parametro)
+        {
+            List<DO_Movimiento> dO_Movimientos = new List<DO_Movimiento>();
+
+            int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+
+            dO_Movimientos = DataManager.GetMovimientoSalidasCurrentWeek(idCompania);
+
+            var jsonResult = Json(dO_Movimientos, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+
     }
 }

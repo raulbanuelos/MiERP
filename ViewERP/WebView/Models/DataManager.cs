@@ -922,6 +922,60 @@ namespace WebView.Models
             return service.Insert(idMovimientoEntrada, idArticulo, cantidad, idUnidad);
         }
 
+        public static List<DO_Movimiento> GetMovimientoSalidasCurrentWeek(int idCompania)
+        {
+            SO_DetalleMovimientoSalidaAlmacen sO_SalidasAlmacen = new SO_DetalleMovimientoSalidaAlmacen();
+
+            DataSet informacionBD = sO_SalidasAlmacen.GetSalidasCurrentWeek(idCompania);
+
+            List<DO_Movimiento> dO_Movimientos = new List<DO_Movimiento>();
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        DO_Movimiento dO_Movimiento = new DO_Movimiento();
+
+                        dO_Movimiento.Nombre = item["DESCRIPCION"].ToString();
+                        dO_Movimiento.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
+                        dO_Movimiento.BodegaDestino = item["DESTINO"].ToString();
+
+                        dO_Movimientos.Add(dO_Movimiento);
+                    }
+                }
+            }
+            return dO_Movimientos;
+        }
+
+        public static List<DO_Movimiento> GetMovimientoEntradasCurrentWeek(int idCompania)
+        {
+            SO_Detalle_Entrada_Almacen so_Entradas = new SO_Detalle_Entrada_Almacen();
+
+            DataSet informacionBD = so_Entradas.GetEntradasCurrentWeek(idCompania);
+
+            List<DO_Movimiento> dO_Movimientos = new List<DO_Movimiento>();
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        DO_Movimiento dO_Movimiento = new DO_Movimiento();
+
+                        dO_Movimiento.Nombre = item["DESCRIPCION"].ToString();
+                        dO_Movimiento.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
+                        dO_Movimiento.BodegaDestino = item["DESTINO"].ToString();
+
+                        dO_Movimientos.Add(dO_Movimiento);
+                    }
+                }
+            }
+            return dO_Movimientos;
+        }
+
         #endregion
 
         #region Salidas

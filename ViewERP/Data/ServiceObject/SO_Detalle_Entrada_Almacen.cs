@@ -105,7 +105,7 @@ namespace Data.ServiceObject
             }
         }
 
-        public DataSet GetEntradasCurrentWeek()
+        public DataSet GetEntradasCurrentWeek(int idCompania)
         {
             try
             {
@@ -114,6 +114,7 @@ namespace Data.ServiceObject
                 ERP_SQL conexion = new ERP_SQL();
 
                 Dictionary<string, object> parametros = new Dictionary<string, object>();
+                parametros.Add("idCompania", idCompania);
 
                 datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_ENTRADAS_ALMACEN_CURRENT_WEEK, parametros);
 

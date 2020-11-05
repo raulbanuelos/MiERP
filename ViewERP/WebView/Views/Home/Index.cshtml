@@ -69,6 +69,8 @@
     </div>
 </div>
 
+
+
 <div class="row">
     <div class="col-12 col-lg-4 col-xl-4">
         <div class="card">
@@ -108,6 +110,52 @@
                             </tr>
                         </thead>
                         <tbody id="tblLastVentas"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-lg-6 col-xl-6">
+        <div class="card">
+            <div class="card-header">
+                Entradas semana actual
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush table-borderless">
+                        <thead>
+                            <tr>
+                                <th>ARTICULO</th>
+                                <th>CANTIDAD</th>
+                                <th>ORIGEN</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblEntradas"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-6 col-xl-6">
+        <div class="card">
+            <div class="card-header">
+                Salidas semana actual
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush table-borderless">
+                        <thead>
+                            <tr>
+                                <th>ARTICULO</th>
+                                <th>CANTIDAD</th>
+                                <th>DESTINO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblSalidas"></tbody>
                     </table>
                 </div>
             </div>
@@ -355,5 +403,53 @@
                 alert("Woops, se produjo un error");
             }
         });
+
+        urlSave = '@Url.Action("GetEntradasCurretnWeek", "Home")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var row = "";
+                $.each(data, function (index, item) {
+                    row += "<tr>";
+                    row += "<td>" + item.Nombre + "</td>";
+                    row += "<td>" + item.Cantidad + "</td>";
+                    row += "<td>" + item.BodegaDestino + "</td>";
+                    row += "</tr>";
+                });
+                $("#tblEntradas").append(row);
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
+        urlSave = '@Url.Action("GetSalidasCurretnWeek", "Home")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var row = "";
+                $.each(data, function (index, item) {
+                    row += "<tr>";
+                    row += "<td>" + item.Nombre + "</td>";
+                    row += "<td>" + item.Cantidad + "</td>";
+                    row += "<td>" + item.BodegaDestino + "</td>";
+                    row += "</tr>";
+                });
+                $("#tblSalidas").append(row);
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
+
     });
 </script>
