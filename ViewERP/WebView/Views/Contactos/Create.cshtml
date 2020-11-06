@@ -77,22 +77,36 @@
         var _direccion = $("#txtDireccion").val();
         var _correo = $("#txtCorreo").val();
 
-        var urlSave = '@Url.Action("GUardarContacto", "Contactos")';
-        $.ajax({
-            type: "POST",
-            url: urlSave,
-            data: JSON.stringify({ nombre: _nombre, rfc: _rfc, telefono: _telefono, celular: _celular, direccion: _direccion, correo: _correo }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                alert("Contacto agregado correctamente");
-                var url = '@Url.Action("Index", "Home")';
-                window.location.href = url;
-            },
-            error: function (result) {
-                alert("Woops, se produjo un error");
-            }
-        });
+        if (_nombre == "") {
+            alert("Por favor ingrese el nombre del contacto");
+        } else if (_rfc == "") {
+            alert("Por favor ingrese el RFC del contacto");
+        } else if (_telefono == "") {
+            alert("Por favor ingrese el teléfono del contacto");
+        } else if (_celular == "") {
+            alert("Por favor ingrese el celular del contacto");
+        } else if (_direccion == "") {
+            alert("Por favor ingrese la dirección del contato");
+        } else if (_correo == "") {
+            alert("Por favor ingrese el correo del contacto");
+        } else {
+            var urlSave = '@Url.Action("GUardarContacto", "Contactos")';
+            $.ajax({
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify({ nombre: _nombre, rfc: _rfc, telefono: _telefono, celular: _celular, direccion: _direccion, correo: _correo }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    alert("Contacto agregado correctamente");
+                    var url = '@Url.Action("Index", "Home")';
+                    window.location.href = url;
+                },
+                error: function (result) {
+                    alert("Woops, se produjo un error");
+                }
+            });
+        }
     }
 </script>
 

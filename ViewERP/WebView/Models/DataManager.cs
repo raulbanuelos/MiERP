@@ -2467,6 +2467,35 @@ namespace WebView.Models
 
             return dO_Depositos;
         }
+
+        public static List<DO_Deposito> GetDepositosPorWeek(int idUsuario, int idSemana)
+        {
+            SO_Depositos sO_Depositos = new SO_Depositos();
+
+            DataSet informacionBD = sO_Depositos.GetDepositosPorWeek(idUsuario, idSemana);
+
+            List<DO_Deposito> dO_Depositos = new List<DO_Deposito>();
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        DO_Deposito dO_Deposito = new DO_Deposito();
+
+                        dO_Deposito.Descripcion = item["DESCRIPCION"].ToString();
+                        dO_Deposito.Banco = item["BANCO"].ToString();
+                        dO_Deposito.Importe = Convert.ToDouble(item["MONTO"]);
+                        dO_Deposito.UrlArchivo = item["URL_ARCHIVO"].ToString();
+
+                        dO_Depositos.Add(dO_Deposito);
+                    }
+                }
+            }
+
+            return dO_Depositos;
+        }
         #endregion
 
         #region Semana

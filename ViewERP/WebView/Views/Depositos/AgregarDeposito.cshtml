@@ -20,8 +20,8 @@
                                 <div class="form-group">
                                     <label class="col-lg-1 col-md-1 control-label" for="">Fecha</label>
                                     <div class="col-lg-7 col-md-6">
-                                        <div class="input-group date" id="txtFecha">
-                                            <input type="text" class="form-control" />
+                                        <div class="input-group date" id="txtFecha1">
+                                            <input type="text" class="form-control" id="txtFecha" />
                                             <span class="input-group-addon">
                                                 <span class="fa fa-calendar"></span>
                                             </span>
@@ -121,7 +121,7 @@
 <script type="text/javascript">
 
     $(function () {
-        $('#txtFecha').datetimepicker({
+        $('#txtFecha1').datetimepicker({
             format: 'L'
         });
 
@@ -146,7 +146,6 @@
                 });
 
                 $("#tblDepositos").append(row);
-
             },
             error: function (result) {
                 alert("Error!");
