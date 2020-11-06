@@ -132,16 +132,18 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
-                        alert("Tu cuenta a sido activada!");
-                        var url = '@Url.Action("Ingresar", "LogIn")';
-                        window.location.href = url;
+                        alert(data);
+                        if (data == "Cuenta activada exitosamente") {
+                            var url = '@Url.Action("Ingresar", "LogIn")';
+                            window.location.href = url;
+                        }
                     },
                     error: function (result) {
                         alert("Woops, se produjo un error");
                     }
                 });
             } else {
-                
+
             }
         }
 
