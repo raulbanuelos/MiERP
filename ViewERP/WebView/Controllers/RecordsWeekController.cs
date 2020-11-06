@@ -36,6 +36,21 @@ namespace WebView.Controllers
         }
 
         [HttpPost]
+        public JsonResult GetVentasPorWeek(int idSemana)
+        {
+            int idUsuario = ((DO_Persona)Session["UsuarioConectado"]).idUsuario;
+
+            List<DO_Ventas> ventas = new List<DO_Ventas>();
+
+            ventas = DataManager.GetListVentaPorSemana(idUsuario, idSemana);
+
+            var jsonResult = Json(ventas, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+        [HttpPost]
         public JsonResult GetEntradasPorWeek(int idSemana)
         {
             int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;

@@ -2375,6 +2375,35 @@ namespace WebView.Models
 
             return dO_Ventas;
         }
+
+        public static List<DO_Ventas> GetListVentaPorSemana(int idUsuario, int idSemana)
+        {
+            SO_Venta sO_Details_Venta = new SO_Venta();
+
+            DataSet informacionBD = sO_Details_Venta.GetVentaPorSemana(idUsuario,idSemana);
+
+            List<DO_Ventas> dO_Ventas = new List<DO_Ventas>();
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        DO_Ventas venta = new DO_Ventas();
+
+                        venta.Nombre = item["DESCRIPCION"].ToString();
+                        venta.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
+                        venta.Precio = Convert.ToDouble(item["MONTO"]);
+
+                        dO_Ventas.Add(venta);
+                    }
+                }
+            }
+
+            return dO_Ventas;
+        }
+
         #endregion
 
         #region Depositos

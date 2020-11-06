@@ -41,7 +41,7 @@
     <div class="col-12 col-lg-6 col-xl-6">
         <div class="card">
             <div class="card-header">
-                Entradas semana actual
+                Entradas semana
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -63,7 +63,7 @@
     <div class="col-12 col-lg-6 col-xl-6">
         <div class="card">
             <div class="card-header">
-                Salidas semana actual
+                Salidas semana 
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -83,6 +83,30 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-12 col-lg-6 col-xl-6">
+        <div class="card">
+            <div class="card-header">
+                Ventas semana 
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush table-borderless">
+                        <thead>
+                            <tr>
+                                <th>ARTICULO</th>
+                                <th>CANTIDAD</th>
+                                <th>MONTO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblVentas"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -93,6 +117,9 @@
         var _idSemana = $("#cboSemana").val();
 
         var urlSave = '@Url.Action("GetEntradasPorWeek", "RecordsWeek")';
+        $("#tblEntradas tr").remove();
+        $("#tblSalidas tr").remove();
+        $("#tblVentas tr").remove();
         $.ajax({
             type: "POST",
             url: urlSave,
@@ -132,6 +159,29 @@
                     row += "</tr>";
                 });
                 $("#tblSalidas").append(row);
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
+        urlSave = '@Url.Action("GetVentasPorWeek", "RecordsWeek")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ idSemana: _idSemana }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var row = "";
+                $.each(data, function (index, item) {
+                    row += "<tr>";
+                    row += "<td>" + item.Nombre + "</td>";
+                    row += "<td>" + item.Cantidad + "</td>";
+                    row += "<td>$" + item.Precio + "</td>";
+                    row += "</tr>";
+                });
+                $("#tblVentas").append(row);
             },
             error: function (result) {
                 alert("Woops, se produjo un error");
