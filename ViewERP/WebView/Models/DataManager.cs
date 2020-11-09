@@ -2499,6 +2499,35 @@ namespace WebView.Models
         #endregion
 
         #region Semana
+        public static DO_Semana GetSemana(int idSemana)
+        {
+            DO_Semana dO_Semana = new DO_Semana();
+
+            SO_Semana sO_Semana = new SO_Semana();
+
+            IList list = sO_Semana.GetSemana(idSemana);
+
+            if (list != null)
+            {
+                foreach (var item in list)
+                {
+                    Type type = item.GetType();
+
+                    dO_Semana = new DO_Semana();
+
+                    dO_Semana.IdSemana = Convert.ToInt32(type.GetProperty("ID_SEMANA").GetValue(item, null));
+                    dO_Semana.NoSemana = Convert.ToInt32(type.GetProperty("NO_SEMANA").GetValue(item, null));
+                    dO_Semana.Year = Convert.ToInt32(type.GetProperty("ANIO").GetValue(item, null));
+                    dO_Semana.FechaFinal = Convert.ToDateTime(type.GetProperty("DIA_FINAL").GetValue(item, null));
+                    dO_Semana.FechaInicial = Convert.ToDateTime(type.GetProperty("DIA_INICIAL").GetValue(item, null));
+                    dO_Semana.SFechaInicial = dO_Semana.FechaInicial.ToShortDateString();
+                    dO_Semana.SFechaFinal = dO_Semana.FechaFinal.ToShortDateString();
+                }
+            }
+
+            return dO_Semana;
+        }
+
         public static DO_Semana GetSemanaActual()
         {
             DO_Semana dO_Semana = new DO_Semana();

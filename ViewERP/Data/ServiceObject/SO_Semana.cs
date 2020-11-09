@@ -52,5 +52,23 @@ namespace Data.ServiceObject
                 return null;
             }
         }
+
+        public IList GetSemana(int idSemana)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var lista = (from a in Conexion.TBL_SEMANA
+                             where a.ID_SEMANA == idSemana
+                             select a).ToList();
+                    return lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }

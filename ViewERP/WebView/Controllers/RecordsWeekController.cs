@@ -1,4 +1,5 @@
 ﻿using Model;
+using SpreadsheetLight;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,46 @@ namespace WebView.Controllers
             ViewBag.Semanas = listItems;
 
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult BajarArchivo(int idSemana)
+        {
+            DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
+
+            string path = Server.MapPath("~/formatoreporte.xlsx");
+            SLDocument sLDocument = new SLDocument(path, "Reporte");
+
+            List<DO_Deposito> depositos = new List<DO_Deposito>();
+            depositos = DataManager.GetDepositosPorWeek(personaConectada.idUsuario, idSemana);
+
+            List<DO_Movimiento> entradas = new List<DO_Movimiento>();
+            entradas = DataManager.GetMovimientoEntradasPorWeek(personaConectada.idCompania, idSemana);
+
+            List<DO_Movimiento> dO_Movimientos = new List<DO_Movimiento>();
+            dO_Movimientos = DataManager.GetMovimientoSalidasPorWeek(personaConectada.idCompania, idSemana);
+
+            List<DO_Ventas> ventas = new List<DO_Ventas>();
+            ventas = DataManager.GetListVentaPorSemana(personaConectada.idUsuario, idSemana);
+
+            DO_Semana dO_Semana = DataManager.GetSemana(idSemana);
+            string rangoFecha = dO_Semana.SFechaInicial + " a " + dO_Semana.SFechaFinal;
+
+            #region Llenado de información
+            sLDocument.SetCellValue("F4", personaConectada.NombreCompleto);
+            sLDocument.SetCellValue("F10", dO_Semana.NoSemana);
+            sLDocument.SetCellValue("H10", rangoFecha);
+            sLDocument.SetCellValue("K7", personaConectada.Usuario);
+            #endregion
+
+
+            string newPath = Server.MapPath("~/formatoreporte_" + personaConectada.Nombre + idSemana + ".xlsx");
+            sLDocument.SaveAs(newPath);
+
+            var jsonResult = Json("Archivo creado correctamente", JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
         }
 
         [HttpPost]

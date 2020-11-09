@@ -111,6 +111,12 @@
                 </li>
 
                 <li>
+                    <a href="@Url.Action("Index", "Suscripcion")">
+                        <i class="fa fa-shopping-bag"></i><span>Suscripción</span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="@Url.Action("CerrarSession", "Home")">
                         <i class="fa fa-close"></i><span>Salir</span>
                     </a>
@@ -254,29 +260,6 @@
 </body>
 </html>
 
-@*USE [RGP2-PBA]
-GO
-/****** Object:  StoredProcedure [dbo].[SP_ERP_GET_SALIDAS_ALMACEN_POR_WEEK]    Script Date: 11/6/2020 11:22:21 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:		RAÚL BAÑUELOS
--- Create date: 06 NOV 2020
--- Description:	PROCEDIMIENTO ALMACENADO QUE OBTIENE LOS MOVIMIENTOS DE SALIDA DE LA SEMANA ACTUAL
--- =============================================
-CREATE PROCEDURE [dbo].[SP_ERP_GET_DEPOSITOS_POR_WEEK]
-@idUsuario INT,
-@idSemana INT
-AS
-BEGIN
 
-	DECLARE @diaFinal AS DATETIME = (SELECT DIA_FINAL FROM TBL_SEMANA WHERE ID_SEMANA = @idSemana)
-    DECLARE @diaInicial AS DATETIME = (SELECT DIA_INICIAL FROM TBL_SEMANA WHERE ID_SEMANA = @idSemana)
 
-    SELECT DESCRIPCION, BANCO, MONTO, URL_ARCHIVO
-    FROM TBL_DEPOSITOS
-    WHERE FECHA_INGRESO BETWEEN @diaInicial AND @diaFinal AND ID_USUARIO = @idUsuario
-    ORDER BY FECHA_INGRESO DESC
-    END*@
+
