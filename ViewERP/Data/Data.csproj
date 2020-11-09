@@ -97,6 +97,7 @@
     <Compile Include="ServiceObject\SO_CategoriaProducto.cs" />
     <Compile Include="ServiceObject\SO_Clientes.cs" />
     <Compile Include="ServiceObject\SO_Compania.cs" />
+    <Compile Include="ServiceObject\SO_CorteExistencia.cs" />
     <Compile Include="ServiceObject\SO_Depositos.cs" />
     <Compile Include="ServiceObject\SO_Details_Articulo.cs" />
     <Compile Include="ServiceObject\SO_Details_Venta.cs" />
@@ -144,6 +145,9 @@
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ServiceObject\TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceObject\TBL_ERP_CORTE_EXISTENCIA_ALMACEN.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ServiceObject\TBL_EXISTENCIA.cs">

@@ -185,6 +185,16 @@
           <Property Name="CONDICION_ARTICULO_REGRESO" Type="varchar" MaxLength="50" />
           <Property Name="FECHA_REGRESO" Type="datetime" />
         </EntityType>
+        <EntityType Name="TBL_ERP_CORTE_EXISTENCIA_ALMACEN">
+          <Key>
+            <PropertyRef Name="ID_CORTE_EXISTENCIA_ALMACEN" />
+          </Key>
+          <Property Name="ID_CORTE_EXISTENCIA_ALMACEN" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_SEMANA" Type="int" Nullable="false" />
+          <Property Name="ID_ALMACEN" Type="int" Nullable="false" />
+          <Property Name="ID_ARTICULO" Type="int" Nullable="false" />
+          <Property Name="CANTIDAD" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="TBL_EXISTENCIA">
           <Key>
             <PropertyRef Name="ID_EXISTENCIA" />
@@ -298,6 +308,42 @@
             </Principal>
             <Dependent Role="TBL_USUARIO">
               <PropertyRef Name="ID_COMPANIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EXISTENCIA_ALMACEN">
+          <End Role="TBL_ALMACEN" Type="Self.TBL_ALMACEN" Multiplicity="1" />
+          <End Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Type="Self.TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ALMACEN">
+              <PropertyRef Name="ID_ALMACEN" />
+            </Principal>
+            <Dependent Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN">
+              <PropertyRef Name="ID_ALMACEN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EXISTENCIA_ARTICULO">
+          <End Role="TBL_ARTICULO" Type="Self.TBL_ARTICULO" Multiplicity="1" />
+          <End Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Type="Self.TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ARTICULO">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Principal>
+            <Dependent Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EXISTENCIA_SEMANA">
+          <End Role="TBL_SEMANA" Type="Self.TBL_SEMANA" Multiplicity="1" />
+          <End Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Type="Self.TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_SEMANA">
+              <PropertyRef Name="ID_SEMANA" />
+            </Principal>
+            <Dependent Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN">
+              <PropertyRef Name="ID_SEMANA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -655,6 +701,7 @@
           <EntitySet Name="TBL_DETAILS_VENTA" EntityType="Self.TBL_DETAILS_VENTA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN" EntityType="Self.TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN" EntityType="Self.TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" EntityType="Self.TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_EXISTENCIA" EntityType="Self.TBL_EXISTENCIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_MOVIMIENTO_ALMACEN" EntityType="Self.TBL_MOVIMIENTO_ALMACEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_MOVIMIENTO_SALIDA_ALMACEN" EntityType="Self.TBL_MOVIMIENTO_SALIDA_ALMACEN" Schema="dbo" store:Type="Tables" />
@@ -671,6 +718,18 @@
           <AssociationSet Name="FK_COMPANIA" Association="Self.FK_COMPANIA">
             <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
             <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EXISTENCIA_ALMACEN" Association="Self.FK_EXISTENCIA_ALMACEN">
+            <End Role="TBL_ALMACEN" EntitySet="TBL_ALMACEN" />
+            <End Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" EntitySet="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EXISTENCIA_ARTICULO" Association="Self.FK_EXISTENCIA_ARTICULO">
+            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
+            <End Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" EntitySet="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EXISTENCIA_SEMANA" Association="Self.FK_EXISTENCIA_SEMANA">
+            <End Role="TBL_SEMANA" EntitySet="TBL_SEMANA" />
+            <End Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" EntitySet="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" />
           </AssociationSet>
           <AssociationSet Name="FK_Ordenes_Clientes" Association="Self.FK_Ordenes_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
@@ -936,6 +995,19 @@
             <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
             <End Role="TBL_PROVEEDOR" EntitySet="TBL_PROVEEDOR" />
           </AssociationSet>
+          <EntitySet Name="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" EntityType="Data.ServiceObject.TBL_ERP_CORTE_EXISTENCIA_ALMACEN" />
+          <AssociationSet Name="FK_EXISTENCIA_ALMACEN" Association="Data.ServiceObject.FK_EXISTENCIA_ALMACEN">
+            <End Role="TBL_ALMACEN" EntitySet="TBL_ALMACEN" />
+            <End Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" EntitySet="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EXISTENCIA_ARTICULO" Association="Data.ServiceObject.FK_EXISTENCIA_ARTICULO">
+            <End Role="TBL_ARTICULO" EntitySet="TBL_ARTICULO" />
+            <End Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" EntitySet="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EXISTENCIA_SEMANA" Association="Data.ServiceObject.FK_EXISTENCIA_SEMANA">
+            <End Role="TBL_SEMANA" EntitySet="TBL_SEMANA" />
+            <End Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" EntitySet="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="TBL_ALERTAS_STOCK_MIN">
           <Key>
@@ -958,6 +1030,7 @@
           <NavigationProperty Name="TBL_MOVIMIENTO_ALMACEN" Relationship="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ALMACEN1" FromRole="TBL_ALMACEN" ToRole="TBL_MOVIMIENTO_ALMACEN" />
           <NavigationProperty Name="TBL_MOVIMIENTO_SALIDA_ALMACEN" Relationship="Data.ServiceObject.FK_TBL_MOVIMIENTO_SALIDA_ALMACEN_TBL_ALMACEN" FromRole="TBL_ALMACEN" ToRole="TBL_MOVIMIENTO_SALIDA_ALMACEN" />
           <NavigationProperty Name="TBL_COMPANIA" Relationship="Data.ServiceObject.FK_TBL_ALMACEN_TBL_COMPANIA" FromRole="TBL_ALMACEN" ToRole="TBL_COMPANIA" />
+          <NavigationProperty Name="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Relationship="Data.ServiceObject.FK_EXISTENCIA_ALMACEN" FromRole="TBL_ALMACEN" ToRole="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" />
         </EntityType>
         <EntityType Name="TBL_ARTICULO">
           <Key>
@@ -981,6 +1054,7 @@
           <NavigationProperty Name="TBL_DETAILS_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_DETAILS_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_DETAILS_ARTICULO" />
           <NavigationProperty Name="TBL_DETAILS_VENTA" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_DETAILS_VENTA" FromRole="TBL_ARTICULO" ToRole="TBL_DETAILS_VENTA" />
           <NavigationProperty Name="TBL_COMPANIA" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_COMPANIA" FromRole="TBL_ARTICULO" ToRole="TBL_COMPANIA" />
+          <NavigationProperty Name="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Relationship="Data.ServiceObject.FK_EXISTENCIA_ARTICULO" FromRole="TBL_ARTICULO" ToRole="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" />
         </EntityType>
         <EntityType Name="TBL_CATEGORIA_ARTICULO">
           <Key>
@@ -1424,6 +1498,7 @@
           <Property Name="ANIO" Type="Int32" />
           <Property Name="DIA_INICIAL" Type="DateTime" Precision="3" />
           <Property Name="DIA_FINAL" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Relationship="Data.ServiceObject.FK_EXISTENCIA_SEMANA" FromRole="TBL_SEMANA" ToRole="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" />
         </EntityType>
         <EntityType Name="TBL_DEPOSITOS">
           <Key>
@@ -1626,6 +1701,55 @@
             </Principal>
             <Dependent Role="TBL_PROVEEDOR">
               <PropertyRef Name="ID_COMPANIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TBL_ERP_CORTE_EXISTENCIA_ALMACEN">
+          <Key>
+            <PropertyRef Name="ID_CORTE_EXISTENCIA_ALMACEN" />
+          </Key>
+          <Property Name="ID_CORTE_EXISTENCIA_ALMACEN" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_SEMANA" Type="Int32" Nullable="false" />
+          <Property Name="ID_ALMACEN" Type="Int32" Nullable="false" />
+          <Property Name="ID_ARTICULO" Type="Int32" Nullable="false" />
+          <Property Name="CANTIDAD" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TBL_ALMACEN" Relationship="Data.ServiceObject.FK_EXISTENCIA_ALMACEN" FromRole="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" ToRole="TBL_ALMACEN" />
+          <NavigationProperty Name="TBL_ARTICULO" Relationship="Data.ServiceObject.FK_EXISTENCIA_ARTICULO" FromRole="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" ToRole="TBL_ARTICULO" />
+          <NavigationProperty Name="TBL_SEMANA" Relationship="Data.ServiceObject.FK_EXISTENCIA_SEMANA" FromRole="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" ToRole="TBL_SEMANA" />
+        </EntityType>
+        <Association Name="FK_EXISTENCIA_ALMACEN">
+          <End Type="Data.ServiceObject.TBL_ALMACEN" Role="TBL_ALMACEN" Multiplicity="1" />
+          <End Type="Data.ServiceObject.TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ALMACEN">
+              <PropertyRef Name="ID_ALMACEN" />
+            </Principal>
+            <Dependent Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN">
+              <PropertyRef Name="ID_ALMACEN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EXISTENCIA_ARTICULO">
+          <End Type="Data.ServiceObject.TBL_ARTICULO" Role="TBL_ARTICULO" Multiplicity="1" />
+          <End Type="Data.ServiceObject.TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ARTICULO">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Principal>
+            <Dependent Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN">
+              <PropertyRef Name="ID_ARTICULO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EXISTENCIA_SEMANA">
+          <End Type="Data.ServiceObject.TBL_SEMANA" Role="TBL_SEMANA" Multiplicity="1" />
+          <End Type="Data.ServiceObject.TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_SEMANA">
+              <PropertyRef Name="ID_SEMANA" />
+            </Principal>
+            <Dependent Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN">
+              <PropertyRef Name="ID_SEMANA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1930,6 +2054,17 @@
                 <ScalarProperty Name="RFC" ColumnName="RFC" />
                 <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
                 <ScalarProperty Name="ID_COMPANIA" ColumnName="ID_COMPANIA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_ERP_CORTE_EXISTENCIA_ALMACEN">
+            <EntityTypeMapping TypeName="Data.ServiceObject.TBL_ERP_CORTE_EXISTENCIA_ALMACEN">
+              <MappingFragment StoreEntitySet="TBL_ERP_CORTE_EXISTENCIA_ALMACEN">
+                <ScalarProperty Name="CANTIDAD" ColumnName="CANTIDAD" />
+                <ScalarProperty Name="ID_ARTICULO" ColumnName="ID_ARTICULO" />
+                <ScalarProperty Name="ID_ALMACEN" ColumnName="ID_ALMACEN" />
+                <ScalarProperty Name="ID_SEMANA" ColumnName="ID_SEMANA" />
+                <ScalarProperty Name="ID_CORTE_EXISTENCIA_ALMACEN" ColumnName="ID_CORTE_EXISTENCIA_ALMACEN" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

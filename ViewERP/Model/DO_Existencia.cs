@@ -9,6 +9,7 @@ namespace Model
 {
     public class DO_Existencia
     {
+        public int IdArticulo { get; set; }
         [Key]
         public int idExistencia { get; set; }
         public string CodigoArticulo { get; set; }

@@ -443,6 +443,7 @@
     <Compile Include="Models\DO_Deposito.cs" />
     <Compile Include="Models\DO_Movimiento.cs" />
     <Compile Include="Models\DO_Persona.cs" />
+    <Compile Include="Models\DO_ReporteSemanal.cs" />
     <Compile Include="Models\DO_Semana.cs" />
     <Compile Include="Models\DO_Ventas.cs" />
     <Compile Include="Models\FO_Item.cs" />
@@ -1029,6 +1030,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="favicon.ico" />
+    <Content Include="files\reportesemanal\files.txt" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\ai.0.22.19-build00125.js" />
@@ -1162,7 +1164,7 @@
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Content\_bootstrap-datetimepicker.less" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
-    <Content Include="formatoreporte.xlsx" />
+    <Content Include="assets\files\formatoreportesemanal.xlsx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />

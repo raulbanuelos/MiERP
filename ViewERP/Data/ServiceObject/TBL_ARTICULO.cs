@@ -23,6 +23,7 @@ namespace Data.ServiceObject
             this.TBL_EXISTENCIA = new HashSet<TBL_EXISTENCIA>();
             this.TBL_DETAILS_ARTICULO = new HashSet<TBL_DETAILS_ARTICULO>();
             this.TBL_DETAILS_VENTA = new HashSet<TBL_DETAILS_VENTA>();
+            this.TBL_ERP_CORTE_EXISTENCIA_ALMACEN = new HashSet<TBL_ERP_CORTE_EXISTENCIA_ALMACEN>();
         }
     
         public int ID_ARTICULO { get; set; }
@@ -50,5 +51,7 @@ namespace Data.ServiceObject
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_DETAILS_VENTA> TBL_DETAILS_VENTA { get; set; }
         public virtual TBL_COMPANIA TBL_COMPANIA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_ERP_CORTE_EXISTENCIA_ALMACEN> TBL_ERP_CORTE_EXISTENCIA_ALMACEN { get; set; }
     }
 }

@@ -542,6 +542,7 @@ namespace WebView.Models
 
                     DO_Existencia existencia = new DO_Existencia();
 
+                    existencia.IdArticulo = Convert.ToInt32(tipo.GetProperty("ID_ARTICULO").GetValue(item, null));
                     existencia.Cantidad = Convert.ToDouble(tipo.GetProperty("CANTIDAD").GetValue(item, null));
                     existencia.CodigoArticulo = (string)tipo.GetProperty("CODIGO").GetValue(item, null);
                     existencia.Descripcion = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
@@ -595,6 +596,32 @@ namespace WebView.Models
             SO_Details_Articulo sO_Details_Articulo = new SO_Details_Articulo();
 
             return sO_Details_Articulo.GetPrecioPromotor(idArticulo);
+        }
+
+        public static List<FO_Item> GetCorteExistencia(int idSemana, int idAlmacen)
+        {
+            SO_CorteExistencia sO_CorteExistencia = new SO_CorteExistencia();
+
+            List<FO_Item> existencias = new List<FO_Item>();
+
+            IList list = sO_CorteExistencia.Get(idSemana, idAlmacen);
+
+            if (list != null)
+            {
+                foreach (var item in list)
+                {
+                    Type type = item.GetType();
+
+                    FO_Item fO_Item = new FO_Item();
+
+                    fO_Item.NombreInt = Convert.ToInt32(type.GetProperty("ID_ARTICULO").GetValue(item, null));
+                    fO_Item.ValueInt = Convert.ToInt32(type.GetProperty("CANTIDAD").GetValue(item, null));
+
+                    existencias.Add(fO_Item);
+                }
+            }
+
+            return existencias;
         }
 
         #endregion
@@ -1002,6 +1029,7 @@ namespace WebView.Models
                     {
                         DO_Movimiento dO_Movimiento = new DO_Movimiento();
 
+                        dO_Movimiento.IdArticulo = Convert.ToInt32(item["ID_ARTICULO"]);
                         dO_Movimiento.Nombre = item["DESCRIPCION"].ToString();
                         dO_Movimiento.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
                         dO_Movimiento.BodegaDestino = item["DESTINO"].ToString();
@@ -1056,6 +1084,7 @@ namespace WebView.Models
                     {
                         DO_Movimiento dO_Movimiento = new DO_Movimiento();
 
+                        dO_Movimiento.IdArticulo = Convert.ToInt32(item["ID_ARTICULO"]);
                         dO_Movimiento.Nombre = item["DESCRIPCION"].ToString();
                         dO_Movimiento.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
                         dO_Movimiento.BodegaDestino = item["DESTINO"].ToString();
@@ -2392,6 +2421,7 @@ namespace WebView.Models
                     {
                         DO_Ventas venta = new DO_Ventas();
 
+                        venta.IdArticulo = Convert.ToInt32(item["ID_ARTICULO"]);
                         venta.Nombre = item["DESCRIPCION"].ToString();
                         venta.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
                         venta.Precio = Convert.ToDouble(item["MONTO"]);
@@ -2488,6 +2518,7 @@ namespace WebView.Models
                         dO_Deposito.Banco = item["BANCO"].ToString();
                         dO_Deposito.Importe = Convert.ToDouble(item["MONTO"]);
                         dO_Deposito.UrlArchivo = item["URL_ARCHIVO"].ToString();
+                        dO_Deposito.FechaIngreso = Convert.ToDateTime(item["FECHA_INGRESO"]);
 
                         dO_Depositos.Add(dO_Deposito);
                     }

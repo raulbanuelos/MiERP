@@ -14,10 +14,19 @@ namespace Data.ServiceObject
     
     public partial class TBL_SEMANA
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TBL_SEMANA()
+        {
+            this.TBL_ERP_CORTE_EXISTENCIA_ALMACEN = new HashSet<TBL_ERP_CORTE_EXISTENCIA_ALMACEN>();
+        }
+    
         public int ID_SEMANA { get; set; }
         public Nullable<int> NO_SEMANA { get; set; }
         public Nullable<int> ANIO { get; set; }
         public Nullable<System.DateTime> DIA_INICIAL { get; set; }
         public Nullable<System.DateTime> DIA_FINAL { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_ERP_CORTE_EXISTENCIA_ALMACEN> TBL_ERP_CORTE_EXISTENCIA_ALMACEN { get; set; }
     }
 }

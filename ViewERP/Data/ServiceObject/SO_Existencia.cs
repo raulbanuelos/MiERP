@@ -97,7 +97,8 @@ namespace Data.ServiceObject
                                  join a in Conexion.TBL_ARTICULO on e.ID_ARTICULO equals a.ID_ARTICULO
                                  where e.ID_ALMACEN == idAlmacen
                                  select new
-                                 {
+                                 { 
+                                     a.ID_ARTICULO,
                                      e.CANTIDAD,
                                      a.CODIGO,
                                      a.DESCRIPCION,

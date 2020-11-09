@@ -7,6 +7,7 @@ namespace WebView.Models
 {
     public class DO_Ventas
     {
+        public int IdArticulo { get; set; }
         public string Nombre { get; set; }
         public int Cantidad { get; set; }
         public double Precio { get; set; }

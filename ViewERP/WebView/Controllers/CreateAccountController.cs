@@ -18,14 +18,14 @@ namespace WebView.Controllers
         }
 
         [HttpPost]
-        public JsonResult CrearCuenta(string nombre, string email, string contrasena )
+        public JsonResult CrearCuenta(string nombre, string email, string contrasena, string _telefono, string direccion )
         {
 
             DO_Persona dO_Persona1 =  DataManager.GetPersona(email);
 
             if (dO_Persona1.ID_ROL == 2 || dO_Persona1.idUsuario == 0)
             {
-                int idCompania = DataManager.InsertCompania(nombre, "RFC", "Dirección", "Telefono", email);
+                int idCompania = DataManager.InsertCompania(nombre, "RFC", direccion, _telefono, email);
 
                 if (idCompania > 0)
                 {

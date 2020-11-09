@@ -61,6 +61,10 @@
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA" />
         <AssociationConnector Association="Data.ServiceObject.FK_COMPANIA" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_PROVEEDOR_TBL_COMPANIA1" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Width="1.5" PointX="9.625" PointY="12.625" />
+        <AssociationConnector Association="Data.ServiceObject.FK_EXISTENCIA_ALMACEN" />
+        <AssociationConnector Association="Data.ServiceObject.FK_EXISTENCIA_ARTICULO" />
+        <AssociationConnector Association="Data.ServiceObject.FK_EXISTENCIA_SEMANA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

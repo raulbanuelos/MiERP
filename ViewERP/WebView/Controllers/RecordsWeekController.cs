@@ -2,6 +2,7 @@
 using SpreadsheetLight;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -21,6 +22,12 @@ namespace WebView.Controllers
             List<DO_Semana> dO_Semanas = DataManager.GetSemanas(dO_Compania.FechaRegistro);
 
             List<SelectListItem> listItems = new List<SelectListItem>();
+
+            SelectListItem selectListItem1 = new SelectListItem();
+            selectListItem1.Text = "Selecciona una opción";
+            selectListItem1.Value = "0";
+            listItems.Add(selectListItem1);
+
             foreach (var item in dO_Semanas)
             {
                 SelectListItem selectListItem = new SelectListItem();
@@ -40,8 +47,9 @@ namespace WebView.Controllers
         public JsonResult BajarArchivo(int idSemana)
         {
             DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
+            DO_Compania compania = DataManager.GetCompania(personaConectada.idCompania);
 
-            string path = Server.MapPath("~/formatoreporte.xlsx");
+            string path = Server.MapPath("~/assets/files/formatoreportesemanal.xlsx");
             SLDocument sLDocument = new SLDocument(path, "Reporte");
 
             List<DO_Deposito> depositos = new List<DO_Deposito>();
@@ -50,8 +58,8 @@ namespace WebView.Controllers
             List<DO_Movimiento> entradas = new List<DO_Movimiento>();
             entradas = DataManager.GetMovimientoEntradasPorWeek(personaConectada.idCompania, idSemana);
 
-            List<DO_Movimiento> dO_Movimientos = new List<DO_Movimiento>();
-            dO_Movimientos = DataManager.GetMovimientoSalidasPorWeek(personaConectada.idCompania, idSemana);
+            List<DO_Movimiento> salidas = new List<DO_Movimiento>();
+            salidas = DataManager.GetMovimientoSalidasPorWeek(personaConectada.idCompania, idSemana);
 
             List<DO_Ventas> ventas = new List<DO_Ventas>();
             ventas = DataManager.GetListVentaPorSemana(personaConectada.idUsuario, idSemana);
@@ -59,21 +67,152 @@ namespace WebView.Controllers
             DO_Semana dO_Semana = DataManager.GetSemana(idSemana);
             string rangoFecha = dO_Semana.SFechaInicial + " a " + dO_Semana.SFechaFinal;
 
+            List<DO_ReporteSemanal> dO_Reportes = new List<DO_ReporteSemanal>();
+            
+            //Entradas
+            foreach (DO_Movimiento entrada in entradas)
+            {
+                if (dO_Reportes.Where(x => x.IdArticulo == entrada.IdArticulo).ToList().Count > 0)
+                {
+                    DO_ReporteSemanal reporteSemanal = dO_Reportes.Where(x => x.IdArticulo == entrada.IdArticulo).FirstOrDefault();
+                    int index = dO_Reportes.IndexOf(reporteSemanal);
+
+                    dO_Reportes[index].Entradas += entrada.Cantidad;
+                    dO_Reportes[index].Origen += entrada.BodegaDestino + "(" + entrada.Cantidad + ") ";
+                }
+                else
+                {
+                    DO_ReporteSemanal reporteSemanal = new DO_ReporteSemanal();
+
+                    reporteSemanal.NombreArticulo = entrada.Nombre;
+                    reporteSemanal.Entradas = entrada.Cantidad;
+                    reporteSemanal.Origen = entrada.BodegaDestino + "(" + entrada.Cantidad + ") ";
+                    reporteSemanal.IdArticulo = entrada.IdArticulo;
+
+                    dO_Reportes.Add(reporteSemanal);
+                }
+            }
+
+            //Salidas
+            foreach (DO_Movimiento salida in salidas)
+            {
+                if (dO_Reportes.Where(x => x.IdArticulo == salida.IdArticulo).ToList().Count > 0)
+                {
+                    DO_ReporteSemanal reporteSemanal = dO_Reportes.Where(x => x.IdArticulo == salida.IdArticulo).FirstOrDefault();
+                    int index = dO_Reportes.IndexOf(reporteSemanal);
+
+                    dO_Reportes[index].Salidas += salida.Cantidad;
+                    dO_Reportes[index].Destino += salida.BodegaDestino + "(" + salida.Cantidad + ") ";
+                }
+                else
+                {
+                    DO_ReporteSemanal reporteSemanal = new DO_ReporteSemanal();
+
+                    reporteSemanal.NombreArticulo = salida.Nombre;
+                    reporteSemanal.Salidas = salida.Cantidad;
+                    reporteSemanal.Destino = salida.BodegaDestino + "(" + salida.Cantidad + ") ";
+                    reporteSemanal.IdArticulo = salida.IdArticulo;
+
+                    dO_Reportes.Add(reporteSemanal);
+                }
+            }
+
+            //Ventas
+            foreach (var venta in ventas)
+            {
+                if (dO_Reportes.Where(x => x.IdArticulo == venta.IdArticulo).ToList().Count > 0)
+                {
+                    DO_ReporteSemanal reporteSemanal = dO_Reportes.Where(x => x.IdArticulo == venta.IdArticulo).FirstOrDefault();
+                    int index = dO_Reportes.IndexOf(reporteSemanal);
+
+                    dO_Reportes[index].ArticulosVendidos += venta.Cantidad;
+                }
+                else
+                {
+                    DO_ReporteSemanal reporteSemanal = new DO_ReporteSemanal();
+
+                    reporteSemanal.NombreArticulo = venta.Nombre;
+                    reporteSemanal.IdArticulo = venta.IdArticulo;
+                    reporteSemanal.ArticulosVendidos = venta.Cantidad;
+
+                    dO_Reportes.Add(reporteSemanal);
+                }
+            }
+
+            //PRECIO
+            foreach (DO_ReporteSemanal item in dO_Reportes)
+            {
+                double costo = DataManager.GetArticulo(item.IdArticulo).PRECIO_UNIDAD;
+                
+                item.CostoUnitario = costo;
+            }
+
+            //Inventario inicial
+            List<DO_Almacen> almacens = DataManager.GetAllAlmacen(compania.IdCompania);
+            List<FO_Item> existencias = DataManager.GetCorteExistencia(idSemana, almacens[0].idAlmacen);
+            foreach (var item in dO_Reportes)
+            {
+                int existencia = existencias.Where(x => x.NombreInt == item.IdArticulo).FirstOrDefault().ValueInt;
+
+                item.InventarioInicial = existencia;
+
+            }
+            
             #region Llenado de información
             sLDocument.SetCellValue("F4", personaConectada.NombreCompleto);
+            sLDocument.SetCellValue("I5", compania.Direccion);
+            sLDocument.SetCellValue("F7", compania.Telefono);
             sLDocument.SetCellValue("F10", dO_Semana.NoSemana);
             sLDocument.SetCellValue("H10", rangoFecha);
             sLDocument.SetCellValue("K7", personaConectada.Usuario);
+
+            //Llenado de depositos.
+            int c = 32;
+            foreach (var deposito in depositos)
+            {
+                sLDocument.SetCellValue("A" + c, deposito.FechaIngreso);
+                sLDocument.SetCellValue("B" + c, deposito.Banco);
+                sLDocument.SetCellValue("C" + c, deposito.Importe);
+                c++;
+            }
+
+            c = 17;
+            //Llenado de articulos
+            foreach (var reporteSemanal in dO_Reportes)
+            {
+                sLDocument.SetCellValue("B" + c, reporteSemanal.NombreArticulo);
+                sLDocument.SetCellValue("C" + c, reporteSemanal.InventarioInicial);
+                sLDocument.SetCellValue("D" + c, reporteSemanal.Entradas);
+                sLDocument.SetCellValue("E" + c, reporteSemanal.Origen);
+                sLDocument.SetCellValue("F" + c, reporteSemanal.Salidas);
+                sLDocument.SetCellValue("G" + c, reporteSemanal.Destino);
+                sLDocument.SetCellValue("I" + c, reporteSemanal.ArticulosVendidos);
+                sLDocument.SetCellValue("K" + c, reporteSemanal.CostoUnitario);
+                
+                c++;
+            }
+
             #endregion
 
+            if (!Directory.Exists(Server.MapPath("~/files/reportesemanal/" + personaConectada.Nombre)))
+            {
+                Directory.CreateDirectory(Server.MapPath("~/files/reportesemanal/" + personaConectada.Nombre));
+            }
 
-            string newPath = Server.MapPath("~/formatoreporte_" + personaConectada.Nombre + idSemana + ".xlsx");
+            string newPath = Server.MapPath("~/files/reportesemanal/" + personaConectada.Nombre + "/reporte_" + dO_Semana.NoSemana +".xlsx");
             sLDocument.SaveAs(newPath);
 
-            var jsonResult = Json("Archivo creado correctamente", JsonRequestBehavior.AllowGet);
-            jsonResult.MaxJsonLength = int.MaxValue;
+            //var jsonResult = Json("Archivo creado correctamente", JsonRequestBehavior.AllowGet);
+            //jsonResult.MaxJsonLength = int.MaxValue;
 
-            return jsonResult;
+            //return jsonResult;
+
+            string handle = Guid.NewGuid().ToString();
+
+            return new JsonResult()
+            {
+                Data = new { FileGuid = handle, FileName = newPath }
+            };
         }
 
         [HttpPost]

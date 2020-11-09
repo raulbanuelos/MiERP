@@ -164,6 +164,48 @@
 </div>
 
 <script type="text/javascript">
+    var barChartData = {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'Dataset 1',
+            stack: 'Stack 0',
+            data: [
+                100,
+                150,
+                750,
+                350,
+                620,
+                560,
+                225
+            ]
+        }, {
+            label: 'Dataset 2',
+            stack: 'Stack 0',
+            data: [
+                100,
+                150,
+                750,
+                350,
+                620,
+                560,
+                225
+            ]
+        }, {
+            label: 'Dataset 3',
+            stack: 'Stack 1',
+                data: [
+                    100,
+                    150,
+                    750,
+                    350,
+                    620,
+                    560,
+                    225
+            ]
+        }]
+
+    };
+
     $(document).ready(function () {
 
         var urlSave = '@Url.Action("GetVentaDiaActual", "Ventas")';
@@ -256,6 +298,32 @@
                 alert("Woops, se produjo un error");
             }
         });
+
+        //var ctx = document.getElementById('chart1').getContext('2d');
+        
+        //window.myBar = new Chart(ctx, {
+        //    type: 'bar',
+        //    data: barChartData,
+        //    options: {
+        //        title: {
+        //            display: true,
+        //            text: 'Chart.js Bar Chart - Stacked'
+        //        },
+        //        tooltips: {
+        //            mode: 'index',
+        //            intersect: false
+        //        },
+        //        responsive: true,
+        //        scales: {
+        //            x: {
+        //                stacked: true,
+        //            },
+        //            y: {
+        //                stacked: true
+        //            }
+        //        }
+        //    }
+        //});
 
         urlSave = '@Url.Action("GetVentaUltimosMeses", "Ventas")';
         $.ajax({
