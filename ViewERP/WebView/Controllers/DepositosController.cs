@@ -4,7 +4,6 @@ using System.Web;
 using System.Web.Mvc;
 using WebView.Models;
 
-
 namespace WebView.Controllers
 {
     public class DepositosController : Controller

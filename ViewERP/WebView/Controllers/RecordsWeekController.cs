@@ -1,10 +1,8 @@
 ﻿using Model;
 using SpreadsheetLight;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebView.Models;
 
@@ -43,8 +41,7 @@ namespace WebView.Controllers
             return View();
         }
 
-        [HttpPost]
-        public JsonResult BajarArchivo(int idSemana)
+        public ActionResult BajarArchivo(int idSemana)
         {
             DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
             DO_Compania compania = DataManager.GetCompania(personaConectada.idCompania);
@@ -202,17 +199,9 @@ namespace WebView.Controllers
             string newPath = Server.MapPath("~/files/reportesemanal/" + personaConectada.Nombre + "/reporte_" + dO_Semana.NoSemana +".xlsx");
             sLDocument.SaveAs(newPath);
 
-            //var jsonResult = Json("Archivo creado correctamente", JsonRequestBehavior.AllowGet);
-            //jsonResult.MaxJsonLength = int.MaxValue;
+            byte[] fileBytes = System.IO.File.ReadAllBytes(newPath);
 
-            //return jsonResult;
-
-            string handle = Guid.NewGuid().ToString();
-
-            return new JsonResult()
-            {
-                Data = new { FileGuid = handle, FileName = newPath }
-            };
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, newPath);
         }
 
         [HttpPost]
@@ -274,7 +263,5 @@ namespace WebView.Controllers
 
             return jsonResult;
         }
-
-
     }
 }

@@ -8,7 +8,6 @@ namespace WebView.Controllers
 {
     public class VentasController : Controller
     {
-        // GET: Ventas
         public ActionResult AgregarVenta()
         {
             int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
@@ -100,7 +99,6 @@ namespace WebView.Controllers
 
             return jsonResult;
         }
-
 
         [HttpPost]
         public JsonResult GetLastVentas(string parametro)

@@ -1,8 +1,6 @@
 ﻿using Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebView.Models;
 
@@ -10,7 +8,6 @@ namespace WebView.Controllers
 {
     public class EntradasAlmacenController : Controller
     {
-        // GET: EntradasAlmacen
         [ERPVerificaRol]
         public ActionResult DarEntrada()
         {
