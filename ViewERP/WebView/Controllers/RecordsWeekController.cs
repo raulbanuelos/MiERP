@@ -191,6 +191,8 @@ namespace WebView.Controllers
 
             #endregion
 
+            sLDocument.AutoFitRow(18);
+
             if (!Directory.Exists(Server.MapPath("~/files/reportesemanal/" + personaConectada.Nombre)))
             {
                 Directory.CreateDirectory(Server.MapPath("~/files/reportesemanal/" + personaConectada.Nombre));
@@ -201,7 +203,9 @@ namespace WebView.Controllers
 
             byte[] fileBytes = System.IO.File.ReadAllBytes(newPath);
 
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, newPath);
+            string fileName = "Reporte_" + dO_Semana.NoSemana + "_" + personaConectada.Nombre + ".xlsx";
+
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
 
         [HttpPost]
