@@ -108,12 +108,14 @@
     <Compile Include="ServiceObject\SO_Existencia.cs" />
     <Compile Include="ServiceObject\SO_OrdenDetalle.cs" />
     <Compile Include="ServiceObject\SO_Ordenes.cs" />
+    <Compile Include="ServiceObject\SO_Organizacion.cs" />
     <Compile Include="ServiceObject\SO_Productos.cs" />
     <Compile Include="ServiceObject\SO_Proveedor.cs" />
     <Compile Include="ServiceObject\SO_Reportes.cs" />
     <Compile Include="ServiceObject\SO_Rol.cs" />
     <Compile Include="ServiceObject\SO_SalidasAlmacen.cs" />
     <Compile Include="ServiceObject\SO_Semana.cs" />
+    <Compile Include="ServiceObject\SO_TR_Organizacion_Compania.cs" />
     <Compile Include="ServiceObject\SO_Unidad.cs" />
     <Compile Include="ServiceObject\SO_Usuario.cs" />
     <Compile Include="ServiceObject\SO_Venta.cs" />
@@ -159,6 +161,9 @@
     <Compile Include="ServiceObject\TBL_MOVIMIENTO_SALIDA_ALMACEN.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ServiceObject\TBL_ORGANIZACION.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ServiceObject\TBL_PROVEEDOR.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
@@ -175,6 +180,9 @@
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ServiceObject\TBL_VENTA.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceObject\TR_ERP_ORGANIZACION_COMPANIA.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SQLServer\ERP_SQL.cs" />

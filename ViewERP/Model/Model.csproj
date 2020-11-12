@@ -65,6 +65,7 @@
     <Compile Include="DO_MovimientoAlmacen.cs" />
     <Compile Include="DO_MovimientoSalidaAlmacen.cs" />
     <Compile Include="DO_Ordenes.cs" />
+    <Compile Include="DO_Organizacion.cs" />
     <Compile Include="DO_Productos.cs" />
     <Compile Include="DO_Proveedor.cs" />
     <Compile Include="DO_ReporteEntradaArticulo.cs" />

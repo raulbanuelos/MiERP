@@ -227,6 +227,15 @@
           <Property Name="FECHA_SALIDA" Type="datetime" Nullable="false" />
           <Property Name="USUARIO_ATENDIO" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="TBL_ORGANIZACION">
+          <Key>
+            <PropertyRef Name="ID_ORGANIZACION" />
+          </Key>
+          <Property Name="ID_ORGANIZACION" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_COMPANIA_ADMIN" Type="int" Nullable="false" />
+          <Property Name="NOMBRE_ORGANIZACION" Type="varchar" MaxLength="100" />
+          <Property Name="FECHA_REGISTRO" Type="datetime" />
+        </EntityType>
         <EntityType Name="TBL_PROVEEDOR">
           <Key>
             <PropertyRef Name="ID_PROVEEDOR" />
@@ -286,6 +295,14 @@
           <Property Name="FECHA_INGRESO" Type="datetime" />
           <Property Name="FECHA_REGISTRO" Type="datetime" />
           <Property Name="MONTO" Type="float" />
+        </EntityType>
+        <EntityType Name="TR_ERP_ORGANIZACION_COMPANIA">
+          <Key>
+            <PropertyRef Name="ID_ORG_COMPANIA" />
+          </Key>
+          <Property Name="ID_ORG_COMPANIA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_ORGANIZACION" Type="int" />
+          <Property Name="ID_COMPANIA" Type="int" />
         </EntityType>
         <Association Name="FK_ArchivosOrden_Ordenes">
           <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="0..1" />
@@ -392,6 +409,42 @@
             </Principal>
             <Dependent Role="OrdenesDetalle">
               <PropertyRef Name="Id_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORGANIZACION_COMPANIA">
+          <End Role="TBL_COMPANIA" Type="Self.TBL_COMPANIA" Multiplicity="1" />
+          <End Role="TBL_ORGANIZACION" Type="Self.TBL_ORGANIZACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_COMPANIA">
+              <PropertyRef Name="ID_COMPANIA" />
+            </Principal>
+            <Dependent Role="TBL_ORGANIZACION">
+              <PropertyRef Name="ID_COMPANIA_ADMIN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORGANIZACION_TR_COMPANIA">
+          <End Role="TBL_COMPANIA" Type="Self.TBL_COMPANIA" Multiplicity="0..1" />
+          <End Role="TR_ERP_ORGANIZACION_COMPANIA" Type="Self.TR_ERP_ORGANIZACION_COMPANIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_COMPANIA">
+              <PropertyRef Name="ID_COMPANIA" />
+            </Principal>
+            <Dependent Role="TR_ERP_ORGANIZACION_COMPANIA">
+              <PropertyRef Name="ID_COMPANIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORGANIZACION_TR_ORGANIZACION_COMPANIA">
+          <End Role="TBL_ORGANIZACION" Type="Self.TBL_ORGANIZACION" Multiplicity="0..1" />
+          <End Role="TR_ERP_ORGANIZACION_COMPANIA" Type="Self.TR_ERP_ORGANIZACION_COMPANIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ORGANIZACION">
+              <PropertyRef Name="ID_ORGANIZACION" />
+            </Principal>
+            <Dependent Role="TR_ERP_ORGANIZACION_COMPANIA">
+              <PropertyRef Name="ID_ORGANIZACION" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -705,12 +758,14 @@
           <EntitySet Name="TBL_EXISTENCIA" EntityType="Self.TBL_EXISTENCIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_MOVIMIENTO_ALMACEN" EntityType="Self.TBL_MOVIMIENTO_ALMACEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_MOVIMIENTO_SALIDA_ALMACEN" EntityType="Self.TBL_MOVIMIENTO_SALIDA_ALMACEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_ORGANIZACION" EntityType="Self.TBL_ORGANIZACION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_PROVEEDOR" EntityType="Self.TBL_PROVEEDOR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_ROLE" EntityType="Self.TBL_ROLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_SEMANA" EntityType="Self.TBL_SEMANA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_UNIDAD" EntityType="Self.TBL_UNIDAD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_USUARIO" EntityType="Self.TBL_USUARIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_VENTA" EntityType="Self.TBL_VENTA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TR_ERP_ORGANIZACION_COMPANIA" EntityType="Self.TR_ERP_ORGANIZACION_COMPANIA" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ArchivosOrden_Ordenes" Association="Self.FK_ArchivosOrden_Ordenes">
             <End Role="Ordenes" EntitySet="Ordenes" />
             <End Role="ArchivosOrden" EntitySet="ArchivosOrden" />
@@ -746,6 +801,18 @@
           <AssociationSet Name="FK_OrdenesDetalle_Productos" Association="Self.FK_OrdenesDetalle_Productos">
             <End Role="Productos" EntitySet="Productos" />
             <End Role="OrdenesDetalle" EntitySet="OrdenesDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORGANIZACION_COMPANIA" Association="Self.FK_ORGANIZACION_COMPANIA">
+            <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
+            <End Role="TBL_ORGANIZACION" EntitySet="TBL_ORGANIZACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORGANIZACION_TR_COMPANIA" Association="Self.FK_ORGANIZACION_TR_COMPANIA">
+            <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
+            <End Role="TR_ERP_ORGANIZACION_COMPANIA" EntitySet="TR_ERP_ORGANIZACION_COMPANIA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORGANIZACION_TR_ORGANIZACION_COMPANIA" Association="Self.FK_ORGANIZACION_TR_ORGANIZACION_COMPANIA">
+            <End Role="TBL_ORGANIZACION" EntitySet="TBL_ORGANIZACION" />
+            <End Role="TR_ERP_ORGANIZACION_COMPANIA" EntitySet="TR_ERP_ORGANIZACION_COMPANIA" />
           </AssociationSet>
           <AssociationSet Name="FK_Productos_CategoriaProducto" Association="Self.FK_Productos_CategoriaProducto">
             <End Role="CategoriaProducto" EntitySet="CategoriaProducto" />
@@ -1007,6 +1074,20 @@
           <AssociationSet Name="FK_EXISTENCIA_SEMANA" Association="Data.ServiceObject.FK_EXISTENCIA_SEMANA">
             <End Role="TBL_SEMANA" EntitySet="TBL_SEMANA" />
             <End Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" EntitySet="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" />
+          </AssociationSet>
+          <EntitySet Name="TBL_ORGANIZACION" EntityType="Data.ServiceObject.TBL_ORGANIZACION" />
+          <AssociationSet Name="FK_ORGANIZACION_COMPANIA" Association="Data.ServiceObject.FK_ORGANIZACION_COMPANIA">
+            <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
+            <End Role="TBL_ORGANIZACION" EntitySet="TBL_ORGANIZACION" />
+          </AssociationSet>
+          <EntitySet Name="TR_ERP_ORGANIZACION_COMPANIA" EntityType="Data.ServiceObject.TR_ERP_ORGANIZACION_COMPANIA" />
+          <AssociationSet Name="FK_ORGANIZACION_TR_COMPANIA" Association="Data.ServiceObject.FK_ORGANIZACION_TR_COMPANIA">
+            <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
+            <End Role="TR_ERP_ORGANIZACION_COMPANIA" EntitySet="TR_ERP_ORGANIZACION_COMPANIA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORGANIZACION_TR_ORGANIZACION_COMPANIA" Association="Data.ServiceObject.FK_ORGANIZACION_TR_ORGANIZACION_COMPANIA">
+            <End Role="TBL_ORGANIZACION" EntitySet="TBL_ORGANIZACION" />
+            <End Role="TR_ERP_ORGANIZACION_COMPANIA" EntitySet="TR_ERP_ORGANIZACION_COMPANIA" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="TBL_ALERTAS_STOCK_MIN">
@@ -1643,6 +1724,8 @@
           <NavigationProperty Name="TBL_CATEGORIA_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_CATEGORIA_ARTICULO" />
           <NavigationProperty Name="TBL_USUARIO" Relationship="Data.ServiceObject.FK_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_USUARIO" />
           <NavigationProperty Name="TBL_PROVEEDOR" Relationship="Data.ServiceObject.FK_TBL_PROVEEDOR_TBL_COMPANIA1" FromRole="TBL_COMPANIA" ToRole="TBL_PROVEEDOR" />
+          <NavigationProperty Name="TBL_ORGANIZACION" Relationship="Data.ServiceObject.FK_ORGANIZACION_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_ORGANIZACION" />
+          <NavigationProperty Name="TR_ERP_ORGANIZACION_COMPANIA" Relationship="Data.ServiceObject.FK_ORGANIZACION_TR_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TR_ERP_ORGANIZACION_COMPANIA" />
         </EntityType>
         <Association Name="FK_TBL_ALMACEN_TBL_COMPANIA">
           <End Type="Data.ServiceObject.TBL_COMPANIA" Role="TBL_COMPANIA" Multiplicity="1" />
@@ -1750,6 +1833,63 @@
             </Principal>
             <Dependent Role="TBL_ERP_CORTE_EXISTENCIA_ALMACEN">
               <PropertyRef Name="ID_SEMANA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TBL_ORGANIZACION">
+          <Key>
+            <PropertyRef Name="ID_ORGANIZACION" />
+          </Key>
+          <Property Name="ID_ORGANIZACION" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_COMPANIA_ADMIN" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE_ORGANIZACION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_REGISTRO" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TBL_COMPANIA" Relationship="Data.ServiceObject.FK_ORGANIZACION_COMPANIA" FromRole="TBL_ORGANIZACION" ToRole="TBL_COMPANIA" />
+          <NavigationProperty Name="TR_ERP_ORGANIZACION_COMPANIA" Relationship="Data.ServiceObject.FK_ORGANIZACION_TR_ORGANIZACION_COMPANIA" FromRole="TBL_ORGANIZACION" ToRole="TR_ERP_ORGANIZACION_COMPANIA" />
+        </EntityType>
+        <Association Name="FK_ORGANIZACION_COMPANIA">
+          <End Type="Data.ServiceObject.TBL_COMPANIA" Role="TBL_COMPANIA" Multiplicity="1" />
+          <End Type="Data.ServiceObject.TBL_ORGANIZACION" Role="TBL_ORGANIZACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_COMPANIA">
+              <PropertyRef Name="ID_COMPANIA" />
+            </Principal>
+            <Dependent Role="TBL_ORGANIZACION">
+              <PropertyRef Name="ID_COMPANIA_ADMIN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TR_ERP_ORGANIZACION_COMPANIA">
+          <Key>
+            <PropertyRef Name="ID_ORG_COMPANIA" />
+          </Key>
+          <Property Name="ID_ORG_COMPANIA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_ORGANIZACION" Type="Int32" />
+          <Property Name="ID_COMPANIA" Type="Int32" />
+          <NavigationProperty Name="TBL_COMPANIA" Relationship="Data.ServiceObject.FK_ORGANIZACION_TR_COMPANIA" FromRole="TR_ERP_ORGANIZACION_COMPANIA" ToRole="TBL_COMPANIA" />
+          <NavigationProperty Name="TBL_ORGANIZACION" Relationship="Data.ServiceObject.FK_ORGANIZACION_TR_ORGANIZACION_COMPANIA" FromRole="TR_ERP_ORGANIZACION_COMPANIA" ToRole="TBL_ORGANIZACION" />
+        </EntityType>
+        <Association Name="FK_ORGANIZACION_TR_COMPANIA">
+          <End Type="Data.ServiceObject.TBL_COMPANIA" Role="TBL_COMPANIA" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.TR_ERP_ORGANIZACION_COMPANIA" Role="TR_ERP_ORGANIZACION_COMPANIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_COMPANIA">
+              <PropertyRef Name="ID_COMPANIA" />
+            </Principal>
+            <Dependent Role="TR_ERP_ORGANIZACION_COMPANIA">
+              <PropertyRef Name="ID_COMPANIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORGANIZACION_TR_ORGANIZACION_COMPANIA">
+          <End Type="Data.ServiceObject.TBL_ORGANIZACION" Role="TBL_ORGANIZACION" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.TR_ERP_ORGANIZACION_COMPANIA" Role="TR_ERP_ORGANIZACION_COMPANIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ORGANIZACION">
+              <PropertyRef Name="ID_ORGANIZACION" />
+            </Principal>
+            <Dependent Role="TR_ERP_ORGANIZACION_COMPANIA">
+              <PropertyRef Name="ID_ORGANIZACION" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2065,6 +2205,25 @@
                 <ScalarProperty Name="ID_ALMACEN" ColumnName="ID_ALMACEN" />
                 <ScalarProperty Name="ID_SEMANA" ColumnName="ID_SEMANA" />
                 <ScalarProperty Name="ID_CORTE_EXISTENCIA_ALMACEN" ColumnName="ID_CORTE_EXISTENCIA_ALMACEN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_ORGANIZACION">
+            <EntityTypeMapping TypeName="Data.ServiceObject.TBL_ORGANIZACION">
+              <MappingFragment StoreEntitySet="TBL_ORGANIZACION">
+                <ScalarProperty Name="FECHA_REGISTRO" ColumnName="FECHA_REGISTRO" />
+                <ScalarProperty Name="NOMBRE_ORGANIZACION" ColumnName="NOMBRE_ORGANIZACION" />
+                <ScalarProperty Name="ID_COMPANIA_ADMIN" ColumnName="ID_COMPANIA_ADMIN" />
+                <ScalarProperty Name="ID_ORGANIZACION" ColumnName="ID_ORGANIZACION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TR_ERP_ORGANIZACION_COMPANIA">
+            <EntityTypeMapping TypeName="Data.ServiceObject.TR_ERP_ORGANIZACION_COMPANIA">
+              <MappingFragment StoreEntitySet="TR_ERP_ORGANIZACION_COMPANIA">
+                <ScalarProperty Name="ID_COMPANIA" ColumnName="ID_COMPANIA" />
+                <ScalarProperty Name="ID_ORGANIZACION" ColumnName="ID_ORGANIZACION" />
+                <ScalarProperty Name="ID_ORG_COMPANIA" ColumnName="ID_ORG_COMPANIA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

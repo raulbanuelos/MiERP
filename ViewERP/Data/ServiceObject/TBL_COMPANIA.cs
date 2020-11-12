@@ -22,6 +22,8 @@ namespace Data.ServiceObject
             this.TBL_CATEGORIA_ARTICULO = new HashSet<TBL_CATEGORIA_ARTICULO>();
             this.TBL_USUARIO = new HashSet<TBL_USUARIO>();
             this.TBL_PROVEEDOR = new HashSet<TBL_PROVEEDOR>();
+            this.TBL_ORGANIZACION = new HashSet<TBL_ORGANIZACION>();
+            this.TR_ERP_ORGANIZACION_COMPANIA = new HashSet<TR_ERP_ORGANIZACION_COMPANIA>();
         }
     
         public int ID_COMPANIA { get; set; }
@@ -42,5 +44,9 @@ namespace Data.ServiceObject
         public virtual ICollection<TBL_USUARIO> TBL_USUARIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_PROVEEDOR> TBL_PROVEEDOR { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_ORGANIZACION> TBL_ORGANIZACION { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TR_ERP_ORGANIZACION_COMPANIA> TR_ERP_ORGANIZACION_COMPANIA { get; set; }
     }
 }

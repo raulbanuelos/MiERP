@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Security.Policy;
 
 namespace Data.ServiceObject
 {
@@ -13,6 +14,8 @@ namespace Data.ServiceObject
         private string SP_ERP_GET_VENTA_SEMANAL = "SP_ERP_GET_VENTA_SEMANAL";
         private string SP_ERP_GET_VENTA_ULTIMOS_MESES = "SP_ERP_GET_VENTA_ULTIMOS_MESES";
         private string SP_ERP_GET_VENTA_SEMANA_HISTORICO = "SP_ERP_GET_VENTA_SEMANA_HISTORICO";
+        private string SP_ERP_GET_MONTO_VENTA_DIARIA_ORGANIZACION = "SP_ERP_GET_MONTO_VENTA_DIARIA_ORGANIZACION";
+        private string SP_ERP_GET_VENTA_SEMANAL_ORGANIZACION_BY_COMPANIAS = "SP_ERP_GET_VENTA_SEMANAL_ORGANIZACION_BY_COMPANIAS";
 
         public int Insert(int idUsuario, double monto, DateTime fechaIngreso)
         {
@@ -84,6 +87,51 @@ namespace Data.ServiceObject
             }
         }
 
+        public DataSet GetVentaHoyOrganizacion(int idOrganizacion)
+        {
+            try
+            {
+                DataSet datos = null;
+
+                ERP_SQL conexion = new ERP_SQL();
+
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
+
+                parametros.Add("idOrganizacion", idOrganizacion);
+
+                datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_MONTO_VENTA_DIARIA_ORGANIZACION, parametros);
+
+                return datos;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public DataSet GetVentaOrganizacionXSemanaXCompania(int idOrganizacion, int idSemana)
+        {
+            try
+            {
+                DataSet datos = null;
+
+                ERP_SQL conexion = new ERP_SQL();
+
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
+
+                parametros.Add("idOrganizacion", idOrganizacion);
+                parametros.Add("idSemana", idSemana);
+
+                datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_VENTA_SEMANAL_ORGANIZACION_BY_COMPANIAS, parametros);
+
+                return datos;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        
         public DataSet GetVentaMesActual(int idUsuario)
         {
             try

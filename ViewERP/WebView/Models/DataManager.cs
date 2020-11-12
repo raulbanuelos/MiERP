@@ -1,4 +1,6 @@
 ﻿using Data.ServiceObject;
+using DocumentFormat.OpenXml.Office2013.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Model;
 using System;
 using System.Collections;
@@ -2266,6 +2268,55 @@ namespace WebView.Models
             return monto;
         }
 
+        public static  double GetVentaDiaActualOrganizacion(int idOrganizacion)
+        {
+            double monto = 0;
+
+            SO_Venta serviceVenta = new SO_Venta();
+
+            DataSet informacionBD = serviceVenta.GetVentaHoyOrganizacion(idOrganizacion);
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        monto = Convert.ToDouble(item["MONTO_VENTA_DIARIA"].ToString());
+                    }
+                }
+            }
+
+            return monto;
+        }
+
+        public static List<FO_Item> GetVentaSemanalOrganizacionBySemanaByCompania(int idOrganizacion, int idSemana)
+        {
+            SO_Venta sO_Venta = new SO_Venta();
+
+            DataSet dataSet = sO_Venta.GetVentaOrganizacionXSemanaXCompania(idOrganizacion, idSemana);
+
+            List<FO_Item> items = new List<FO_Item>();
+
+            if (dataSet != null)
+            {
+                if (dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in dataSet.Tables[0].Rows)
+                    {
+                        FO_Item fO_Item = new FO_Item();
+
+                        fO_Item.Nombre = item["NOMBRE"].ToString();
+                        fO_Item.ValueDouble = Convert.ToDouble(item["MONTO_VENTA_DIARIA"]);
+
+                        items.Add(fO_Item);
+                    }
+                }
+            }
+
+            return items;
+        }
+
         public static double GetVentaMesActual(int idUsuario)
         {
             double monto = 0;
@@ -2656,6 +2707,161 @@ namespace WebView.Models
             }
 
             return dO_Compania;
+        }
+        #endregion
+
+        #region Organizacion
+
+        public static int InsertOrganizacion(int idCompania, string nombre)
+        {
+            SO_Organizacion serviceOrganizacion = new SO_Organizacion();
+
+            return serviceOrganizacion.Insert(idCompania, nombre);
+        }
+
+        public static int UpdateOrganizacion(int idOrganizacion, string nombre)
+        {
+            SO_Organizacion serviceOrganizacion = new SO_Organizacion();
+
+            return serviceOrganizacion.Update(idOrganizacion, nombre);
+        }
+
+        public static DO_Organizacion GetOrganizacionByIdCompania(int idCompania)
+        {
+            SO_Organizacion serviceOrganizacion = new SO_Organizacion();
+
+            IList list = serviceOrganizacion.GetByCompania(idCompania);
+
+            DO_Organizacion organizacion = new DO_Organizacion();
+
+            if (list != null)
+            {
+                foreach (var item in list)
+                {
+                    Type type = item.GetType();
+
+                    organizacion = new DO_Organizacion();
+
+                    organizacion.IdOrganizacion = Convert.ToInt32(type.GetProperty("ID_ORGANIZACION").GetValue(item, null));
+                    organizacion.Nombre = type.GetProperty("NOMBRE_ORGANIZACION").GetValue(item, null).ToString();
+                    organizacion.FechaRegistro = Convert.ToDateTime(type.GetProperty("FECHA_REGISTRO").GetValue(item, null));
+                    organizacion.IdCompaniaAdmin = Convert.ToInt32(type.GetProperty("ID_COMPANIA_ADMIN").GetValue(item, null));
+
+                    organizacion.Companias = new List<DO_Compania>();
+
+                    SO_TR_Organizacion_Compania sO_TR_Organizacion_Compania = new SO_TR_Organizacion_Compania();
+
+                    IList informacionCompanies = sO_TR_Organizacion_Compania.GetCompanyByIdOrganizacion(organizacion.IdOrganizacion);
+
+                    if (informacionCompanies != null)
+                    {
+                        foreach (var itemCompanie in informacionCompanies)
+                        {
+                            Type type1 = itemCompanie.GetType();
+
+                            DO_Compania dO_Compania = new DO_Compania();
+
+                            dO_Compania.Correo = type1.GetProperty("CORREO").GetValue(itemCompanie, null).ToString();
+                            dO_Compania.Direccion = type1.GetProperty("DIRECCION").GetValue(itemCompanie, null).ToString();
+                            dO_Compania.RFC = type1.GetProperty("RFC").GetValue(itemCompanie, null).ToString();
+                            dO_Compania.Telefono = type1.GetProperty("TELEFONO").GetValue(itemCompanie, null).ToString();
+                            dO_Compania.IdCompania = Convert.ToInt32(type1.GetProperty("ID_COMPANIA").GetValue(itemCompanie, null).ToString());
+                            dO_Compania.FechaRegistro = Convert.ToDateTime(type1.GetProperty("FECHA_REGISTRO").GetValue(itemCompanie, null));
+
+                            organizacion.Companias.Add(dO_Compania);
+                        }
+                    }
+                }
+            }
+
+            return organizacion;
+        }
+
+        public static DO_Organizacion GetOrganizacion(int idOrganizacion)
+        {
+            SO_Organizacion serviceOrganizacion = new SO_Organizacion();
+
+            IList list = serviceOrganizacion.Get(idOrganizacion);
+
+            DO_Organizacion organizacion = new DO_Organizacion();
+
+            if (list != null)
+            {
+                foreach (var item in list)
+                {
+                    Type type = item.GetType();
+
+                    organizacion = new DO_Organizacion();
+
+                    organizacion.IdOrganizacion = idOrganizacion;
+                    organizacion.Nombre = type.GetProperty("NOMBRE_ORGANIZACION").GetValue(item, null).ToString();
+                    organizacion.FechaRegistro = Convert.ToDateTime(type.GetProperty("FECHA_REGISTRO").GetValue(item, null));
+                    organizacion.IdCompaniaAdmin = Convert.ToInt32(type.GetProperty("ID_COMPANIA_ADMIN").GetValue(item, null));
+
+                    organizacion.Companias = new List<DO_Compania>();
+
+                    SO_TR_Organizacion_Compania sO_TR_Organizacion_Compania = new SO_TR_Organizacion_Compania();
+
+                    IList informacionCompanies =  sO_TR_Organizacion_Compania.GetCompanyByIdOrganizacion(idOrganizacion);
+
+                    if (informacionCompanies != null)
+                    {
+                        foreach (var itemCompanie in informacionCompanies)
+                        {
+                            Type type1 = itemCompanie.GetType();
+
+                            DO_Compania dO_Compania = new DO_Compania();
+
+                            dO_Compania.Correo = type1.GetProperty("CORREO").GetValue(itemCompanie, null).ToString();
+                            dO_Compania.Direccion = type1.GetProperty("DIRECCION").GetValue(itemCompanie, null).ToString();
+                            dO_Compania.RFC = type1.GetProperty("RFC").GetValue(itemCompanie, null).ToString();
+                            dO_Compania.Telefono = type1.GetProperty("TELEFONO").GetValue(itemCompanie, null).ToString();
+                            dO_Compania.IdCompania = Convert.ToInt32(type1.GetProperty("ID_COMPANIA").GetValue(itemCompanie, null).ToString());
+                            dO_Compania.FechaRegistro = Convert.ToDateTime(type1.GetProperty("FECHA_REGISTRO").GetValue(itemCompanie, null));
+
+                            organizacion.Companias.Add(dO_Compania);
+                        }
+                    }
+                }
+            }
+            return organizacion;
+        }
+
+        public static int InsertOrganizacionCompania(int idOrganizacion, int idCompania)
+        {
+            SO_TR_Organizacion_Compania sO_TR_Organizacion_Compania = new SO_TR_Organizacion_Compania();
+
+            return sO_TR_Organizacion_Compania.Insert(idOrganizacion, idCompania);
+        }
+
+        public static List<DO_Compania> GetCompaniaByIdOrganizacion(int idOrganizacion)
+        {
+            SO_TR_Organizacion_Compania sO_TR_Organizacion_Compania = new SO_TR_Organizacion_Compania();
+
+            IList list = sO_TR_Organizacion_Compania.GetCompanyByIdOrganizacion(idOrganizacion);
+
+            List<DO_Compania> companias = new List<DO_Compania>();
+
+            if (list != null)
+            {
+                foreach (var item in list)
+                {
+                    Type type = item.GetType();
+
+                    DO_Compania dO_Compania = new DO_Compania();
+
+                    dO_Compania.Correo = type.GetProperty("CORREO").GetValue(item, null).ToString();
+                    dO_Compania.Direccion = type.GetProperty("DIRECCION").GetValue(item, null).ToString();
+                    dO_Compania.RFC = type.GetProperty("RFC").GetValue(item, null).ToString();
+                    dO_Compania.Telefono = type.GetProperty("TELEFONO").GetValue(item, null).ToString();
+                    dO_Compania.IdCompania = Convert.ToInt32(type.GetProperty("ID_COMPANIA").GetValue(item, null).ToString());
+                    dO_Compania.FechaRegistro = Convert.ToDateTime(type.GetProperty("FECHA_REGISTRO").GetValue(item, null));
+
+                    companias.Add(dO_Compania);
+                }
+            }
+
+            return companias;
         }
         #endregion
     }

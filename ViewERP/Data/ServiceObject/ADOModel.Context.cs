@@ -52,5 +52,7 @@ namespace Data.ServiceObject
         public virtual DbSet<TBL_USUARIO> TBL_USUARIO { get; set; }
         public virtual DbSet<TBL_COMPANIA> TBL_COMPANIA { get; set; }
         public virtual DbSet<TBL_ERP_CORTE_EXISTENCIA_ALMACEN> TBL_ERP_CORTE_EXISTENCIA_ALMACEN { get; set; }
+        public virtual DbSet<TBL_ORGANIZACION> TBL_ORGANIZACION { get; set; }
+        public virtual DbSet<TR_ERP_ORGANIZACION_COMPANIA> TR_ERP_ORGANIZACION_COMPANIA { get; set; }
     }
 }

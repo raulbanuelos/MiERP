@@ -2,409 +2,247 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="card mt-3">
-    <div class="card-content">
-        <div class="row row-group m-0">
-
-            <div class="col-12 col-lg-6 col-xl-3 border-light">
-                <div class="card-body">
-                    <h5 id="lblVentaTotal" class="text-white mb-0"></h5>
-                    <div class="progress my-3" style="height:3px;">
-                        <div id="divVentaDiaria" class="progress-bar" style="width:0%"></div>
+@{
+    if (Convert.ToBoolean(Session["IS_ORGANIZACION"]))
+    {
+        <div class="card mt-3">
+            <div class="card-content">
+                <div class="row row-group m-0">
+                    <div class="col-12 col-lg-6 col-xl-3 border-light">
+                        <div class="card-body">
+                            <h5 id="lblVentaTotalOrg" class="text-white mb-0"></h5>
+                            <div class="progress my-3" style="height:3px;">
+                                <div id="divVentaDiariaOrg" class="progress-bar" style="width:0%"></div>
+                            </div>
+                            <p class="mb-0 text-white small-font" id="lblPctVentaDiariaOrg"></p>
+                        </div>
                     </div>
-                    <p class="mb-0 text-white small-font" id="lblPctVentaDiaria"></p>
-                </div>
-            </div>
 
-            <div class="col-12 col-lg-6 col-xl-3 border-light">
-                <div class="card-body">
-                    <h5 id="lblCantidadVendida" class="text-white mb-0"></h5>
-                    <div class="progress my-3" style="height:3px;">
-                        <div id="divVentaSemanal" class="progress-bar" style="width:0%"></div>
+                    <div class="col-12 col-lg-6 col-xl-3 border-light">
+                        <div class="card-body">
+                            <h5 id="lblCantidadVendidaOrg" class="text-white mb-0"></h5>
+                            <div class="progress my-3" style="height:3px;">
+                                <div id="divVentaSemanalOrg" class="progress-bar" style="width:0%"></div>
+                            </div>
+                            <p class="mb-0 text-white small-font" id="lblPctVentaOrg"></p>
+                        </div>
                     </div>
-                    <p class="mb-0 text-white small-font" id="lblPctVenta"></p>
-                </div>
-            </div>
 
-            <div class="col-12 col-lg-6 col-xl-3 border-light">
-                <div class="card-body">
-                    <h5 id="lblVentaTotalMensual" class="text-white mb-0"></h5>
-                    <div class="progress my-3" style="height:3px;">
-                        <div id="divVentaMensual" class="progress-bar" style="width:0%"></div>
+                    <div class="col-12 col-lg-6 col-xl-3 border-light">
+                        <div class="card-body">
+                            <h5 id="lblVentaTotalMensualOrg" class="text-white mb-0"></h5>
+                            <div class="progress my-3" style="height:3px;">
+                                <div id="divVentaMensualOrg" class="progress-bar" style="width:0%"></div>
+                            </div>
+                            <p class="mb-0 text-white small-font" id="lblPctVentaMensualOrg"></p>
+                        </div>
                     </div>
-                    <p class="mb-0 text-white small-font" id="lblPctVentaMensual"></p>
-                </div>
-            </div>
 
-            <div class="col-12 col-lg-6 col-xl-3 border-light">
-                <div class="card-body">
-                    <h5 id="lblNoSemana" class="text-white mb-0"></h5>
-                    <div class="progress my-3" style="height:3px;">
-                        <div id="divPctSemana" class="progress-bar" style="width:0%"></div>
+                    <div class="col-12 col-lg-6 col-xl-3 border-light">
+                        <div class="card-body">
+                            <h5 id="lblNoSemana" class="text-white mb-0"></h5>
+                            <div class="progress my-3" style="height:3px;">
+                                <div id="divPctSemana" class="progress-bar" style="width:0%"></div>
+                            </div>
+                            <p class="mb-0 text-white small-font" id="lblSemanaActual"></p>
+                        </div>
                     </div>
-                    <p class="mb-0 text-white small-font" id="lblSemanaActual"></p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-12 col-lg-12 col-xl-12">
-        <div class="card">
-            <div class="card-header">
-                Ventas
-            </div>
-            <div class="card-body">
-                <ul class="list-inline">
-                    <li class="list-inline-item"><i class="fa fa-circle mr-2 text-white"></i>Ventas mensuales</li>
-                    
-                </ul>
-                <div class="chart-container-1">
-                    <canvas id="chart1"></canvas>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-12 col-lg-4 col-xl-4">
-        <div class="card">
-            <div class="card-header">
-                Existencias
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush table-borderless">
-                        <thead>
-                            <tr>
-                                <th>Artículo</th>
-                                <th>Cantidad</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tblExistencia"></tbody>
-                    </table>
+        <div class="row">
+            <div class="col-12 col-lg-6 col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        Ventas por gerente
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>Gerente</th>
+                                        <th>Venta</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblVentasGerente"></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="card mt-3">
+                <div class="card-content">
+                    <div class="row row-group m-0">
+                        <div class="col-12 col-lg-6 col-xl-3 border-light">
+                            <div class="card-body">
+                                <h5 id="lblVentaTotal" class="text-white mb-0"></h5>
+                                <div class="progress my-3" style="height:3px;">
+                                    <div id="divVentaDiaria" class="progress-bar" style="width:0%"></div>
+                                </div>
+                                <p class="mb-0 text-white small-font" id="lblPctVentaDiaria"></p>
+                            </div>
+                        </div>
 
-    <div class="col-12 col-lg-8 col-xl-8">
-        <div class="card">
-            <div class="card-header">
-                Ventas resientes
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush table-borderless">
-                        <thead>
-                            <tr>
-                                <th>Artículo</th>
-                                <th>Cantidad</th>
-                                <th>Precio</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tblLastVentas"></tbody>
-                    </table>
+                        <div class="col-12 col-lg-6 col-xl-3 border-light">
+                            <div class="card-body">
+                                <h5 id="lblCantidadVendida" class="text-white mb-0"></h5>
+                                <div class="progress my-3" style="height:3px;">
+                                    <div id="divVentaSemanal" class="progress-bar" style="width:0%"></div>
+                                </div>
+                                <p class="mb-0 text-white small-font" id="lblPctVenta"></p>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 col-xl-3 border-light">
+                            <div class="card-body">
+                                <h5 id="lblVentaTotalMensual" class="text-white mb-0"></h5>
+                                <div class="progress my-3" style="height:3px;">
+                                    <div id="divVentaMensual" class="progress-bar" style="width:0%"></div>
+                                </div>
+                                <p class="mb-0 text-white small-font" id="lblPctVentaMensual"></p>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 col-xl-3 border-light">
+                            <div class="card-body">
+                                <h5 id="lblNoSemana" class="text-white mb-0"></h5>
+                                <div class="progress my-3" style="height:3px;">
+                                    <div id="divPctSemana" class="progress-bar" style="width:0%"></div>
+                                </div>
+                                <p class="mb-0 text-white small-font" id="lblSemanaActual"></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-12 col-lg-6 col-xl-6">
-        <div class="card">
-            <div class="card-header">
-                Entradas semana actual
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush table-borderless">
-                        <thead>
-                            <tr>
-                                <th>ARTICULO</th>
-                                <th>CANTIDAD</th>
-                                <th>ORIGEN</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tblEntradas"></tbody>
-                    </table>
+        //Grafica
+        <div class="row">
+                <div class="col-12 col-lg-12 col-xl-12">
+                    <div class="card">
+                        <div class="card-header">
+                            Ventas
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-inline">
+                                <li class="list-inline-item"><i class="fa fa-circle mr-2 text-white"></i>Ventas mensuales</li>
+
+                            </ul>
+                            <div class="chart-container-1">
+                                <canvas id="chart1"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="col-12 col-lg-6 col-xl-6">
-        <div class="card">
-            <div class="card-header">
-                Salidas semana actual
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush table-borderless">
-                        <thead>
-                            <tr>
-                                <th>ARTICULO</th>
-                                <th>CANTIDAD</th>
-                                <th>DESTINO</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tblSalidas"></tbody>
-                    </table>
+        <div class="row">
+                <div class="col-12 col-lg-4 col-xl-4">
+                    <div class="card">
+                        <div class="card-header">
+                            Existencias
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th>Artículo</th>
+                                            <th>Cantidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblExistencia"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-8 col-xl-8">
+                    <div class="card">
+                        <div class="card-header">
+                            Ventas resientes
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th>Artículo</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblLastVentas"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<script type="text/javascript">
-    var barChartData = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [{
-            label: 'Dataset 1',
-            stack: 'Stack 0',
-            data: [
-                100,
-                150,
-                750,
-                350,
-                620,
-                560,
-                225
-            ]
-        }, {
-            label: 'Dataset 2',
-            stack: 'Stack 0',
-            data: [
-                100,
-                150,
-                750,
-                350,
-                620,
-                560,
-                225
-            ]
-        }, {
-            label: 'Dataset 3',
-            stack: 'Stack 1',
-                data: [
-                    100,
-                    150,
-                    750,
-                    350,
-                    620,
-                    560,
-                    225
-            ]
-        }]
+        <div class="row">
+                <div class="col-12 col-lg-6 col-xl-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Entradas semana actual
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th>ARTICULO</th>
+                                            <th>CANTIDAD</th>
+                                            <th>ORIGEN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblEntradas"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    };
+                <div class="col-12 col-lg-6 col-xl-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Salidas semana actual
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th>ARTICULO</th>
+                                            <th>CANTIDAD</th>
+                                            <th>DESTINO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblSalidas"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    }
+}
 
+
+    <script type="text/javascript">
     $(document).ready(function () {
+        var _isOrganizacion = '@Session["IS_ORGANIZACION"]';
 
-        var urlSave = '@Url.Action("GetVentaDiaActual", "Ventas")';
-        $.ajax({
-            type: "POST",
-            url: urlSave,
-            data: JSON.stringify({ parametro: "" }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                var number = new Intl.NumberFormat("en-IN").format(data);
-                var lpct = "";
-                var pct = 0;
-                if (data == 0) {
-                    number = "0,0";
-                    lpct = "0%";
-                } else {
-                    pct = Math.round((data / 4285) * 100);
-                    lpct = pct + "%";
-                }
-                $("#lblVentaTotal").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
-
-                $("#divVentaDiaria").css({ "width": lpct });
-
-                $("#lblPctVentaDiaria").html("Venta Hoy<span class=\"float-right\">" + lpct + "</span>");
-            },
-            error: function (result) {
-                alert("Woops, se produjo un error");
-            }
-        });
-
-        urlSave = '@Url.Action("GetVentaMesActual", "Ventas")';
-        $.ajax({
-            type: "POST",
-            url: urlSave,
-            data: JSON.stringify({ parametro: "" }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                var number = new Intl.NumberFormat("en-IN").format(data);
-                var lpct = "";
-                var pct = 0;
-
-                if (data == 0) {
-                    number = "0,0";
-                    lpct = "0%";
-                } else {
-                    pct = Math.round((data / 120000) * 100);
-                    lpct = pct + "%";
-
-                }
-                $("#lblVentaTotalMensual").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
-
-                $("#divVentaMensual").css({ "width": lpct });
-
-                $("#lblPctVentaMensual").html("Venta Mensual<span class=\"float-right\">" + lpct + "</span>");
-
-            },
-            error: function (result) {
-                alert("Woops, se produjo un error");
-            }
-        });
-
-        urlSave = '@Url.Action("GetVentaSemanaActual", "Ventas")';
-        $.ajax({
-            type: "POST",
-            url: urlSave,
-            data: JSON.stringify({ parametro: "" }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                var number = new Intl.NumberFormat("en-IN").format(data);
-                var lpct = "";
-                var pct = 0;
-                if (data == 0) {
-                    number = "0,0";
-                    lpct = "0%";
-                } else {
-                    pct = Math.round((data / 30000) * 100);
-                    lpct = pct + "%";
-                }
-                $("#lblCantidadVendida").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
-
-                $("#divVentaSemanal").css({ "width": lpct });
-
-                $("#lblPctVenta").html("Venta Semanal<span class=\"float-right\">" + lpct + "</span>");
-
-            },
-            error: function (result) {
-                alert("Woops, se produjo un error");
-            }
-        });
-
-        //var ctx = document.getElementById('chart1').getContext('2d');
-        
-        //window.myBar = new Chart(ctx, {
-        //    type: 'bar',
-        //    data: barChartData,
-        //    options: {
-        //        title: {
-        //            display: true,
-        //            text: 'Chart.js Bar Chart - Stacked'
-        //        },
-        //        tooltips: {
-        //            mode: 'index',
-        //            intersect: false
-        //        },
-        //        responsive: true,
-        //        scales: {
-        //            x: {
-        //                stacked: true,
-        //            },
-        //            y: {
-        //                stacked: true
-        //            }
-        //        }
-        //    }
-        //});
-
-        urlSave = '@Url.Action("GetVentaUltimosMeses", "Ventas")';
-        $.ajax({
-            type: "POST",
-            url: urlSave,
-            data: JSON.stringify({ parametro: "" }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                var c = 0;
-                var vnombre = [];
-                var vvalues = [];
-
-                $.each(data, function (k, v) {
-                    vnombre[c] = v.Nombre;
-                    c++;
-                });
-
-                c = 0;
-                $.each(data, function (k, v) {
-                    vvalues[c] = v.ValueDouble;
-                    c++;
-                });
-
-                var ctx = document.getElementById('chart1').getContext('2d');
-
-                var myChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: vnombre,
-                        datasets: [{
-                            label: 'Ventas',
-                            data: vvalues,
-                            backgroundColor: '#fff',
-                            borderColor: "transparent",
-                            pointRadius: "0",
-                            borderWidth: 3
-                        }]
-                    },
-                    options: {
-                        maintainAspectRatio: false,
-                        legend: {
-                            display: false,
-                            labels: {
-                                fontColor: '#ddd',
-                                boxWidth: 40
-                            }
-                        },
-                        tooltips: {
-                            displayColors: false
-                        },
-                        scales: {
-                            xAxes: [{
-                                ticks: {
-                                    beginAtZero: true,
-                                    fontColor: '#ddd'
-                                },
-                                gridLines: {
-                                    display: true,
-                                    color: "rgba(221, 221, 221, 0.08)"
-                                },
-                            }],
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true,
-                                    fontColor: '#ddd'
-                                },
-                                gridLines: {
-                                    display: true,
-                                    color: "rgba(221, 221, 221, 0.08)"
-                                },
-                            }]
-                        }
-
-                    }
-                });
-            },
-            error: function (result) {
-                alert("Woops, se produjo un error");
-            }
-        });
-
-        urlSave = '@Url.Action("GetSemanaActual", "Home")';
+        //Cargamos la semana actual
+        var urlSave = '@Url.Action("GetSemanaActual", "Home")';
         $.ajax({
             type: "POST",
             url: urlSave,
@@ -427,99 +265,327 @@
             }
         });
 
-        urlSave = '@Url.Action("GetExistencias", "Existencias")';
-        $.ajax({
-            type: "POST",
-            url: urlSave,
-            data: JSON.stringify({ parametro: "" }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                var row = "";
-                $.each(data, function (index, item) {
-                    row += "<tr>";
-                    row += "<td>" + item.Descripcion + "</td>";
-                    row += "<td>" + item.Cantidad + "</td>";
-                    row += "</tr>";
-                });
-                $("#tblExistencia").append(row);
-            },
-            error: function (result) {
-                alert("Woops, se produjo un error");
-            }
-        });
+        if (_isOrganizacion == 'True') {
 
-        urlSave = '@Url.Action("GetLastVentas", "Ventas")';
-        $.ajax({
-            type: "POST",
-            url: urlSave,
-            data: JSON.stringify({ parametro: "" }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                var row = "";
-                $.each(data, function (index, item) {
-                    var _precio = new Intl.NumberFormat("en-IN").format(item.Precio);
-                    var _total = new Intl.NumberFormat("en-IN").format(item.Total);
+            urlSave = '@Url.Action("GetVentaDiaActualOrganizacion", "Ventas")';
+            $.ajax({
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify({ parametro: "" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var number = new Intl.NumberFormat("en-IN").format(data);
+                    var lpct = "";
+                    var pct = 0;
+                    if (data == 0) {
+                        number = "0,0";
+                        lpct = "0%";
+                    } else {
+                        pct = Math.round((data / 4285) * 100);
+                        lpct = pct + "%";
+                    }
+                    $("#lblVentaTotalOrg").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
 
-                    row += "<tr>";
-                    row += "<td>" + item.Nombre + "</td>";
-                    row += "<td>" + item.Cantidad + "</td>";
-                    row += "<td>$" + _precio + "</td>";
-                    row += "<td>$" + _total + "</td>";
-                    row += "</tr>";
-                });
-                $("#tblLastVentas").append(row);
-            },
-            error: function (result) {
-                alert("Woops, se produjo un error");
-            }
-        });
+                    $("#divVentaDiariaOrg").css({ "width": lpct });
 
-        urlSave = '@Url.Action("GetEntradasCurretnWeek", "Home")';
-        $.ajax({
-            type: "POST",
-            url: urlSave,
-            data: JSON.stringify({ parametro: "" }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                var row = "";
-                $.each(data, function (index, item) {
-                    row += "<tr>";
-                    row += "<td>" + item.Nombre + "</td>";
-                    row += "<td>" + item.Cantidad + "</td>";
-                    row += "<td>" + item.BodegaDestino + "</td>";
-                    row += "</tr>";
-                });
-                $("#tblEntradas").append(row);
-            },
-            error: function (result) {
-                alert("Woops, se produjo un error");
-            }
-        });
+                    $("#lblPctVentaDiariaOrg").html("Venta Hoy<span class=\"float-right\">" + lpct + "</span>");
+                },
+                error: function (result) {
+                    alert("Woops, se produjo un error");
+                }
+            });
 
-        urlSave = '@Url.Action("GetSalidasCurretnWeek", "Home")';
-        $.ajax({
-            type: "POST",
-            url: urlSave,
-            data: JSON.stringify({ parametro: "" }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                var row = "";
-                $.each(data, function (index, item) {
-                    row += "<tr>";
-                    row += "<td>" + item.Nombre + "</td>";
-                    row += "<td>" + item.Cantidad + "</td>";
-                    row += "<td>" + item.BodegaDestino + "</td>";
-                    row += "</tr>";
-                });
-                $("#tblSalidas").append(row);
-            },
-            error: function (result) {
-                alert("Woops, se produjo un error");
-            }
-        });
+            urlSave = '@Url.Action("GetVentaSemanaActualOrganizacion", "Ventas")';
+            $.ajax({
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify({ parametro: "" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var row = "";
+                    $.each(data, function (index, item) {
+                        var number = new Intl.NumberFormat("en-IN").format(item.ValueDouble);
+                        row += "<tr>";
+                        row += "<td>" + item.Nombre + "</td>";
+                        row += "<td>$" + number + "</td>";
+                        row += "<tr/>";
+                    });
+                    $("#tblVentasGerente").append(row);
+                },
+                error: function (result) {
+                    alert("Woops, se produjo un error");
+                }
+            });
+
+        } else {
+            urlSave = '@Url.Action("GetVentaDiaActual", "Ventas")';
+            $.ajax({
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify({ parametro: "" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var number = new Intl.NumberFormat("en-IN").format(data);
+                    var lpct = "";
+                    var pct = 0;
+                    if (data == 0) {
+                        number = "0,0";
+                        lpct = "0%";
+                    } else {
+                        pct = Math.round((data / 4285) * 100);
+                        lpct = pct + "%";
+                    }
+                    $("#lblVentaTotal").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
+
+                    $("#divVentaDiaria").css({ "width": lpct });
+
+                    $("#lblPctVentaDiaria").html("Venta Hoy<span class=\"float-right\">" + lpct + "</span>");
+                },
+                error: function (result) {
+                    alert("Woops, se produjo un error");
+                }
+            });
+
+            urlSave = '@Url.Action("GetVentaMesActual", "Ventas")';
+            $.ajax({
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify({ parametro: "" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var number = new Intl.NumberFormat("en-IN").format(data);
+                    var lpct = "";
+                    var pct = 0;
+
+                    if (data == 0) {
+                        number = "0,0";
+                        lpct = "0%";
+                    } else {
+                        pct = Math.round((data / 120000) * 100);
+                        lpct = pct + "%";
+
+                    }
+                    $("#lblVentaTotalMensual").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
+
+                    $("#divVentaMensual").css({ "width": lpct });
+
+                    $("#lblPctVentaMensual").html("Venta Mensual<span class=\"float-right\">" + lpct + "</span>");
+
+                },
+                error: function (result) {
+                    alert("Woops, se produjo un error");
+                }
+            });
+
+            urlSave = '@Url.Action("GetVentaSemanaActual", "Ventas")';
+            $.ajax({
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify({ parametro: "" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var number = new Intl.NumberFormat("en-IN").format(data);
+                    var lpct = "";
+                    var pct = 0;
+                    if (data == 0) {
+                        number = "0,0";
+                        lpct = "0%";
+                    } else {
+                        pct = Math.round((data / 30000) * 100);
+                        lpct = pct + "%";
+                    }
+                    $("#lblCantidadVendida").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
+
+                    $("#divVentaSemanal").css({ "width": lpct });
+
+                    $("#lblPctVenta").html("Venta Semanal<span class=\"float-right\">" + lpct + "</span>");
+
+                },
+                error: function (result) {
+                    alert("Woops, se produjo un error");
+                }
+            });
+
+            urlSave = '@Url.Action("GetVentaUltimosMeses", "Ventas")';
+            $.ajax({
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify({ parametro: "" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var c = 0;
+                    var vnombre = [];
+                    var vvalues = [];
+
+                    $.each(data, function (k, v) {
+                        vnombre[c] = v.Nombre;
+                        c++;
+                    });
+
+                    c = 0;
+                    $.each(data, function (k, v) {
+                        vvalues[c] = v.ValueDouble;
+                        c++;
+                    });
+
+                    var ctx = document.getElementById('chart1').getContext('2d');
+
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: vnombre,
+                            datasets: [{
+                                label: 'Ventas',
+                                data: vvalues,
+                                backgroundColor: '#fff',
+                                borderColor: "transparent",
+                                pointRadius: "0",
+                                borderWidth: 3
+                            }]
+                        },
+                        options: {
+                            maintainAspectRatio: false,
+                            legend: {
+                                display: false,
+                                labels: {
+                                    fontColor: '#ddd',
+                                    boxWidth: 40
+                                }
+                            },
+                            tooltips: {
+                                displayColors: false
+                            },
+                            scales: {
+                                xAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        fontColor: '#ddd'
+                                    },
+                                    gridLines: {
+                                        display: true,
+                                        color: "rgba(221, 221, 221, 0.08)"
+                                    },
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        fontColor: '#ddd'
+                                    },
+                                    gridLines: {
+                                        display: true,
+                                        color: "rgba(221, 221, 221, 0.08)"
+                                    },
+                                }]
+                            }
+
+                        }
+                    });
+                },
+                error: function (result) {
+                    alert("Woops, se produjo un error");
+                }
+            });
+
+            urlSave = '@Url.Action("GetExistencias", "Existencias")';
+            $.ajax({
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify({ parametro: "" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var row = "";
+                    $.each(data, function (index, item) {
+                        row += "<tr>";
+                        row += "<td>" + item.Descripcion + "</td>";
+                        row += "<td>" + item.Cantidad + "</td>";
+                        row += "</tr>";
+                    });
+                    $("#tblExistencia").append(row);
+                },
+                error: function (result) {
+                    alert("Woops, se produjo un error");
+                }
+            });
+
+            urlSave = '@Url.Action("GetLastVentas", "Ventas")';
+            $.ajax({
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify({ parametro: "" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var row = "";
+                    $.each(data, function (index, item) {
+                        var _precio = new Intl.NumberFormat("en-IN").format(item.Precio);
+                        var _total = new Intl.NumberFormat("en-IN").format(item.Total);
+
+                        row += "<tr>";
+                        row += "<td>" + item.Nombre + "</td>";
+                        row += "<td>" + item.Cantidad + "</td>";
+                        row += "<td>$" + _precio + "</td>";
+                        row += "<td>$" + _total + "</td>";
+                        row += "</tr>";
+                    });
+                    $("#tblLastVentas").append(row);
+                },
+                error: function (result) {
+                    alert("Woops, se produjo un error");
+                }
+            });
+
+            urlSave = '@Url.Action("GetEntradasCurretnWeek", "Home")';
+            $.ajax({
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify({ parametro: "" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var row = "";
+                    $.each(data, function (index, item) {
+                        row += "<tr>";
+                        row += "<td>" + item.Nombre + "</td>";
+                        row += "<td>" + item.Cantidad + "</td>";
+                        row += "<td>" + item.BodegaDestino + "</td>";
+                        row += "</tr>";
+                    });
+                    $("#tblEntradas").append(row);
+                },
+                error: function (result) {
+                    alert("Woops, se produjo un error");
+                }
+            });
+
+            urlSave = '@Url.Action("GetSalidasCurretnWeek", "Home")';
+            $.ajax({
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify({ parametro: "" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var row = "";
+                    $.each(data, function (index, item) {
+                        row += "<tr>";
+                        row += "<td>" + item.Nombre + "</td>";
+                        row += "<td>" + item.Cantidad + "</td>";
+                        row += "<td>" + item.BodegaDestino + "</td>";
+                        row += "</tr>";
+                    });
+                    $("#tblSalidas").append(row);
+                },
+                error: function (result) {
+                    alert("Woops, se produjo un error");
+                }
+            });
+        }
     });
 </script>

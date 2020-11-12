@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using Model;
+using System.Web.Mvc;
 using WebView.Models;
 
 namespace WebView.Controllers
@@ -42,6 +43,12 @@ namespace WebView.Controllers
                         default:
                             break;
                     }
+
+                    DO_Organizacion organizacion = DataManager.GetOrganizacionByIdCompania(usuario.idCompania);
+
+                    Session["IS_ORGANIZACION"] = organizacion.IdOrganizacion != 0 ? true : false;
+                    usuario.idOrganizacion = organizacion.IdOrganizacion;
+
                     return RedirectToAction("Index", "Home");
                 }
                 else

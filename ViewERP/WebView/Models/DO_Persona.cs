@@ -44,6 +44,8 @@ namespace WebView.Models
             }
         }
 
+        public int idOrganizacion { get; set; }
+
         public virtual IEnumerable<SelectListItem> Roles { get; set; }
 
         public override string ToString()

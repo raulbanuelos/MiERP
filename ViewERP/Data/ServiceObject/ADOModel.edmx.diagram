@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d305160d3f4742c9bed9f1a27b78f11c" Name="Diagram1" ZoomLevel="55">
+      <Diagram DiagramId="d305160d3f4742c9bed9f1a27b78f11c" Name="Diagram1" ZoomLevel="82">
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ALERTAS_STOCK_MIN" Width="2.375" PointX="15.125" PointY="29.25" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ALMACEN" Width="1.5" PointX="10.625" PointY="17.875" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ARTICULO" Width="1.5" PointX="12.875" PointY="28.125" />
@@ -65,6 +65,11 @@
         <AssociationConnector Association="Data.ServiceObject.FK_EXISTENCIA_ALMACEN" />
         <AssociationConnector Association="Data.ServiceObject.FK_EXISTENCIA_ARTICULO" />
         <AssociationConnector Association="Data.ServiceObject.FK_EXISTENCIA_SEMANA" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_ORGANIZACION" Width="2.375" PointX="5.25" PointY="32.375" />
+        <AssociationConnector Association="Data.ServiceObject.FK_ORGANIZACION_COMPANIA" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TR_ERP_ORGANIZACION_COMPANIA" Width="1.5" PointX="3.75" PointY="29.625" />
+        <AssociationConnector Association="Data.ServiceObject.FK_ORGANIZACION_TR_COMPANIA" />
+        <AssociationConnector Association="Data.ServiceObject.FK_ORGANIZACION_TR_ORGANIZACION_COMPANIA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -65,6 +65,33 @@ namespace WebView.Controllers
         }
 
         [HttpPost]
+        public JsonResult GetVentaDiaActualOrganizacion(string parametro)
+        {
+            int idOrganizacion = ((DO_Persona)Session["UsuarioConectado"]).idOrganizacion;
+
+            double venta = DataManager.GetVentaDiaActualOrganizacion(idOrganizacion);
+
+            var jsonResult = Json(venta, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+        public JsonResult GetVentaSemanaActualOrganizacion(string parametro)
+        {
+            int idOrganizacion = ((DO_Persona)Session["UsuarioConectado"]).idOrganizacion;
+
+            DO_Semana semanaActual = DataManager.GetSemanaActual();
+
+            List<FO_Item> lista =  DataManager.GetVentaSemanalOrganizacionBySemanaByCompania(idOrganizacion, semanaActual.IdSemana);
+
+            var jsonResult = Json(lista, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+        [HttpPost]
         public JsonResult GetVentaMesActual(string parametro)
         {
             int idUsuario = ((DO_Persona)Session["UsuarioConectado"]).idUsuario;
