@@ -58,17 +58,20 @@
                         Ventas por gerente
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table align-items-center table-flush table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th>Gerente</th>
-                                        <th>Venta</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblVentasGerente"></tbody>
-                            </table>
+                        <div class="chart-container-2">
+                            <canvas id="chart2"></canvas>
                         </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>Gerente</th>
+                                    <th>Venta</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblVentasGerente"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -134,7 +137,7 @@
                                 <li class="list-inline-item"><i class="fa fa-circle mr-2 text-white"></i>Ventas mensuales</li>
 
                             </ul>
-                            <div class="chart-container-1">
+                            <div class="chart-container-1" style="position: relative; height:40hv; width:80vw">
                                 <canvas id="chart1"></canvas>
                             </div>
                         </div>
@@ -266,7 +269,7 @@
         });
 
         if (_isOrganizacion == 'True') {
-
+            
             urlSave = '@Url.Action("GetVentaDiaActualOrganizacion", "Ventas")';
             $.ajax({
                 type: "POST",
@@ -305,14 +308,59 @@
                 dataType: "json",
                 success: function (data) {
                     var row = "";
+                    var arrayNombres = [];
+                    var arrayMontos = [];
+                    var montoSemanalOrganizacion = 0;
                     $.each(data, function (index, item) {
+                        montoSemanalOrganizacion += item.ValueDouble;
                         var number = new Intl.NumberFormat("en-IN").format(item.ValueDouble);
+                        arrayNombres.push(item.Nombre);
+                        arrayMontos.push(item.ValueDouble);
                         row += "<tr>";
                         row += "<td>" + item.Nombre + "</td>";
                         row += "<td>$" + number + "</td>";
                         row += "<tr/>";
                     });
                     $("#tblVentasGerente").append(row);
+                    var numberVentaSemana = new Intl.NumberFormat("en-IN").format(montoSemanalOrganizacion);
+                    $("#lblCantidadVendidaOrg").html(" $ " + numberVentaSemana + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
+
+                    //$("#divVentaSemanalOrg").css({ "width": lpct });
+
+                    $("#lblPctVentaOrg").html("Venta Semanal");
+
+                    var ctx = document.getElementById("chart2").getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: arrayNombres,
+                            datasets: [{
+                                backgroundColor: [
+                                    "#ffffff",
+                                    "rgba(255, 255, 255, 0.70)",
+                                    "rgba(255, 255, 255, 0.50)",
+                                    "rgba(255, 255, 255, 0.20)"
+                                ],
+                                data: arrayMontos,
+                                borderWidth: [0, 0, 0, 0]
+                            }]
+                        },
+                        options: {
+                            maintainAspectRatio: false,
+                            legend: {
+                                position: "bottom",
+                                display: false,
+                                labels: {
+                                    fontColor: '#ddd',
+                                    boxWidth: 15
+                                }
+                            }
+                            ,
+                            tooltips: {
+                                displayColors: false
+                            }
+                        }
+                    });
                 },
                 error: function (result) {
                     alert("Woops, se produjo un error");
@@ -411,8 +459,61 @@
                 }
             });
 
+           
+            var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            var color = Chart.helpers.color;
+            var barChartData = {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                    label: 'Dataset 1',
+                    //backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                    //borderColor: window.chartColors.red,
+                    borderWidth: 1,
+                    data: [
+                        150,
+                        160,
+                        200,
+                        180,
+                        183,
+                        184,
+                        190
+                    ]
+                }, {
+                    label: 'Dataset 2',
+                    //backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+                    //borderColor: window.chartColors.blue,
+                    borderWidth: 1,
+                    data: [
+                        85,
+                        110,
+                        125,
+                        94,
+                        108,
+                        135,
+                        153
+                    ]
+                }]
+
+            };
+            var ctx = document.getElementById('chart1').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData,
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Chart.js Bar Chart'
+                    }
+                }
+            });
+
+
             urlSave = '@Url.Action("GetVentaUltimosMeses", "Ventas")';
-            $.ajax({
+            /*$.ajax({
                 type: "POST",
                 url: urlSave,
                 data: JSON.stringify({ parametro: "" }),
@@ -490,7 +591,7 @@
                 error: function (result) {
                     alert("Woops, se produjo un error");
                 }
-            });
+            });*/
 
             urlSave = '@Url.Action("GetExistencias", "Existencias")';
             $.ajax({
