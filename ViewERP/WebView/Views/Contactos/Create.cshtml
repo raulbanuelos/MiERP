@@ -15,42 +15,28 @@
                 <div class="panel-body pb-0">
                     <div class="form-horizontal group-border stripped">
                         <div class="form-group">
-                            <label class="col-lg-1 col-md-1 control-label">Nombre</label>
+                            <label>Nombre</label>
                             <div class="col-lg-7 col-md-6">
                                 <input type="text" class="form-control modalColor" id="txtNombre" />
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-1 col-md-1 control-label">RFC</label>
-                            <div class="col-lg-7 col-md-6">
-                                <input type="text" class="form-control modalColor" id="txtRFC" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-lg-1 col-md-1 control-label">Teléfono</label>
-                            <div class="col-lg-7 col-md-6">
-                                <input type="text" class="form-control modalColor" id="txtTelefono" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-lg-1 col-md-1 control-label">Celular</label>
+                            <label>Celular</label>
                             <div class="col-lg-7 col-md-6">
                                 <input type="text" class="form-control modalColor" id="txtCelular" />
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-1 col-md-1 control-label">Dirección</label>
+                            <label>Ciudad</label>
                             <div class="col-lg-7 col-md-6">
                                 <input type="text" class="form-control modalColor" id="txtDireccion" />
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-1 col-md-1 control-label">Correo</label>
+                            <label>Correo</label>
                             <div class="col-lg-7 col-md-6">
                                 <input type="text" class="form-control modalColor" id="txtCorreo" />
                             </div>
@@ -71,18 +57,15 @@
 <script type="text/javascript">
     function guardarContacto() {
         var _nombre = $("#txtNombre").val();
-        var _rfc = $("#txtRFC").val();
-        var _telefono = $("#txtTelefono").val();
+        
         var _celular = $("#txtCelular").val();
         var _direccion = $("#txtDireccion").val();
         var _correo = $("#txtCorreo").val();
+        var _rfc = "RFC";
+        var _telefono = "Telefono";
 
         if (_nombre == "") {
             alert("Por favor ingrese el nombre del contacto");
-        } else if (_rfc == "") {
-            alert("Por favor ingrese el RFC del contacto");
-        } else if (_telefono == "") {
-            alert("Por favor ingrese el teléfono del contacto");
         } else if (_celular == "") {
             alert("Por favor ingrese el celular del contacto");
         } else if (_direccion == "") {

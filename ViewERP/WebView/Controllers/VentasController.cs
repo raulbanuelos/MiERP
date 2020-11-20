@@ -128,6 +128,19 @@ namespace WebView.Controllers
         }
 
         [HttpPost]
+        public JsonResult GetVentaSemanalDiaria(string parametro)
+        {
+            int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+
+            DO_ChartData dO_ChartData = DataManager.GetVentaSemanalDiaria(idCompania);
+
+            var jsonResult = Json(dO_ChartData, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+        [HttpPost]
         public JsonResult GetLastVentas(string parametro)
         {
             int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;

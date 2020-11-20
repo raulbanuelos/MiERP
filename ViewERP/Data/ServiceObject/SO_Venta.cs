@@ -16,6 +16,7 @@ namespace Data.ServiceObject
         private string SP_ERP_GET_VENTA_SEMANA_HISTORICO = "SP_ERP_GET_VENTA_SEMANA_HISTORICO";
         private string SP_ERP_GET_MONTO_VENTA_DIARIA_ORGANIZACION = "SP_ERP_GET_MONTO_VENTA_DIARIA_ORGANIZACION";
         private string SP_ERP_GET_VENTA_SEMANAL_ORGANIZACION_BY_COMPANIAS = "SP_ERP_GET_VENTA_SEMANAL_ORGANIZACION_BY_COMPANIAS";
+        private string SP_ERP_GET_VENTA_SEMANAL_DIARIA = "SP_ERP_GET_VENTA_SEMANAL_DIARIA";
 
         public int Insert(int idUsuario, double monto, DateTime fechaIngreso)
         {
@@ -212,6 +213,28 @@ namespace Data.ServiceObject
                 parametros.Add("idSemana", idSemana);
 
                 datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_VENTA_SEMANA_HISTORICO, parametros);
+
+                return datos;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public DataSet GetVentaSemanalDiaria(int idArticulo)
+        {
+            try
+            {
+                DataSet datos = null;
+
+                ERP_SQL conexion = new ERP_SQL();
+
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
+
+                parametros.Add("idArticulo", idArticulo);
+
+                datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_VENTA_SEMANAL_DIARIA, parametros);
 
                 return datos;
             }

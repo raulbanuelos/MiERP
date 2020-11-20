@@ -440,6 +440,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DataManager.cs" />
+    <Compile Include="Models\DO_ChartData.cs" />
     <Compile Include="Models\DO_Deposito.cs" />
     <Compile Include="Models\DO_Movimiento.cs" />
     <Compile Include="Models\DO_Persona.cs" />

@@ -33,7 +33,7 @@ namespace WebView.Controllers
                 file.SaveAs(urlArchivo);
             }
 
-            urlArchivo = "74.208.247.212/erp/uploads/depositos/" + fileName;
+            urlArchivo = "/uploads/depositos/" + fileName;
 
             double monto = 0;
             DateTime fecha = DateTime.Now;
