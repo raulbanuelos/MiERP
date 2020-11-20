@@ -149,9 +149,17 @@ namespace WebView.Controllers
             List<FO_Item> existencias = DataManager.GetCorteExistencia(idSemana, almacens[0].idAlmacen);
             foreach (var item in dO_Reportes)
             {
-                int existencia = existencias.Where(x => x.NombreInt == item.IdArticulo).FirstOrDefault().ValueInt;
-
-                item.InventarioInicial = existencia;
+                int i = existencias.Where(x => x.NombreInt == item.IdArticulo).ToList().Count;
+                if (i == 0)
+                {
+                    item.InventarioInicial = 0;
+                }
+                else
+                {
+                    FO_Item temp = existencias.Where(x => x.NombreInt == item.IdArticulo).FirstOrDefault();
+                    int existencia = temp.ValueInt;
+                    item.InventarioInicial = existencia;
+                }
 
             }
             
