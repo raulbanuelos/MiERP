@@ -24,6 +24,7 @@ namespace Data.ServiceObject
             this.TBL_PROVEEDOR = new HashSet<TBL_PROVEEDOR>();
             this.TBL_ORGANIZACION = new HashSet<TBL_ORGANIZACION>();
             this.TR_ERP_ORGANIZACION_COMPANIA = new HashSet<TR_ERP_ORGANIZACION_COMPANIA>();
+            this.TBL_ERP_PAGO_PLAN = new HashSet<TBL_ERP_PAGO_PLAN>();
         }
     
         public int ID_COMPANIA { get; set; }
@@ -33,6 +34,7 @@ namespace Data.ServiceObject
         public string TELEFONO { get; set; }
         public string CORREO { get; set; }
         public Nullable<System.DateTime> FECHA_REGISTRO { get; set; }
+        public Nullable<int> ID_PLAN { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_ALMACEN> TBL_ALMACEN { get; set; }
@@ -48,5 +50,8 @@ namespace Data.ServiceObject
         public virtual ICollection<TBL_ORGANIZACION> TBL_ORGANIZACION { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TR_ERP_ORGANIZACION_COMPANIA> TR_ERP_ORGANIZACION_COMPANIA { get; set; }
+        public virtual TBL_ERP_PLAN TBL_ERP_PLAN { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_ERP_PAGO_PLAN> TBL_ERP_PAGO_PLAN { get; set; }
     }
 }

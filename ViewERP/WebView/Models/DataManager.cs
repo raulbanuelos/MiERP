@@ -40,7 +40,8 @@ namespace WebView.Models
                     persona.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
                     persona.ID_ROL = (int)tipo.GetProperty("ID_ROL").GetValue(item, null);
                     persona.Usuario = (string)tipo.GetProperty("USUARIO").GetValue(item, null);
-
+                    persona.FechaRegistro = Convert.ToDateTime(tipo.GetProperty("FECHA_REGISTRO").GetValue(item, null));
+                    persona.NombrePlan = (string)tipo.GetProperty("NOMBRE_PLAN").GetValue(item, null);
                 }
             }
 
@@ -67,6 +68,7 @@ namespace WebView.Models
                     persona.ApellidoPaterno = (string)tipo.GetProperty("APATERNO").GetValue(item, null);
                     persona.ApellidoMaterno = (string)tipo.GetProperty("AMATERNO").GetValue(item, null);
                     persona.Usuario = (string)tipo.GetProperty("USUARIO").GetValue(item, null);
+                    persona.NombrePlan = (string)tipo.GetProperty("NOMBRE_PLAN").GetValue(item, null);
 
                 }
             }
@@ -2872,10 +2874,18 @@ namespace WebView.Models
                     dO_Compania.Telefono = type.GetProperty("TELEFONO").GetValue(item, null).ToString();
                     dO_Compania.IdCompania = Convert.ToInt32(type.GetProperty("ID_COMPANIA").GetValue(item, null).ToString());
                     dO_Compania.FechaRegistro = Convert.ToDateTime(type.GetProperty("FECHA_REGISTRO").GetValue(item, null));
+                    dO_Compania.IdPlan = Convert.ToInt32(type.GetProperty("ID_PLAN").GetValue(item, null));
                 }
             }
 
             return dO_Compania;
+        }
+
+        public static int UpdatePlan(int idCompania, int idPlan)
+        {
+            SO_Compania sO_Compania = new SO_Compania();
+
+            return sO_Compania.UpdatePlan(idCompania, idPlan);
         }
         #endregion
 
@@ -3031,6 +3041,75 @@ namespace WebView.Models
             }
 
             return companias;
+        }
+        #endregion
+
+        #region Pagos
+        public static bool IsPagoOk(int idCompania)
+        {
+            SO_Pagos servicePagos = new SO_Pagos();
+
+            IList list = servicePagos.GetUltimoPago(idCompania);
+
+            bool entro = false;
+            DateTime ultimoPago= DateTime.MinValue;
+
+            if (list != null)
+            {
+                foreach (var item in list)
+                {
+                    Type type = item.GetType();
+
+                    ultimoPago = Convert.ToDateTime(type.GetProperty("FECHA_PAGO").GetValue(item, null));
+                    entro = true;
+                }
+            }
+
+            if (entro)
+            {
+                double days = (DateTime.Now - ultimoPago).TotalDays;
+
+                return days > 30 ? false : true;
+            }
+            else
+                return false;
+        }
+        #endregion
+
+        #region Bitácora
+        public static int InsertBitacora(string nombreUsuario, string accion)
+        {
+            SO_Bitacora sO_Bitacora = new SO_Bitacora();
+
+            return sO_Bitacora.Insert(accion, nombreUsuario);
+        }
+
+        public static List<DO_Bitacora> GetBitacora()
+        {
+            SO_Bitacora sO_Bitacora = new SO_Bitacora();
+
+            List<DO_Bitacora> bitacoras = new List<DO_Bitacora>();
+
+            IList list = sO_Bitacora.Get();
+
+            if (list != null)
+            {
+                foreach (var item in list)
+                {
+                    Type type = item.GetType();
+
+                    DO_Bitacora dO_Bitacora = new DO_Bitacora();
+
+                    dO_Bitacora.IdBitacora = (int)type.GetProperty("ID_BITACORA").GetValue(item, null);
+                    dO_Bitacora.NombreUsuario = (string)type.GetProperty("USUARIO").GetValue(item, null);
+                    dO_Bitacora.Accion = (string)type.GetProperty("ACCION").GetValue(item, null);
+                    dO_Bitacora.FechaRegistro = (DateTime)type.GetProperty("FECHA_REGISTRO").GetValue(item, null);
+
+                    bitacoras.Add(dO_Bitacora);
+                }
+            }
+
+            return bitacoras;
         }
         #endregion
     }

@@ -122,6 +122,7 @@
             <PropertyRef Name="ID_COMPANIA" />
           </Key>
           <Property Name="ID_COMPANIA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_PLAN" Type="int" />
           <Property Name="NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="RFC" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="DIRECCION" Type="varchar" MaxLength="200" />
@@ -185,6 +186,15 @@
           <Property Name="CONDICION_ARTICULO_REGRESO" Type="varchar" MaxLength="50" />
           <Property Name="FECHA_REGRESO" Type="datetime" />
         </EntityType>
+        <EntityType Name="TBL_ERP_BITACORA">
+          <Key>
+            <PropertyRef Name="ID_BITACORA" />
+          </Key>
+          <Property Name="ID_BITACORA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="USUARIO" Type="varchar" MaxLength="100" />
+          <Property Name="ACCION" Type="varchar" MaxLength="200" />
+          <Property Name="FECHA_REGISTRO" Type="datetime" />
+        </EntityType>
         <EntityType Name="TBL_ERP_CORTE_EXISTENCIA_ALMACEN">
           <Key>
             <PropertyRef Name="ID_CORTE_EXISTENCIA_ALMACEN" />
@@ -194,6 +204,23 @@
           <Property Name="ID_ALMACEN" Type="int" Nullable="false" />
           <Property Name="ID_ARTICULO" Type="int" Nullable="false" />
           <Property Name="CANTIDAD" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBL_ERP_PAGO_PLAN">
+          <Key>
+            <PropertyRef Name="ID_PAGO" />
+          </Key>
+          <Property Name="ID_PAGO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_COMPANIA" Type="int" />
+          <Property Name="FECHA_PAGO" Type="datetime" />
+          <Property Name="MONTO" Type="float" />
+        </EntityType>
+        <EntityType Name="TBL_ERP_PLAN">
+          <Key>
+            <PropertyRef Name="ID_PLAN" />
+          </Key>
+          <Property Name="ID_PLAN" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_PLAN" Type="varchar" MaxLength="100" />
+          <Property Name="PRECIO" Type="float" />
         </EntityType>
         <EntityType Name="TBL_EXISTENCIA">
           <Key>
@@ -445,6 +472,18 @@
             </Principal>
             <Dependent Role="TR_ERP_ORGANIZACION_COMPANIA">
               <PropertyRef Name="ID_ORGANIZACION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PLAN_COMPANIA">
+          <End Role="TBL_ERP_PLAN" Type="Self.TBL_ERP_PLAN" Multiplicity="0..1" />
+          <End Role="TBL_COMPANIA" Type="Self.TBL_COMPANIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ERP_PLAN">
+              <PropertyRef Name="ID_PLAN" />
+            </Principal>
+            <Dependent Role="TBL_COMPANIA">
+              <PropertyRef Name="ID_PLAN" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -700,6 +739,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TBL_PAGO_PLAN_COMPANIA">
+          <End Role="TBL_COMPANIA" Type="Self.TBL_COMPANIA" Multiplicity="0..1" />
+          <End Role="TBL_ERP_PAGO_PLAN" Type="Self.TBL_ERP_PAGO_PLAN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_COMPANIA">
+              <PropertyRef Name="ID_COMPANIA" />
+            </Principal>
+            <Dependent Role="TBL_ERP_PAGO_PLAN">
+              <PropertyRef Name="ID_COMPANIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TBL_PROVEEDOR_TBL_COMPANIA1">
           <End Role="TBL_COMPANIA" Type="Self.TBL_COMPANIA" Multiplicity="1" />
           <End Role="TBL_PROVEEDOR" Type="Self.TBL_PROVEEDOR" Multiplicity="*" />
@@ -754,7 +805,10 @@
           <EntitySet Name="TBL_DETAILS_VENTA" EntityType="Self.TBL_DETAILS_VENTA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN" EntityType="Self.TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN" EntityType="Self.TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_ERP_BITACORA" EntityType="Self.TBL_ERP_BITACORA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_ERP_CORTE_EXISTENCIA_ALMACEN" EntityType="Self.TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_ERP_PAGO_PLAN" EntityType="Self.TBL_ERP_PAGO_PLAN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_ERP_PLAN" EntityType="Self.TBL_ERP_PLAN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_EXISTENCIA" EntityType="Self.TBL_EXISTENCIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_MOVIMIENTO_ALMACEN" EntityType="Self.TBL_MOVIMIENTO_ALMACEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_MOVIMIENTO_SALIDA_ALMACEN" EntityType="Self.TBL_MOVIMIENTO_SALIDA_ALMACEN" Schema="dbo" store:Type="Tables" />
@@ -813,6 +867,10 @@
           <AssociationSet Name="FK_ORGANIZACION_TR_ORGANIZACION_COMPANIA" Association="Self.FK_ORGANIZACION_TR_ORGANIZACION_COMPANIA">
             <End Role="TBL_ORGANIZACION" EntitySet="TBL_ORGANIZACION" />
             <End Role="TR_ERP_ORGANIZACION_COMPANIA" EntitySet="TR_ERP_ORGANIZACION_COMPANIA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PLAN_COMPANIA" Association="Self.FK_PLAN_COMPANIA">
+            <End Role="TBL_ERP_PLAN" EntitySet="TBL_ERP_PLAN" />
+            <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
           </AssociationSet>
           <AssociationSet Name="FK_Productos_CategoriaProducto" Association="Self.FK_Productos_CategoriaProducto">
             <End Role="CategoriaProducto" EntitySet="CategoriaProducto" />
@@ -897,6 +955,10 @@
           <AssociationSet Name="FK_TBL_MOVIMIENTO_SALIDA_ALMACEN_TBL_ALMACEN" Association="Self.FK_TBL_MOVIMIENTO_SALIDA_ALMACEN_TBL_ALMACEN">
             <End Role="TBL_ALMACEN" EntitySet="TBL_ALMACEN" />
             <End Role="TBL_MOVIMIENTO_SALIDA_ALMACEN" EntitySet="TBL_MOVIMIENTO_SALIDA_ALMACEN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_PAGO_PLAN_COMPANIA" Association="Self.FK_TBL_PAGO_PLAN_COMPANIA">
+            <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
+            <End Role="TBL_ERP_PAGO_PLAN" EntitySet="TBL_ERP_PAGO_PLAN" />
           </AssociationSet>
           <AssociationSet Name="FK_TBL_PROVEEDOR_TBL_COMPANIA1" Association="Self.FK_TBL_PROVEEDOR_TBL_COMPANIA1">
             <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
@@ -1089,6 +1151,17 @@
             <End Role="TBL_ORGANIZACION" EntitySet="TBL_ORGANIZACION" />
             <End Role="TR_ERP_ORGANIZACION_COMPANIA" EntitySet="TR_ERP_ORGANIZACION_COMPANIA" />
           </AssociationSet>
+          <EntitySet Name="TBL_ERP_PLAN" EntityType="Data.ServiceObject.TBL_ERP_PLAN" />
+          <AssociationSet Name="FK_PLAN_COMPANIA" Association="Data.ServiceObject.FK_PLAN_COMPANIA">
+            <End Role="TBL_ERP_PLAN" EntitySet="TBL_ERP_PLAN" />
+            <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
+          </AssociationSet>
+          <EntitySet Name="TBL_ERP_PAGO_PLAN" EntityType="Data.ServiceObject.TBL_ERP_PAGO_PLAN" />
+          <AssociationSet Name="FK_TBL_PAGO_PLAN_COMPANIA" Association="Data.ServiceObject.FK_TBL_PAGO_PLAN_COMPANIA">
+            <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
+            <End Role="TBL_ERP_PAGO_PLAN" EntitySet="TBL_ERP_PAGO_PLAN" />
+          </AssociationSet>
+          <EntitySet Name="TBL_ERP_BITACORA" EntityType="Data.ServiceObject.TBL_ERP_BITACORA" />
           </EntityContainer>
         <EntityType Name="TBL_ALERTAS_STOCK_MIN">
           <Key>
@@ -1726,6 +1799,9 @@
           <NavigationProperty Name="TBL_PROVEEDOR" Relationship="Data.ServiceObject.FK_TBL_PROVEEDOR_TBL_COMPANIA1" FromRole="TBL_COMPANIA" ToRole="TBL_PROVEEDOR" />
           <NavigationProperty Name="TBL_ORGANIZACION" Relationship="Data.ServiceObject.FK_ORGANIZACION_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_ORGANIZACION" />
           <NavigationProperty Name="TR_ERP_ORGANIZACION_COMPANIA" Relationship="Data.ServiceObject.FK_ORGANIZACION_TR_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TR_ERP_ORGANIZACION_COMPANIA" />
+          <Property Name="ID_PLAN" Type="Int32" />
+          <NavigationProperty Name="TBL_ERP_PLAN" Relationship="Data.ServiceObject.FK_PLAN_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_ERP_PLAN" />
+          <NavigationProperty Name="TBL_ERP_PAGO_PLAN" Relationship="Data.ServiceObject.FK_TBL_PAGO_PLAN_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_ERP_PAGO_PLAN" />
         </EntityType>
         <Association Name="FK_TBL_ALMACEN_TBL_COMPANIA">
           <End Type="Data.ServiceObject.TBL_COMPANIA" Role="TBL_COMPANIA" Multiplicity="1" />
@@ -1893,6 +1969,58 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TBL_ERP_PLAN">
+          <Key>
+            <PropertyRef Name="ID_PLAN" />
+          </Key>
+          <Property Name="ID_PLAN" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_PLAN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PRECIO" Type="Double" />
+          <NavigationProperty Name="TBL_COMPANIA" Relationship="Data.ServiceObject.FK_PLAN_COMPANIA" FromRole="TBL_ERP_PLAN" ToRole="TBL_COMPANIA" />
+        </EntityType>
+        <Association Name="FK_PLAN_COMPANIA">
+          <End Type="Data.ServiceObject.TBL_ERP_PLAN" Role="TBL_ERP_PLAN" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.TBL_COMPANIA" Role="TBL_COMPANIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ERP_PLAN">
+              <PropertyRef Name="ID_PLAN" />
+            </Principal>
+            <Dependent Role="TBL_COMPANIA">
+              <PropertyRef Name="ID_PLAN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TBL_ERP_PAGO_PLAN">
+          <Key>
+            <PropertyRef Name="ID_PAGO" />
+          </Key>
+          <Property Name="ID_PAGO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_COMPANIA" Type="Int32" />
+          <Property Name="FECHA_PAGO" Type="DateTime" Precision="3" />
+          <Property Name="MONTO" Type="Double" />
+          <NavigationProperty Name="TBL_COMPANIA" Relationship="Data.ServiceObject.FK_TBL_PAGO_PLAN_COMPANIA" FromRole="TBL_ERP_PAGO_PLAN" ToRole="TBL_COMPANIA" />
+        </EntityType>
+        <Association Name="FK_TBL_PAGO_PLAN_COMPANIA">
+          <End Type="Data.ServiceObject.TBL_COMPANIA" Role="TBL_COMPANIA" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.TBL_ERP_PAGO_PLAN" Role="TBL_ERP_PAGO_PLAN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_COMPANIA">
+              <PropertyRef Name="ID_COMPANIA" />
+            </Principal>
+            <Dependent Role="TBL_ERP_PAGO_PLAN">
+              <PropertyRef Name="ID_COMPANIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TBL_ERP_BITACORA">
+          <Key>
+            <PropertyRef Name="ID_BITACORA" />
+          </Key>
+          <Property Name="ID_BITACORA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="USUARIO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ACCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_REGISTRO" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2187,6 +2315,7 @@
           <EntitySetMapping Name="TBL_COMPANIA">
             <EntityTypeMapping TypeName="Data.ServiceObject.TBL_COMPANIA">
               <MappingFragment StoreEntitySet="TBL_COMPANIA">
+                <ScalarProperty Name="ID_PLAN" ColumnName="ID_PLAN" />
                 <ScalarProperty Name="FECHA_REGISTRO" ColumnName="FECHA_REGISTRO" />
                 <ScalarProperty Name="CORREO" ColumnName="CORREO" />
                 <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
@@ -2224,6 +2353,35 @@
                 <ScalarProperty Name="ID_COMPANIA" ColumnName="ID_COMPANIA" />
                 <ScalarProperty Name="ID_ORGANIZACION" ColumnName="ID_ORGANIZACION" />
                 <ScalarProperty Name="ID_ORG_COMPANIA" ColumnName="ID_ORG_COMPANIA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_ERP_PLAN">
+            <EntityTypeMapping TypeName="Data.ServiceObject.TBL_ERP_PLAN">
+              <MappingFragment StoreEntitySet="TBL_ERP_PLAN">
+                <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+                <ScalarProperty Name="NOMBRE_PLAN" ColumnName="NOMBRE_PLAN" />
+                <ScalarProperty Name="ID_PLAN" ColumnName="ID_PLAN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_ERP_PAGO_PLAN">
+            <EntityTypeMapping TypeName="Data.ServiceObject.TBL_ERP_PAGO_PLAN">
+              <MappingFragment StoreEntitySet="TBL_ERP_PAGO_PLAN">
+                <ScalarProperty Name="MONTO" ColumnName="MONTO" />
+                <ScalarProperty Name="FECHA_PAGO" ColumnName="FECHA_PAGO" />
+                <ScalarProperty Name="ID_COMPANIA" ColumnName="ID_COMPANIA" />
+                <ScalarProperty Name="ID_PAGO" ColumnName="ID_PAGO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_ERP_BITACORA">
+            <EntityTypeMapping TypeName="Data.ServiceObject.TBL_ERP_BITACORA">
+              <MappingFragment StoreEntitySet="TBL_ERP_BITACORA">
+                <ScalarProperty Name="FECHA_REGISTRO" ColumnName="FECHA_REGISTRO" />
+                <ScalarProperty Name="ACCION" ColumnName="ACCION" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="ID_BITACORA" ColumnName="ID_BITACORA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

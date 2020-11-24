@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,29 @@ namespace Data.ServiceObject
                     Conexion.SaveChanges();
 
                     return compania.ID_COMPANIA;
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public int UpdatePlan(int idCompania, int idPlan)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    TBL_COMPANIA tBL_COMPANIA = Conexion.TBL_COMPANIA.Where(x => x.ID_COMPANIA == idCompania).FirstOrDefault();
+
+                    tBL_COMPANIA.ID_PLAN = idPlan;
+                    tBL_COMPANIA.FECHA_REGISTRO = DateTime.Now;
+
+                    Conexion.Entry(tBL_COMPANIA).State = EntityState.Modified;
+
+                    return Conexion.SaveChanges();
+
                 }
             }
             catch (Exception)

@@ -8,6 +8,7 @@ namespace WebView.Controllers
 {
     public class DepositosController : Controller
     {
+        [ERPVerificaAccount]
         public ActionResult AgregarDeposito()
         {
             return View();

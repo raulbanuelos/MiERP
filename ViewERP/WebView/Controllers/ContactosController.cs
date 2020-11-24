@@ -6,6 +6,7 @@ namespace WebView.Controllers
 {
     public class ContactosController : Controller
     {
+        [ERPVerificaAccount]
         public ActionResult Create()
         {
             return View();

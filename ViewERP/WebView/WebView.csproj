@@ -424,10 +424,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ArticuloController.cs" />
+    <Compile Include="Controllers\BitacoraController.cs" />
     <Compile Include="Controllers\ContactosController.cs" />
     <Compile Include="Controllers\CreateAccountController.cs" />
     <Compile Include="Controllers\DepositosController.cs" />
     <Compile Include="Controllers\EntradasAlmacenController.cs" />
+    <Compile Include="Controllers\ERPVerificaAccount.cs" />
     <Compile Include="Controllers\ERPVerificaRol.cs" />
     <Compile Include="Controllers\ExistenciasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -440,6 +442,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DataManager.cs" />
+    <Compile Include="Models\DO_Bitacora.cs" />
     <Compile Include="Models\DO_ChartData.cs" />
     <Compile Include="Models\DO_Deposito.cs" />
     <Compile Include="Models\DO_Movimiento.cs" />
@@ -1296,6 +1299,7 @@
     <Content Include="Views\Articulo\Edit.cshtml" />
     <Content Include="Views\RecordsWeek\Index.cshtml" />
     <Content Include="Views\Suscripcion\Index.cshtml" />
+    <Content Include="Views\Bitacora\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

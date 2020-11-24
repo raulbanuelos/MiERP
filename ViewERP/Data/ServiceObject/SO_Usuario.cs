@@ -18,8 +18,19 @@ namespace Data.ServiceObject
                 using (var Conexion = new EntitiesERP())
                 {
                     var list = (from c in Conexion.TBL_USUARIO
+                                join u in Conexion.TBL_COMPANIA on c.ID_COMPANIA equals u.ID_COMPANIA
+                                join p in Conexion.TBL_ERP_PLAN on u.ID_PLAN equals p.ID_PLAN
                                 where c.ID_USUARIO == idPersona
-                                select c).ToList();
+                                select new { 
+                                    c.ID_USUARIO,
+                                    c.ID_ROL,
+                                    c.ID_COMPANIA,
+                                    c.NOMBRE,
+                                    c.APATERNO,
+                                    c.AMATERNO,
+                                    c.USUARIO,
+                                    p.NOMBRE_PLAN
+                                }).ToList();
 
                     return list;
                 }
@@ -128,8 +139,21 @@ namespace Data.ServiceObject
                 using (var Conexion = new EntitiesERP())
                 {
                     var lista = (from u in Conexion.TBL_USUARIO
-                                 where u.USUARIO == usuario && u.CONTRASENA == contrasena && u.ID_ROL == 1
-                                 select u).ToList();
+                                 join c in Conexion.TBL_COMPANIA on u.ID_COMPANIA equals c.ID_COMPANIA
+                                 join p in Conexion.TBL_ERP_PLAN on c.ID_PLAN equals p.ID_PLAN
+                                 where u.USUARIO == usuario && u.CONTRASENA == contrasena && (u.ID_ROL == 1 || u.ID_ROL == 5)
+                                 select new { 
+                                     u.NOMBRE,
+                                     u.AMATERNO,
+                                     u.APATERNO,
+                                     u.CONTRASENA,
+                                     u.ID_COMPANIA,
+                                     u.ID_ROL,
+                                     u.ID_USUARIO,
+                                     u.USUARIO,
+                                     c.FECHA_REGISTRO,
+                                     p.NOMBRE_PLAN
+                                 }).ToList();
                     return lista;
                 }
             }

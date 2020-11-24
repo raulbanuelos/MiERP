@@ -41,6 +41,7 @@ namespace WebView.Controllers
             return View();
         }
 
+        [ERPVerificaAccount]
         public ActionResult BajarArchivo(int idSemana)
         {
             DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);

@@ -36,6 +36,10 @@ namespace WebView.Models
         [Display(Name = "ID COMPAÑIA")]
         public int idCompania { get; set; }
 
+        public DateTime FechaRegistro { get; set; }
+
+        public string NombrePlan { get; set; }
+
         public string NombreCompleto
         {
             get

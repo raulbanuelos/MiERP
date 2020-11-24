@@ -8,6 +8,7 @@ namespace WebView.Controllers
 {
     public class EntradasAlmacenController : Controller
     {
+        [ERPVerificaAccount]
         [ERPVerificaRol]
         public ActionResult DarEntrada()
         {

@@ -8,6 +8,7 @@ namespace WebView.Controllers
 {
     public class VentasController : Controller
     {
+        [ERPVerificaAccount]
         public ActionResult AgregarVenta()
         {
             int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;

@@ -7,7 +7,7 @@ namespace WebView.Controllers
 {
     public class SalidasAlmacenController : Controller
     {
-        // GET: SalidasAlmacen
+        [ERPVerificaAccount]
         [ERPVerificaRol]
         public ActionResult DarSalida()
         {

@@ -24,22 +24,25 @@ namespace WebView.Controllers
                     Session["NombrePersona"] = usuario.NombreCompleto;
                     Session["CorreoPersona"] = usuario.Usuario;
 
-                    Session["ADMINISTRADOR"] = false;
-                    Session["ALMACEN"] = false;
+                    Session["GERENTE"] = false;
+                    Session["CONTACTO"] = false;
                     Session["PRODUCCION"] = false;
+                    Session["ADMINISTRADOR"] = false;
 
                     switch (usuario.ID_ROL)
                     {
                         case 1:
-                            Session["ADMINISTRADOR"] = true;
+                            Session["GERENTE"] = true;
                             break;
                         case 2:
-                            Session["ALMACEN"] = true;
+                            Session["CONTACTO"] = true;
                             break;
                         case 4:
-                            Session["PRODUCCION"] = true;
+                            Session["PRODUCCIÓN"] = true;
                             break;
-
+                        case 5:
+                            Session["ADMINISTRADOR"] = true;
+                            break;
                         default:
                             break;
                     }
@@ -48,6 +51,8 @@ namespace WebView.Controllers
 
                     Session["IS_ORGANIZACION"] = organizacion.IdOrganizacion != 0 ? true : false;
                     usuario.idOrganizacion = organizacion.IdOrganizacion;
+
+                    int r = DataManager.InsertBitacora(usuario.NombreCompleto, "INGRESA A LA PLATAFORMA");
 
                     return RedirectToAction("Index", "Home");
                 }

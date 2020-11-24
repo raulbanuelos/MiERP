@@ -7,6 +7,7 @@ namespace WebView.Controllers
 {
     public class HomeController : Controller
     {
+        [ERPVerificaRol]
         public ActionResult Index()
         {
             return View();

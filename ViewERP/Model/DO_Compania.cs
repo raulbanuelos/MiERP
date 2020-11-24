@@ -16,6 +16,7 @@ namespace Model
         public string Telefono { get; set; }
         public string Correo { get; set; }
         public DateTime FechaRegistro { get; set; }
+        public int IdPlan { get; set; }
 
     }
 }

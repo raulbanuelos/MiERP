@@ -66,7 +66,7 @@ namespace WebView.Controllers
 
             if (nombreControlador.Equals("Home"))
             {
-                RolesPermitidos = "1,2,3";
+                RolesPermitidos = "1,2,3,5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 

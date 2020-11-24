@@ -97,6 +97,7 @@ namespace WebView.Controllers
         }
 
         [HttpPost]
+        [ERPVerificaAccount]
         [ERPVerificaRol]
         public JsonResult GuardarCambiosArticulo(string codigo, string descripcionCorta, string descripcionLarga, int stockMinimo, int stockMaximo, bool isConsumible, double precioUnidad, double precioMaster, double precioGerente, double precioPromotor, int idArticulo)
         {
@@ -126,6 +127,7 @@ namespace WebView.Controllers
 
         }
 
+        [ERPVerificaAccount]
         [ERPVerificaRol]
         public ActionResult Create(DO_Articulo articulo = null)
         {
