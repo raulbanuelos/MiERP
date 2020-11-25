@@ -9,7 +9,7 @@ namespace WebView.Controllers
 {
     public class BitacoraController : Controller
     {
-        // GET: Bitacora
+        [ERPVerificaRol]
         public ActionResult Index()
         {
             return View();

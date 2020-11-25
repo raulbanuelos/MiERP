@@ -90,6 +90,12 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
 
 <script type="text/javascript">
+
+    $(function () {
+        $("#cboCategorias").append("<option value=\"0\" selected>Selecciona una opción</option>");
+    });
+
+
     $("#cboCategorias").change(function () {
         var _idCategoria = $("#cboCategorias").val();
         var urlSave = '@Url.Action("GetNewCode", "Articulo")';

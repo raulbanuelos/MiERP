@@ -30,85 +30,91 @@ namespace WebView.Controllers
             string RolesPermitidos;
             if (nombreControlador.Equals("Almacen"))
             {
-                RolesPermitidos = "1";
+                RolesPermitidos = "1,3,5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
             if (nombreControlador.Equals("Articulo"))
             {
-                RolesPermitidos = "1,2";
+                RolesPermitidos = "1,3,5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
             if (nombreControlador.Equals("CategoriaArticulo"))
             {
-                RolesPermitidos = "1";
+                RolesPermitidos = "5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
             if (nombreControlador.Equals("EntradasAlmacen"))
             {
-                RolesPermitidos = "1,2";
+                RolesPermitidos = "1,3,5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
             if (nombreControlador.Equals("Proveedor"))
             {
-                RolesPermitidos = "1,2";
+                RolesPermitidos = "1,3,5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
             if (nombreControlador.Equals("Usuario"))
             {
-                RolesPermitidos = "1,2";
+                RolesPermitidos = "1,3,5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
             if (nombreControlador.Equals("Home"))
             {
-                RolesPermitidos = "1,2,3,5";
+                RolesPermitidos = "1,3,5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
             if (nombreControlador.Equals("LogIn"))
             {
-                RolesPermitidos = "1,2,3";
+                RolesPermitidos = "1,3,5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
             if (nombreControlador.Equals("SalidasAlmacen"))
             {
-                RolesPermitidos = "1,2";
+                RolesPermitidos = "1,3,5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
             if (nombreControlador.Equals("EntradasAlmacen"))
             {
-                RolesPermitidos = "1,2";
+                RolesPermitidos = "1,3,5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
             if (nombreControlador.Equals("Existencia"))
             {
-                RolesPermitidos = "1,2";
+                RolesPermitidos = "1,3,5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
             if (nombreControlador.Equals("Reportes"))
             {
-                RolesPermitidos = "1";
+                RolesPermitidos = "1,3,5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
             if (nombreControlador.Equals("Ordenes"))
             {
-                RolesPermitidos = "1,4";
+                RolesPermitidos = "1,3,5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
 
             if (nombreControlador.Equals("AlertasStock"))
             {
-                RolesPermitidos = "1";
+                RolesPermitidos = "1,3,5";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
+
+            if (nombreControlador.Equals("Bitacora"))
+            {
+                RolesPermitidos = "5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
             return false;

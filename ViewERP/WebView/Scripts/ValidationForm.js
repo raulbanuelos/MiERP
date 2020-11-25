@@ -11,8 +11,10 @@
     var _precioPromotor = $("#txtPrecioPromotor").val();
     var _precioGerente = $("#txtPrecioGerente").val();
 
+    
 
-    if (_idCategoria == "") {
+
+    if (_idCategoria == "" || _idCategoria == 0) {
         alert("Por favor seleccione una categoría.");
         return false;
     } else {

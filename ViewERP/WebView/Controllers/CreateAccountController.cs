@@ -12,14 +12,16 @@ namespace WebView.Controllers
         }
 
         [HttpPost]
-        public JsonResult CrearCuenta(string nombre, string email, string contrasena, string telefono, string direccion )
+        public JsonResult CrearCuenta(string nombre, string email, string contrasena, string telefono, string direccion, int idRol)
         {
 
             DO_Persona dO_Persona1 =  DataManager.GetPersona(email);
 
             if (dO_Persona1.ID_ROL == 2 || dO_Persona1.idUsuario == 0)
             {
-                int idCompania = DataManager.InsertCompania(nombre, "RFC", direccion, telefono, email);
+                //Se establece el plan de 7 dias libres por default.
+                int idPlan = 1;
+                int idCompania = DataManager.InsertCompania(nombre, "RFC", direccion, telefono, email, idPlan);
 
                 if (idCompania > 0)
                 {
@@ -28,7 +30,7 @@ namespace WebView.Controllers
                     dO_Persona.ApellidoMaterno = string.Empty;
                     dO_Persona.ApellidoPaterno = string.Empty;
                     dO_Persona.idCompania = idCompania;
-                    dO_Persona.ID_ROL = 1;
+                    dO_Persona.ID_ROL = idRol;
                     dO_Persona.Contrasena = contrasena;
                     dO_Persona.Usuario = email;
 

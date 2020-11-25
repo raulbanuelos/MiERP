@@ -10,7 +10,7 @@ namespace Data.ServiceObject
 {
     public class SO_Compania
     {
-        public int Insert(string nombre, string rfc, string direccion, string telefono, string correo)
+        public int Insert(string nombre, string rfc, string direccion, string telefono, string correo, int idPlan)
         {
             try
             {
@@ -24,6 +24,7 @@ namespace Data.ServiceObject
                     compania.TELEFONO = telefono;
                     compania.CORREO = correo;
                     compania.FECHA_REGISTRO = DateTime.Now;
+                    compania.ID_PLAN = idPlan;
 
                     Conexion.TBL_COMPANIA.Add(compania);
 

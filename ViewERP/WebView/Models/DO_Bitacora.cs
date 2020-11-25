@@ -11,5 +11,6 @@ namespace WebView.Models
         public string NombreUsuario { get; set; }
         public string Accion { get; set; }
         public DateTime FechaRegistro { get; set; }
+        public string StringFecha { get; set; }
     }
 }

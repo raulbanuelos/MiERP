@@ -2845,11 +2845,11 @@ namespace WebView.Models
         #endregion
 
         #region Compañia
-        public static int InsertCompania(string nombre, string rfc, string direccion, string telefono, string correo)
+        public static int InsertCompania(string nombre, string rfc, string direccion, string telefono, string correo, int idPlan)
         {
             SO_Compania sO_Compania = new SO_Compania();
 
-            return sO_Compania.Insert(nombre, rfc, direccion, telefono, correo);
+            return sO_Compania.Insert(nombre, rfc, direccion, telefono, correo, idPlan);
         }
 
         public static DO_Compania GetCompania(int idCompania)
@@ -3104,6 +3104,7 @@ namespace WebView.Models
                     dO_Bitacora.NombreUsuario = (string)type.GetProperty("USUARIO").GetValue(item, null);
                     dO_Bitacora.Accion = (string)type.GetProperty("ACCION").GetValue(item, null);
                     dO_Bitacora.FechaRegistro = (DateTime)type.GetProperty("FECHA_REGISTRO").GetValue(item, null);
+                    dO_Bitacora.StringFecha = dO_Bitacora.FechaRegistro.Year + "-" + dO_Bitacora.FechaRegistro.Month + "-" + dO_Bitacora.FechaRegistro.Day;
 
                     bitacoras.Add(dO_Bitacora);
                 }
