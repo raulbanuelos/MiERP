@@ -49,9 +49,9 @@ namespace WebView.Controllers
         }
 
         [HttpPost]
-        public JsonResult GuardarEntrada(int idAlmacen, int idProveedor, string Factura, List<DO_DetalleEntradaArticulo> articulos)
+        public JsonResult GuardarEntrada(int idAlmacen, int idProveedor, string Factura, DateTime fecha, List<DO_DetalleEntradaArticulo> articulos)
         {
-            int r = DataManager.InsertEntradaArticuloAlmacen(idAlmacen, idProveedor, Factura, DateTime.Now, ((DO_Persona)Session["UsuarioConectado"]).Usuario, articulos);
+            int r = DataManager.InsertEntradaArticuloAlmacen(idAlmacen, idProveedor, Factura, fecha, ((DO_Persona)Session["UsuarioConectado"]).Usuario, articulos);
 
             var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
