@@ -44,6 +44,24 @@ namespace WebView.Controllers
                 return respuesta;
             }
 
+            if (usuario.NombrePlan == "FREE 30 DIAS")
+            {
+                double days = (DateTime.Now - usuario.FechaRegistro).TotalDays;
+                bool respuesta = days > 30 ? false : true;
+
+                if (!respuesta)
+                {
+                    //TODO: Actualizar al nuevo plan.
+                    int idNewPlan = usuario.ID_ROL == 1 ? 3 : 4;
+
+                    int r = DataManager.UpdatePlan(usuario.idCompania, idNewPlan);
+                    DO_Persona usuarioConectado = DataManager.GetPersona(usuario.idUsuario);
+                    contexto.Session["UsuarioConectado"] = usuarioConectado;
+                }
+
+                return respuesta;
+            }
+
             if (usuario.NombrePlan == "GERENTE MENSUAL")
             {
                 bool isOk = DataManager.IsPagoOk(usuario.idCompania);
