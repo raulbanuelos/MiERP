@@ -1,7 +1,6 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
 @{
     if (Convert.ToBoolean(Session["IS_ORGANIZACION"]))
     {
@@ -138,7 +137,7 @@
 
                         </ul>
                         <div class="chart-container-1">
-                            <canvas id="chart1" width="550" height="100"></canvas>
+                            <canvas id="chart1"></canvas>
                         </div>
                     </div>
                 </div>
@@ -558,6 +557,7 @@
                         data: data,
                         options: {
                             responsive: true,
+                            maintainAspectRatio: false,
                             legend: {
                                 position: 'top',
                                 labels: {
