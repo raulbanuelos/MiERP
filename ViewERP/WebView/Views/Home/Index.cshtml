@@ -595,15 +595,13 @@
                                     label: function (tooltipItem, data) {
                                         var label = data.datasets[tooltipItem.datasetIndex].label || '';
                                         var cantidad = data.datasets[tooltipItem.datasetIndex].cantidad[tooltipItem.index];
+                                        var multiline = [label];
+                                        var venta = Math.round(tooltipItem.yLabel * 100) / 100;
 
-                                        if (label) {
-                                            label += ': $';
-                                        }
-                                        label += Math.round(tooltipItem.yLabel * 100) / 100;
-
-                                        label += "       Piezas vendidas: " + cantidad;
-
-                                        return label;
+                                        multiline.push("Piezas: " + cantidad);
+                                        multiline.push("Total venta: $" + venta);
+                                        
+                                        return multiline;
                                     }
                                 }
                             }
