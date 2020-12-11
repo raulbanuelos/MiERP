@@ -594,11 +594,15 @@
                                 callbacks: {
                                     label: function (tooltipItem, data) {
                                         var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                        var cantidad = data.datasets[tooltipItem.datasetIndex].cantidad[tooltipItem.index];
 
                                         if (label) {
                                             label += ': $';
                                         }
                                         label += Math.round(tooltipItem.yLabel * 100) / 100;
+
+                                        label += "       Piezas vendidas: " + cantidad;
+
                                         return label;
                                     }
                                 }

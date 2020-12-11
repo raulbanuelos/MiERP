@@ -2542,9 +2542,11 @@ namespace WebView.Models
 
                 dataSetChart.label = articulo.Descripcion;
                 dataSetChart.data = new List<double>();
+                dataSetChart.cantidad = new List<int>();
                 dataSetChart.backgroundColor = backGroundColors[f];
                 dataSetChart.borderColor = borderColors[f];
                 dataSetChart.type = "bar";
+                
 
                 DataSet dataSet = serviceVenta.GetVentaSemanalDiaria(articulo.idArticulo);
 
@@ -2555,6 +2557,7 @@ namespace WebView.Models
                         if (dataSet.Tables[0].Rows.Count == 0)
                         {
                             dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
                         }
                         else
                         {
@@ -2562,14 +2565,17 @@ namespace WebView.Models
                             foreach (DataRow item in dataSet.Tables[0].Rows)
                             {
                                 monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
                             }
                             totales[0] += monto;
                             dataSetChart.data.Add(monto);
+                            
                         }
 
                         if (dataSet.Tables[1].Rows.Count == 0)
                         {
                             dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
                         }
                         else
                         {
@@ -2577,6 +2583,7 @@ namespace WebView.Models
                             foreach (DataRow item in dataSet.Tables[1].Rows)
                             {
                                 monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
                             }
                             totales[1] += monto;
                             dataSetChart.data.Add(monto);
@@ -2585,6 +2592,7 @@ namespace WebView.Models
                         if (dataSet.Tables[2].Rows.Count == 0)
                         {
                             dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
                         }
                         else
                         {
@@ -2592,6 +2600,7 @@ namespace WebView.Models
                             foreach (DataRow item in dataSet.Tables[2].Rows)
                             {
                                 monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
                             }
                             totales[2] += monto;
                             dataSetChart.data.Add(monto);
@@ -2600,6 +2609,7 @@ namespace WebView.Models
                         if (dataSet.Tables[3].Rows.Count == 0)
                         {
                             dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
                         }
                         else
                         {
@@ -2607,6 +2617,7 @@ namespace WebView.Models
                             foreach (DataRow item in dataSet.Tables[3].Rows)
                             {
                                 monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
                             }
                             totales[3] += monto;
                             dataSetChart.data.Add(monto);
@@ -2615,6 +2626,7 @@ namespace WebView.Models
                         if (dataSet.Tables[4].Rows.Count == 0)
                         {
                             dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
                         }
                         else
                         {
@@ -2622,6 +2634,7 @@ namespace WebView.Models
                             foreach (DataRow item in dataSet.Tables[4].Rows)
                             {
                                 monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
                             }
                             totales[4] += monto;
                             dataSetChart.data.Add(monto);
@@ -2630,6 +2643,7 @@ namespace WebView.Models
                         if (dataSet.Tables[5].Rows.Count == 0)
                         {
                             dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
                         }
                         else
                         {
@@ -2637,6 +2651,7 @@ namespace WebView.Models
                             foreach (DataRow item in dataSet.Tables[5].Rows)
                             {
                                 monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
                             }
                             totales[5] += monto;
                             dataSetChart.data.Add(monto);
@@ -2645,6 +2660,7 @@ namespace WebView.Models
                         if (dataSet.Tables[6].Rows.Count == 0)
                         {
                             dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
                         }
                         else
                         {
@@ -2652,6 +2668,7 @@ namespace WebView.Models
                             foreach (DataRow item in dataSet.Tables[6].Rows)
                             {
                                 monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
                             }
                             totales[6] += monto;
                             dataSetChart.data.Add(monto);

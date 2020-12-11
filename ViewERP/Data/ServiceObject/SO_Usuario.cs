@@ -141,7 +141,7 @@ namespace Data.ServiceObject
                     var lista = (from u in Conexion.TBL_USUARIO
                                  join c in Conexion.TBL_COMPANIA on u.ID_COMPANIA equals c.ID_COMPANIA
                                  join p in Conexion.TBL_ERP_PLAN on c.ID_PLAN equals p.ID_PLAN
-                                 where u.USUARIO == usuario && u.CONTRASENA == contrasena && (u.ID_ROL == 1 || u.ID_ROL == 5)
+                                 where u.USUARIO == usuario && u.CONTRASENA == contrasena && (u.ID_ROL == 1 || u.ID_ROL == 5 || u.ID_ROL == 3)
                                  select new { 
                                      u.NOMBRE,
                                      u.AMATERNO,

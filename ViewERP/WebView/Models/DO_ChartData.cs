@@ -23,5 +23,7 @@ namespace WebView.Models
 
         public bool fill { get; set; }
 
+        public List<int> cantidad { get; set; }
+
     }
 }
