@@ -19,5 +19,9 @@ namespace WebView.Models
         public int borderWidth { get; set; }
         public List<double> data { get; set; }
 
+        public string type { get; set; }
+
+        public bool fill { get; set; }
+
     }
 }

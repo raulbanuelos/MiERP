@@ -2532,8 +2532,9 @@ namespace WebView.Models
             borderColors.Add("rgba(255, 159, 64, 1)");
             borderColors.Add("rgba(255, 159, 64, 1)");
 
-
             int f = 0;
+
+            double[] totales = new double[7];
 
             foreach (var articulo in articulos)
             {
@@ -2543,6 +2544,7 @@ namespace WebView.Models
                 dataSetChart.data = new List<double>();
                 dataSetChart.backgroundColor = backGroundColors[f];
                 dataSetChart.borderColor = borderColors[f];
+                dataSetChart.type = "bar";
 
                 DataSet dataSet = serviceVenta.GetVentaSemanalDiaria(articulo.idArticulo);
 
@@ -2561,6 +2563,7 @@ namespace WebView.Models
                             {
                                 monto = Convert.ToDouble(item["PRECIO"]);
                             }
+                            totales[0] += monto;
                             dataSetChart.data.Add(monto);
                         }
 
@@ -2575,6 +2578,7 @@ namespace WebView.Models
                             {
                                 monto = Convert.ToDouble(item["PRECIO"]);
                             }
+                            totales[1] += monto;
                             dataSetChart.data.Add(monto);
                         }
 
@@ -2589,6 +2593,7 @@ namespace WebView.Models
                             {
                                 monto = Convert.ToDouble(item["PRECIO"]);
                             }
+                            totales[2] += monto;
                             dataSetChart.data.Add(monto);
                         }
 
@@ -2603,6 +2608,7 @@ namespace WebView.Models
                             {
                                 monto = Convert.ToDouble(item["PRECIO"]);
                             }
+                            totales[3] += monto;
                             dataSetChart.data.Add(monto);
                         }
 
@@ -2617,6 +2623,7 @@ namespace WebView.Models
                             {
                                 monto = Convert.ToDouble(item["PRECIO"]);
                             }
+                            totales[4] += monto;
                             dataSetChart.data.Add(monto);
                         }
 
@@ -2631,6 +2638,7 @@ namespace WebView.Models
                             {
                                 monto = Convert.ToDouble(item["PRECIO"]);
                             }
+                            totales[5] += monto;
                             dataSetChart.data.Add(monto);
                         }
 
@@ -2645,6 +2653,7 @@ namespace WebView.Models
                             {
                                 monto = Convert.ToDouble(item["PRECIO"]);
                             }
+                            totales[6] += monto;
                             dataSetChart.data.Add(monto);
                         }
                     }
@@ -2652,6 +2661,24 @@ namespace WebView.Models
                 dO_ChartData.datasets.Add(dataSetChart);
                 f++;
             }
+
+            DataSetChart dataSetChart1 = new DataSetChart();
+            dataSetChart1.label = "Venta total";
+            dataSetChart1.data = new List<double>();
+            dataSetChart1.backgroundColor = backGroundColors[9];
+            dataSetChart1.borderColor = borderColors[9];
+            dataSetChart1.type = "line";
+            dataSetChart1.fill = false;
+
+            dataSetChart1.data.Add(totales[0]);
+            dataSetChart1.data.Add(totales[1]);
+            dataSetChart1.data.Add(totales[2]);
+            dataSetChart1.data.Add(totales[3]);
+            dataSetChart1.data.Add(totales[4]);
+            dataSetChart1.data.Add(totales[5]);
+            dataSetChart1.data.Add(totales[6]);
+
+            dO_ChartData.datasets.Add(dataSetChart1);
 
             return dO_ChartData;
         }
