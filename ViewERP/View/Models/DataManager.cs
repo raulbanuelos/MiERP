@@ -861,7 +861,7 @@ namespace View.Models
             
             SO_Existencia ServiceExistencia = new SO_Existencia();
 
-            int idMovimientoEntrada = ServiceEntrada.InsertEntrada(idAlmacen, idProveedor, noFactura, fecha, usuario);
+            int idMovimientoEntrada = ServiceEntrada.InsertEntrada(idAlmacen, idProveedor, noFactura, fecha, usuario, 0);
 
             int r = 0;
 

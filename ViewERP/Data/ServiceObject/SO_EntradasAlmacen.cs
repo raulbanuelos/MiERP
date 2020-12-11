@@ -8,7 +8,7 @@ namespace Data.ServiceObject
 {
     public class SO_EntradasAlmacen
     {
-        public int InsertEntrada(int idAlmacen, int idProveedor,string noFactura,DateTime fecha,string usuario)
+        public int InsertEntrada(int idAlmacen, int idProveedor,string noFactura,DateTime fecha,string usuario, double costoGuia)
         {
             try
             {
@@ -21,6 +21,7 @@ namespace Data.ServiceObject
                     obj.NO_FACTURA = noFactura;
                     obj.FECHA = fecha;
                     obj.USUARIO = usuario;
+                    obj.COSTO_GUIA = costoGuia;
 
                     Conexion.TBL_MOVIMIENTO_ALMACEN.Add(obj);
 

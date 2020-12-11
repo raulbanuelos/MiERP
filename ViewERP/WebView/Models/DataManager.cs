@@ -959,13 +959,13 @@ namespace WebView.Models
         #endregion
 
         #region Entradas
-        public static int InsertEntradaArticuloAlmacen(int idAlmacen, int idProveedor, string noFactura, DateTime fecha, string usuario, List<DO_DetalleEntradaArticulo> articulos)
+        public static int InsertEntradaArticuloAlmacen(int idAlmacen, int idProveedor, string noFactura, DateTime fecha, string usuario, List<DO_DetalleEntradaArticulo> articulos, double costoGuia)
         {
             SO_EntradasAlmacen ServiceEntrada = new SO_EntradasAlmacen();
 
             SO_Existencia ServiceExistencia = new SO_Existencia();
 
-            int idMovimientoEntrada = ServiceEntrada.InsertEntrada(idAlmacen, idProveedor, noFactura, fecha, usuario);
+            int idMovimientoEntrada = ServiceEntrada.InsertEntrada(idAlmacen, idProveedor, noFactura, fecha, usuario, costoGuia);
 
             int r = 0;
 

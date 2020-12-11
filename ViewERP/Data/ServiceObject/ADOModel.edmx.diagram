@@ -12,24 +12,19 @@
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN" Width="3.625" PointX="19.5" PointY="25.5" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN" Width="3.5" PointX="15.125" PointY="25.5" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_EXISTENCIA" Width="2.5" PointX="12.875" PointY="18" />
-        <EntityTypeShape EntityType="Data.ServiceObject.TBL_MOVIMIENTO_ALMACEN" Width="3.25" PointX="15.875" PointY="21.25" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_MOVIMIENTO_SALIDA_ALMACEN" Width="1.5" PointX="12.875" PointY="24.625" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_PROVEEDOR" Width="2.375" PointX="9.75" PointY="24.875" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ROLE" Width="1.5" PointX="11.375" PointY="21.625" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_UNIDAD" Width="1.5" PointX="13.625" PointY="14.875" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_ALERTAS_STOCK_MIN_TBL_ARTICULO" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ALMACEN" />
-        <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ALMACEN1" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_SALIDA_ALMACEN_TBL_ALMACEN" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_ARTICULO_TBL_CATEGORIA_ARTICULO" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN_TBL_ARTICULO" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN_TBL_ARTICULO" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_EXISTENCIA_TBL_ARTICULO" />
-        <AssociationConnector Association="Data.ServiceObject.FK_TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN_TBL_MOVIMIENTO_ALMACEN" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN_TBL_UNIDAD" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN_TBL_MOVIMIENTO_SALIDA_ALMACEN" />
-        <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_PROVEEDOR" />
-        <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_UNIDAD" />
         <EntityTypeShape EntityType="Data.ServiceObject.ArchivosOrden" Width="1.5" PointX="5.25" PointY="7.875" />
         <EntityTypeShape EntityType="Data.ServiceObject.CategoriaProducto" Width="1.5" PointX="0.75" PointY="8.5" />
         <EntityTypeShape EntityType="Data.ServiceObject.Clientes" Width="1.5" PointX="0.75" PointY="3.875" />
@@ -75,6 +70,11 @@
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ERP_PAGO_PLAN" Width="1.5" PointX="9" PointY="28.625" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_PAGO_PLAN_COMPANIA" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ERP_BITACORA" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_MOVIMIENTO_ALMACEN" Width="1.5" PointX="20.875" PointY="17.625" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ALMACEN1" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN_TBL_MOVIMIENTO_ALMACEN" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_PROVEEDOR" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_UNIDAD" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
