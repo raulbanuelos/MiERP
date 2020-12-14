@@ -48,6 +48,8 @@ namespace WebView.Models
             return persona;
         }
 
+        
+
         public static DO_Persona GetPersona(int idPersona)
         {
             SO_Usuario service = new SO_Usuario();
@@ -399,6 +401,22 @@ namespace WebView.Models
 
                 obj.Text = item.Descripcion;
                 obj.Value = Convert.ToString(item.idArticulo);
+                listaResultante.Add(obj);
+            }
+
+            return listaResultante;
+        }
+
+        public static dynamic ConvertListDoPersonaToSelectListItem(List<DO_Persona> promotores)
+        {
+            List<SelectListItem> listaResultante = new List<SelectListItem>();
+
+            foreach (var item in promotores)
+            {
+                SelectListItem obj = new SelectListItem();
+
+                obj.Text = item.Nombre;
+                obj.Value = Convert.ToString(item.idUsuario);
                 listaResultante.Add(obj);
             }
 
@@ -2699,6 +2717,13 @@ namespace WebView.Models
             return dO_ChartData;
         }
 
+        public static int InsertVentaPromotor(int idVenta, int idPromotor)
+        {
+            SO_Venta sO_Venta = new SO_Venta();
+
+            return sO_Venta.InsertVentaPromotor(idVenta, idPromotor);
+        }
+
         #endregion
 
         #region Depositos
@@ -3154,6 +3179,37 @@ namespace WebView.Models
             }
 
             return bitacoras;
+        }
+        #endregion
+
+        #region Promotores
+        internal static List<DO_Persona> GetAllPromotores(int idCompania)
+        {
+            List<DO_Persona> promotores = new List<DO_Persona>();
+
+            SO_Usuario sO_Usuario = new SO_Usuario();
+
+            IList informacionBD = sO_Usuario.GetAllPromotores(idCompania);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type type = item.GetType();
+
+                    DO_Persona persona = new DO_Persona();
+
+                    persona.idUsuario = Convert.ToInt32(type.GetProperty("ID_USUARIO").GetValue(item, null));
+                    persona.Nombre = Convert.ToString(type.GetProperty("NOMBRE").GetValue(item, null));
+                    persona.Usuario = Convert.ToString(type.GetProperty("USUARIO").GetValue(item, null));
+                    persona.ID_ROL = Convert.ToInt32(type.GetProperty("ID_ROL").GetValue(item, null));
+                    persona.idCompania = Convert.ToInt32(type.GetProperty("ID_COMPANIA").GetValue(item, null));
+
+                    promotores.Add(persona);
+                }
+            }
+
+            return promotores;
         }
         #endregion
     }

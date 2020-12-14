@@ -244,5 +244,27 @@ namespace Data.ServiceObject
             }
         }
 
+        public int InsertVentaPromotor(int idVenta, int idPromotor)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    TBL_VENTA_PROMOTOR tBL_VENTA_PROMOTOR = new TBL_VENTA_PROMOTOR();
+
+                    tBL_VENTA_PROMOTOR.ID_USUARIO = idPromotor;
+                    tBL_VENTA_PROMOTOR.ID_VENTA = idVenta;
+
+                    Conexion.TBL_VENTA_PROMOTOR.Add(tBL_VENTA_PROMOTOR);
+
+                    return Conexion.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
     }
 }

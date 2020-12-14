@@ -193,6 +193,9 @@
     <Compile Include="ServiceObject\TBL_VENTA.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ServiceObject\TBL_VENTA_PROMOTOR.cs">
+      <DependentUpon>ADOModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ServiceObject\TR_ERP_ORGANIZACION_COMPANIA.cs">
       <DependentUpon>ADOModel.tt</DependentUpon>
     </Compile>

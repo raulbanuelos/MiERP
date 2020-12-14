@@ -136,14 +136,15 @@
 
     <script type="text/javascript">
         function crearCuenta() {
+            debugger;
             if (validarFormulario()) {
                 var _nombre = $("#txtNombre").val();
                 var _email = $("#txtEmail").val();
                 var _contrasena = $("#txtContrasena").val();
                 var _telefono = $("#txtTelefono").val();
                 var _direccion = $("#txtDireccion").val();
-                var _perfil = $("cboPerfil").val();
-
+                var _perfil = $("#cboPerfil").val();
+                debugger;
                 var urlSave = '@Url.Action("CrearCuenta", "CreateAccount")';
                 $.ajax({
                     type: "POST",

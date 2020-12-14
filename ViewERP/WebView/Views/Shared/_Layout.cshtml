@@ -111,6 +111,15 @@
                     </a>
                 </li>
 
+                @if ((bool)Session["GERENTE"])
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "Promotores")">
+                            <i class="fa fa-shopping-bag"></i><span>Mis promotores</span>
+                        </a>
+                    </li>
+                }
+
                 <li>
                     <a href="@Url.Action("Index", "Suscripcion")">
                         <i class="fa fa-shopping-bag"></i><span>Suscripción</span>
@@ -268,3 +277,87 @@
     <script src="@Url.Content("~/assets/js/index.js")"></script>
 </body>
 </html>
+
+@*USE [RGP2-PBA]
+GO
+
+/****** Object:  Table [dbo].[TBL_VENTA_PROMOTOR]    Script Date: 12/14/2020 4:38:40 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TBL_VENTA_PROMOTOR](
+	[ID_VENTA_PROMOTOR] [int] IDENTITY(1,1) NOT NULL,
+	[ID_VENTA] [int] NULL,
+	[ID_USUARIO] [int] NULL,
+ CONSTRAINT [PK_TBL_VENTA_PROMOTOR] PRIMARY KEY CLUSTERED
+(
+	[ID_VENTA_PROMOTOR] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[TBL_VENTA_PROMOTOR]  WITH CHECK ADD  CONSTRAINT [FK_TBL_VENTA_PROMOTOR_TBL_USUARIO] FOREIGN KEY([ID_USUARIO])
+REFERENCES [dbo].[TBL_USUARIO] ([ID_USUARIO])
+GO
+
+ALTER TABLE [dbo].[TBL_VENTA_PROMOTOR] CHECK CONSTRAINT [FK_TBL_VENTA_PROMOTOR_TBL_USUARIO]
+GO
+
+ALTER TABLE [dbo].[TBL_VENTA_PROMOTOR]  WITH CHECK ADD  CONSTRAINT [FK_TBL_VENTA_PROMOTOR_TBL_VENTA] FOREIGN KEY([ID_VENTA])
+REFERENCES [dbo].[TBL_VENTA] ([ID_VENTA])
+GO
+
+ALTER TABLE [dbo].[TBL_VENTA_PROMOTOR] CHECK CONSTRAINT [FK_TBL_VENTA_PROMOTOR_TBL_VENTA]
+GO*@
+
+
+
+
+
+
+@*
+
+    USE [RGP2-PBA]
+    GO
+    /****** Object:  StoredProcedure [dbo].[SP_ERP_GET_MONTO_VENTA_SEMANA_ACTUAL_BY_PROMOTOR]    Script Date: 12/14/2020 4:20:10 PM ******/
+    SET ANSI_NULLS ON
+    GO
+    SET QUOTED_IDENTIFIER ON
+    GO
+    -- =============================================
+    -- Author:		RAÚL BAÑUELOS
+    -- Create date: 14 DEC 2020
+    -- Description:	<Description,,>
+    -- =============================================
+    ALTER PROCEDURE [dbo].[SP_ERP_GET_MONTO_VENTA_SEMANA_ACTUAL_BY_PROMOTOR]
+        @idUsuario INT
+    AS
+    BEGIN
+        DECLARE @diaInicial AS DATETIME = (SELECT DIA_INICIAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
+        DECLARE @diaFinal AS DATETIME = (SELECT DIA_FINAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
+
+        SELECT VP.ID_USUARIO, UPPER(U.NOMBRE) AS NOMBRE_PROMOTOR,A.ID_ARTICULO, SUM(VD.CANTIDAD) AS CANTIDAD
+        INTO #TEMP_VENTA_SEMANAL_PROMOTOR
+        FROM TBL_VENTA AS V
+        INNER JOIN TBL_VENTA_PROMOTOR AS VP ON V.ID_VENTA = VP.ID_VENTA
+        INNER JOIN TBL_DETAILS_VENTA AS VD ON V.ID_VENTA = VD.ID_VENTA
+        INNER JOIN TBL_ARTICULO AS A ON VD.ID_ARTICULO = A.ID_ARTICULO
+        INNER JOIN TBL_USUARIO AS U ON VP.ID_USUARIO = U.ID_USUARIO
+        INNER JOIN TBL_DETAILS_ARTICULO AS DA ON A.ID_ARTICULO = DA.ID_ARTICULO
+        WHERE V.ID_USUARIO = @idUsuario AND V.FECHA_INGRESO BETWEEN @diaInicial AND @diaFinal
+        GROUP BY VP.ID_USUARIO, U.NOMBRE, A.ID_ARTICULO
+
+        SELECT TMP.ID_USUARIO, TMP.NOMBRE_PROMOTOR, TMP.ID_ARTICULO,A.DESCRIPCION AS ARTICULO,  TMP.CANTIDAD AS CANTIDAD, D.PRECIO_PROMOTOR,TMP.CANTIDAD * D.PRECIO_PROMOTOR AS MONTO_TOTAL
+        FROM #TEMP_VENTA_SEMANAL_PROMOTOR AS TMP
+        INNER JOIN TBL_DETAILS_ARTICULO AS D ON TMP.ID_ARTICULO = D.ID_ARTICULO
+        INNER JOIN TBL_ARTICULO AS A ON D.ID_ARTICULO = A.ID_ARTICULO
+
+        DROP TABLE #TEMP_VENTA_SEMANAL_PROMOTOR
+    END*@
+
+
+
+

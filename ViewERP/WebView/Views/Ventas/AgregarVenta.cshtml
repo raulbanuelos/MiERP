@@ -40,6 +40,20 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Promotor</label>
+                            <div class="col-lg-7 col-md-6">
+                                <select id="cboPromotores" class="form-control modalColor" style="width:90%">
+                                    @{
+                                        foreach (SelectListItem promotor in ((List<SelectListItem>)ViewBag.Promotores))
+                                        {
+                                            <option id="@promotor.Value" value="@promotor.Value">@promotor.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label>Cantidad</label>
                             <div class="col-lg-7 col-md-6">
                                 <input type="number" class="form-control modalColor" style="width:90%" id="txtCantidad" />
@@ -71,11 +85,13 @@
         var _fecha = $("#datetimepicker1").data("date");
         var _cantidad = $("#txtCantidad").val();
         var _idArticulo = $("#cboArticulos").val();
+        var _idPromotor = $("#cboPromotores").val();
+
         var urlSave = '@Url.Action("GuardarVenta", "Ventas")';
         $.ajax({
             type: "POST",
             url: urlSave,
-            data: JSON.stringify({ cantidad: _cantidad, fecha: _fecha, idArticulo: _idArticulo }),
+            data: JSON.stringify({ cantidad: _cantidad, fecha: _fecha, idArticulo: _idArticulo, idPromotor: _idPromotor }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {

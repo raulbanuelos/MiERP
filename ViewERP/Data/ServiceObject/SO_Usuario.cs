@@ -90,6 +90,25 @@ namespace Data.ServiceObject
             }
         }
 
+        public IList GetAllPromotores(int idCompania)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var list = (from c in Conexion.TBL_USUARIO
+                                where c.ID_ROL == 4 && c.ID_COMPANIA == idCompania
+                                select c).ToList();
+
+                    return list;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public string GetLastPersonAdded(int anio)
         {
             

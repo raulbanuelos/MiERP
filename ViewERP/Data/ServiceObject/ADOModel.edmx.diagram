@@ -56,7 +56,7 @@
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA" />
         <AssociationConnector Association="Data.ServiceObject.FK_COMPANIA" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_PROVEEDOR_TBL_COMPANIA1" />
-        <EntityTypeShape EntityType="Data.ServiceObject.TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Width="1.5" PointX="9.625" PointY="12.625" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_ERP_CORTE_EXISTENCIA_ALMACEN" Width="3.25" PointX="9.625" PointY="12.625" />
         <AssociationConnector Association="Data.ServiceObject.FK_EXISTENCIA_ALMACEN" />
         <AssociationConnector Association="Data.ServiceObject.FK_EXISTENCIA_ARTICULO" />
         <AssociationConnector Association="Data.ServiceObject.FK_EXISTENCIA_SEMANA" />
@@ -70,11 +70,14 @@
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ERP_PAGO_PLAN" Width="1.5" PointX="9" PointY="28.625" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_PAGO_PLAN_COMPANIA" />
         <EntityTypeShape EntityType="Data.ServiceObject.TBL_ERP_BITACORA" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="Data.ServiceObject.TBL_MOVIMIENTO_ALMACEN" Width="1.5" PointX="20.875" PointY="17.625" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_MOVIMIENTO_ALMACEN" Width="4.875" PointX="20.875" PointY="17.625" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_ALMACEN1" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN_TBL_MOVIMIENTO_ALMACEN" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_PROVEEDOR" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_TBL_UNIDAD" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_VENTA_PROMOTOR" Width="1.5" PointX="20.875" PointY="14.375" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_VENTA_PROMOTOR_TBL_USUARIO" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_VENTA_PROMOTOR_TBL_VENTA" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -13,11 +13,19 @@ namespace WebView.Controllers
         {
             int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
             ViewBag.Articulos = DataManager.ConvertListDOArticuloToSelectListItem(DataManager.GetAllArticulos(idCompania));
+
+            //Promotores
+
+            List<DO_Persona> promotores = DataManager.GetAllPromotores(idCompania);
+            promotores.Insert(0,new DO_Persona { idUsuario = 0, Nombre = "Ninguno" });
+
+            ViewBag.Promotores = DataManager.ConvertListDoPersonaToSelectListItem(promotores);
+
             return View();
         }
 
         [HttpPost]
-        public JsonResult GuardarVenta(int cantidad, DateTime fecha, int idArticulo)
+        public JsonResult GuardarVenta(int cantidad, DateTime fecha, int idArticulo, int idPromotor)
         {
             int idUsuario = ((DO_Persona)Session["UsuarioConectado"]).idUsuario;
             DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
@@ -46,6 +54,12 @@ namespace WebView.Controllers
             int result = DataManager.InsertSalidaArticuloAlmacen(almacens[0].idAlmacen, "SALIDA VENTA", personaConectada.Usuario, articulos);
 
             #endregion
+
+            //Checamos si el usuario eligió asignarla a un promotor
+            if (idPromotor!= 0)
+            {
+                int promotorVenta = DataManager.InsertVentaPromotor(idVenta, idPromotor);
+            }
 
             var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
@@ -153,5 +167,6 @@ namespace WebView.Controllers
 
             return jsonResult;
         }
+
     }
 }
