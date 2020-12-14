@@ -2504,7 +2504,6 @@ namespace WebView.Models
             dO_ChartData.datasets = new List<DataSetChart>();
 
             List<string> backGroundColors = new List<string>();
-            backGroundColors.Add("#f38b4a");
             backGroundColors.Add("#56d798");
             backGroundColors.Add("#ff8397");
             backGroundColors.Add("#6970d5");
@@ -2516,7 +2515,7 @@ namespace WebView.Models
             backGroundColors.Add("#217BB2");
             backGroundColors.Add("#316ACD");
             backGroundColors.Add("#8230CB");
-
+            backGroundColors.Add("#f38b4a");
 
             List<string> borderColors = new List<string>();
             borderColors.Add("rgba(54, 162, 235, 1)");

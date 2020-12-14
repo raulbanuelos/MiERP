@@ -594,14 +594,21 @@
                                 callbacks: {
                                     label: function (tooltipItem, data) {
                                         var label = data.datasets[tooltipItem.datasetIndex].label || '';
-                                        var cantidad = data.datasets[tooltipItem.datasetIndex].cantidad[tooltipItem.index];
-                                        var multiline = [label];
-                                        var venta = Math.round(tooltipItem.yLabel * 100) / 100;
+                                        if (label == "Venta total") {
+                                            var venta = Math.round(tooltipItem.yLabel * 100) / 100;
+                                            label += ": $" + venta;
+                                            return label;
+                                        } else {
+                                            var cantidad = data.datasets[tooltipItem.datasetIndex].cantidad[tooltipItem.index];
+                                            var multiline = [label];
+                                            var venta = Math.round(tooltipItem.yLabel * 100) / 100;
 
-                                        multiline.push("Piezas: " + cantidad);
-                                        multiline.push("Total venta: $" + venta);
+                                            multiline.push("Piezas: " + cantidad);
+                                            multiline.push("Total venta: $" + venta);
+
+                                            return multiline;
+                                        }
                                         
-                                        return multiline;
                                     }
                                 }
                             }
