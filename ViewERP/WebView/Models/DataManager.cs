@@ -2724,6 +2724,70 @@ namespace WebView.Models
             return sO_Venta.InsertVentaPromotor(idVenta, idPromotor);
         }
 
+        public static DO_ChartData GetVentaSemanalDiariaByPromotor(int idUsuarioGerente)
+        {
+            List<string> backGroundColors = new List<string>();
+            backGroundColors.Add("#56d798");
+            backGroundColors.Add("#ff8397");
+            backGroundColors.Add("#6970d5");
+            backGroundColors.Add("#6970d5");
+            backGroundColors.Add("#24BF99");
+            backGroundColors.Add("#15715B");
+            backGroundColors.Add("#15713F");
+            backGroundColors.Add("#3BC279");
+            backGroundColors.Add("#217BB2");
+            backGroundColors.Add("#316ACD");
+            backGroundColors.Add("#8230CB");
+            backGroundColors.Add("#f38b4a");
+
+            List<string> borderColors = new List<string>();
+            borderColors.Add("rgba(54, 162, 235, 1)");
+            borderColors.Add("rgba(255, 206, 86, 1)");
+            borderColors.Add("rgba(75, 192, 192, 1)");
+            borderColors.Add("rgba(153, 102, 255, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+
+            DO_ChartData venta = new DO_ChartData();
+            venta.labels = new List<string>();
+            DataSetChart dataSetChart = new DataSetChart();
+            dataSetChart.data = new List<double>();
+            dataSetChart.backgroundColor = backGroundColors[9];
+            dataSetChart.borderColor = borderColors[9];
+
+            SO_Venta serviceVentas = new SO_Venta();
+
+            DataSet informacionBD = serviceVentas.GetVentaSenamalDiariaByPromotor(idUsuarioGerente);
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+
+                        venta.labels.Add(Convert.ToString(item["NOMBRE_PROMOTOR"]));
+
+                        
+                        double monto = Convert.ToDouble(item["MONTO_TOTAL"]);
+                        dataSetChart.label = Convert.ToString(item["NOMBRE_PROMOTOR"]);
+                        dataSetChart.data.Add(monto);
+                        venta.datasets = new List<DataSetChart>();
+                        venta.datasets.Add(dataSetChart);
+
+                    }
+                }
+            }
+
+            return venta;
+        }
+
         #endregion
 
         #region Depositos

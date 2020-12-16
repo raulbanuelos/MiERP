@@ -65,5 +65,17 @@ namespace WebView.Controllers
 
             return jsonResult;
         }
+
+        public JsonResult GetVentaPromotor(string parametro)
+        {
+            int idUsuario = ((DO_Persona)Session["UsuarioConectado"]).idUsuario;
+
+            DO_ChartData ventas = DataManager.GetVentaSemanalDiariaByPromotor(idUsuario);
+
+            var jsonResult = Json(ventas, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
     }
 }
