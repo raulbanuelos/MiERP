@@ -2776,7 +2776,7 @@ namespace WebView.Models
 
                         
                         double monto = Convert.ToDouble(item["MONTO_TOTAL"]);
-                        dataSetChart.label = Convert.ToString(item["NOMBRE_PROMOTOR"]);
+                        dataSetChart.label = "Ventas";
                         dataSetChart.data.Add(monto);
                         venta.datasets = new List<DataSetChart>();
                         venta.datasets.Add(dataSetChart);

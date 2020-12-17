@@ -590,7 +590,7 @@
                             },
                             title: {
                                 display: true,
-                                text: 'Productos vendidos',
+                                text: 'Venta por promotor',
                                 fontColor: 'white',
                                 fontSize: 22
                             },
@@ -617,7 +617,12 @@
                             tooltips: {
                                 callbacks: {
                                     label: function (tooltipItem, data) {
-                                        return data;
+                                        var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                        
+                                        var venta = Math.round(tooltipItem.xLabel * 100) / 100;
+                                        label += ": $" + venta;
+                                        return label;
+                                       
 
                                     }
                                 }
@@ -696,7 +701,6 @@
 
                                             return multiline;
                                         }
-
                                     }
                                 }
                             }
