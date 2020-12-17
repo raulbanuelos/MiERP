@@ -143,7 +143,29 @@
                 </div>
             </div>
         </div>
+        
+        if ((bool)Session["GERENTE"])
+        {
+            <div class="row">
+                <div class="col-12 col-lg-12 col-xl-12">
+                    <div class="card">
+                        <div class="card-header">
+                            Ventas promotor
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-inline">
+                                <li class="list-inline-item"><i class="fa fa-circle mr-2 text-white"></i>Venta promotor</li>
 
+                            </ul>
+                            <div class="chart-container-1">
+                                <canvas id="chartPromotor"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        
         <div class="row">
             <div class="col-12 col-lg-4 col-xl-4">
                 <div class="card">
@@ -542,6 +564,72 @@
                 }
             });
 
+            urlSave = '@Url.Action("GetVentaPromotor", "Home")';
+            $.ajax({
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify({ parametro: "" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var ctx = document.getElementById('chartPromotor').getContext('2d');
+                    
+
+                    var myChartPromotor = new Chart(ctx, {
+                        type: 'horizontalBar',
+                        data: data,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    fontColor: 'white',
+                                    fontSize: 16
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Productos vendidos',
+                                fontColor: 'white',
+                                fontSize: 22
+                            },
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        fontColor: "white",
+                                        fontSize: 12,
+                                        callback: function (value, index, values) {
+                                            return value;
+                                        }
+                                    }
+                                }],
+                                xAxes: [{
+                                    ticks: {
+                                        fontColor: "white",
+                                        fontSize: 12,
+                                        stepSize: 1,
+                                        beginAtZero: true
+                                    }
+                                }]
+                            },
+                            
+                            tooltips: {
+                                callbacks: {
+                                    label: function (tooltipItem, data) {
+                                        return data;
+
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function (result) {
+
+                }
+            });
+
             urlSave = '@Url.Action("GetVentaSemanalDiaria", "Ventas")';
             $.ajax({
                 type: "POST",
@@ -608,7 +696,7 @@
 
                                             return multiline;
                                         }
-                                        
+
                                     }
                                 }
                             }

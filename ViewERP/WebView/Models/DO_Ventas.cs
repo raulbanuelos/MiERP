@@ -17,5 +17,7 @@ namespace WebView.Models
                 return Math.Round(Cantidad * Precio, 2);
             }
         }
+
+        public int IdPromotor { get; set; }
     }
 }
