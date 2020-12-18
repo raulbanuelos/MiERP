@@ -226,6 +226,7 @@
                                         <th>ARTICULO</th>
                                         <th>CANTIDAD</th>
                                         <th>ORIGEN</th>
+                                        <th>FECHA</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tblEntradas"></tbody>
@@ -285,7 +286,6 @@
         </div>
     }
 }
-
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -608,7 +608,7 @@
                                     ticks: {
                                         fontColor: "white",
                                         fontSize: 12,
-                                        stepSize: 1,
+                                        stepSize: 500,
                                         beginAtZero: true
                                     }
                                 }]
@@ -748,6 +748,7 @@
                         row += "<td>" + item.Nombre + "</td>";
                         row += "<td>" + item.Cantidad + "</td>";
                         row += "<td>" + item.BodegaDestino + "</td>";
+                        row += "<td>" + item.fecha + "</td>";
                         row += "</tr>";
                     });
                     $("#tblEntradas").append(row);

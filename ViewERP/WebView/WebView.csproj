@@ -988,6 +988,8 @@
     <Content Include="assets\images\bg-themes\6.png" />
     <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\gallery\cd-icon-navigation.svg" />
+    <Content Include="assets\images\lions-icon.png" />
+    <Content Include="assets\images\lionsicon.jpg" />
     <Content Include="assets\images\logo-icon.png" />
     <Content Include="assets\images\timeline\angular-icon.svg" />
     <Content Include="assets\images\timeline\bootstrap-4.svg" />

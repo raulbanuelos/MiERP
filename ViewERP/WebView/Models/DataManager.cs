@@ -1082,6 +1082,8 @@ namespace WebView.Models
                         dO_Movimiento.Nombre = item["DESCRIPCION"].ToString();
                         dO_Movimiento.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
                         dO_Movimiento.BodegaDestino = item["DESTINO"].ToString();
+                        DateTime dateTime = Convert.ToDateTime(item["fecha"]);
+                        dO_Movimiento.fecha = dateTime.Year + "-" + dateTime.Month + "-" + dateTime.Day;
 
                         dO_Movimientos.Add(dO_Movimiento);
                     }
