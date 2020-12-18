@@ -3238,7 +3238,7 @@ namespace WebView.Models
                     dO_Bitacora.NombreUsuario = (string)type.GetProperty("USUARIO").GetValue(item, null);
                     dO_Bitacora.Accion = (string)type.GetProperty("ACCION").GetValue(item, null);
                     dO_Bitacora.FechaRegistro = (DateTime)type.GetProperty("FECHA_REGISTRO").GetValue(item, null);
-                    dO_Bitacora.StringFecha = dO_Bitacora.FechaRegistro.Year + "-" + dO_Bitacora.FechaRegistro.Month + "-" + dO_Bitacora.FechaRegistro.Day;
+                    dO_Bitacora.StringFecha = dO_Bitacora.FechaRegistro.Year + "-" + dO_Bitacora.FechaRegistro.Month + "-" + dO_Bitacora.FechaRegistro.Day + " " + dO_Bitacora.FechaRegistro.Hour + ":" + dO_Bitacora.FechaRegistro.Minute + ":" + dO_Bitacora.FechaRegistro.Second;
 
                     bitacoras.Add(dO_Bitacora);
                 }
