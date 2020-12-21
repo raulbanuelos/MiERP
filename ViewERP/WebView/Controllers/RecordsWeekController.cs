@@ -239,7 +239,7 @@ namespace WebView.Controllers
 
             List<DO_Movimiento> dO_Movimientos = new List<DO_Movimiento>();
 
-            dO_Movimientos = DataManager.GetMovimientoEntradasPorWeek(idCompania, idSemana);
+            dO_Movimientos = DataManager.GetMovimientoEntradasPorWeekDetalle(idCompania, idSemana);
 
             var jsonResult = Json(dO_Movimientos, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
@@ -254,7 +254,7 @@ namespace WebView.Controllers
 
             int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
 
-            dO_Movimientos = DataManager.GetMovimientoSalidasPorWeek(idCompania, idSemana);
+            dO_Movimientos = DataManager.GetMovimientoSalidasPorWeekDetalle(idCompania, idSemana);
 
             var jsonResult = Json(dO_Movimientos, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;

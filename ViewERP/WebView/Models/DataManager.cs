@@ -1035,34 +1035,6 @@ namespace WebView.Models
             return dO_Movimientos;
         }
 
-        public static List<DO_Movimiento> GetMovimientoSalidasPorWeek(int idCompania, int idSemana)
-        {
-            SO_DetalleMovimientoSalidaAlmacen sO_SalidasAlmacen = new SO_DetalleMovimientoSalidaAlmacen();
-
-            DataSet informacionBD = sO_SalidasAlmacen.GetSalidasPorWeek(idCompania, idSemana);
-
-            List<DO_Movimiento> dO_Movimientos = new List<DO_Movimiento>();
-
-            if (informacionBD != null)
-            {
-                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
-                {
-                    foreach (DataRow item in informacionBD.Tables[0].Rows)
-                    {
-                        DO_Movimiento dO_Movimiento = new DO_Movimiento();
-
-                        dO_Movimiento.IdArticulo = Convert.ToInt32(item["ID_ARTICULO"]);
-                        dO_Movimiento.Nombre = item["DESCRIPCION"].ToString();
-                        dO_Movimiento.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
-                        dO_Movimiento.BodegaDestino = item["DESTINO"].ToString();
-
-                        dO_Movimientos.Add(dO_Movimiento);
-                    }
-                }
-            }
-            return dO_Movimientos;
-        }
-
         public static List<DO_Movimiento> GetMovimientoEntradasCurrentWeek(int idCompania)
         {
             SO_Detalle_Entrada_Almacen so_Entradas = new SO_Detalle_Entrada_Almacen();
@@ -1120,11 +1092,97 @@ namespace WebView.Models
             return dO_Movimientos;
         }
 
+        public static List<DO_Movimiento> GetMovimientoEntradasPorWeekDetalle(int idCompania, int idSemana)
+        {
+            SO_Detalle_Entrada_Almacen so_Entradas = new SO_Detalle_Entrada_Almacen();
 
+            DataSet informacionBD = so_Entradas.GetEntradasPorWeekDetalle(idCompania, idSemana);
+
+            List<DO_Movimiento> dO_Movimientos = new List<DO_Movimiento>();
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        DO_Movimiento dO_Movimiento = new DO_Movimiento();
+
+                        dO_Movimiento.IdArticulo = Convert.ToInt32(item["ID_ARTICULO"]);
+                        dO_Movimiento.Nombre = item["DESCRIPCION"].ToString();
+                        dO_Movimiento.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
+                        dO_Movimiento.BodegaDestino = item["DESTINO"].ToString();
+                        DateTime date = Convert.ToDateTime(item["FECHA"]);
+                        dO_Movimiento.fecha = ConvertDatetime(date);
+
+                        dO_Movimientos.Add(dO_Movimiento);
+                    }
+                }
+            }
+            return dO_Movimientos;
+        }
 
         #endregion
 
         #region Salidas
+        public static List<DO_Movimiento> GetMovimientoSalidasPorWeek(int idCompania, int idSemana)
+        {
+            SO_DetalleMovimientoSalidaAlmacen sO_SalidasAlmacen = new SO_DetalleMovimientoSalidaAlmacen();
+
+            DataSet informacionBD = sO_SalidasAlmacen.GetSalidasPorWeek(idCompania, idSemana);
+
+            List<DO_Movimiento> dO_Movimientos = new List<DO_Movimiento>();
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        DO_Movimiento dO_Movimiento = new DO_Movimiento();
+
+                        dO_Movimiento.IdArticulo = Convert.ToInt32(item["ID_ARTICULO"]);
+                        dO_Movimiento.Nombre = item["DESCRIPCION"].ToString();
+                        dO_Movimiento.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
+                        dO_Movimiento.BodegaDestino = item["DESTINO"].ToString();
+
+                        dO_Movimientos.Add(dO_Movimiento);
+                    }
+                }
+            }
+            return dO_Movimientos;
+        }
+
+        public static List<DO_Movimiento> GetMovimientoSalidasPorWeekDetalle(int idCompania, int idSemana)
+        {
+            SO_DetalleMovimientoSalidaAlmacen sO_SalidasAlmacen = new SO_DetalleMovimientoSalidaAlmacen();
+
+            DataSet informacionBD = sO_SalidasAlmacen.GetSalidasPorWeekDetalle(idCompania, idSemana);
+
+            List<DO_Movimiento> dO_Movimientos = new List<DO_Movimiento>();
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        DO_Movimiento dO_Movimiento = new DO_Movimiento();
+
+                        dO_Movimiento.IdArticulo = Convert.ToInt32(item["ID_ARTICULO"]);
+                        dO_Movimiento.Nombre = item["DESCRIPCION"].ToString();
+                        dO_Movimiento.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
+                        dO_Movimiento.BodegaDestino = item["DESTINO"].ToString();
+                        DateTime fechaSalida = Convert.ToDateTime(item["FECHA_SALIDA"]);
+                        dO_Movimiento.fecha = ConvertDatetime(fechaSalida);
+
+                        dO_Movimientos.Add(dO_Movimiento);
+                    }
+                }
+            }
+            return dO_Movimientos;
+        }
+
         public static int InsertSalidaArticuloAlmacen(int idAlmacen, string usuarioSolicito, string usuarioAtendio, List<DO_DetalleSalidaArticulo> articulos)
         {
             SO_SalidasAlmacen service = new SO_SalidasAlmacen();
@@ -3276,6 +3334,65 @@ namespace WebView.Models
             }
 
             return promotores;
+        }
+        #endregion
+
+        #region Utils
+        public static string ConvertDatetime(DateTime date)
+        {
+            string dateF = string.Empty;
+            string month = string.Empty;
+
+            if (date.Month ==1)
+            {
+                month = "ENE";
+            }
+            else if(date.Month == 2) {
+                month = "FEB";
+            }else if(date.Month == 3)
+            {
+                month = "MAR";
+            }else if (date.Month == 4)
+            {
+                month = "ABR";
+            }else if(date.Month == 5)
+            {
+                month = "MAY";
+            }
+            else if (date.Month == 6)
+            {
+                month = "JUN";
+            }
+            else if (date.Month == 7)
+            {
+                month = "JUL";
+            }
+            else if (date.Month == 8)
+            {
+                month = "AGO";
+            }
+            else if (date.Month == 9)
+            {
+                month = "SEP";
+            }
+            else if (date.Month == 10)
+            {
+                month = "OCT";
+            }
+            else if (date.Month == 11)
+            {
+                month = "NOV";
+            }
+            else if (date.Month == 12)
+            {
+                month = "DIC";
+            }
+
+            string day = date.Day.ToString().Length == 1 ? "0" + date.Day.ToString() : date.Day.ToString();
+
+            dateF = date.Year + "-" + month + "-" + day;
+
+            return dateF;
         }
         #endregion
     }

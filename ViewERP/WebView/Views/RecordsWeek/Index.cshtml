@@ -44,6 +44,7 @@
                                 <th>ARTICULO</th>
                                 <th>CANTIDAD</th>
                                 <th>ORIGEN</th>
+                                <th>FECHA</th>
                             </tr>
                         </thead>
                         <tbody id="tblEntradas"></tbody>
@@ -66,6 +67,7 @@
                                 <th>ARTICULO</th>
                                 <th>CANTIDAD</th>
                                 <th>DESTINO</th>
+                                <th>FECHA</th>
                             </tr>
                         </thead>
                         <tbody id="tblSalidas"></tbody>
@@ -161,6 +163,7 @@
                     row += "<td>" + item.Nombre + "</td>";
                     row += "<td>" + item.Cantidad + "</td>";
                     row += "<td>" + item.BodegaDestino + "</td>";
+                    row += "<td>" + item.fecha + "</td>"
                     row += "</tr>";
                 });
                 $("#tblEntradas").append(row);
@@ -184,6 +187,7 @@
                     row += "<td>" + item.Nombre + "</td>";
                     row += "<td>" + item.Cantidad + "</td>";
                     row += "<td>" + item.BodegaDestino + "</td>";
+                    row += "<td>" + item.fecha + "</td>";
                     row += "</tr>";
                 });
                 $("#tblSalidas").append(row);

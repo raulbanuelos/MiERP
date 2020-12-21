@@ -14,6 +14,7 @@ namespace Data.ServiceObject
     {
         private string SP_ERP_GET_ENTRADAS_ALMACEN_CURRENT_WEEK = "SP_ERP_GET_ENTRADAS_ALMACEN_CURRENT_WEEK";
         private string SP_ERP_GET_ENTRADAS_ALMACEN_POR_WEEK = "SP_ERP_GET_ENTRADAS_ALMACEN_POR_WEEK";
+        private string SP_ERP_GET_ENTRADAS_ALMACEN_POR_WEEK_DETALLE = "SP_ERP_GET_ENTRADAS_ALMACEN_POR_WEEK_DETALLE";
         public int Insert(int idMovimientoEntrada, int idArticulo, decimal cantidad,int idUnidad)
         {
             try
@@ -141,6 +142,28 @@ namespace Data.ServiceObject
 
                 datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_ENTRADAS_ALMACEN_POR_WEEK, parametros);
                 
+                return datos;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public DataSet GetEntradasPorWeekDetalle(int idCompania, int idSemana)
+        {
+            try
+            {
+                DataSet datos = null;
+
+                ERP_SQL conexion = new ERP_SQL();
+
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
+                parametros.Add("idCompania", idCompania);
+                parametros.Add("idSemana", idSemana);
+
+                datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_ENTRADAS_ALMACEN_POR_WEEK_DETALLE, parametros);
+
                 return datos;
             }
             catch (Exception)
