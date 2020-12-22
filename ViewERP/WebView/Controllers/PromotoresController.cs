@@ -51,7 +51,44 @@ namespace WebView.Controllers
 
             List<DO_Persona> promotores = DataManager.GetAllPromotores(idCompania);
 
-            var jsonResult = Json(promotores, JsonRequestBehavior.AllowGet);
+            DO_OrganizationChart chart = new DO_OrganizationChart();
+
+            chart.Promotores = promotores;
+            chart.Yo = ((DO_Persona)Session["UsuarioConectado"]);
+            
+            var jsonResult = Json(chart, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+        [ERPVerificaAccount]
+        public ActionResult Editar(int id=0, DO_Persona persona = null)
+        {
+            return View(DataManager.GetPersona(id));
+        }
+
+        public JsonResult GuardarDatosPromotor(int idUsuario, string nombre, string usuario)
+        {
+            DO_Persona persona = DataManager.GetPersona(idUsuario);
+            persona.Nombre = nombre;
+            persona.Usuario = usuario;
+            int r = DataManager.UpdatePersona(persona);
+
+            var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult GetVentaSemanalDiariaPromotor(int idPromotor)
+        {
+            int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+
+            DO_ChartData dO_ChartData = DataManager.GetVentaSemanalDiariaPromotor(idCompania,idPromotor);
+
+            var jsonResult = Json(dO_ChartData, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 
             return jsonResult;

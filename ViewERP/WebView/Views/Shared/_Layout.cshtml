@@ -115,7 +115,7 @@
                 {
                     <li>
                         <a href="@Url.Action("Index", "Promotores")">
-                            <i class="fa fa-shopping-bag"></i><span>Mis promotores</span>
+                            <i class="fa fa-users"></i><span>Mis promotores</span>
                         </a>
                     </li>
                 }
@@ -277,83 +277,78 @@
 </body>
 </html>
 
-@*-- ================================================
-    -- Template generated from Template Explorer using:
-    -- Create Procedure (New Menu).SQL
-    --
-    -- Use the Specify Values for Template Parameters
-    -- command (Ctrl-Shift-M) to fill in the parameter
-    -- values below.
-    --
-    -- This block of comments will not be included in
-    -- the definition of the procedure.
-    -- ================================================
-    SET ANSI_NULLS ON
-    GO
-    SET QUOTED_IDENTIFIER ON
-    GO
-    -- =============================================
-    -- Author:		RAÚL BAÑUELOS
-    -- Create date: 21 DEC 2020
-    -- Description:	PROCEDIMIENTO ALMACENADO QUE OBTIENE LOS MOVIMIENTOS DE ENTRADA DE LA SEMANA ACTUAL A DETALLE
-    -- =============================================
-    CREATE PROCEDURE SP_ERP_GET_ENTRADAS_ALMACEN_POR_WEEK_DETALLE
-    @idCompania INT,
-    @idSemana INT
-    AS
-    BEGIN
-
-        DECLARE @diaFinal AS DATETIME = (SELECT DIA_FINAL FROM TBL_SEMANA WHERE ID_SEMANA = @idSemana)
-        DECLARE @diaInicial AS DATETIME = (SELECT DIA_INICIAL FROM TBL_SEMANA WHERE ID_SEMANA = @idSemana)
-
-        SELECT A.ID_ARTICULO, A.DESCRIPCION, D.CANTIDAD AS CANTIDAD, P.NOMBRE  AS 'DESTINO', M.FECHA
-        FROM TBL_MOVIMIENTO_ALMACEN AS M
-        INNER JOIN TBL_DETALLE_MOVIMIENTO_ENTRADA_ALMACEN AS D ON M.ID_MOVIMIENTO_ALMACEN = D.ID_MOVIMIENTO_ENTRADA_ALMACEN
-        INNER JOIN TBL_ARTICULO AS A ON D.ID_ARTICULO = A.ID_ARTICULO
-        INNER JOIN TBL_COMPANIA AS C ON A.ID_COMPANIA = C.ID_COMPANIA
-        INNER JOIN TBL_PROVEEDOR AS P ON M.ID_PROVEEDOR = P.ID_PROVEEDOR
-        WHERE M.FECHA BETWEEN @diaInicial AND @diaFinal AND C.ID_COMPANIA = @idCompania
-        ORDER BY M.FECHA
-        END
-        GO*@
-
-
-@*-- ================================================
--- Template generated from Template Explorer using:
--- Create Procedure (New Menu).SQL
---
--- Use the Specify Values for Template Parameters
--- command (Ctrl-Shift-M) to fill in the parameter
--- values below.
---
--- This block of comments will not be included in
--- the definition of the procedure.
--- ================================================
+@*USE [RGP2-PBA]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ERP_GET_VENTA_SEMANAL_DIARIA_PROMOTOR]    Script Date: 12/22/2020 4:19:43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 -- =============================================
--- Author:		RAÚL BAÑUELOS
--- Create date: 21 DEC 2020
--- Description:	PROCEDIMIENTO ALMACENADO QUE OBTIENE LAS SALIDAS GENERADAS DE UNA COMPAÑIA DE UNA SEMANA EN ESPECÍFICO. EL RESULTADO LO DA EN DETALLE POR DIA.
+-- Author:		RAUL BAÑUELOS
+-- Create date: 22 DEC 2020
+-- Description:	PROCEDIMIENTO ALMACENADO QUE RETORNA LA VENTA ACUMULADA DE UN ARTICULO EN ESPECIFICO SEPARADO POR LOS 7 DIAS DE LA SEMANA ACTUAL DE UN PROMOTOR
 -- =============================================
-CREATE PROCEDURE SP_ERP_GET_SALIDAS_ALMACEN_POR_WEEK_DETALLE
-@idCompania INT,
-@idSemana INT
+ALTER PROCEDURE [dbo].[SP_ERP_GET_VENTA_SEMANAL_DIARIA_PROMOTOR]
+@idArticulo INT,
+@idPromotor INT
 AS
 BEGIN
+	DECLARE @lunes AS DATETIME = (SELECT DIA_INICIAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
+    DECLARE @martes AS DATETIME = DATEADD(DAY, 1, @lunes)
+    DECLARE @miercoles AS DATETIME = DATEADD(DAY, 2, @lunes)
+    DECLARE @jueves AS DATETIME = DATEADD(DAY, 3, @lunes)
+    DECLARE @viernes AS DATETIME = DATEADD(DAY, 4, @lunes)
+    DECLARE @sabado AS DATETIME = DATEADD(DAY, 5, @lunes)
+    DECLARE @domingo AS DATETIME = DATEADD(DAY, 6, @lunes)
 
-	DECLARE @diaFinal AS DATETIME = (SELECT DIA_FINAL FROM TBL_SEMANA WHERE ID_SEMANA = @idSemana)
-    DECLARE @diaInicial AS DATETIME = (SELECT DIA_INICIAL FROM TBL_SEMANA WHERE ID_SEMANA = @idSemana)
+    SELECT ID_ARTICULO, SUM(CANTIDAD) AS CANTIDAD, SUM(MONTO) AS PRECIO
+    FROM TBL_VENTA AS V
+    INNER JOIN TBL_DETAILS_VENTA AS D ON V.ID_VENTA = D.ID_VENTA
+    INNER JOIN TBL_VENTA_PROMOTOR AS VP ON V.ID_VENTA = VP.ID_VENTA
+    WHERE ID_ARTICULO = @idArticulo AND FECHA_INGRESO = @lunes AND VP.ID_USUARIO = @idPromotor
+    GROUP BY ID_ARTICULO
 
-    SELECT A.ID_ARTICULO, A.DESCRIPCION, N.CANTIDAD, 'BODEGA ' + U.NOMBRE AS 'DESTINO', M.FECHA_SALIDA
-    FROM TBL_MOVIMIENTO_SALIDA_ALMACEN AS M
-    INNER JOIN TBL_DETALLE_MOVIMIENTO_SALIDA_ALMACEN AS N ON M.ID_MOVIMIENTO_SALIDA_ALMACEN = N.ID_MOVIMIENTO_SALIDA_ALMACEN
-    INNER JOIN TBL_ARTICULO AS A ON N.ID_ARTICULO = A.ID_ARTICULO
-    INNER JOIN TBL_USUARIO AS U ON M.USUARIO_SOLICITO = U.USUARIO
-    WHERE M.FECHA_SALIDA BETWEEN @diaInicial AND @diaFinal AND A.ID_COMPANIA = @idCompania
-    AND U.ID_ROL <> 4
-    ORDER BY M.FECHA_SALIDA
-    END
-    GO*@
+    SELECT ID_ARTICULO, SUM(CANTIDAD) AS CANTIDAD, SUM(MONTO) AS PRECIO
+    FROM TBL_VENTA AS V
+    INNER JOIN TBL_DETAILS_VENTA AS D ON V.ID_VENTA = D.ID_VENTA
+    INNER JOIN TBL_VENTA_PROMOTOR AS VP ON V.ID_VENTA = VP.ID_VENTA
+    WHERE ID_ARTICULO = @idArticulo AND FECHA_INGRESO = @martes AND VP.ID_USUARIO = @idPromotor
+    GROUP BY ID_ARTICULO
+
+    SELECT ID_ARTICULO, SUM(CANTIDAD) AS CANTIDAD, SUM(MONTO) AS PRECIO
+    FROM TBL_VENTA AS V
+    INNER JOIN TBL_DETAILS_VENTA AS D ON V.ID_VENTA = D.ID_VENTA
+    INNER JOIN TBL_VENTA_PROMOTOR AS VP ON V.ID_VENTA = VP.ID_VENTA
+    WHERE ID_ARTICULO = @idArticulo AND FECHA_INGRESO = @miercoles AND VP.ID_USUARIO = @idPromotor
+    GROUP BY ID_ARTICULO
+
+    SELECT ID_ARTICULO, SUM(CANTIDAD) AS CANTIDAD, SUM(MONTO) AS PRECIO
+    FROM TBL_VENTA AS V
+    INNER JOIN TBL_DETAILS_VENTA AS D ON V.ID_VENTA = D.ID_VENTA
+    INNER JOIN TBL_VENTA_PROMOTOR AS VP ON V.ID_VENTA = VP.ID_VENTA
+    WHERE ID_ARTICULO = @idArticulo AND FECHA_INGRESO = @jueves AND VP.ID_USUARIO = @idPromotor
+    GROUP BY ID_ARTICULO
+
+    SELECT ID_ARTICULO, SUM(CANTIDAD) AS CANTIDAD, SUM(MONTO) AS PRECIO
+    FROM TBL_VENTA AS V
+    INNER JOIN TBL_DETAILS_VENTA AS D ON V.ID_VENTA = D.ID_VENTA
+    INNER JOIN TBL_VENTA_PROMOTOR AS VP ON V.ID_VENTA = VP.ID_VENTA
+    WHERE ID_ARTICULO = @idArticulo AND FECHA_INGRESO = @viernes AND VP.ID_USUARIO = @idPromotor
+    GROUP BY ID_ARTICULO
+
+    SELECT ID_ARTICULO, SUM(CANTIDAD) AS CANTIDAD, SUM(MONTO) AS PRECIO
+    FROM TBL_VENTA AS V
+    INNER JOIN TBL_DETAILS_VENTA AS D ON V.ID_VENTA = D.ID_VENTA
+    INNER JOIN TBL_VENTA_PROMOTOR AS VP ON V.ID_VENTA = VP.ID_VENTA
+    WHERE ID_ARTICULO = @idArticulo AND FECHA_INGRESO = @sabado AND VP.ID_USUARIO = @idPromotor
+    GROUP BY ID_ARTICULO
+
+    SELECT ID_ARTICULO, SUM(CANTIDAD) AS CANTIDAD, SUM(MONTO) AS PRECIO
+    FROM TBL_VENTA AS V
+    INNER JOIN TBL_DETAILS_VENTA AS D ON V.ID_VENTA = D.ID_VENTA
+    INNER JOIN TBL_VENTA_PROMOTOR AS VP ON V.ID_VENTA = VP.ID_VENTA
+    WHERE ID_ARTICULO = @idArticulo AND FECHA_INGRESO = @domingo AND VP.ID_USUARIO = @idPromotor
+    GROUP BY ID_ARTICULO
+
+    END*@

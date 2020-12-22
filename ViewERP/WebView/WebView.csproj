@@ -447,6 +447,7 @@
     <Compile Include="Models\DO_ChartData.cs" />
     <Compile Include="Models\DO_Deposito.cs" />
     <Compile Include="Models\DO_Movimiento.cs" />
+    <Compile Include="Models\DO_OrganizationChart.cs" />
     <Compile Include="Models\DO_Persona.cs" />
     <Compile Include="Models\DO_ReporteSemanal.cs" />
     <Compile Include="Models\DO_Semana.cs" />
@@ -1307,6 +1308,7 @@
     <Content Include="Views\Bitacora\Index.cshtml" />
     <Content Include="Views\Promotores\Create.cshtml" />
     <Content Include="Views\Promotores\Index.cshtml" />
+    <Content Include="Views\Promotores\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

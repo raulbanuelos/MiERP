@@ -2565,11 +2565,13 @@ namespace WebView.Models
             return dO_Ventas;
         }
 
-        public static DO_ChartData GetVentaSemanalDiaria(int idCompania)
+        public static DO_ChartData GetVentaSemanalDiariaPromotor(int idCompania, int idPromotor)
         {
             List<DO_Articulo> articulos = DataManager.GetAllArticulos(idCompania);
+
             SO_Venta serviceVenta = new SO_Venta();
 
+            #region Configuración colores
             DO_ChartData dO_ChartData = new DO_ChartData();
             dO_ChartData.labels = new List<string>();
             dO_ChartData.labels.Add("Lunes");
@@ -2608,6 +2610,221 @@ namespace WebView.Models
             borderColors.Add("rgba(255, 159, 64, 1)");
             borderColors.Add("rgba(255, 159, 64, 1)");
             borderColors.Add("rgba(255, 159, 64, 1)");
+            #endregion
+
+            int f = 0;
+
+            double[] totales = new double[7];
+
+            foreach (var articulo in articulos)
+            {
+                DataSetChart dataSetChart = new DataSetChart();
+
+                dataSetChart.label = articulo.Descripcion;
+                dataSetChart.data = new List<double>();
+                dataSetChart.cantidad = new List<int>();
+                dataSetChart.backgroundColor = backGroundColors[f];
+                dataSetChart.borderColor = borderColors[f];
+                dataSetChart.type = "bar";
+
+
+                DataSet dataSet = serviceVenta.GetVentaSemanalDiariaPromotor(articulo.idArticulo, idPromotor);
+
+                if (dataSet != null)
+                {
+                    if (dataSet.Tables.Count > 0)
+                    {
+                        if (dataSet.Tables[0].Rows.Count == 0)
+                        {
+                            dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
+                        }
+                        else
+                        {
+                            double monto = 0;
+                            foreach (DataRow item in dataSet.Tables[0].Rows)
+                            {
+                                monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
+                            }
+                            totales[0] += monto;
+                            dataSetChart.data.Add(monto);
+
+                        }
+
+                        if (dataSet.Tables[1].Rows.Count == 0)
+                        {
+                            dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
+                        }
+                        else
+                        {
+                            double monto = 0;
+                            foreach (DataRow item in dataSet.Tables[1].Rows)
+                            {
+                                monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
+                            }
+                            totales[1] += monto;
+                            dataSetChart.data.Add(monto);
+                        }
+
+                        if (dataSet.Tables[2].Rows.Count == 0)
+                        {
+                            dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
+                        }
+                        else
+                        {
+                            double monto = 0;
+                            foreach (DataRow item in dataSet.Tables[2].Rows)
+                            {
+                                monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
+                            }
+                            totales[2] += monto;
+                            dataSetChart.data.Add(monto);
+                        }
+
+                        if (dataSet.Tables[3].Rows.Count == 0)
+                        {
+                            dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
+                        }
+                        else
+                        {
+                            double monto = 0;
+                            foreach (DataRow item in dataSet.Tables[3].Rows)
+                            {
+                                monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
+                            }
+                            totales[3] += monto;
+                            dataSetChart.data.Add(monto);
+                        }
+
+                        if (dataSet.Tables[4].Rows.Count == 0)
+                        {
+                            dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
+                        }
+                        else
+                        {
+                            double monto = 0;
+                            foreach (DataRow item in dataSet.Tables[4].Rows)
+                            {
+                                monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
+                            }
+                            totales[4] += monto;
+                            dataSetChart.data.Add(monto);
+                        }
+
+                        if (dataSet.Tables[5].Rows.Count == 0)
+                        {
+                            dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
+                        }
+                        else
+                        {
+                            double monto = 0;
+                            foreach (DataRow item in dataSet.Tables[5].Rows)
+                            {
+                                monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
+                            }
+                            totales[5] += monto;
+                            dataSetChart.data.Add(monto);
+                        }
+
+                        if (dataSet.Tables[6].Rows.Count == 0)
+                        {
+                            dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
+                        }
+                        else
+                        {
+                            double monto = 0;
+                            foreach (DataRow item in dataSet.Tables[6].Rows)
+                            {
+                                monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
+                            }
+                            totales[6] += monto;
+                            dataSetChart.data.Add(monto);
+                        }
+                    }
+                }
+                dO_ChartData.datasets.Add(dataSetChart);
+                f++;
+            }
+
+            DataSetChart dataSetChart1 = new DataSetChart();
+            dataSetChart1.label = "Venta total";
+            dataSetChart1.data = new List<double>();
+            dataSetChart1.backgroundColor = backGroundColors[9];
+            dataSetChart1.borderColor = borderColors[9];
+            dataSetChart1.type = "line";
+            dataSetChart1.fill = false;
+
+            dataSetChart1.data.Add(totales[0]);
+            dataSetChart1.data.Add(totales[1]);
+            dataSetChart1.data.Add(totales[2]);
+            dataSetChart1.data.Add(totales[3]);
+            dataSetChart1.data.Add(totales[4]);
+            dataSetChart1.data.Add(totales[5]);
+            dataSetChart1.data.Add(totales[6]);
+
+            dO_ChartData.datasets.Add(dataSetChart1);
+
+            return dO_ChartData;
+        }
+
+        public static DO_ChartData GetVentaSemanalDiaria(int idCompania)
+        {
+            List<DO_Articulo> articulos = DataManager.GetAllArticulos(idCompania);
+            SO_Venta serviceVenta = new SO_Venta();
+
+            #region Configuracion Colores
+            DO_ChartData dO_ChartData = new DO_ChartData();
+            dO_ChartData.labels = new List<string>();
+            dO_ChartData.labels.Add("Lunes");
+            dO_ChartData.labels.Add("Martes");
+            dO_ChartData.labels.Add("Miercoles");
+            dO_ChartData.labels.Add("Jueves");
+            dO_ChartData.labels.Add("Viernes");
+            dO_ChartData.labels.Add("Sabado");
+            dO_ChartData.labels.Add("Domingo");
+            dO_ChartData.datasets = new List<DataSetChart>();
+
+            List<string> backGroundColors = new List<string>();
+            backGroundColors.Add("#56d798");
+            backGroundColors.Add("#ff8397");
+            backGroundColors.Add("#6970d5");
+            backGroundColors.Add("#6970d5");
+            backGroundColors.Add("#24BF99");
+            backGroundColors.Add("#15715B");
+            backGroundColors.Add("#15713F");
+            backGroundColors.Add("#3BC279");
+            backGroundColors.Add("#217BB2");
+            backGroundColors.Add("#316ACD");
+            backGroundColors.Add("#8230CB");
+            backGroundColors.Add("#f38b4a");
+
+            List<string> borderColors = new List<string>();
+            borderColors.Add("rgba(54, 162, 235, 1)");
+            borderColors.Add("rgba(255, 206, 86, 1)");
+            borderColors.Add("rgba(75, 192, 192, 1)");
+            borderColors.Add("rgba(153, 102, 255, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)"); 
+            #endregion
 
             int f = 0;
 
