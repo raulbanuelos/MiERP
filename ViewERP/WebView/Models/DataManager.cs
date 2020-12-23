@@ -570,6 +570,9 @@ namespace WebView.Models
                     existencia.Descripcion = (string)tipo.GetProperty("DESCRIPCION").GetValue(item, null);
                     existencia.idExistencia = (int)tipo.GetProperty("ID_EXISTENCIA").GetValue(item, null);
                     existencia.NumeroSerie = (string)tipo.GetProperty("NUMERO_SERIE").GetValue(item, null);
+                    double precioMaster = Convert.ToDouble(tipo.GetProperty("PRECIO_MASTER").GetValue(item, null));
+
+                    existencia.ValorInventario = existencia.Cantidad * precioMaster;
 
                     listaResultante.Add(existencia);
                 }

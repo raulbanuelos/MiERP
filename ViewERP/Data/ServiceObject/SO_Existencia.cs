@@ -95,6 +95,7 @@ namespace Data.ServiceObject
                 {
                     var lista = (from e in Conexion.TBL_EXISTENCIA
                                  join a in Conexion.TBL_ARTICULO on e.ID_ARTICULO equals a.ID_ARTICULO
+                                 join p in Conexion.TBL_DETAILS_ARTICULO on a.ID_ARTICULO equals p.ID_ARTICULO
                                  where e.ID_ALMACEN == idAlmacen
                                  select new
                                  { 
@@ -103,7 +104,8 @@ namespace Data.ServiceObject
                                      a.CODIGO,
                                      a.DESCRIPCION,
                                      NUMERO_SERIE = a.DESCRIPCION_LARGA,
-                                     e.ID_EXISTENCIA
+                                     e.ID_EXISTENCIA,
+                                     PRECIO_MASTER = p.PRECIO_MASTER
                                  }).ToList();
 
                     return lista;

@@ -17,5 +17,7 @@ namespace Model
         public string NumeroSerie { get; set; }
         public double Cantidad { get; set; }
 
+        public double ValorInventario { get; set; }
+
     }
 }

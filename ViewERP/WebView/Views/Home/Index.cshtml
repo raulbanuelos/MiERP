@@ -75,6 +75,54 @@
                 </div>
             </div>
         </div>
+
+        <!--Entradas y salidas-->
+        <div class="row">
+            <div class="col-12 col-lg-6 col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        Entradas semana actual
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>ARTICULO</th>
+                                        <th>CANTIDAD</th>
+                                        <th>ORIGEN</th>
+                                        <th>FECHA</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblEntradas"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6 col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        Salidas semana actual
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>ARTICULO</th>
+                                        <th>CANTIDAD</th>
+                                        <th>DESTINO</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblSalidas"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
     else
     {
@@ -143,7 +191,7 @@
                 </div>
             </div>
         </div>
-        
+
         if ((bool)Session["GERENTE"])
         {
             <div class="row">
@@ -165,7 +213,7 @@
                 </div>
             </div>
         }
-        
+
         <div class="row">
             <div class="col-12 col-lg-4 col-xl-4">
                 <div class="card">
@@ -179,11 +227,15 @@
                                     <tr>
                                         <th>Artículo</th>
                                         <th>Cantidad</th>
+                                        <th>Valor</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tblExistencia"></tbody>
                             </table>
                         </div>
+                    </div>
+                    <div class="card-footer" id="lblValorInventario">
+                        Valor del inventario
                     </div>
                 </div>
             </div>
@@ -573,7 +625,7 @@
                 dataType: "json",
                 success: function (data) {
                     var ctx = document.getElementById('chartPromotor').getContext('2d');
-                    
+
 
                     var myChartPromotor = new Chart(ctx, {
                         type: 'horizontalBar',
@@ -613,16 +665,16 @@
                                     }
                                 }]
                             },
-                            
+
                             tooltips: {
                                 callbacks: {
                                     label: function (tooltipItem, data) {
                                         var label = data.datasets[tooltipItem.datasetIndex].label || '';
-                                        
+
                                         var venta = Math.round(tooltipItem.xLabel * 100) / 100;
                                         label += ": $" + venta;
                                         return label;
-                                       
+
 
                                     }
                                 }
@@ -721,13 +773,22 @@
                 dataType: "json",
                 success: function (data) {
                     var row = "";
+                    var valorTotalInventario = 0;
                     $.each(data, function (index, item) {
+                        valorTotalInventario += item.ValorInventario;
+                        var number = new Intl.NumberFormat("en-IN").format(item.ValorInventario);
+                        number = "$" + number;
                         row += "<tr>";
                         row += "<td>" + item.Descripcion + "</td>";
                         row += "<td>" + item.Cantidad + "</td>";
+                        row += "<td>" + number + "</td>";
                         row += "</tr>";
                     });
                     $("#tblExistencia").append(row);
+
+                    var number1 = new Intl.NumberFormat("en-IN").format(valorTotalInventario);
+                    number1 = "$" + number1;
+                    $("#lblValorInventario").html("Valor total del inventario: " + number1);
                 },
                 error: function (result) {
                     alert("Woops, se produjo un error");

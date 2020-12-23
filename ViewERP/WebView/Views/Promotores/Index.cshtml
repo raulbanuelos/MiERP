@@ -24,8 +24,34 @@
 
 <a href="@Url.Action("Create", "Promotores")">Nuevo promotor</a>
 
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" id="home-tab-md" data-toggle="tab" href="#home-md" role="tab" aria-controls="home-md" aria-selected="true">Lista</a>
+    </li>
 
- <div id="chart_div"></div>
+    <li class="nav-item">
+        <a class="nav-link" id="profile-tab-md" data-toggle="tab" href="#profile-md" role="tab" aria-controls="profile-md" aria-selected="false">Organigrama</a>
+    </li>
+</ul>
+
+<div class="tab-content card pt-5" id="myTabContentMD">
+    <div class="tab-pane fade show active" id="home-md" role="tabpanel" aria-labelledby="home-tab-md">
+        <h4 class="card-title">Mis promotores</h4>
+        <hr />
+        <table class="table align-items-center table-flush table-borderless">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                </tr>
+            </thead>
+            <tbody id="tblPromotores"></tbody>
+        </table>      
+    </div>
+    <div class="tab-pane fade" id="profile-md" role="tabpanel" aria-labelledby="profile-tab-md">
+        <div id="chart_div"></div>
+    </div>
+</div>
 
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -38,9 +64,7 @@
         data.addColumn('string', 'Name');
         data.addColumn('string', 'Manager');
         data.addColumn('string', 'ToolTip');
-        
-       
-        
+
         var urlSave = '@Url.Action("GetAllPromotores", "Promotores")';
         $.ajax({
             type: "POST",
@@ -49,23 +73,30 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (informacion) {
-               
+
                 var idGerente = '' + informacion.Yo.idUsuario;
                 var nombreGerente = informacion.Yo.Nombre;
-                
+                var row = "";
+
                 data.addRow([{ v: idGerente, f: nombreGerente + '<div style="color:tomato; font-style:italic">Gerente</div>' }, '', 'Gerente']);
-                
+
                 $.each(informacion.Promotores, function (index, item) {
-                    data.addRow([{ v: item.Nombre, f: '<div><a href="@Url.Action("Editar","Promotores")?id=' + item.idUsuario + '">' + item.Nombre + '</a></div> <div style="color:tomato; font-style:italic">Promotor</div> '}, idGerente, item.Nombre]);
+                    data.addRow([{ v: item.Nombre, f: '<div><a href="@Url.Action("Editar","Promotores")?id=' + item.idUsuario + '">' + item.Nombre + '</a></div> <div style="color:tomato; font-style:italic">Promotor</div> ' }, idGerente, item.Nombre]);
+
+                    row += "<tr>";
+                    row += "<td><a href=\"@Url.Action("Editar", "Promotores")?id=" + item.idUsuario + "\">" + item.Nombre + "</a> </td>";
+                    row += "<td>" + item.Usuario + "</td>";
+                    row += "</tr>";
                 });
 
+                $("#tblPromotores").append(row);
             },
             error: function (result) {
                 alert("Woops, se produjo un error");
             },
             complete: function (d) {
                 var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
-                
+
                 chart.draw(data, { 'allowHtml': true, 'allowCollapse': true, 'size': 'large', color: '#000000', selectionColor: '#bcab31' });
             }
         });
