@@ -294,5 +294,32 @@ namespace Data.ServiceObject
             }
         }
 
+        public IList GetAllGerentes()
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var lista = (from u in Conexion.TBL_USUARIO
+                                 join r in Conexion.TBL_ROLE on u.ID_ROL equals r.ID_ROL
+                                 join c in Conexion.TBL_COMPANIA on u.ID_COMPANIA equals c.ID_COMPANIA
+                                 join p in Conexion.TBL_ERP_PLAN on u.ID_COMPANIA equals p.ID_PLAN
+                                 where u.ID_ROL == 1 || u.ID_ROL == 3
+                                 select new
+                                 {
+                                     c.NOMBRE,
+                                     u.USUARIO,
+                                     r.ROL,
+                                     c.FECHA_REGISTRO,
+                                     p.NOMBRE_PLAN,
+                                 }).ToList();
+                    return lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }

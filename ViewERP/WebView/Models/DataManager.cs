@@ -3615,5 +3615,36 @@ namespace WebView.Models
             return dateF;
         }
         #endregion
+
+        #region Administrador
+        public static List<DO_GerentePromotor> GetGerentePromotor()
+        {
+            SO_Usuario serviceUsuario = new SO_Usuario();
+
+            List<DO_GerentePromotor> promotors = new List<DO_GerentePromotor>();
+
+            IList informacionBD = serviceUsuario.GetAllGerentes();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type type = item.GetType();
+
+                    DO_GerentePromotor gerentePromotor = new DO_GerentePromotor();
+
+                    gerentePromotor.Nombre = type.GetProperty("NOMBRE").GetValue(item, null).ToString();
+                    gerentePromotor.Usuario = type.GetProperty("USUARIO").GetValue(item, null).ToString();
+                    gerentePromotor.Rol = type.GetProperty("ROL").GetValue(item, null).ToString();
+                    gerentePromotor.FechaRegistro = Convert.ToDateTime(type.GetProperty("FECHA_REGISTRO").GetValue(item, null)).ToString();
+                    gerentePromotor.NombrePlan = type.GetProperty("NOMBRE_PLAN").GetValue(item, null).ToString();
+
+                    promotors.Add(gerentePromotor);
+                }
+            }
+
+            return promotors;
+        }
+        #endregion
     }
 }
