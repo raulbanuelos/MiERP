@@ -140,7 +140,7 @@ namespace WebView.Controllers
             //PRECIO
             foreach (DO_ReporteSemanal item in dO_Reportes)
             {
-                double costo = DataManager.GetArticulo(item.IdArticulo).PRECIO_UNIDAD;
+                double costo = DataManager.GetArticulo(item.IdArticulo).PRECIO_MASTER;
                 
                 item.CostoUnitario = costo;
             }
