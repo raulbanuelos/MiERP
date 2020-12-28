@@ -44,8 +44,11 @@ namespace WebView.Controllers
         [ERPVerificaAccount]
         public ActionResult BajarArchivo(int idSemana)
         {
+            
+
             DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
             DO_Compania compania = DataManager.GetCompania(personaConectada.idCompania);
+            List<DO_Almacen> almacens = DataManager.GetAllAlmacen(compania.IdCompania);
 
             string path = Server.MapPath("~/assets/files/formatoreportesemanal.xlsx");
             SLDocument sLDocument = new SLDocument(path, "Reporte");
@@ -66,7 +69,10 @@ namespace WebView.Controllers
             string rangoFecha = dO_Semana.SFechaInicial + " a " + dO_Semana.SFechaFinal;
 
             List<DO_ReporteSemanal> dO_Reportes = new List<DO_ReporteSemanal>();
-            
+
+            List<DO_Movimiento> movimientosEntradas = new List<DO_Movimiento>();
+            movimientosEntradas = DataManager.GetAllEntradas(almacens[0].idAlmacen, idSemana);
+
             //Entradas
             foreach (DO_Movimiento entrada in entradas)
             {
@@ -146,7 +152,7 @@ namespace WebView.Controllers
             }
 
             //Inventario inicial
-            List<DO_Almacen> almacens = DataManager.GetAllAlmacen(compania.IdCompania);
+            
             List<FO_Item> existencias = DataManager.GetCorteExistencia(idSemana, almacens[0].idAlmacen);
             foreach (var item in dO_Reportes)
             {
@@ -179,7 +185,17 @@ namespace WebView.Controllers
                 sLDocument.SetCellValue("A" + c, deposito.FechaIngreso);
                 sLDocument.SetCellValue("B" + c, deposito.Banco);
                 sLDocument.SetCellValue("C" + c, deposito.Importe);
+                sLDocument.SetCellValue("D" + c, deposito.Descripcion);
+                sLDocument.SetCellValue("F" + c, deposito.Importe);
                 c++;
+            }
+
+            //Llenado de costo de guia
+            foreach (var item in movimientosEntradas)
+            {
+                sLDocument.SetCellValue("D" + c, item.NoFactura);
+                sLDocument.SetCellValue("F" + c, item.CostoGuia);
+                c++; 
             }
 
             c = 17;

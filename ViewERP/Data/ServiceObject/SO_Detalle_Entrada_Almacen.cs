@@ -150,6 +150,30 @@ namespace Data.ServiceObject
             }
         }
 
+        public IList GetAllEntradasPorWeek(int idAlmacen, DateTime fechaInicial, DateTime fechaFinal)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var list = (from m in Conexion.TBL_MOVIMIENTO_ALMACEN
+                                where m.FECHA >= fechaInicial && m.FECHA <= fechaFinal && m.ID_ALMACEN == idAlmacen && m.COSTO_GUIA > 0
+                                select new
+                                {
+                                    m.ID_MOVIMIENTO_ALMACEN,
+                                    m.COSTO_GUIA,
+                                    m.NO_FACTURA,
+                                }).ToList();
+
+                    return list;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public DataSet GetEntradasPorWeekDetalle(int idCompania, int idSemana)
         {
             try

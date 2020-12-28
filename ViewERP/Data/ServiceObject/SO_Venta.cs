@@ -1,5 +1,6 @@
 ﻿using Data.SQLServer;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Security.Policy;
@@ -19,6 +20,7 @@ namespace Data.ServiceObject
         private string SP_ERP_GET_VENTA_SEMANAL_DIARIA = "SP_ERP_GET_VENTA_SEMANAL_DIARIA";
         private string SP_ERP_GET_MONTO_VENTA_SEMANA_ACTUAL_BY_PROMOTOR = "SP_ERP_GET_MONTO_VENTA_SEMANA_ACTUAL_BY_PROMOTOR";
         private string SP_ERP_GET_VENTA_SEMANAL_DIARIA_PROMOTOR = "SP_ERP_GET_VENTA_SEMANAL_DIARIA_PROMOTOR";
+        private string SP_ERP_GET_VENTA_SEMANAL_PROMOTOR = "SP_ERP_GET_VENTA_SEMANAL_PROMOTOR";
 
         public int Insert(int idUsuario, double monto, DateTime fechaIngreso)
         {
@@ -246,7 +248,7 @@ namespace Data.ServiceObject
             }
         }
 
-        public DataSet GetVentaSemanalDiariaPromotor(int idArticulo, int idPromotor)
+        public DataSet GetVentaSemanalDiariaPromotor(int idArticulo, int idPromotor, int idSemana)
         {
             try
             {
@@ -258,8 +260,32 @@ namespace Data.ServiceObject
 
                 parametros.Add("idArticulo", idArticulo);
                 parametros.Add("idPromotor", idPromotor);
+                parametros.Add("idSemana", idSemana);
 
                 datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_VENTA_SEMANAL_DIARIA_PROMOTOR, parametros);
+
+                return datos;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public DataSet GetVentaSemanalPromotor(int idPromotor, int idSemana)
+        {
+            try
+            {
+                DataSet datos = null;
+
+                ERP_SQL conexion = new ERP_SQL();
+
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
+
+                parametros.Add("idPromotor", idPromotor);
+                parametros.Add("idSemana", idSemana);
+
+                datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_VENTA_SEMANAL_PROMOTOR, parametros);
 
                 return datos;
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -65,6 +66,31 @@ namespace WebView.Controllers
         [ERPVerificaAccount]
         public ActionResult Editar(int id=0, DO_Persona persona = null)
         {
+            DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
+
+            DO_Compania dO_Compania = DataManager.GetCompania(personaConectada.idCompania);
+
+            List<DO_Semana> dO_Semanas = DataManager.GetSemanas(dO_Compania.FechaRegistro);
+
+            List<SelectListItem> listItems = new List<SelectListItem>();
+
+            SelectListItem selectListItem1 = new SelectListItem();
+            selectListItem1.Text = "Selecciona una opción";
+            selectListItem1.Value = "0";
+            listItems.Add(selectListItem1);
+
+            foreach (var item in dO_Semanas)
+            {
+                SelectListItem selectListItem = new SelectListItem();
+
+                selectListItem.Text = "Semana " + "#" + item.NoSemana + "  De  " + item.SFechaInicial + " a " + item.SFechaFinal;
+                selectListItem.Value = item.IdSemana.ToString();
+
+                listItems.Add(selectListItem);
+            }
+
+            ViewBag.Semanas = listItems;
+
             return View(DataManager.GetPersona(id));
         }
 
@@ -81,12 +107,22 @@ namespace WebView.Controllers
             return jsonResult;
         }
 
+        public JsonResult GetVentasPromotorSemana(int idSemana, int idPromotor)
+        {
+            List<DO_Ventas> ventas = DataManager.GetVentasPromotor(idPromotor, idSemana);
+
+            var jsonResult = Json(ventas, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
         [HttpPost]
-        public JsonResult GetVentaSemanalDiariaPromotor(int idPromotor)
+        public JsonResult GetVentaSemanalDiariaPromotor(int idPromotor, int idSemana)
         {
             int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
 
-            DO_ChartData dO_ChartData = DataManager.GetVentaSemanalDiariaPromotor(idCompania,idPromotor);
+            DO_ChartData dO_ChartData = DataManager.GetVentaSemanalDiariaPromotor(idCompania,idPromotor, idSemana);
 
             var jsonResult = Json(dO_ChartData, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;

@@ -19,5 +19,7 @@ namespace WebView.Models
         }
 
         public int IdPromotor { get; set; }
+
+        public string sFecha { get; set; }
     }
 }

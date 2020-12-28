@@ -1125,6 +1125,35 @@ namespace WebView.Models
             return dO_Movimientos;
         }
 
+        public static List<DO_Movimiento> GetAllEntradas(int idAlmacen, int idSemana)
+        {
+            List<DO_Movimiento> entradas = new List<DO_Movimiento>();
+
+            DO_Semana rangoSemana = GetSemana(idSemana);
+
+            SO_Detalle_Entrada_Almacen sO_Detalle_Entrada_Almacen = new SO_Detalle_Entrada_Almacen();
+
+            IList informacionBD = sO_Detalle_Entrada_Almacen.GetAllEntradasPorWeek(idAlmacen, rangoSemana.FechaInicial, rangoSemana.FechaFinal);
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type type = item.GetType();
+
+                    DO_Movimiento movimiento = new DO_Movimiento();
+
+                    movimiento.IdMovimiento = (int)type.GetProperty("ID_MOVIMIENTO_ALMACEN").GetValue(item, null);
+                    movimiento.NoFactura = (string)type.GetProperty("NO_FACTURA").GetValue(item, null);
+                    movimiento.CostoGuia = Convert.ToDouble(type.GetProperty("COSTO_GUIA").GetValue(item, null));
+
+                    entradas.Add(movimiento);
+                }
+            }
+
+            return entradas;
+        }
+
         #endregion
 
         #region Salidas
@@ -2568,7 +2597,7 @@ namespace WebView.Models
             return dO_Ventas;
         }
 
-        public static DO_ChartData GetVentaSemanalDiariaPromotor(int idCompania, int idPromotor)
+        public static DO_ChartData GetVentaSemanalDiariaPromotor(int idCompania, int idPromotor, int idSemana)
         {
             List<DO_Articulo> articulos = DataManager.GetAllArticulos(idCompania);
 
@@ -2631,7 +2660,7 @@ namespace WebView.Models
                 dataSetChart.type = "bar";
 
 
-                DataSet dataSet = serviceVenta.GetVentaSemanalDiariaPromotor(articulo.idArticulo, idPromotor);
+                DataSet dataSet = serviceVenta.GetVentaSemanalDiariaPromotor(articulo.idArticulo, idPromotor, idSemana);
 
                 if (dataSet != null)
                 {
@@ -3066,6 +3095,35 @@ namespace WebView.Models
             }
 
             return venta;
+        }
+
+        public static List<DO_Ventas> GetVentasPromotor(int idPromotor, int idSemana)
+        {
+            SO_Venta sO_Venta = new SO_Venta();
+
+            DataSet informacionBD = sO_Venta.GetVentaSemanalPromotor(idPromotor, idSemana);
+
+            List<DO_Ventas> ventas = new List<DO_Ventas>();
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        DO_Ventas venta = new DO_Ventas();
+
+                        venta.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
+                        venta.Precio = Convert.ToDouble(item["PRECIO"]);
+                        venta.Nombre = Convert.ToString(item["DESCRIPCION"]);
+                        DateTime fecha = Convert.ToDateTime(item["FECHA_INGRESO"]);
+                        venta.sFecha = ConvertDatetime(fecha);
+                        ventas.Add(venta);
+                    }
+                }
+            }
+
+            return ventas;
         }
 
         #endregion
