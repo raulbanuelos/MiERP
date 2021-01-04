@@ -70,5 +70,25 @@ namespace Data.ServiceObject
                 return null;
             }
         }
+
+        public IList GetLastSemana(int idSemana, int c)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var list = (from a in Conexion.TBL_SEMANA
+                                where a.ID_SEMANA <= idSemana
+                                orderby a.ID_SEMANA descending
+                                select a).Take(c).ToList();
+
+                    return list;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }

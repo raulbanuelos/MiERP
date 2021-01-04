@@ -38,17 +38,20 @@
     <div class="tab-pane fade show active" id="home-md" role="tabpanel" aria-labelledby="home-tab-md">
         <h4 class="card-title">Mis promotores</h4>
         <hr />
-        <table class="table align-items-center table-flush table-borderless">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Correo</th>
-                </tr>
-            </thead>
-            <tbody id="tblPromotores"></tbody>
-        </table>      
+        <div style="overflow-x:auto;">
+            <table class="table align-items-center table-flush table-borderless">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                    </tr>
+                </thead>
+                <tbody id="tblPromotores"></tbody>
+            </table>
+        </div>
+             
     </div>
-    <div class="tab-pane fade" id="profile-md" role="tabpanel" aria-labelledby="profile-tab-md">
+    <div class="tab-pane fade" style="overflow-x:auto;" id="profile-md" role="tabpanel" aria-labelledby="profile-tab-md">
         <div id="chart_div"></div>
     </div>
 </div>

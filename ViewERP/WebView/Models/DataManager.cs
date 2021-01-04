@@ -2597,6 +2597,166 @@ namespace WebView.Models
             return dO_Ventas;
         }
 
+        public static List<DO_Semana> GetLastSemana(int idSemana, int c)
+        {
+            List<DO_Semana> semanas = new List<DO_Semana>();
+
+            SO_Semana sO_Semana = new SO_Semana();
+
+            IList informacionBd = sO_Semana.GetLastSemana(idSemana, c);
+
+            if (informacionBd != null)
+            {
+                foreach (var item in informacionBd)
+                {
+                    Type type = item.GetType();
+
+                    DO_Semana semana = new DO_Semana();
+
+                    semana.FechaInicial = Convert.ToDateTime(type.GetProperty("DIA_INICIAL").GetValue(item, null));
+                    semana.FechaFinal = Convert.ToDateTime(type.GetProperty("DIA_FINAL").GetValue(item, null));
+                    semana.NoSemana = Convert.ToInt32(type.GetProperty("NO_SEMANA").GetValue(item, null));
+
+                    semanas.Add(semana);
+                }
+            }
+
+            return semanas;
+        }
+
+        public static DO_ChartData GetLastFiveWeekSalesPromotor(int idPromotor, int idSemana)
+        {
+            #region Configuración colores
+            
+            List<string> backGroundColors = new List<string>();
+            backGroundColors.Add("#56d798");
+            backGroundColors.Add("#ff8397");
+            backGroundColors.Add("#6970d5");
+            backGroundColors.Add("#6970d5");
+            backGroundColors.Add("#24BF99");
+            backGroundColors.Add("#15715B");
+            backGroundColors.Add("#15713F");
+            backGroundColors.Add("#3BC279");
+            backGroundColors.Add("#217BB2");
+            backGroundColors.Add("#316ACD");
+            backGroundColors.Add("#8230CB");
+            backGroundColors.Add("#f38b4a");
+
+            List<string> borderColors = new List<string>();
+            borderColors.Add("rgba(54, 162, 235, 1)");
+            borderColors.Add("rgba(255, 206, 86, 1)");
+            borderColors.Add("rgba(75, 192, 192, 1)");
+            borderColors.Add("rgba(153, 102, 255, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            #endregion
+
+            DO_ChartData dO_ChartData = new DO_ChartData();
+
+            List<DO_Semana> semanas = DataManager.GetLastSemana(idSemana, 5);
+
+            dO_ChartData.labels = new List<string>();
+            semanas.Reverse();
+
+            foreach (var semana in semanas)
+            {
+                dO_ChartData.labels.Add("Semana #" +semana.NoSemana);
+            }
+
+            //dO_ChartData.labels.Add("Semana 5");
+            //dO_ChartData.labels.Add("Semana 4");
+            //dO_ChartData.labels.Add("Semana 3");
+            //dO_ChartData.labels.Add("Semana 2");
+            //dO_ChartData.labels.Add("Semana 1");
+            dO_ChartData.datasets = new List<DataSetChart>();
+
+            SO_Venta sO_Venta = new SO_Venta();
+
+            DataSet informacionBD = sO_Venta.GetVentaPromotorLastFiveWeek(idPromotor, idSemana);
+
+            if (informacionBD != null)
+            {
+                DataSetChart dataSetChart1 = new DataSetChart();
+                dataSetChart1.label = "Venta total";
+                dataSetChart1.data = new List<double>();
+                dataSetChart1.backgroundColor = backGroundColors[9];
+                dataSetChart1.borderColor = borderColors[9];
+                dataSetChart1.type = "line";
+                dataSetChart1.fill = false;
+
+
+                if (informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        dataSetChart1.data.Add(Convert.ToDouble(item["TOTAL"]));
+                    }
+                }
+                else
+                {
+                    dataSetChart1.data.Add(0);
+                }
+
+                if (informacionBD.Tables[1].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[1].Rows)
+                    {
+                        dataSetChart1.data.Add(Convert.ToDouble(item["TOTAL"]));
+                    }
+                }
+                else
+                {
+                    dataSetChart1.data.Add(0);
+                }
+
+                if (informacionBD.Tables[2].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[2].Rows)
+                    {
+                        dataSetChart1.data.Add(Convert.ToDouble(item["TOTAL"]));
+                    }
+                }
+                else
+                {
+                    dataSetChart1.data.Add(0);
+                }
+
+                if (informacionBD.Tables[3].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[3].Rows)
+                    {
+                        dataSetChart1.data.Add(Convert.ToDouble(item["TOTAL"]));
+                    }
+                }
+                else
+                {
+                    dataSetChart1.data.Add(0);
+                }
+
+                if (informacionBD.Tables[4].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[4].Rows)
+                    {
+                        dataSetChart1.data.Add(Convert.ToDouble(item["TOTAL"]));
+                    }
+                }
+                else
+                {
+                    dataSetChart1.data.Add(0);
+                }
+
+                dO_ChartData.datasets.Add(dataSetChart1);
+            }
+
+            return dO_ChartData;
+        }
+
         public static DO_ChartData GetVentaSemanalDiariaPromotor(int idCompania, int idPromotor, int idSemana)
         {
             List<DO_Articulo> articulos = DataManager.GetAllArticulos(idCompania);

@@ -85,6 +85,10 @@
                     <tbody id="tblVentasPromotor"></tbody>
                 </table>
             </div>
+
+            <div class="chart-container-1">
+                <canvas id="chart2"></canvas>
+            </div>
         </div>
     </div>
 </div>
@@ -166,6 +170,7 @@
                         }
                     }
                 });
+
                 $.each(data.datasets[data.datasets.length - 1].data, function (index, value) {
                     ventaTotal += value;
                 });
@@ -200,6 +205,61 @@
             }
         });
 
+        var urlSaveWeeks = '@Url.Action("GetLastFiveWeekSalesPromotor", "Promotores")';
+
+        $.ajax({
+            type: "POST",
+            url: urlSaveWeeks,
+            data: JSON.stringify({ idPromotor: _idPromotor, idSemana: _idSemana }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var ctx = document.getElementById('chart2').getContext('2d');
+                var myChart1 = new Chart(ctx, {
+                    type: 'line',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                fontColor: 'white',
+                                fontSize: 16
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'últimas semanas',
+                            fontColor: 'white',
+                            fontSize: 22
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    fontColor: "white",
+                                    fontSize: 12,
+                                    callback: function (value, index, values) {
+                                        return '$' + value;
+                                    }
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    fontColor: "white",
+                                    fontSize: 12,
+                                    stepSize: 1,
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                    }
+                });
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
     });
 
     function GuardarDatosPromotor() {

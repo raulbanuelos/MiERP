@@ -107,6 +107,7 @@ namespace WebView.Controllers
             return jsonResult;
         }
 
+        [HttpPost]
         public JsonResult GetVentasPromotorSemana(int idSemana, int idPromotor)
         {
             List<DO_Ventas> ventas = DataManager.GetVentasPromotor(idPromotor, idSemana);
@@ -123,6 +124,17 @@ namespace WebView.Controllers
             int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
 
             DO_ChartData dO_ChartData = DataManager.GetVentaSemanalDiariaPromotor(idCompania,idPromotor, idSemana);
+
+            var jsonResult = Json(dO_ChartData, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult GetLastFiveWeekSalesPromotor(int idPromotor, int idSemana)
+        {
+            DO_ChartData dO_ChartData = DataManager.GetLastFiveWeekSalesPromotor(idPromotor, idSemana);
 
             var jsonResult = Json(dO_ChartData, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;

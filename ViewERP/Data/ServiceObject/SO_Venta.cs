@@ -21,6 +21,7 @@ namespace Data.ServiceObject
         private string SP_ERP_GET_MONTO_VENTA_SEMANA_ACTUAL_BY_PROMOTOR = "SP_ERP_GET_MONTO_VENTA_SEMANA_ACTUAL_BY_PROMOTOR";
         private string SP_ERP_GET_VENTA_SEMANAL_DIARIA_PROMOTOR = "SP_ERP_GET_VENTA_SEMANAL_DIARIA_PROMOTOR";
         private string SP_ERP_GET_VENTA_SEMANAL_PROMOTOR = "SP_ERP_GET_VENTA_SEMANAL_PROMOTOR";
+        private string SP_ERP_GET_VENTA_ULTIMAS_5_SEMANAS_PROMOTOR = "SP_ERP_GET_VENTA_ULTIMAS_5_SEMANAS_PROMOTOR";
 
         public int Insert(int idUsuario, double monto, DateTime fechaIngreso)
         {
@@ -336,6 +337,30 @@ namespace Data.ServiceObject
             catch (Exception)
             {
                 return 0;
+            }
+        }
+
+        public DataSet GetVentaPromotorLastFiveWeek(int idPromotor, int idSemana)
+        {
+            try
+            {
+                DataSet datos = null;
+
+                ERP_SQL conexion = new ERP_SQL();
+
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
+
+                parametros.Add("idPromotor", idPromotor);
+                parametros.Add("idSemana", idSemana);
+
+                datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_VENTA_ULTIMAS_5_SEMANAS_PROMOTOR, parametros);
+
+                return datos;
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 

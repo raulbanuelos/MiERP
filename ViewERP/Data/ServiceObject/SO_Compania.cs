@@ -48,7 +48,7 @@ namespace Data.ServiceObject
                     TBL_COMPANIA tBL_COMPANIA = Conexion.TBL_COMPANIA.Where(x => x.ID_COMPANIA == idCompania).FirstOrDefault();
 
                     tBL_COMPANIA.ID_PLAN = idPlan;
-                    tBL_COMPANIA.FECHA_REGISTRO = DateTime.Now;
+                    //tBL_COMPANIA.FECHA_REGISTRO = DateTime.Now;
 
                     Conexion.Entry(tBL_COMPANIA).State = EntityState.Modified;
 
