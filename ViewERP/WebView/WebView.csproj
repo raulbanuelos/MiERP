@@ -1310,6 +1310,8 @@
     <Content Include="Views\Promotores\Create.cshtml" />
     <Content Include="Views\Promotores\Index.cshtml" />
     <Content Include="Views\Promotores\Editar.cshtml" />
+    <Content Include="Views\Ventas\Index.cshtml" />
+    <Content Include="Views\Ventas\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

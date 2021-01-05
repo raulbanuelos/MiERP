@@ -7,6 +7,7 @@ namespace WebView.Models
 {
     public class DO_Ventas
     {
+        public int IdVenta { get; set; }
         public int IdArticulo { get; set; }
         public string Nombre { get; set; }
         public int Cantidad { get; set; }
@@ -21,5 +22,9 @@ namespace WebView.Models
         public int IdPromotor { get; set; }
 
         public string sFecha { get; set; }
+
+        public DateTime Fecha { get; set; }
+
+        public string NombrePromotor { get; set; }
     }
 }

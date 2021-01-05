@@ -1,0 +1,163 @@
+﻿@model WebView.Models.DO_Ventas
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Editar Venta</h4>
+                <hr />
+                <div class="panel-body pb-0">
+                    <div class="form-horizontal group-border stripped">
+                        <input type="hidden" value="@Model.IdVenta" id="txtIdVenta" />
+
+                        <div class="form-group">
+                            <label for="">Fecha</label>
+                            <div class="col-lg-7 col-md-6">
+                                <div class="input-group date" id="datetimepicker2">
+                                    <input type="text" class="form-control" value="@Model.Fecha" />
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Promotor</label>
+                            <div class="col-lg-7 col-md-6">
+                                <select id="cboPromotores" class="form-control modalColor" style="width:90%">
+                                    @{
+                                        foreach (SelectListItem promotor in ((List<SelectListItem>)ViewBag.Promotores))
+                                        {
+                                            if (promotor.Selected)
+                                            {
+                                                <option selected id="@promotor.Value" value="@promotor.Value">@promotor.Text</option>
+                                            }
+                                            else
+                                            {
+                                                <option id="@promotor.Value" value="@promotor.Value">@promotor.Text</option>
+                                            }
+
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Articulo</label>
+                            <div class="col-lg-7 col-md-6">
+                                <select id="cboArticulos" class="form-control modalColor" style="width:90%">
+                                    @{
+                                        foreach (SelectListItem articulo in ((List<SelectListItem>)ViewBag.Articulos))
+                                        {
+                                            if (articulo.Selected)
+                                            {
+                                                <option selected id="@articulo.Value" value="@articulo.Value">@articulo.Text</option>
+                                            }
+                                            else
+                                            {
+                                                <option id="@articulo.Value" value="@articulo.Value">@articulo.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-9 col-md-9 control-label" for="">Cantidad</label>
+                            <div class="col-lg-10 col-md-9">
+                                <input type="text" id="txtCantidad" class="form-control" placeholder="Articulo" value="@Model.Cantidad" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-9 col-md-9 control-label" for="">Precio</label>
+                            <div class="col-lg-10 col-md-9">
+                                <input type="text" id="txtPrecio" disabled class="form-control" placeholder="Articulo" value="@Model.Precio" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-9 col-md-9 control-label" for="">Total</label>
+                            <div class="col-lg-10 col-md-9">
+                                <input type="text" id="txtTotal" disabled class="form-control" placeholder="Articulo" value="@Model.Total" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button class="btn btn-success" onclick="guardarVenta()">Guardar cambios</button>
+                            </div>
+
+                            <div class="col-md-offset-2 col-md-10">
+                                <button class="btn btn-danger" onclick="eliminarVenta()">Eliminar Venta</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#datetimepicker2").datetimepicker({
+            format: 'L'
+        });
+    });
+
+    function eliminarVenta() {
+        var _idVenta = $("#txtIdVenta").val();
+
+        var urlSave = '@Url.Action("EliminarVenta", "Ventas")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ idVenta: _idVenta }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                alert("Venta eliminada ");
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+    }
+
+    function guardarVenta() {
+        var _idVenta = $("#txtIdVenta").val();
+        var _fecha = $("#datetimepicker2").data("date");
+        var _cantidad = $("#txtCantidad").val();
+        var _idArticulo = $("#cboArticulos").val();
+        var _idPromotor = $("#cboPromotores").val();
+        var urlSave = '@Url.Action("GuardarCambiosVenta", "Ventas")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ idVenta: _idVenta, cantidad: _cantidad, fecha: _fecha, idArticulo: _idArticulo, idPromotor: _idPromotor }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                alert("Cambios guardados correctamente ");
+
+                var link = "@Url.Action("Index","Ventas")";
+                window.location.href = link;
+
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+    }
+
+</script>

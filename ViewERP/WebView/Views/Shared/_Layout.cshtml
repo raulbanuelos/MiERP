@@ -63,6 +63,21 @@
                     </a>
                 </li>
 
+                @if ((bool)Session["GERENTE_PROMOTOR"])
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "Organizacion")">
+                            <i class="fa fa-puzzle-piece"></i><span>Mi organización</span>
+                        </a>
+                    </li>
+                }
+
+                <li>
+                    <a href="@Url.Action("Index", "Ventas")">
+                        <i class="fa fa-shopping-cart"></i> <span>Mis Ventas</span>
+                    </a>
+                </li>
+
                 <li>
                     <a href="@Url.Action("AgregarVenta", "Ventas")">
                         <i class="fa fa-shopping-cart"></i> <span>Registro de venta</span>
@@ -111,14 +126,11 @@
                     </a>
                 </li>
 
-                @if ((bool)Session["GERENTE"])
-                {
-                    <li>
-                        <a href="@Url.Action("Index", "Promotores")">
-                            <i class="fa fa-users"></i><span>Mis promotores</span>
-                        </a>
-                    </li>
-                }
+                <li>
+                    <a href="@Url.Action("Index", "Promotores")">
+                        <i class="fa fa-users"></i><span>Mis promotores</span>
+                    </a>
+                </li>
 
                 <li>
                     <a href="@Url.Action("Index", "Suscripcion")">
@@ -276,3 +288,124 @@
     <script src="@Url.Content("~/assets/js/index.js")"></script>
 </body>
 </html>
+
+@*-- ================================================
+    -- Template generated from Template Explorer using:
+    -- Create Procedure (New Menu).SQL
+    --
+    -- Use the Specify Values for Template Parameters
+    -- command (Ctrl-Shift-M) to fill in the parameter
+    -- values below.
+    --
+    -- This block of comments will not be included in
+    -- the definition of the procedure.
+    -- ================================================
+    SET ANSI_NULLS ON
+    GO
+    SET QUOTED_IDENTIFIER ON
+    GO
+    -- =============================================
+    -- Author:		RAÚL BAÑUELOS
+    -- Create date: 04 ENE 2021
+    -- Description:	PROCEDIMIENTO ALMACENADO QUE OBTIENE LAS GANACIAS DE LA SEMANA ACTUAL DE UN GERENTE
+    -- =============================================
+    CREATE PROCEDURE SP_ERP_GET_GANANCIA_GERENTE_CURRENT_WEEK
+    @idUsuario INT
+    AS
+    BEGIN
+
+        DECLARE @fechaIncial AS DATETIME = (SELECT DIA_INICIAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
+        DECLARE @fechaFinal AS DATETIME = (SELECT DIA_FINAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
+
+        SELECT D.ID_ARTICULO, SUM(D.CANTIDAD) AS 'CANTIDAD'
+        INTO #TEMP_VENTA_ARTICULO_CANTIDAD
+        FROM TBL_VENTA AS V
+        INNER JOIN TBL_DETAILS_VENTA AS D ON V.ID_VENTA = D.ID_VENTA
+        WHERE V.ID_USUARIO = @idUsuario AND V.FECHA_INGRESO BETWEEN @fechaIncial AND @fechaFinal
+        GROUP BY ID_ARTICULO
+
+        SELECT A.DESCRIPCION, T.CANTIDAD, DA.PRECIO_GERENTE, T.CANTIDAD * DA.PRECIO_GERENTE AS 'GANANCIA_GERENTE'
+        FROM #TEMP_VENTA_ARTICULO_CANTIDAD AS T
+        INNER JOIN TBL_ARTICULO AS A ON T.ID_ARTICULO = A.ID_ARTICULO
+        INNER JOIN TBL_DETAILS_ARTICULO AS DA ON A.ID_ARTICULO = DA.ID_ARTICULO AND DA.ID_ARTICULO = T.ID_ARTICULO
+
+
+        DROP TABLE #TEMP_VENTA_ARTICULO_CANTIDAD
+        END
+        GO*@
+
+
+
+@*-- ================================================
+    -- Template generated from Template Explorer using:
+    -- Create Procedure (New Menu).SQL
+    --
+    -- Use the Specify Values for Template Parameters
+    -- command (Ctrl-Shift-M) to fill in the parameter
+    -- values below.
+    --
+    -- This block of comments will not be included in
+    -- the definition of the procedure.
+    -- ================================================
+    SET ANSI_NULLS ON
+    GO
+    SET QUOTED_IDENTIFIER ON
+    GO
+    -- =============================================
+    -- Author:		RAÚL BAÑUELOS
+    -- Create date: 04 ENE 2021
+    -- Description:	PROCEDIMIENTO ALMACENADO QUE OBTIENE UNA VENTA.
+    -- =============================================
+    CREATE PROCEDURE SP_ERP_GET_VENTA
+    @idVenta AS INT
+    AS
+    BEGIN
+        SELECT V.ID_VENTA, A.ID_ARTICULO, A.DESCRIPCION, DV.CANTIDAD, DV.PRECIO, V.FECHA_INGRESO, U.ID_USUARIO AS ID_USUARIO_PROMOTOR, U.NOMBRE AS 'PROMOTOR'
+        FROM TBL_VENTA AS V
+        INNER JOIN TBL_DETAILS_VENTA AS DV ON V.ID_VENTA = DV.ID_VENTA
+        INNER JOIN TBL_ARTICULO AS A ON DV.ID_ARTICULO = A.ID_ARTICULO
+        INNER JOIN TBL_VENTA_PROMOTOR AS VP ON V.ID_VENTA = VP.ID_VENTA
+        INNER JOIN TBL_USUARIO AS U ON VP.ID_USUARIO = U.ID_USUARIO
+        WHERE V.ID_VENTA = @idVenta
+        END
+        GO*@
+
+
+
+@*-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters
+-- command (Ctrl-Shift-M) to fill in the parameter
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		RAÚL BAÑUELOS
+-- Create date: 04 ENE 2021
+-- Description:	PROCEDIMIENTO ALMACENADO QUE OBTIENE TODAS LAS VENTAS DE UN USUARIO DE LA SEMANA ACTUAL.
+-- =============================================
+CREATE PROCEDURE SP_ERP_GET_VENTAS_BY_USUARIO
+@idUsuario AS INT
+AS
+BEGIN
+	DECLARE @fechaIncial AS DATETIME = (SELECT DIA_INICIAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
+    DECLARE @fechaFinal AS DATETIME = (SELECT DIA_FINAL FROM TBL_SEMANA WHERE GETDATE() BETWEEN DIA_INICIAL AND DIA_FINAL)
+
+    SELECT V.ID_VENTA, A.ID_ARTICULO, A.DESCRIPCION, DV.CANTIDAD, DV.PRECIO, V.FECHA_INGRESO, U.ID_USUARIO AS ID_USUARIO_PROMOTOR, U.NOMBRE AS 'PROMOTOR'
+    FROM TBL_VENTA AS V
+    INNER JOIN TBL_DETAILS_VENTA AS DV ON V.ID_VENTA = DV.ID_VENTA
+    INNER JOIN TBL_ARTICULO AS A ON DV.ID_ARTICULO = A.ID_ARTICULO
+    INNER JOIN TBL_VENTA_PROMOTOR AS VP ON V.ID_VENTA = VP.ID_VENTA
+    INNER JOIN TBL_USUARIO AS U ON VP.ID_USUARIO = U.ID_USUARIO
+    WHERE V.ID_USUARIO = @idUsuario AND FECHA_INGRESO BETWEEN @fechaIncial AND @fechaFinal
+    ORDER BY V.FECHA_INGRESO DESC
+    END
+    GO*@

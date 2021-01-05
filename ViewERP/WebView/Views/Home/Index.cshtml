@@ -13,7 +13,7 @@
                             <div class="progress my-3" style="height:3px;">
                                 <div id="divVentaDiariaOrg" class="progress-bar" style="width:0%"></div>
                             </div>
-                            <p class="mb-0 text-white small-font" id="lblPctVentaDiariaOrg"></p>
+                            <p class="mb-0 text-white small-font" id="lblPctVentaDiariaOrg">Ganancia Semanal</p>
                         </div>
                     </div>
 
@@ -44,80 +44,6 @@
                                 <div id="divPctSemana" class="progress-bar" style="width:0%"></div>
                             </div>
                             <p class="mb-0 text-white small-font" id="lblSemanaActual"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12 col-lg-6 col-xl-6">
-                <div class="card">
-                    <div class="card-header">
-                        Ventas por gerente
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-container-2">
-                            <canvas id="chart2"></canvas>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table align-items-center table-flush table-borderless">
-                            <thead>
-                                <tr>
-                                    <th>Gerente</th>
-                                    <th>Venta</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tblVentasGerente"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!--Entradas y salidas-->
-        <div class="row">
-            <div class="col-12 col-lg-6 col-xl-6">
-                <div class="card">
-                    <div class="card-header">
-                        Entradas semana actual
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table align-items-center table-flush table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th>ARTICULO</th>
-                                        <th>CANTIDAD</th>
-                                        <th>ORIGEN</th>
-                                        <th>FECHA</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblEntradas"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-lg-6 col-xl-6">
-                <div class="card">
-                    <div class="card-header">
-                        Salidas semana actual
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table align-items-center table-flush table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th>ARTICULO</th>
-                                        <th>CANTIDAD</th>
-                                        <th>DESTINO</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblSalidas"></tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -172,171 +98,171 @@
             </div>
         </div>
 
-        //Grafica
-        <div class="row">
-            <div class="col-12 col-lg-12 col-xl-12">
-                <div class="card">
-                    <div class="card-header">
-                        Ventas
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-inline">
-                            <li class="list-inline-item"><i class="fa fa-circle mr-2 text-white"></i>Venta semanal</li>
-
-                        </ul>
-                        <div class="chart-container-1">
-                            <canvas id="chart1"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        if ((bool)Session["GERENTE"])
-        {
-            <div class="row">
-                <div class="col-12 col-lg-12 col-xl-12">
-                    <div class="card">
-                        <div class="card-header">
-                            Ventas promotor
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-inline">
-                                <li class="list-inline-item"><i class="fa fa-circle mr-2 text-white"></i>Venta promotor</li>
-
-                            </ul>
-                            <div class="chart-container-1">
-                                <canvas id="chartPromotor"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-
-        <div class="row">
-            <div class="col-12 col-lg-4 col-xl-4">
-                <div class="card">
-                    <div class="card-header">
-                        Existencias
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table align-items-center table-flush table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th>Artículo</th>
-                                        <th>Cantidad</th>
-                                        <th>Valor</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblExistencia"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="card-footer" id="lblValorInventario">
-                        Valor del inventario
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-lg-8 col-xl-8">
-                <div class="card">
-                    <div class="card-header">
-                        Venta semanal
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table align-items-center table-flush table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th>Artículo</th>
-                                        <th>Cantidad</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblLastVentas"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!--Entradas y salidas-->
-        <div class="row">
-            <div class="col-12 col-lg-6 col-xl-6">
-                <div class="card">
-                    <div class="card-header">
-                        Entradas semana actual
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table align-items-center table-flush table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th>ARTICULO</th>
-                                        <th>CANTIDAD</th>
-                                        <th>ORIGEN</th>
-                                        <th>FECHA</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblEntradas"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-lg-6 col-xl-6">
-                <div class="card">
-                    <div class="card-header">
-                        Salidas semana actual
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table align-items-center table-flush table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th>ARTICULO</th>
-                                        <th>CANTIDAD</th>
-                                        <th>DESTINO</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblSalidas"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!--Depositos-->
-        <div class="row">
-            <div class="col-12 col-lg-12 col-xl-12">
-                <div class="card">
-                    <div class="card-header" id="lblDepositos">
-                        Depositos semana
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table align-items-center table-flush table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th>DESCRIPCION</th>
-                                        <th>BANCO</th>
-                                        <th>MONTO</th>
-                                        <th>VER</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tblDepositos"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     }
+
+    <!--Grafica venta semanal-->
+    <div class="row">
+        <div class="col-12 col-lg-12 col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    Ventas
+                </div>
+                <div class="card-body">
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><i class="fa fa-circle mr-2 text-white"></i>Venta semanal</li>
+
+                    </ul>
+                    <div class="chart-container-1">
+                        <canvas id="chart1"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Grafica Promotor-->
+    <div class="row">
+        <div class="col-12 col-lg-12 col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    Ventas promotor
+                </div>
+                <div class="card-body">
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><i class="fa fa-circle mr-2 text-white"></i>Venta promotor</li>
+
+                    </ul>
+                    <div class="chart-container-1">
+                        <canvas id="chartPromotor"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Existencias-->
+    <div class="row">
+        <div class="col-12 col-lg-4 col-xl-4">
+            <div class="card">
+                <div class="card-header">
+                    Existencias
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>Artículo</th>
+                                    <th>Cantidad</th>
+                                    <th>Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblExistencia"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer" id="lblValorInventario">
+                    Valor del inventario
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-8 col-xl-8">
+            <div class="card">
+                <div class="card-header">
+                    Venta semanal
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>Artículo</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblLastVentas"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Entradas y salidas-->
+    <div class="row">
+        <div class="col-12 col-lg-6 col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    Entradas semana actual
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>ARTICULO</th>
+                                    <th>CANTIDAD</th>
+                                    <th>ORIGEN</th>
+                                    <th>FECHA</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblEntradas"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6 col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    Salidas semana actual
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>ARTICULO</th>
+                                    <th>CANTIDAD</th>
+                                    <th>DESTINO</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblSalidas"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Depositos-->
+    <div class="row">
+        <div class="col-12 col-lg-12 col-xl-12">
+            <div class="card">
+                <div class="card-header" id="lblDepositos">
+                    Depositos semana
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>DESCRIPCION</th>
+                                    <th>BANCO</th>
+                                    <th>MONTO</th>
+                                    <th>VER</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblDepositos"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
 <script type="text/javascript">
@@ -427,7 +353,7 @@
 
         if (_isOrganizacion == 'True') {
 
-            urlSave = '@Url.Action("GetVentaDiaActualOrganizacion", "Ventas")';
+            urlSave = '@Url.Action("GetGananciaGerente", "Ventas")';
             $.ajax({
                 type: "POST",
                 url: urlSave,
@@ -436,20 +362,22 @@
                 dataType: "json",
                 success: function (data) {
                     var number = new Intl.NumberFormat("en-IN").format(data);
-                    var lpct = "";
-                    var pct = 0;
-                    if (data == 0) {
-                        number = "0,0";
-                        lpct = "0%";
-                    } else {
-                        pct = Math.round((data / 4285) * 100);
-                        lpct = pct + "%";
-                    }
                     $("#lblVentaTotalOrg").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
 
-                    $("#divVentaDiariaOrg").css({ "width": lpct });
+                    //var lpct = "";
+                    //var pct = 0;
+                    //if (data == 0) {
+                    //    number = "0,0";
+                    //    lpct = "0%";
+                    //} else {
+                    //    pct = Math.round((data / 4285) * 100);
+                    //    lpct = pct + "%";
+                    //}
 
-                    $("#lblPctVentaDiariaOrg").html("Venta Hoy<span class=\"float-right\">" + lpct + "</span>");
+
+                    //$("#divVentaDiariaOrg").css({ "width": lpct });
+
+                    //$("#lblPctVentaDiariaOrg").html("Venta Hoy<span class=\"float-right\">" + lpct + "</span>");
                 },
                 error: function (result) {
                     alert("Woops, se produjo un error");
@@ -525,7 +453,7 @@
             });
 
         } else {
-            urlSave = '@Url.Action("GetVentaDiaActual", "Ventas")';
+            urlSave = '@Url.Action("GetGananciaGerente", "Ventas")';
             $.ajax({
                 type: "POST",
                 url: urlSave,
@@ -534,27 +462,30 @@
                 dataType: "json",
                 success: function (data) {
                     var number = new Intl.NumberFormat("en-IN").format(data);
-                    var lpct = "";
-                    var pct = 0;
-                    if (data == 0) {
-                        number = "0,0";
-                        lpct = "0%";
-                    } else {
-                        pct = Math.round((data / 4285) * 100);
-                        lpct = pct + "%";
-                    }
-                    $("#lblVentaTotal").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
+                    $("#lblVentaTotal").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-usd\"></i></span>");
+                    $("#lblPctVentaDiaria").html("Ganancia semanal<span class=\"float-right\"></span>");
+                    //var lpct = "";
+                    //var pct = 0;
+                    //if (data == 0) {
+                    //    number = "0,0";
+                    //    lpct = "0%";
+                    //} else {
+                    //    pct = Math.round((data / 4285) * 100);
+                    //    lpct = pct + "%";
+                    //}
 
-                    $("#divVentaDiaria").css({ "width": lpct });
 
-                    $("#lblPctVentaDiaria").html("Venta Hoy<span class=\"float-right\">" + lpct + "</span>");
+                    //$("#divVentaDiaria").css({ "width": lpct });
+
+
                 },
                 error: function (result) {
                     alert("Woops, se produjo un error");
                 }
             });
+        }
 
-            urlSave = '@Url.Action("GetVentaMesActual", "Ventas")';
+        urlSave = '@Url.Action("GetVentaMesActual", "Ventas")';
             $.ajax({
                 type: "POST",
                 url: urlSave,
@@ -841,6 +772,5 @@
                     alert("Woops, se produjo un error");
                 }
             });
-        }
     });
 </script>

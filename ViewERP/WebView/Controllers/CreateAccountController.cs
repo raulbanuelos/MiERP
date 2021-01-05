@@ -58,6 +58,11 @@ namespace WebView.Controllers
 
                     c = DataManager.InsertCategoriaArticulo(categoriaArticulo1);
 
+                    if (idRol == 3)
+                    {
+                        DataManager.InsertOrganizacion(idCompania, "ORG." + nombre);
+                    }
+
                     var jsonResult = Json("Cuenta activada exitosamente", JsonRequestBehavior.AllowGet);
                     jsonResult.MaxJsonLength = int.MaxValue;
 

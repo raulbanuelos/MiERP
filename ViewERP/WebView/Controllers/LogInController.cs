@@ -28,6 +28,7 @@ namespace WebView.Controllers
                     Session["CONTACTO"] = false;
                     Session["PRODUCCION"] = false;
                     Session["ADMINISTRADOR"] = false;
+                    Session["GERENTE_PROMOTOR"] = false;
 
                     switch (usuario.ID_ROL)
                     {
@@ -36,6 +37,9 @@ namespace WebView.Controllers
                             break;
                         case 2:
                             Session["CONTACTO"] = true;
+                            break;
+                        case 3:
+                            Session["GERENTE_PROMOTOR"] = true;
                             break;
                         case 4:
                             Session["PRODUCCIÓN"] = true;

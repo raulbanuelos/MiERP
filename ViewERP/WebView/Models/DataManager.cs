@@ -407,7 +407,7 @@ namespace WebView.Models
             return listaResultante;
         }
 
-        public static dynamic ConvertListDoPersonaToSelectListItem(List<DO_Persona> promotores)
+        public static List<SelectListItem> ConvertListDoPersonaToSelectListItem(List<DO_Persona> promotores)
         {
             List<SelectListItem> listaResultante = new List<SelectListItem>();
 
@@ -3193,6 +3193,34 @@ namespace WebView.Models
             return sO_Venta.InsertVentaPromotor(idVenta, idPromotor);
         }
 
+        public static int DeleteVentaPromotor(int idVenta)
+        {
+            SO_Venta sO_Venta = new SO_Venta();
+
+            return sO_Venta.DeleteVentaPromotor(idVenta);
+        }
+
+        public static int DeleteVentaDetails(int idVenta)
+        {
+            SO_Venta sO_Venta = new SO_Venta();
+
+            return sO_Venta.DeleteVentaDetails(idVenta);
+        }
+
+        public static int DeleteVenta(int idVenta)
+        {
+            SO_Venta sO_Venta = new SO_Venta();
+
+            return sO_Venta.DeleteVenta(idVenta);
+        }
+
+        public static int AddExistencia(int idAlmacen, int idArticulo, double cantidad)
+        {
+            SO_Existencia sO_Existencia = new SO_Existencia();
+
+            return sO_Existencia.AddCantidad(idAlmacen, idArticulo, Convert.ToDecimal(cantidad));
+        }
+
         public static DO_ChartData GetVentaSemanalDiariaByPromotor(int idUsuarioGerente)
         {
             List<string> backGroundColors = new List<string>();
@@ -3284,6 +3312,96 @@ namespace WebView.Models
             }
 
             return ventas;
+        }
+
+        public static double GetGananciaGerenteCurrentWeek(int idUsuario)
+        {
+            SO_Venta sO_Venta = new SO_Venta();
+
+            DataSet informacionBD = sO_Venta.GetGananciaGerenteCurrentWeek(idUsuario);
+
+            double gananciaTotal = 0;
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow venta in informacionBD.Tables[0].Rows)
+                    {
+                        gananciaTotal += Convert.ToDouble(venta["GANANCIA_GERENTE"]);
+                    }
+                }
+            }
+
+            return gananciaTotal;
+        }
+
+        public static List<DO_Ventas> GetVentasCurrentWeek(int idUsuario)
+        {
+            SO_Venta sO_Venta = new SO_Venta();
+
+            List<DO_Ventas> ventas = new List<DO_Ventas>();
+
+            DataSet informacionBD = sO_Venta.GetAll(idUsuario);
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        DO_Ventas venta = new DO_Ventas();
+
+                        venta.IdVenta = Convert.ToInt32(item["ID_VENTA"]);
+                        venta.IdArticulo = Convert.ToInt32(item["ID_ARTICULO"]);
+                        venta.Nombre = Convert.ToString(item["DESCRIPCION"]);
+                        venta.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
+                        venta.Precio = Convert.ToDouble(item["PRECIO"]);
+                        DateTime fechaIngreso = Convert.ToDateTime(item["FECHA_INGRESO"]);
+                        venta.sFecha = ConvertDatetime(fechaIngreso);
+                        venta.IdPromotor = Convert.ToInt32(item["ID_USUARIO_PROMOTOR"]);
+                        venta.NombrePromotor = Convert.ToString(item["PROMOTOR"]);
+
+                        ventas.Add(venta);
+                    }
+                }
+            }
+
+            return ventas;
+        }
+
+        public static DO_Ventas GetVenta(int idVenta)
+        {
+            SO_Venta sO_Venta = new SO_Venta();
+
+            DataSet informacionBD = sO_Venta.Get(idVenta);
+
+            DO_Ventas venta = new DO_Ventas();
+
+            if (informacionBD != null)
+            {
+                if (informacionBD.Tables.Count > 0 && informacionBD.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in informacionBD.Tables[0].Rows)
+                    {
+                        venta = new DO_Ventas();
+
+                        venta.IdVenta = Convert.ToInt32(item["ID_VENTA"]);
+                        venta.IdArticulo = Convert.ToInt32(item["ID_ARTICULO"]);
+                        venta.Nombre = Convert.ToString(item["DESCRIPCION"]);
+                        venta.Cantidad = Convert.ToInt32(item["CANTIDAD"]);
+                        venta.Precio = Convert.ToDouble(item["PRECIO"]);
+                        DateTime fechaIngreso = Convert.ToDateTime(item["FECHA_INGRESO"]);
+                        venta.Fecha = Convert.ToDateTime(item["FECHA_INGRESO"]);
+                        venta.sFecha = ConvertDatetime(fechaIngreso);
+                        venta.IdPromotor = Convert.ToInt32(item["ID_USUARIO_PROMOTOR"]);
+                        venta.NombrePromotor = Convert.ToString(item["PROMOTOR"]);
+
+                    }
+                }
+            }
+
+            return venta;
         }
 
         #endregion
