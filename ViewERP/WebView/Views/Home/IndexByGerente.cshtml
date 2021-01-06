@@ -1,0 +1,225 @@
+﻿@model WebView.Models.DO_Persona
+
+@{
+    ViewBag.Title = "IndexByGerente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!--Grafica venta semanal-->
+<div class="row">
+    <div class="col-12 col-lg-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                Ventas
+            </div>
+            <div class="card-body">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><i class="fa fa-circle mr-2 text-white"></i>Venta semanal</li>
+
+                </ul>
+                <div class="chart-container-1">
+                    <canvas id="chart1"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Existencias-->
+<div class="row">
+    <div class="col-12 col-lg-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                Existencias
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Artículo</th>
+                                <th>Cantidad</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblExistencia"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer" id="lblValorInventario">
+                Valor del inventario
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Depositos-->
+<div class="row">
+    <div class="col-12 col-lg-12 col-xl-12">
+        <div class="card">
+            <div class="card-header" id="lblDepositos">
+                Depositos semana
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush table-borderless">
+                        <thead>
+                            <tr>
+                                <th>DESCRIPCION</th>
+                                <th>BANCO</th>
+                                <th>MONTO</th>
+                                <th>VER</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblDepositos"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#tblDepositos tr").remove();
+
+        var _idCompania = '@Model.idCompania';
+        var _idUsuario = '@Model.idUsuario';
+
+        var urlSave = '@Url.Action("GetVentaSemanalDiariaGerente", "Ventas")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ idCompania: _idCompania }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                var ctx = document.getElementById('chart1').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                fontColor: 'white',
+                                fontSize: 16
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Productos vendidos',
+                            fontColor: 'white',
+                            fontSize: 22
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    fontColor: "white",
+                                    fontSize: 12,
+                                    callback: function (value, index, values) {
+                                        return '$' + value;
+                                    }
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    fontColor: "white",
+                                    fontSize: 12,
+                                    stepSize: 1,
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                    if (label == "Venta total") {
+                                        var venta = Math.round(tooltipItem.yLabel * 100) / 100;
+                                        label += ": $" + venta;
+                                        return label;
+                                    } else {
+                                        var cantidad = data.datasets[tooltipItem.datasetIndex].cantidad[tooltipItem.index];
+                                        var multiline = [label];
+                                        var venta = Math.round(tooltipItem.yLabel * 100) / 100;
+
+                                        multiline.push("Piezas: " + cantidad);
+                                        multiline.push("Total venta: $" + venta);
+
+                                        return multiline;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
+        urlSave = '@Url.Action("GetExistenciasByCompania", "Existencias")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ idCompania: _idCompania }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var row = "";
+                var valorTotalInventario = 0;
+                $.each(data, function (index, item) {
+                    valorTotalInventario += item.ValorInventario;
+                    var number = new Intl.NumberFormat("en-IN").format(item.ValorInventario);
+                    number = "$" + number;
+                    row += "<tr>";
+                    row += "<td>" + item.Descripcion + "</td>";
+                    row += "<td>" + item.Cantidad + "</td>";
+                    row += "<td>" + number + "</td>";
+                    row += "</tr>";
+                });
+                $("#tblExistencia").append(row);
+
+                var number1 = new Intl.NumberFormat("en-IN").format(valorTotalInventario);
+                number1 = "$" + number1;
+                $("#lblValorInventario").html("Valor total del inventario: " + number1);
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
+        urlSave = '@Url.Action("GetDepositosByCompania", "Depositos")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ idUsuario: _idUsuario }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var row = "";
+                var cantidad = 0;
+                $.each(data, function (index, item) {
+                    cantidad += item.Importe;
+                    var _number = new Intl.NumberFormat("en-IN").format(item.Importe);
+                    row += "<tr>";
+                    row += "<td>" + item.Descripcion + "</td>";
+                    row += "<td>" + item.Banco + "</td>";
+                    row += "<td>$" + _number + "</td>";
+                    row += "<td><a href=\"" + item.UrlArchivo + "\">Ver</a></td>"
+                    row += "</tr>";
+                });
+                $("#tblDepositos").append(row);
+                var number = new Intl.NumberFormat("en-IN").format(cantidad);
+                $("#lblDepositos").html("Despositos Total: $" + number);
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+    });
+</script>

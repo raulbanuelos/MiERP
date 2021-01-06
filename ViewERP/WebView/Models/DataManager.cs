@@ -48,8 +48,6 @@ namespace WebView.Models
             return persona;
         }
 
-        
-
         public static DO_Persona GetPersona(int idPersona)
         {
             SO_Usuario service = new SO_Usuario();
@@ -71,7 +69,8 @@ namespace WebView.Models
                     persona.ApellidoMaterno = (string)tipo.GetProperty("AMATERNO").GetValue(item, null);
                     persona.Usuario = (string)tipo.GetProperty("USUARIO").GetValue(item, null);
                     persona.NombrePlan = (string)tipo.GetProperty("NOMBRE_PLAN").GetValue(item, null);
-
+                    persona.IdJefe =  string.IsNullOrEmpty(Convert.ToString(tipo.GetProperty("JefeId").GetValue(item, null))) ? 0 : (int)tipo.GetProperty("JefeId").GetValue(item, null);
+                    persona.Rol = (string)tipo.GetProperty("ROL").GetValue(item, null);
                 }
             }
 
@@ -229,6 +228,50 @@ namespace WebView.Models
             SO_Usuario service = new SO_Usuario();
 
             return service.CheckPassword(idPersona, password);
+        }
+
+        public static List<int> GetIdJefe(int idUsuario)
+        {
+            SO_Usuario sO_Usuario = new SO_Usuario();
+
+            IList informacionBD = sO_Usuario.GetJefeId(idUsuario);
+
+            List<int> ids = new List<int>();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type type = item.GetType();
+
+                    int id = Convert.ToInt32(item);
+                    ids.Add(id);
+                }
+            }
+
+            return ids;
+        }
+
+        public static List<DO_OrganizationChart> GetMiOrganizacion(int idUsuario)
+        {
+            List<int> ids = GetIdJefe(idUsuario);
+
+            List<DO_OrganizationChart> charts = new List<DO_OrganizationChart>();
+
+            SO_Usuario sO_Usuario = new SO_Usuario();
+
+            foreach (var id in ids)
+            {
+                DO_OrganizationChart dO_Organizacion = new DO_OrganizationChart();
+
+                DO_Persona dO_Persona = GetPersona(id);
+
+                dO_Organizacion.Yo = dO_Persona;
+
+                charts.Add(dO_Organizacion);
+            }
+
+            return charts;
         }
         #endregion
 

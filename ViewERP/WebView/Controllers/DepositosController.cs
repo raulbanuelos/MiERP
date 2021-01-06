@@ -65,5 +65,20 @@ namespace WebView.Controllers
 
             return jsonResult;
         }
+
+        [HttpPost]
+        public JsonResult GetDepositosByCompania(int idUsuario)
+        {
+            List<DO_Deposito> do_Depositos = new List<DO_Deposito>();
+
+            DO_Semana semanaActual = DataManager.GetSemanaActual();
+
+            do_Depositos = DataManager.GetDepositosPorWeek(idUsuario, semanaActual.IdSemana);
+
+            var jsonResult = Json(do_Depositos, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
     }
 }

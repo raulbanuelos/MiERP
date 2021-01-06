@@ -20,11 +20,11 @@ namespace Data.ServiceObject
             this.TBL_ALMACEN = new HashSet<TBL_ALMACEN>();
             this.TBL_ARTICULO = new HashSet<TBL_ARTICULO>();
             this.TBL_CATEGORIA_ARTICULO = new HashSet<TBL_CATEGORIA_ARTICULO>();
-            this.TBL_USUARIO = new HashSet<TBL_USUARIO>();
             this.TBL_PROVEEDOR = new HashSet<TBL_PROVEEDOR>();
             this.TBL_ORGANIZACION = new HashSet<TBL_ORGANIZACION>();
             this.TR_ERP_ORGANIZACION_COMPANIA = new HashSet<TR_ERP_ORGANIZACION_COMPANIA>();
             this.TBL_ERP_PAGO_PLAN = new HashSet<TBL_ERP_PAGO_PLAN>();
+            this.TBL_USUARIO = new HashSet<TBL_USUARIO>();
         }
     
         public int ID_COMPANIA { get; set; }
@@ -43,8 +43,6 @@ namespace Data.ServiceObject
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_CATEGORIA_ARTICULO> TBL_CATEGORIA_ARTICULO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TBL_USUARIO> TBL_USUARIO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_PROVEEDOR> TBL_PROVEEDOR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_ORGANIZACION> TBL_ORGANIZACION { get; set; }
@@ -53,5 +51,7 @@ namespace Data.ServiceObject
         public virtual TBL_ERP_PLAN TBL_ERP_PLAN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_ERP_PAGO_PLAN> TBL_ERP_PAGO_PLAN { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_USUARIO> TBL_USUARIO { get; set; }
     }
 }

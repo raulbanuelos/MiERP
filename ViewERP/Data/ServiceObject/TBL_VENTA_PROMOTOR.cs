@@ -18,7 +18,7 @@ namespace Data.ServiceObject
         public Nullable<int> ID_VENTA { get; set; }
         public Nullable<int> ID_USUARIO { get; set; }
     
-        public virtual TBL_USUARIO TBL_USUARIO { get; set; }
         public virtual TBL_VENTA TBL_VENTA { get; set; }
+        public virtual TBL_USUARIO TBL_USUARIO { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace WebView.Models
         #region Properties
         public DO_Persona Yo { get; set; }
 
-        public List<DO_Persona> Promotores { get; set; } 
+        public List<DO_Persona> Promotores { get; set; }
         #endregion
     }
 }

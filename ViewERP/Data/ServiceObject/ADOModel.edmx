@@ -313,6 +313,7 @@
           <Property Name="AMATERNO" Type="varchar" MaxLength="200" />
           <Property Name="USUARIO" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CONTRASENA" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="JefeId" Type="int" />
         </EntityType>
         <EntityType Name="TBL_VENTA">
           <Key>
@@ -820,6 +821,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetIdEmpleados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="JefeId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Id" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <EntityContainer Name="DataServiceObjectStoreContainer">
           <EntitySet Name="ArchivosOrden" EntityType="Self.ArchivosOrden" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoriaProducto" EntityType="Self.CategoriaProducto" Schema="dbo" store:Type="Tables" />
@@ -1115,19 +1126,6 @@
             <End Role="TBL_VENTA" EntitySet="TBL_VENTA" />
             <End Role="TBL_DETAILS_VENTA" EntitySet="TBL_DETAILS_VENTA" />
           </AssociationSet>
-          <EntitySet Name="TBL_USUARIO" EntityType="Data.ServiceObject.TBL_USUARIO" />
-          <AssociationSet Name="FK_TBL_DEPOSITOS_TBL_USUARIO" Association="Data.ServiceObject.FK_TBL_DEPOSITOS_TBL_USUARIO">
-            <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
-            <End Role="TBL_DEPOSITOS" EntitySet="TBL_DEPOSITOS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TBL_USUARIO_TBL_ROLE" Association="Data.ServiceObject.FK_TBL_USUARIO_TBL_ROLE">
-            <End Role="TBL_ROLE" EntitySet="TBL_ROLE" />
-            <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_USUARIO" Association="Data.ServiceObject.FK_USUARIO">
-            <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
-            <End Role="TBL_VENTA" EntitySet="TBL_VENTA" />
-          </AssociationSet>
           <EntitySet Name="TBL_COMPANIA" EntityType="Data.ServiceObject.TBL_COMPANIA" />
           <AssociationSet Name="FK_TBL_ALMACEN_TBL_COMPANIA" Association="Data.ServiceObject.FK_TBL_ALMACEN_TBL_COMPANIA">
             <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
@@ -1140,10 +1138,6 @@
           <AssociationSet Name="FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA" Association="Data.ServiceObject.FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA">
             <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
             <End Role="TBL_CATEGORIA_ARTICULO" EntitySet="TBL_CATEGORIA_ARTICULO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_COMPANIA" Association="Data.ServiceObject.FK_COMPANIA">
-            <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
-            <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
           </AssociationSet>
           <AssociationSet Name="FK_TBL_PROVEEDOR_TBL_COMPANIA1" Association="Data.ServiceObject.FK_TBL_PROVEEDOR_TBL_COMPANIA1">
             <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
@@ -1205,14 +1199,34 @@
             <End Role="TBL_MOVIMIENTO_ALMACEN" EntitySet="TBL_MOVIMIENTO_ALMACEN" />
           </AssociationSet>
           <EntitySet Name="TBL_VENTA_PROMOTOR" EntityType="Data.ServiceObject.TBL_VENTA_PROMOTOR" />
-          <AssociationSet Name="FK_TBL_VENTA_PROMOTOR_TBL_USUARIO" Association="Data.ServiceObject.FK_TBL_VENTA_PROMOTOR_TBL_USUARIO">
-            <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
-            <End Role="TBL_VENTA_PROMOTOR" EntitySet="TBL_VENTA_PROMOTOR" />
-          </AssociationSet>
           <AssociationSet Name="FK_TBL_VENTA_PROMOTOR_TBL_VENTA" Association="Data.ServiceObject.FK_TBL_VENTA_PROMOTOR_TBL_VENTA">
             <End Role="TBL_VENTA" EntitySet="TBL_VENTA" />
             <End Role="TBL_VENTA_PROMOTOR" EntitySet="TBL_VENTA_PROMOTOR" />
           </AssociationSet>
+          <EntitySet Name="TBL_USUARIO" EntityType="Data.ServiceObject.TBL_USUARIO" />
+          <AssociationSet Name="FK_COMPANIA" Association="Data.ServiceObject.FK_COMPANIA">
+            <End Role="TBL_COMPANIA" EntitySet="TBL_COMPANIA" />
+            <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_DEPOSITOS_TBL_USUARIO" Association="Data.ServiceObject.FK_TBL_DEPOSITOS_TBL_USUARIO">
+            <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
+            <End Role="TBL_DEPOSITOS" EntitySet="TBL_DEPOSITOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ROLE" Association="Data.ServiceObject.FK_ROLE">
+            <End Role="TBL_ROLE" EntitySet="TBL_ROLE" />
+            <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_VENTA_PROMOTOR_TBL_USUARIO" Association="Data.ServiceObject.FK_TBL_VENTA_PROMOTOR_TBL_USUARIO">
+            <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
+            <End Role="TBL_VENTA_PROMOTOR" EntitySet="TBL_VENTA_PROMOTOR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USUARIO" Association="Data.ServiceObject.FK_USUARIO">
+            <End Role="TBL_USUARIO" EntitySet="TBL_USUARIO" />
+            <End Role="TBL_VENTA" EntitySet="TBL_VENTA" />
+          </AssociationSet>
+          <FunctionImport Name="GetIdEmpleados" IsComposable="true" ReturnType="Collection(Int32)">
+            <Parameter Name="JefeId" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="TBL_ALERTAS_STOCK_MIN">
           <Key>
@@ -1344,7 +1358,7 @@
           </Key>
           <Property Name="ID_ROL" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ROL" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="TBL_USUARIO" Relationship="Data.ServiceObject.FK_TBL_USUARIO_TBL_ROLE" FromRole="TBL_ROLE" ToRole="TBL_USUARIO" />
+          <NavigationProperty Name="TBL_USUARIO" Relationship="Data.ServiceObject.FK_ROLE" FromRole="TBL_ROLE" ToRole="TBL_USUARIO" />
         </EntityType>
         <EntityType Name="TBL_UNIDAD">
           <Key>
@@ -1628,8 +1642,8 @@
           <Property Name="FECHA_REGISTRO" Type="DateTime" Precision="3" />
           <Property Name="MONTO" Type="Double" />
           <NavigationProperty Name="TBL_DETAILS_VENTA" Relationship="Data.ServiceObject.FK_TBL_VENTA_TBL_DETAILS_VENTA" FromRole="TBL_VENTA" ToRole="TBL_DETAILS_VENTA" />
-          <NavigationProperty Name="TBL_USUARIO" Relationship="Data.ServiceObject.FK_USUARIO" FromRole="TBL_VENTA" ToRole="TBL_USUARIO" />
           <NavigationProperty Name="TBL_VENTA_PROMOTOR" Relationship="Data.ServiceObject.FK_TBL_VENTA_PROMOTOR_TBL_VENTA" FromRole="TBL_VENTA" ToRole="TBL_VENTA_PROMOTOR" />
+          <NavigationProperty Name="TBL_USUARIO" Relationship="Data.ServiceObject.FK_USUARIO" FromRole="TBL_VENTA" ToRole="TBL_USUARIO" />
         </EntityType>
         <EntityType Name="TBL_SEMANA">
           <Key>
@@ -1716,60 +1730,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="TBL_USUARIO">
-          <Key>
-            <PropertyRef Name="ID_USUARIO" />
-          </Key>
-          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_ROL" Type="Int32" Nullable="false" />
-          <Property Name="ID_COMPANIA" Type="Int32" Nullable="false" />
-          <Property Name="NOMBRE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="APATERNO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="AMATERNO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="USUARIO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CONTRASENA" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="TBL_DEPOSITOS" Relationship="Data.ServiceObject.FK_TBL_DEPOSITOS_TBL_USUARIO" FromRole="TBL_USUARIO" ToRole="TBL_DEPOSITOS" />
-          <NavigationProperty Name="TBL_ROLE" Relationship="Data.ServiceObject.FK_TBL_USUARIO_TBL_ROLE" FromRole="TBL_USUARIO" ToRole="TBL_ROLE" />
-          <NavigationProperty Name="TBL_VENTA" Relationship="Data.ServiceObject.FK_USUARIO" FromRole="TBL_USUARIO" ToRole="TBL_VENTA" />
-          <NavigationProperty Name="TBL_COMPANIA" Relationship="Data.ServiceObject.FK_COMPANIA" FromRole="TBL_USUARIO" ToRole="TBL_COMPANIA" />
-          <NavigationProperty Name="TBL_VENTA_PROMOTOR" Relationship="Data.ServiceObject.FK_TBL_VENTA_PROMOTOR_TBL_USUARIO" FromRole="TBL_USUARIO" ToRole="TBL_VENTA_PROMOTOR" />
-        </EntityType>
-        <Association Name="FK_TBL_DEPOSITOS_TBL_USUARIO">
-          <End Type="Data.ServiceObject.TBL_USUARIO" Role="TBL_USUARIO" Multiplicity="0..1" />
-          <End Type="Data.ServiceObject.TBL_DEPOSITOS" Role="TBL_DEPOSITOS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBL_USUARIO">
-              <PropertyRef Name="ID_USUARIO" />
-            </Principal>
-            <Dependent Role="TBL_DEPOSITOS">
-              <PropertyRef Name="ID_USUARIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TBL_USUARIO_TBL_ROLE">
-          <End Type="Data.ServiceObject.TBL_ROLE" Role="TBL_ROLE" Multiplicity="1" />
-          <End Type="Data.ServiceObject.TBL_USUARIO" Role="TBL_USUARIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBL_ROLE">
-              <PropertyRef Name="ID_ROL" />
-            </Principal>
-            <Dependent Role="TBL_USUARIO">
-              <PropertyRef Name="ID_ROL" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_USUARIO">
-          <End Type="Data.ServiceObject.TBL_USUARIO" Role="TBL_USUARIO" Multiplicity="0..1" />
-          <End Type="Data.ServiceObject.TBL_VENTA" Role="TBL_VENTA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBL_USUARIO">
-              <PropertyRef Name="ID_USUARIO" />
-            </Principal>
-            <Dependent Role="TBL_VENTA">
-              <PropertyRef Name="ID_USUARIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="TBL_COMPANIA">
           <Key>
             <PropertyRef Name="ID_COMPANIA" />
@@ -1784,13 +1744,13 @@
           <NavigationProperty Name="TBL_ALMACEN" Relationship="Data.ServiceObject.FK_TBL_ALMACEN_TBL_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_ALMACEN" />
           <NavigationProperty Name="TBL_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_ARTICULO_TBL_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_ARTICULO" />
           <NavigationProperty Name="TBL_CATEGORIA_ARTICULO" Relationship="Data.ServiceObject.FK_TBL_CATEGORIA_ARTICULO_TBL_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_CATEGORIA_ARTICULO" />
-          <NavigationProperty Name="TBL_USUARIO" Relationship="Data.ServiceObject.FK_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_USUARIO" />
           <NavigationProperty Name="TBL_PROVEEDOR" Relationship="Data.ServiceObject.FK_TBL_PROVEEDOR_TBL_COMPANIA1" FromRole="TBL_COMPANIA" ToRole="TBL_PROVEEDOR" />
           <NavigationProperty Name="TBL_ORGANIZACION" Relationship="Data.ServiceObject.FK_ORGANIZACION_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_ORGANIZACION" />
           <NavigationProperty Name="TR_ERP_ORGANIZACION_COMPANIA" Relationship="Data.ServiceObject.FK_ORGANIZACION_TR_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TR_ERP_ORGANIZACION_COMPANIA" />
           <Property Name="ID_PLAN" Type="Int32" />
           <NavigationProperty Name="TBL_ERP_PLAN" Relationship="Data.ServiceObject.FK_PLAN_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_ERP_PLAN" />
           <NavigationProperty Name="TBL_ERP_PAGO_PLAN" Relationship="Data.ServiceObject.FK_TBL_PAGO_PLAN_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_ERP_PAGO_PLAN" />
+          <NavigationProperty Name="TBL_USUARIO" Relationship="Data.ServiceObject.FK_COMPANIA" FromRole="TBL_COMPANIA" ToRole="TBL_USUARIO" />
         </EntityType>
         <Association Name="FK_TBL_ALMACEN_TBL_COMPANIA">
           <End Type="Data.ServiceObject.TBL_COMPANIA" Role="TBL_COMPANIA" Multiplicity="1" />
@@ -1824,18 +1784,6 @@
               <PropertyRef Name="ID_COMPANIA" />
             </Principal>
             <Dependent Role="TBL_CATEGORIA_ARTICULO">
-              <PropertyRef Name="ID_COMPANIA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_COMPANIA">
-          <End Type="Data.ServiceObject.TBL_COMPANIA" Role="TBL_COMPANIA" Multiplicity="1" />
-          <End Type="Data.ServiceObject.TBL_USUARIO" Role="TBL_USUARIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TBL_COMPANIA">
-              <PropertyRef Name="ID_COMPANIA" />
-            </Principal>
-            <Dependent Role="TBL_USUARIO">
               <PropertyRef Name="ID_COMPANIA" />
             </Dependent>
           </ReferentialConstraint>
@@ -2082,9 +2030,76 @@
           <Property Name="ID_VENTA_PROMOTOR" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID_VENTA" Type="Int32" />
           <Property Name="ID_USUARIO" Type="Int32" />
-          <NavigationProperty Name="TBL_USUARIO" Relationship="Data.ServiceObject.FK_TBL_VENTA_PROMOTOR_TBL_USUARIO" FromRole="TBL_VENTA_PROMOTOR" ToRole="TBL_USUARIO" />
           <NavigationProperty Name="TBL_VENTA" Relationship="Data.ServiceObject.FK_TBL_VENTA_PROMOTOR_TBL_VENTA" FromRole="TBL_VENTA_PROMOTOR" ToRole="TBL_VENTA" />
+          <NavigationProperty Name="TBL_USUARIO" Relationship="Data.ServiceObject.FK_TBL_VENTA_PROMOTOR_TBL_USUARIO" FromRole="TBL_VENTA_PROMOTOR" ToRole="TBL_USUARIO" />
         </EntityType>
+        <Association Name="FK_TBL_VENTA_PROMOTOR_TBL_VENTA">
+          <End Type="Data.ServiceObject.TBL_VENTA" Role="TBL_VENTA" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.TBL_VENTA_PROMOTOR" Role="TBL_VENTA_PROMOTOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_VENTA">
+              <PropertyRef Name="ID_VENTA" />
+            </Principal>
+            <Dependent Role="TBL_VENTA_PROMOTOR">
+              <PropertyRef Name="ID_VENTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TBL_USUARIO">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_ROL" Type="Int32" Nullable="false" />
+          <Property Name="ID_COMPANIA" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="APATERNO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AMATERNO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="USUARIO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CONTRASENA" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="JefeId" Type="Int32" />
+          <NavigationProperty Name="TBL_COMPANIA" Relationship="Data.ServiceObject.FK_COMPANIA" FromRole="TBL_USUARIO" ToRole="TBL_COMPANIA" />
+          <NavigationProperty Name="TBL_DEPOSITOS" Relationship="Data.ServiceObject.FK_TBL_DEPOSITOS_TBL_USUARIO" FromRole="TBL_USUARIO" ToRole="TBL_DEPOSITOS" />
+          <NavigationProperty Name="TBL_ROLE" Relationship="Data.ServiceObject.FK_ROLE" FromRole="TBL_USUARIO" ToRole="TBL_ROLE" />
+          <NavigationProperty Name="TBL_VENTA_PROMOTOR" Relationship="Data.ServiceObject.FK_TBL_VENTA_PROMOTOR_TBL_USUARIO" FromRole="TBL_USUARIO" ToRole="TBL_VENTA_PROMOTOR" />
+          <NavigationProperty Name="TBL_VENTA" Relationship="Data.ServiceObject.FK_USUARIO" FromRole="TBL_USUARIO" ToRole="TBL_VENTA" />
+        </EntityType>
+        <Association Name="FK_COMPANIA">
+          <End Type="Data.ServiceObject.TBL_COMPANIA" Role="TBL_COMPANIA" Multiplicity="1" />
+          <End Type="Data.ServiceObject.TBL_USUARIO" Role="TBL_USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_COMPANIA">
+              <PropertyRef Name="ID_COMPANIA" />
+            </Principal>
+            <Dependent Role="TBL_USUARIO">
+              <PropertyRef Name="ID_COMPANIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_DEPOSITOS_TBL_USUARIO">
+          <End Type="Data.ServiceObject.TBL_USUARIO" Role="TBL_USUARIO" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.TBL_DEPOSITOS" Role="TBL_DEPOSITOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_USUARIO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="TBL_DEPOSITOS">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ROLE">
+          <End Type="Data.ServiceObject.TBL_ROLE" Role="TBL_ROLE" Multiplicity="1" />
+          <End Type="Data.ServiceObject.TBL_USUARIO" Role="TBL_USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_ROLE">
+              <PropertyRef Name="ID_ROL" />
+            </Principal>
+            <Dependent Role="TBL_USUARIO">
+              <PropertyRef Name="ID_ROL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TBL_VENTA_PROMOTOR_TBL_USUARIO">
           <End Type="Data.ServiceObject.TBL_USUARIO" Role="TBL_USUARIO" Multiplicity="0..1" />
           <End Type="Data.ServiceObject.TBL_VENTA_PROMOTOR" Role="TBL_VENTA_PROMOTOR" Multiplicity="*" />
@@ -2097,15 +2112,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TBL_VENTA_PROMOTOR_TBL_VENTA">
-          <End Type="Data.ServiceObject.TBL_VENTA" Role="TBL_VENTA" Multiplicity="0..1" />
-          <End Type="Data.ServiceObject.TBL_VENTA_PROMOTOR" Role="TBL_VENTA_PROMOTOR" Multiplicity="*" />
+        <Association Name="FK_USUARIO">
+          <End Type="Data.ServiceObject.TBL_USUARIO" Role="TBL_USUARIO" Multiplicity="0..1" />
+          <End Type="Data.ServiceObject.TBL_VENTA" Role="TBL_VENTA" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TBL_VENTA">
-              <PropertyRef Name="ID_VENTA" />
+            <Principal Role="TBL_USUARIO">
+              <PropertyRef Name="ID_USUARIO" />
             </Principal>
-            <Dependent Role="TBL_VENTA_PROMOTOR">
-              <PropertyRef Name="ID_VENTA" />
+            <Dependent Role="TBL_VENTA">
+              <PropertyRef Name="ID_USUARIO" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2373,20 +2388,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TBL_USUARIO">
-            <EntityTypeMapping TypeName="Data.ServiceObject.TBL_USUARIO">
-              <MappingFragment StoreEntitySet="TBL_USUARIO">
-                <ScalarProperty Name="CONTRASENA" ColumnName="CONTRASENA" />
-                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
-                <ScalarProperty Name="AMATERNO" ColumnName="AMATERNO" />
-                <ScalarProperty Name="APATERNO" ColumnName="APATERNO" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-                <ScalarProperty Name="ID_COMPANIA" ColumnName="ID_COMPANIA" />
-                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
-                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TBL_COMPANIA">
             <EntityTypeMapping TypeName="Data.ServiceObject.TBL_COMPANIA">
               <MappingFragment StoreEntitySet="TBL_COMPANIA">
@@ -2483,6 +2484,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TBL_USUARIO">
+            <EntityTypeMapping TypeName="Data.ServiceObject.TBL_USUARIO">
+              <MappingFragment StoreEntitySet="TBL_USUARIO">
+                <ScalarProperty Name="JefeId" ColumnName="JefeId" />
+                <ScalarProperty Name="CONTRASENA" ColumnName="CONTRASENA" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="AMATERNO" ColumnName="AMATERNO" />
+                <ScalarProperty Name="APATERNO" ColumnName="APATERNO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ID_COMPANIA" ColumnName="ID_COMPANIA" />
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetIdEmpleados" FunctionName="Data.ServiceObject.Store.GetIdEmpleados" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

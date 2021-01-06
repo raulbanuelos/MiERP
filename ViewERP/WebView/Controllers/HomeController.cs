@@ -77,5 +77,11 @@ namespace WebView.Controllers
 
             return jsonResult;
         }
+
+        public ActionResult IndexByGerente(int id = 0)
+        {
+            DO_Persona persona = DataManager.GetPersona(id);
+            return View(persona);
+        }
     }
 }

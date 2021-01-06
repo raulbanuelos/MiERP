@@ -18,8 +18,8 @@ namespace Data.ServiceObject
         public TBL_USUARIO()
         {
             this.TBL_DEPOSITOS = new HashSet<TBL_DEPOSITOS>();
-            this.TBL_VENTA = new HashSet<TBL_VENTA>();
             this.TBL_VENTA_PROMOTOR = new HashSet<TBL_VENTA_PROMOTOR>();
+            this.TBL_VENTA = new HashSet<TBL_VENTA>();
         }
     
         public int ID_USUARIO { get; set; }
@@ -30,14 +30,15 @@ namespace Data.ServiceObject
         public string AMATERNO { get; set; }
         public string USUARIO { get; set; }
         public string CONTRASENA { get; set; }
+        public Nullable<int> JefeId { get; set; }
     
+        public virtual TBL_COMPANIA TBL_COMPANIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_DEPOSITOS> TBL_DEPOSITOS { get; set; }
         public virtual TBL_ROLE TBL_ROLE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TBL_VENTA> TBL_VENTA { get; set; }
-        public virtual TBL_COMPANIA TBL_COMPANIA { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_VENTA_PROMOTOR> TBL_VENTA_PROMOTOR { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_VENTA> TBL_VENTA { get; set; }
     }
 }

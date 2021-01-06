@@ -20,6 +20,7 @@ namespace Data.ServiceObject
                     var list = (from c in Conexion.TBL_USUARIO
                                 join u in Conexion.TBL_COMPANIA on c.ID_COMPANIA equals u.ID_COMPANIA
                                 join p in Conexion.TBL_ERP_PLAN on u.ID_PLAN equals p.ID_PLAN
+                                join r in Conexion.TBL_ROLE on c.ID_ROL equals r.ID_ROL
                                 where c.ID_USUARIO == idPersona
                                 select new { 
                                     c.ID_USUARIO,
@@ -29,7 +30,9 @@ namespace Data.ServiceObject
                                     c.APATERNO,
                                     c.AMATERNO,
                                     c.USUARIO,
-                                    p.NOMBRE_PLAN
+                                    p.NOMBRE_PLAN,
+                                    c.JefeId,
+                                    r.ROL
                                 }).ToList();
 
                     return list;
@@ -313,6 +316,52 @@ namespace Data.ServiceObject
                                      c.FECHA_REGISTRO,
                                      p.NOMBRE_PLAN,
                                  }).ToList();
+                    return lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public IList GetJefeId(int idUsuario)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    IList lista = (from a in Conexion.GetIdEmpleados(idUsuario)
+                                   select a
+                                   ).ToList();
+                    return lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public IList GetDependientes(int idUsuario)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var lista = (from c in Conexion.TBL_USUARIO
+                                 where c.JefeId == idUsuario
+                                 select new {
+                                     c.ID_USUARIO,
+                                     c.ID_ROL,
+                                     c.ID_COMPANIA,
+                                     c.NOMBRE,
+                                     c.APATERNO,
+                                     c.AMATERNO,
+                                     c.USUARIO,
+                                     c.JefeId
+                                 }).ToList();
+
                     return lista;
                 }
             }

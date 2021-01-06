@@ -29,8 +29,8 @@ namespace Data.ServiceObject
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_DETAILS_VENTA> TBL_DETAILS_VENTA { get; set; }
-        public virtual TBL_USUARIO TBL_USUARIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_VENTA_PROMOTOR> TBL_VENTA_PROMOTOR { get; set; }
+        public virtual TBL_USUARIO TBL_USUARIO { get; set; }
     }
 }

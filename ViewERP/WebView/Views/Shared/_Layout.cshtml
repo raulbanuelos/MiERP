@@ -411,40 +411,42 @@
         GO*@
 
 
-@*USE [Juda]
-GO
-/****** Object:  UserDefinedFunction [dbo].[GetIdEmpleados]    Script Date: 05/01/2021 08:20:26 p. m. ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-ALTER FUNCTION [dbo].[GetIdEmpleados](@JefeId int)
-RETURNS @retEmpleados TABLE (Id int)
-AS
-BEGIN
-    DECLARE @EmpleadosDirectos_Id int
-
-    DECLARE EmpleadosDirectos CURSOR STATIC LOCAL FOR
-    SELECT ID_USUARIO FROM TBL_USUARIOS WHERE JefeId=@JefeId
-
-    INSERT INTO @retEmpleados VALUES(@JefeId)
-
-    OPEN EmpleadosDirectos
-
-    FETCH NEXT FROM EmpleadosDirectos
-    INTO @EmpleadosDirectos_Id
-
-    WHILE (@@FETCH_STATUS = 0)
+@*NO ACTUALIZADO EN LOCAL*@
+@*Se agrega campo JefeId Int a la tabla TBL_USUARIO*@
+@*USE [RGP2-PBA]
+    GO
+    /****** Object:  UserDefinedFunction [dbo].[GetIdEmpleados]    Script Date: 05/01/2021 08:20:26 p. m. ******/
+    SET ANSI_NULLS ON
+    GO
+    SET QUOTED_IDENTIFIER ON
+    GO
+    CREATE FUNCTION [dbo].[GetIdEmpleados](@JefeId int)
+    RETURNS @retEmpleados TABLE (Id int)
+    AS
     BEGIN
-    INSERT INTO @retEmpleados
-    SELECT * FROM dbo.GetIdEmpleados(@EmpleadosDirectos_Id)
+        DECLARE @EmpleadosDirectos_Id int
 
-    FETCH NEXT FROM EmpleadosDirectos
-    INTO @EmpleadosDirectos_Id
-    END
+        DECLARE EmpleadosDirectos CURSOR STATIC LOCAL FOR
+        SELECT ID_USUARIO FROM TBL_USUARIO WHERE JefeId=@JefeId
 
-    CLOSE EmpleadosDirectos
-    DEALLOCATE EmpleadosDirectos
+        INSERT INTO @retEmpleados VALUES(@JefeId)
 
-    RETURN
-    END*@
+        OPEN EmpleadosDirectos
+
+        FETCH NEXT FROM EmpleadosDirectos
+        INTO @EmpleadosDirectos_Id
+
+        WHILE (@@FETCH_STATUS = 0)
+        BEGIN
+        INSERT INTO @retEmpleados
+        SELECT * FROM dbo.GetIdEmpleados(@EmpleadosDirectos_Id)
+
+        FETCH NEXT FROM EmpleadosDirectos
+        INTO @EmpleadosDirectos_Id
+        END
+
+        CLOSE EmpleadosDirectos
+        DEALLOCATE EmpleadosDirectos
+
+        RETURN
+        END*@

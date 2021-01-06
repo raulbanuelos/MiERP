@@ -26,5 +26,23 @@ namespace WebView.Controllers
 
             return jsonResult;
         }
+
+        [HttpPost]
+        public JsonResult GetExistenciasByCompania(int idCompania)
+        {
+            //Codigo para obtener el id del almacen de la persona conectada.
+            //Solo se maneja el primer Almacen.
+            List<DO_Almacen> dO_Almacens = DataManager.GetAllAlmacen(idCompania);
+            int idAlmacen = dO_Almacens[0].idAlmacen;
+
+            List<DO_Existencia> dO_Existencias = DataManager.GetExistenciaArticulos(idAlmacen);
+
+            dO_Existencias = dO_Existencias.OrderByDescending(x => x.Cantidad).ToList();
+
+            var jsonResult = Json(dO_Existencias, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
     }
 }

@@ -12,6 +12,8 @@ namespace Data.ServiceObject
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class EntitiesERP : DbContext
     {
@@ -48,7 +50,6 @@ namespace Data.ServiceObject
         public virtual DbSet<TBL_DEPOSITOS> TBL_DEPOSITOS { get; set; }
         public virtual DbSet<TBL_DETAILS_ARTICULO> TBL_DETAILS_ARTICULO { get; set; }
         public virtual DbSet<TBL_DETAILS_VENTA> TBL_DETAILS_VENTA { get; set; }
-        public virtual DbSet<TBL_USUARIO> TBL_USUARIO { get; set; }
         public virtual DbSet<TBL_COMPANIA> TBL_COMPANIA { get; set; }
         public virtual DbSet<TBL_ERP_CORTE_EXISTENCIA_ALMACEN> TBL_ERP_CORTE_EXISTENCIA_ALMACEN { get; set; }
         public virtual DbSet<TBL_ORGANIZACION> TBL_ORGANIZACION { get; set; }
@@ -58,5 +59,16 @@ namespace Data.ServiceObject
         public virtual DbSet<TBL_ERP_BITACORA> TBL_ERP_BITACORA { get; set; }
         public virtual DbSet<TBL_MOVIMIENTO_ALMACEN> TBL_MOVIMIENTO_ALMACEN { get; set; }
         public virtual DbSet<TBL_VENTA_PROMOTOR> TBL_VENTA_PROMOTOR { get; set; }
+        public virtual DbSet<TBL_USUARIO> TBL_USUARIO { get; set; }
+    
+        [DbFunction("EntitiesERP", "GetIdEmpleados")]
+        public virtual IQueryable<Nullable<int>> GetIdEmpleados(Nullable<int> jefeId)
+        {
+            var jefeIdParameter = jefeId.HasValue ?
+                new ObjectParameter("JefeId", jefeId) :
+                new ObjectParameter("JefeId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<Nullable<int>>("[EntitiesERP].[GetIdEmpleados](@JefeId)", jefeIdParameter);
+        }
     }
 }

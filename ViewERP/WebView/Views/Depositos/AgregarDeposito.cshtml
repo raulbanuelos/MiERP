@@ -175,7 +175,8 @@
             processData: false,
             success: function (data) {
                 alert("Deposito agregado correctamente");
-                //$("#inlineFormInputGroup").val("0.0");
+                var url = '@Url.Action("AgregarDeposito", "Depositos")';
+                window.location.href = url;
             },
             error: function (result) {
                 alert("Woops, se produjo un error");
