@@ -54,12 +54,13 @@
                     <h5 class="logo-text">Lions International</h5>
                 </a>
             </div>
+            
             <ul class="sidebar-menu do-nicescrol">
                 <li class="sidebar-header">Navegación</li>
 
                 <li>
                     <a href="@Url.Action("Index", "Home")">
-                        <i class="fa fa-dashboard"></i> <span>Inicio</span>
+                        <i class="fa fa-dashboard"></i> <span>Mi Oficina</span>
                     </a>
                 </li>
 
@@ -67,62 +68,78 @@
                 {
                     <li>
                         <a href="@Url.Action("Index", "Organizacion")">
-                            <i class="fa fa-puzzle-piece"></i><span>Mi organización</span>
+                            <i class="fa fa-sitemap"></i><span>Mi organización</span>
                         </a>
                     </li>
                 }
 
                 <li>
-                    <a href="@Url.Action("Index", "Ventas")">
-                        <i class="fa fa-shopping-cart"></i> <span>Mis Ventas</span>
+                    <a href="#salesSubMenu" data-toggle="collapse" class="dropdown-toggle">
+                        <i class="fa fa-shopping-bag"></i> <span>Mis Ventas</span>
                     </a>
+                    <ul class="collapse sidebar-menu do-nicescrol" id="salesSubMenu">
+                        <li>
+                            <a href="@Url.Action("Index", "Ventas")">
+                                <i class="fa fa-list"></i> <span>Ventas</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("AgregarVenta", "Ventas")">
+                                <i class="fa fa-pencil-square-o"></i> <span>Registro de venta</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li>
-                    <a href="@Url.Action("AgregarVenta", "Ventas")">
-                        <i class="fa fa-shopping-cart"></i> <span>Registro de venta</span>
+                    <a href="#bodegasSubMenu" data-toggle="collapse" class="dropdown-toggle">
+                        <i class="fa fa-database"></i> <span>Mis Bodegas</span>
                     </a>
+                    <ul class="collapse sidebar-menu do-nicescrol" id="bodegasSubMenu">
+                        <li>
+                            <a href="@Url.Action("Index","Almacen")">
+                                <i class="fa fa-list-alt"></i> <span>Bodegas</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("DarEntrada", "EntradasAlmacen")">
+                                <i class="fa fa-sign-in"></i> <span>Entradas</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("DarSalida", "SalidasAlmacen")">
+                                <i class="fa fa-sign-out"></i> <span>Salidas</span>
+                            </a>
+                        </li>
+
+                    </ul>
                 </li>
 
                 <li>
-                    <a href="@Url.Action("DarEntrada", "EntradasAlmacen")">
-                        <i class="fa fa-sign-in"></i> <span>Entradas</span>
+                    <a href="#articulosSubMenu" data-toggle="collapse" class="dropdown-toggle">
+                        <i class="fa fa-product-hunt"></i> <span>Mis articulos</span>
                     </a>
-                </li>
+                    <ul class="collapse sidebar-menu do-nicescrol" id="articulosSubMenu">
+                        <li>
+                            <a href="@Url.Action("Index", "Articulo")">
+                                <i class="fa fa-list"></i><span>Articulos</span>
+                            </a>
+                        </li>
 
-                <li>
-                    <a href="@Url.Action("DarSalida", "SalidasAlmacen")">
-                        <i class="fa fa-sign-out"></i> <span>Salidas</span>
-                    </a>
+                        <li>
+                            <a href="@Url.Action("Create", "Articulo")">
+                                <i class="fa fa-product-hunt"></i><span>Alta de artículos</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li>
                     <a href="@Url.Action("AgregarDeposito", "Depositos")">
                         <i class="fa fa-dollar"></i> <span>Depósitos</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="@Url.Action("Index", "Articulo")">
-                        <i class="fa fa-list"></i><span>Articulos</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="@Url.Action("Create", "Articulo")">
-                        <i class="fa fa-product-hunt"></i><span>Alta de artículos</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="@Url.Action("Create", "Contactos")">
-                        <i class="fa fa-users"></i><span>Contactos</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="@Url.Action("Index", "RecordsWeek")">
-                        <i class="fa fa-calendar-check-o"></i><span>Consultar Semanas</span>
                     </a>
                 </li>
 
@@ -133,8 +150,20 @@
                 </li>
 
                 <li>
+                    <a href="@Url.Action("Create", "Contactos")">
+                        <i class="fa fa-id-card"></i><span>Contactos</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="@Url.Action("Index", "RecordsWeek")">
+                        <i class="fa fa-calendar-check-o"></i><span>Consultar Semanas</span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="@Url.Action("Index", "Suscripcion")">
-                        <i class="fa fa-shopping-bag"></i><span>Suscripción</span>
+                        <i class="fa fa-user-circle"></i><span>Suscripción</span>
                     </a>
                 </li>
 

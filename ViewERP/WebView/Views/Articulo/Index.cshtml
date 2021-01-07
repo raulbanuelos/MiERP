@@ -42,10 +42,10 @@
             success: function (data) {
                 var row = "";
                 $.each(data, function (index, item) {
-                    var precioUnidad = new Intl.NumberFormat("en-IN").format(item.PRECIO_UNIDAD);
-                    var precioMaster = new Intl.NumberFormat("en-IN").format(item.PRECIO_MASTER);
-                    var precioPromotor = new Intl.NumberFormat("en-IN").format(item.PRECIO_PROMOTOR);
-                    var precioGerente = new Intl.NumberFormat("en-IN").format(item.PRECIO_GERENTE);
+                    var precioUnidad = new Intl.NumberFormat().format(item.PRECIO_UNIDAD);
+                    var precioMaster = new Intl.NumberFormat().format(item.PRECIO_MASTER);
+                    var precioPromotor = new Intl.NumberFormat().format(item.PRECIO_PROMOTOR);
+                    var precioGerente = new Intl.NumberFormat().format(item.PRECIO_GERENTE);
 
                     row += "<tr>";
                     row += "<td><a href=\"@Url.Action("Edit", "Articulo")?id=" + item.idArticulo + "\">" + item.Descripcion + "</a> </td>";

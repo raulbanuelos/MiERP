@@ -1,6 +1,11 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<style type="text/css">
+    a:hover{
+        cursor:pointer;
+    }
+</style>
 @{
     if (Convert.ToBoolean(Session["IS_ORGANIZACION"]))
     {
@@ -145,7 +150,23 @@
         <div class="col-12 col-lg-4 col-xl-4">
             <div class="card">
                 <div class="card-header">
-                    Existencias
+                    <div class="row">
+                        <div class="col-12 col-lg-6 col-xl-6" id="lblAlmacen">
+                            Existencias
+                        </div>
+
+                        <div class="col-12 col-lg-6 col-xl-6">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info">Seleccionar Bodega</button>
+                                <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu" id="mnuAlmacenes">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -266,6 +287,41 @@
 }
 
 <script type="text/javascript">
+
+    function consultarExistencias(_idAlmacen) {
+        $("#tblExistencia tr").remove();
+        var urlSave = '@Url.Action("GetExistenciasByAlmacen", "Existencias")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ idAlmacen: _idAlmacen }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var row = "";
+                var valorTotalInventario = 0;
+                $.each(data, function (index, item) {
+                    valorTotalInventario += item.ValorInventario;
+                    var number = new Intl.NumberFormat().format(item.ValorInventario);
+                    number = "$" + number;
+                    row += "<tr>";
+                    row += "<td>" + item.Descripcion + "</td>";
+                    row += "<td>" + item.Cantidad + "</td>";
+                    row += "<td>" + number + "</td>";
+                    row += "</tr>";
+                });
+                $("#tblExistencia").append(row);
+
+                var number1 = new Intl.NumberFormat().format(valorTotalInventario);
+                number1 = "$" + number1;
+                $("#lblValorInventario").html("Valor total del inventario: " + number1);
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+    }
+
     $(document).ready(function () {
         $("#tblDepositos tr").remove();
         var _idSemana;
@@ -300,8 +356,8 @@
                     success: function (data) {
                         var row = "";
                         $.each(data, function (index, item) {
-                            var _precio = new Intl.NumberFormat("en-IN").format(item.Precio);
-                            //var _total = new Intl.NumberFormat("en-IN").format(item.Total);
+                            var _precio = new Intl.NumberFormat().format(item.Precio);
+                            //var _total = new Intl.NumberFormat().format(item.Total);
 
                             row += "<tr>";
                             row += "<td>" + item.Nombre + "</td>";
@@ -329,7 +385,7 @@
                         var cantidad = 0;
                         $.each(data, function (index, item) {
                             cantidad += item.Importe;
-                            var _number = new Intl.NumberFormat("en-IN").format(item.Importe);
+                            var _number = new Intl.NumberFormat().format(item.Importe);
                             row += "<tr>";
                             row += "<td>" + item.Descripcion + "</td>";
                             row += "<td>" + item.Banco + "</td>";
@@ -338,7 +394,7 @@
                             row += "</tr>";
                         });
                         $("#tblDepositos").append(row);
-                        var number = new Intl.NumberFormat("en-IN").format(cantidad);
+                        var number = new Intl.NumberFormat().format(cantidad);
                         $("#lblDepositos").html("Despositos Total: $" + number);
                     },
                     error: function (result) {
@@ -361,7 +417,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    var number = new Intl.NumberFormat("en-IN").format(data);
+                    var number = new Intl.NumberFormat().format(data);
                     $("#lblVentaTotalOrg").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
 
                     //var lpct = "";
@@ -398,7 +454,7 @@
                     var montoSemanalOrganizacion = 0;
                     $.each(data, function (index, item) {
                         montoSemanalOrganizacion += item.ValueDouble;
-                        var number = new Intl.NumberFormat("en-IN").format(item.ValueDouble);
+                        var number = new Intl.NumberFormat().format(item.ValueDouble);
                         arrayNombres.push(item.Nombre);
                         arrayMontos.push(item.ValueDouble);
                         row += "<tr>";
@@ -407,7 +463,7 @@
                         row += "<tr/>";
                     });
                     $("#tblVentasGerente").append(row);
-                    var numberVentaSemana = new Intl.NumberFormat("en-IN").format(montoSemanalOrganizacion);
+                    var numberVentaSemana = new Intl.NumberFormat().format(montoSemanalOrganizacion);
                     $("#lblCantidadVendidaOrg").html(" $ " + numberVentaSemana + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
 
                     //$("#divVentaSemanalOrg").css({ "width": lpct });
@@ -461,7 +517,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    var number = new Intl.NumberFormat("en-IN").format(data);
+                    var number = new Intl.NumberFormat().format(data);
                     $("#lblVentaTotal").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-usd\"></i></span>");
                     $("#lblPctVentaDiaria").html("Ganancia semanal<span class=\"float-right\"></span>");
                     //var lpct = "";
@@ -486,291 +542,314 @@
         }
 
         urlSave = '@Url.Action("GetVentaMesActual", "Ventas")';
-            $.ajax({
-                type: "POST",
-                url: urlSave,
-                data: JSON.stringify({ parametro: "" }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    var number = new Intl.NumberFormat("en-IN").format(data);
-                    var lpct = "";
-                    var pct = 0;
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var number = new Intl.NumberFormat().format(data);
+                var lpct = "";
+                var pct = 0;
 
-                    if (data == 0) {
-                        number = "0,0";
-                        lpct = "0%";
-                    } else {
-                        pct = Math.round((data / 120000) * 100);
-                        lpct = pct + "%";
+                if (data == 0) {
+                    number = "0,0";
+                    lpct = "0%";
+                } else {
+                    pct = Math.round((data / 120000) * 100);
+                    lpct = pct + "%";
 
-                    }
-                    $("#lblVentaTotalMensual").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
-
-                    $("#divVentaMensual").css({ "width": lpct });
-
-                    $("#lblPctVentaMensual").html("Venta Mensual<span class=\"float-right\">" + lpct + "</span>");
-
-                },
-                error: function (result) {
-                    alert("Woops, se produjo un error");
                 }
-            });
+                $("#lblVentaTotalMensual").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
 
-            urlSave = '@Url.Action("GetVentaSemanaActual", "Ventas")';
-            $.ajax({
-                type: "POST",
-                url: urlSave,
-                data: JSON.stringify({ parametro: "" }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    var number = new Intl.NumberFormat("en-IN").format(data);
-                    var lpct = "";
-                    var pct = 0;
-                    if (data == 0) {
-                        number = "0,0";
-                        lpct = "0%";
-                    } else {
-                        pct = Math.round((data / 30000) * 100);
-                        lpct = pct + "%";
-                    }
-                    $("#lblCantidadVendida").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
+                $("#divVentaMensual").css({ "width": lpct });
 
-                    $("#divVentaSemanal").css({ "width": lpct });
+                $("#lblPctVentaMensual").html("Venta Mensual<span class=\"float-right\">" + lpct + "</span>");
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
 
-                    $("#lblPctVenta").html("Venta Semanal<span class=\"float-right\">" + lpct + "</span>");
-
-                },
-                error: function (result) {
-                    alert("Woops, se produjo un error");
+        urlSave = '@Url.Action("GetVentaSemanaActual", "Ventas")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var number = new Intl.NumberFormat().format(data);
+                var lpct = "";
+                var pct = 0;
+                if (data == 0) {
+                    number = "0,0";
+                    lpct = "0%";
+                } else {
+                    pct = Math.round((data / 30000) * 100);
+                    lpct = pct + "%";
                 }
-            });
+                $("#lblCantidadVendida").html(" $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
 
-            urlSave = '@Url.Action("GetVentaPromotor", "Home")';
-            $.ajax({
-                type: "POST",
-                url: urlSave,
-                data: JSON.stringify({ parametro: "" }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    var ctx = document.getElementById('chartPromotor').getContext('2d');
+                $("#divVentaSemanal").css({ "width": lpct });
 
+                $("#lblPctVenta").html("Venta Semanal<span class=\"float-right\">" + lpct + "</span>");
 
-                    var myChartPromotor = new Chart(ctx, {
-                        type: 'horizontalBar',
-                        data: data,
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            legend: {
-                                position: 'top',
-                                labels: {
-                                    fontColor: 'white',
-                                    fontSize: 16
-                                }
-                            },
-                            title: {
-                                display: true,
-                                text: 'Venta por promotor',
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
+        urlSave = '@Url.Action("GetVentaPromotor", "Home")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var ctx = document.getElementById('chartPromotor').getContext('2d');
+
+                var myChartPromotor = new Chart(ctx, {
+                    type: 'horizontalBar',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        legend: {
+                            position: 'top',
+                            labels: {
                                 fontColor: 'white',
-                                fontSize: 22
-                            },
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        fontColor: "white",
-                                        fontSize: 12,
-                                        callback: function (value, index, values) {
-                                            return value;
-                                        }
+                                fontSize: 16
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Venta por promotor',
+                            fontColor: 'white',
+                            fontSize: 22
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    fontColor: "white",
+                                    fontSize: 12,
+                                    callback: function (value, index, values) {
+                                        return value;
                                     }
-                                }],
-                                xAxes: [{
-                                    ticks: {
-                                        fontColor: "white",
-                                        fontSize: 12,
-                                        stepSize: 500,
-                                        beginAtZero: true
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    fontColor: "white",
+                                    fontSize: 12,
+                                    stepSize: 500,
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+
+                        tooltips: {
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                                    var venta = Math.round(tooltipItem.xLabel * 100) / 100;
+                                    label += ": $" + venta;
+                                    return label;
+
+
+                                }
+                            }
+                        }
+                    }
+                });
+            },
+            error: function (result) {
+
+            }
+        });
+
+        urlSave = '@Url.Action("GetVentaSemanalDiaria", "Ventas")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                var ctx = document.getElementById('chart1').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                fontColor: 'white',
+                                fontSize: 16
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Productos vendidos',
+                            fontColor: 'white',
+                            fontSize: 22
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    fontColor: "white",
+                                    fontSize: 12,
+                                    callback: function (value, index, values) {
+                                        return '$' + value;
                                     }
-                                }]
-                            },
-
-                            tooltips: {
-                                callbacks: {
-                                    label: function (tooltipItem, data) {
-                                        var label = data.datasets[tooltipItem.datasetIndex].label || '';
-
-                                        var venta = Math.round(tooltipItem.xLabel * 100) / 100;
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    fontColor: "white",
+                                    fontSize: 12,
+                                    stepSize: 1,
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                    if (label == "Venta total") {
+                                        var venta = Math.round(tooltipItem.yLabel * 100) / 100;
                                         label += ": $" + venta;
                                         return label;
+                                    } else {
+                                        var cantidad = data.datasets[tooltipItem.datasetIndex].cantidad[tooltipItem.index];
+                                        var multiline = [label];
+                                        var venta = Math.round(tooltipItem.yLabel * 100) / 100;
 
+                                        multiline.push("Piezas: " + cantidad);
+                                        multiline.push("Total venta: $" + venta);
 
+                                        return multiline;
                                     }
                                 }
                             }
                         }
-                    });
-                },
-                error: function (result) {
+                    }
+                });
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
 
-                }
-            });
+        urlSave = '@Url.Action("Get","Almacen")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var c = 0;
+                const div = document.querySelector('#mnuAlmacenes');
+                $.each(data, function (index, item) {
+                    if (c == 0) {
+                        $("#lblAlmacen").html("Existencias : " + item.Nombre);
+                        div.innerHTML += "<a class=\"dropdown-item\" onclick=\"consultarExistencias(" + item.idAlmacen + ")\">" + item.Nombre + "</a>";
+                    } else {
+                        div.innerHTML += "<a class=\"dropdown-item\" onclick=\"consultarExistencias(" + item.idAlmacen + ")\">" + item.Nombre + "</a>";
+                    }
+                    c++;
+                });
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
 
-            urlSave = '@Url.Action("GetVentaSemanalDiaria", "Ventas")';
-            $.ajax({
-                type: "POST",
-                url: urlSave,
-                data: JSON.stringify({ parametro: "" }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
+        urlSave = '@Url.Action("GetExistencias", "Existencias")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var row = "";
+                var valorTotalInventario = 0;
+                $.each(data, function (index, item) {
+                    valorTotalInventario += item.ValorInventario;
+                    var number = new Intl.NumberFormat().format(item.ValorInventario);
+                    number = "$" + number;
+                    row += "<tr>";
+                    row += "<td>" + item.Descripcion + "</td>";
+                    row += "<td>" + item.Cantidad + "</td>";
+                    row += "<td>" + number + "</td>";
+                    row += "</tr>";
+                });
+                $("#tblExistencia").append(row);
 
-                    var ctx = document.getElementById('chart1').getContext('2d');
-                    var myChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: data,
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            legend: {
-                                position: 'top',
-                                labels: {
-                                    fontColor: 'white',
-                                    fontSize: 16
-                                }
-                            },
-                            title: {
-                                display: true,
-                                text: 'Productos vendidos',
-                                fontColor: 'white',
-                                fontSize: 22
-                            },
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        fontColor: "white",
-                                        fontSize: 12,
-                                        callback: function (value, index, values) {
-                                            return '$' + value;
-                                        }
-                                    }
-                                }],
-                                xAxes: [{
-                                    ticks: {
-                                        fontColor: "white",
-                                        fontSize: 12,
-                                        stepSize: 1,
-                                        beginAtZero: true
-                                    }
-                                }]
-                            },
-                            tooltips: {
-                                callbacks: {
-                                    label: function (tooltipItem, data) {
-                                        var label = data.datasets[tooltipItem.datasetIndex].label || '';
-                                        if (label == "Venta total") {
-                                            var venta = Math.round(tooltipItem.yLabel * 100) / 100;
-                                            label += ": $" + venta;
-                                            return label;
-                                        } else {
-                                            var cantidad = data.datasets[tooltipItem.datasetIndex].cantidad[tooltipItem.index];
-                                            var multiline = [label];
-                                            var venta = Math.round(tooltipItem.yLabel * 100) / 100;
+                var number1 = new Intl.NumberFormat().format(valorTotalInventario);
+                number1 = "$" + number1;
+                $("#lblValorInventario").html("Valor total del inventario: " + number1);
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
 
-                                            multiline.push("Piezas: " + cantidad);
-                                            multiline.push("Total venta: $" + venta);
+        urlSave = '@Url.Action("GetEntradasCurretnWeek", "Home")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var row = "";
+                $.each(data, function (index, item) {
+                    row += "<tr>";
+                    row += "<td>" + item.Nombre + "</td>";
+                    row += "<td>" + item.Cantidad + "</td>";
+                    row += "<td>" + item.BodegaDestino + "</td>";
+                    row += "<td>" + item.fecha + "</td>";
+                    row += "</tr>";
+                });
+                $("#tblEntradas").append(row);
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
 
-                                            return multiline;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                },
-                error: function (result) {
-                    alert("Woops, se produjo un error");
-                }
-            });
-
-            urlSave = '@Url.Action("GetExistencias", "Existencias")';
-            $.ajax({
-                type: "POST",
-                url: urlSave,
-                data: JSON.stringify({ parametro: "" }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    var row = "";
-                    var valorTotalInventario = 0;
-                    $.each(data, function (index, item) {
-                        valorTotalInventario += item.ValorInventario;
-                        var number = new Intl.NumberFormat("en-IN").format(item.ValorInventario);
-                        number = "$" + number;
-                        row += "<tr>";
-                        row += "<td>" + item.Descripcion + "</td>";
-                        row += "<td>" + item.Cantidad + "</td>";
-                        row += "<td>" + number + "</td>";
-                        row += "</tr>";
-                    });
-                    $("#tblExistencia").append(row);
-
-                    var number1 = new Intl.NumberFormat("en-IN").format(valorTotalInventario);
-                    number1 = "$" + number1;
-                    $("#lblValorInventario").html("Valor total del inventario: " + number1);
-                },
-                error: function (result) {
-                    alert("Woops, se produjo un error");
-                }
-            });
-
-            urlSave = '@Url.Action("GetEntradasCurretnWeek", "Home")';
-            $.ajax({
-                type: "POST",
-                url: urlSave,
-                data: JSON.stringify({ parametro: "" }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    var row = "";
-                    $.each(data, function (index, item) {
-                        row += "<tr>";
-                        row += "<td>" + item.Nombre + "</td>";
-                        row += "<td>" + item.Cantidad + "</td>";
-                        row += "<td>" + item.BodegaDestino + "</td>";
-                        row += "<td>" + item.fecha + "</td>";
-                        row += "</tr>";
-                    });
-                    $("#tblEntradas").append(row);
-                },
-                error: function (result) {
-                    alert("Woops, se produjo un error");
-                }
-            });
-
-            urlSave = '@Url.Action("GetSalidasCurretnWeek", "Home")';
-            $.ajax({
-                type: "POST",
-                url: urlSave,
-                data: JSON.stringify({ parametro: "" }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    var row = "";
-                    $.each(data, function (index, item) {
-                        row += "<tr>";
-                        row += "<td>" + item.Nombre + "</td>";
-                        row += "<td>" + item.Cantidad + "</td>";
-                        row += "<td>" + item.BodegaDestino + "</td>";
-                        row += "</tr>";
-                    });
-                    $("#tblSalidas").append(row);
-                },
-                error: function (result) {
-                    alert("Woops, se produjo un error");
-                }
-            });
+        urlSave = '@Url.Action("GetSalidasCurretnWeek", "Home")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var row = "";
+                $.each(data, function (index, item) {
+                    row += "<tr>";
+                    row += "<td>" + item.Nombre + "</td>";
+                    row += "<td>" + item.Cantidad + "</td>";
+                    row += "<td>" + item.BodegaDestino + "</td>";
+                    row += "</tr>";
+                });
+                $("#tblSalidas").append(row);
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
     });
 </script>

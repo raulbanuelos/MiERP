@@ -134,7 +134,7 @@
             success: function (data) {
                 var row = "";
                 $.each(data, function (index, item) {
-                    var importe = new Intl.NumberFormat("en-IN").format(item.Importe);
+                    var importe = new Intl.NumberFormat().format(item.Importe);
                     row += "<tr>";
                     row += "<td>" + item.SFechaIngreso + "</td>"
                     row += "<td>$" + importe + "</td>"
