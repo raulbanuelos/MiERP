@@ -78,6 +78,12 @@
         <AssociationConnector Association="Data.ServiceObject.FK_ROLE" />
         <AssociationConnector Association="Data.ServiceObject.FK_TBL_VENTA_PROMOTOR_TBL_USUARIO" />
         <AssociationConnector Association="Data.ServiceObject.FK_USUARIO" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_DETALLE_MOVIMIENTO_ALMACEN_INTERNO" Width="1.5" PointX="18.125" PointY="17" />
+        <EntityTypeShape EntityType="Data.ServiceObject.TBL_MOVIMIENTO_ALMACEN_INTERNO" Width="1.5" PointX="12.875" PointY="9.125" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_INTERNO_TBL_ALMACEN" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_MOVIMIENTO_ALMACEN_INTERNO_TBL_ALMACEN1" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_DETALLE_MOVIMIENTO_ALMACEN_INTERNO_TBL_ARTICULO" />
+        <AssociationConnector Association="Data.ServiceObject.FK_TBL_DETALLE_MOVIMIENTO_ALMACEN_INTERNO_TBL_MOVIMIENTO_ALMACEN_INTERNO" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

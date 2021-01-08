@@ -12,22 +12,23 @@ namespace Data.ServiceObject
     using System;
     using System.Collections.Generic;
     
-    public partial class Clientes
+    public partial class TBL_MOVIMIENTO_ALMACEN_INTERNO
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Clientes()
+        public TBL_MOVIMIENTO_ALMACEN_INTERNO()
         {
-            this.Ordenes = new HashSet<Ordenes>();
+            this.TBL_DETALLE_MOVIMIENTO_ALMACEN_INTERNO = new HashSet<TBL_DETALLE_MOVIMIENTO_ALMACEN_INTERNO>();
         }
     
-        public int Id_Clientes { get; set; }
-        public string Nombre { get; set; }
-        public string RFC { get; set; }
-        public string Telefono { get; set; }
-        public string Direccion { get; set; }
-        public string Correo { get; set; }
+        public int ID_MOVIMIENTO_ALMACEN_INTERNO { get; set; }
+        public Nullable<int> ID_ALMACEN_ORIGEN { get; set; }
+        public Nullable<int> ID_ALMACEN_DESTINO { get; set; }
+        public string FOLIO { get; set; }
+        public Nullable<System.DateTime> FECHA { get; set; }
     
+        public virtual TBL_ALMACEN TBL_ALMACEN { get; set; }
+        public virtual TBL_ALMACEN TBL_ALMACEN1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ordenes> Ordenes { get; set; }
+        public virtual ICollection<TBL_DETALLE_MOVIMIENTO_ALMACEN_INTERNO> TBL_DETALLE_MOVIMIENTO_ALMACEN_INTERNO { get; set; }
     }
 }
