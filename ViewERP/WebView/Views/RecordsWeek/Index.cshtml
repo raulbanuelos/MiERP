@@ -216,7 +216,7 @@
                     row += "</tr>";
                 });
                 $("#tblVentas").append(row);
-                var number = new Intl.NumberFormat("en-IN").format(cantidad);
+                var number = new Intl.NumberFormat().format(cantidad);
                 $("#lblVentas").html("Total de ventas $" + number);
             },
             error: function (result) {
@@ -236,7 +236,7 @@
                 var cantidad = 0;
                 $.each(data, function (index, item) {
                     cantidad += item.Importe;
-                    var _number = new Intl.NumberFormat("en-IN").format(item.Importe);
+                    var _number = new Intl.NumberFormat().format(item.Importe);
                     row += "<tr>";
                     row += "<td>" + item.Descripcion + "</td>";
                     row += "<td>" + item.Banco + "</td>";
@@ -245,7 +245,7 @@
                     row += "</tr>";
                 });
                 $("#tblDepositos").append(row);
-                var number = new Intl.NumberFormat("en-IN").format(cantidad);
+                var number = new Intl.NumberFormat().format(cantidad);
                 $("#lblDepositos").html("Despositos Total: $" + number);
             },
             error: function (result) {

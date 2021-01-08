@@ -56,7 +56,7 @@ namespace WebView.Controllers
                     Session["IS_ORGANIZACION"] = organizacion.IdOrganizacion != 0 ? true : false;
                     usuario.idOrganizacion = organizacion.IdOrganizacion;
 
-                    int r = DataManager.InsertBitacora(usuario.NombreCompleto, "INGRESA A LA PLATAFORMA");
+                    int r = DataManager.InsertBitacora(usuario.NombreCompleto + " " + usuario.Usuario, "INGRESA A LA PLATAFORMA");
 
                     return RedirectToAction("Index", "Home");
                 }

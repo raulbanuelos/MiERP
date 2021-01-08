@@ -22,7 +22,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Correo</label>
+                            <label>Correo o teléfono</label>
                             <div class="col-lg-7 col-md-6">
                                 <input type="text" class="form-control modalColor" id="txtCorreo" />
                             </div>
@@ -47,7 +47,14 @@
         
         if (_nombre == "") {
             alert("Por favor ingrese el nombre del contacto");
-        } else if (_correo == "") {
+        }
+        else if (_nombre.length < 10) {
+            alert("Por favor ingresa el nombre completo del promotor. Al menos 10 caracteres");
+        }
+        else if (_correo.length < 9) {
+            alert("El correo o telefóno debe de contener al menos 10 caracteres");
+        }
+        else if (_correo == "") {
             alert("Por favor ingrese el correo del contacto");
         } else {
             var urlSave = '@Url.Action("GuardarPromotor", "Promotores")';
