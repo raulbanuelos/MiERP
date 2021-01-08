@@ -435,6 +435,7 @@
     <Compile Include="Controllers\ExistenciasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogInController.cs" />
+    <Compile Include="Controllers\MovimientoInternoController.cs" />
     <Compile Include="Controllers\OrganizacionController.cs" />
     <Compile Include="Controllers\PromotoresController.cs" />
     <Compile Include="Controllers\RecordsWeekController.cs" />
@@ -1320,6 +1321,7 @@
     <Content Include="Views\Almacen\Index.cshtml" />
     <Content Include="Views\Almacen\Create.cshtml" />
     <Content Include="Views\Almacen\Edit.cshtml" />
+    <Content Include="Views\MovimientoInterno\DarMovimientoInterno.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -160,7 +160,7 @@ namespace WebView.Models
         {
             SO_Usuario service = new SO_Usuario();
 
-            return service.Insert(persona.ID_ROL, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.Contrasena);
+            return service.Insert(persona.ID_ROL, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.Contrasena, persona.IdJefe);
         }
 
         public static int UpdatePersona(DO_Persona persona)
@@ -272,6 +272,54 @@ namespace WebView.Models
             }
 
             return charts;
+        }
+
+        public static List<SelectListItem> GetPosiblesJefes()
+        {
+            SO_Usuario sO_Usuario = new SO_Usuario();
+
+            IList informacionBD = sO_Usuario.GetPosiblesJefes();
+
+            List<DO_Persona> personas = new List<DO_Persona>();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    System.Type tipo = item.GetType();
+                    
+                    DO_Persona persona = new DO_Persona();
+
+                    persona.idUsuario = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
+                    persona.ID_ROL = (int)tipo.GetProperty("ID_ROL").GetValue(item, null);
+                    persona.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
+                    persona.Nombre = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
+                    persona.ApellidoPaterno = (string)tipo.GetProperty("APATERNO").GetValue(item, null);
+                    persona.ApellidoMaterno = (string)tipo.GetProperty("AMATERNO").GetValue(item, null);
+                    persona.Usuario = (string)tipo.GetProperty("USUARIO").GetValue(item, null);
+
+                    personas.Add(persona);
+                }
+            }
+
+            List<SelectListItem> listItems = new List<SelectListItem>();
+
+            foreach (var item in personas)
+            {
+                SelectListItem selectListItem = new SelectListItem();
+
+                selectListItem.Value = Convert.ToString(item.idUsuario);
+                selectListItem.Text = item.Nombre;
+
+                listItems.Add(selectListItem);
+            }
+
+            SelectListItem selectListItem1 = new SelectListItem();
+            selectListItem1.Value = "0";
+            selectListItem1.Text = "Reporto a";
+            selectListItem1.Selected = true;
+
+            return listItems;
         }
         #endregion
 
@@ -3272,7 +3320,7 @@ namespace WebView.Models
             backGroundColors.Add("#6970d5");
             backGroundColors.Add("#6970d5");
             backGroundColors.Add("#24BF99");
-            backGroundColors.Add("#15715B");
+            backGroundColors.Add("#15715B"); 
             backGroundColors.Add("#15713F");
             backGroundColors.Add("#3BC279");
             backGroundColors.Add("#217BB2");
@@ -3316,7 +3364,7 @@ namespace WebView.Models
 
                         
                         double monto = Convert.ToDouble(item["MONTO_TOTAL"]);
-                        dataSetChart.label = "Ventas";
+                        dataSetChart.label = "Ganancia";
                         dataSetChart.data.Add(monto);
                         venta.datasets = new List<DataSetChart>();
                         venta.datasets.Add(dataSetChart);
@@ -4023,6 +4071,41 @@ namespace WebView.Models
             }
 
             return promotors;
+        }
+        #endregion
+
+        #region Movimiento Interno
+        
+        public static int InsertDetalleMovimientoInterno(int idMovimientoInterno, int idArticulo, decimal cantidad)
+        {
+            SO_MovimientoInterno sO_MovimientoInterno = new SO_MovimientoInterno();
+
+            return sO_MovimientoInterno.InsertDetalle(idMovimientoInterno, idArticulo, cantidad);
+        }
+
+        public static int InsertMovimientoInterno(int idAlmacenOrigen, int idAlmacenDestino, string folio, List<DO_DetalleEntradaArticulo> articulos)
+        {
+            SO_MovimientoInterno sO_MovimientoInterno = new SO_MovimientoInterno();
+            SO_Existencia ServiceExistencia = new SO_Existencia();
+
+            int idMovimientoInterno = sO_MovimientoInterno.Insert(idAlmacenOrigen, idAlmacenDestino, folio);
+
+            int r = 0;
+
+            if (idMovimientoInterno > 0)
+            {
+                foreach (var detalle in articulos)
+                {
+                    if (InsertDetalleMovimientoInterno(idMovimientoInterno,detalle.idArticulo, detalle.cantidad) > 0)
+                    {
+                        r += ServiceExistencia.AddCantidad(idAlmacenDestino, detalle.idArticulo, detalle.cantidad);
+                        r += ServiceExistencia.RemoveCantidad(idAlmacenOrigen, detalle.idArticulo, Convert.ToDouble(detalle.cantidad));
+
+                    }
+                }
+            }
+
+            return r;
         }
         #endregion
     }

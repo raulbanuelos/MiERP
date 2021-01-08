@@ -34,7 +34,7 @@ namespace Data.ServiceObject
             }
         }
         
-        public int InsertDetalle(int idMovimientoInterno, int idArticulo, double cantidad)
+        public int InsertDetalle(int idMovimientoInterno, int idArticulo, decimal cantidad)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace Data.ServiceObject
 
                     tBL_DETALLE_MOVIMIENTO_ALMACEN_INTERNO.ID_MOVIMIENTO_ALMACEN_INTERNO = idMovimientoInterno;
                     tBL_DETALLE_MOVIMIENTO_ALMACEN_INTERNO.ID_ARTICULO = idArticulo;
-                    tBL_DETALLE_MOVIMIENTO_ALMACEN_INTERNO.CANTIDAD = Convert.ToDecimal(cantidad);
+                    tBL_DETALLE_MOVIMIENTO_ALMACEN_INTERNO.CANTIDAD = cantidad;
 
                     Conexion.TBL_DETALLE_MOVIMIENTO_ALMACEN_INTERNO.Add(tBL_DETALLE_MOVIMIENTO_ALMACEN_INTERNO);
 

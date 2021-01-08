@@ -117,6 +117,12 @@ namespace WebView.Controllers
                 RolesPermitidos = "5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
+
+            if (nombreControlador.Equals("MovimientoInterno"))
+            {
+                RolesPermitidos = "1,3,5";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
             return false;
         }
 

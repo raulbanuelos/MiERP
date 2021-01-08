@@ -8,11 +8,12 @@ namespace WebView.Controllers
     {
         public ActionResult Create()
         {
+            ViewBag.Personas = DataManager.GetPosiblesJefes();
             return View();
         }
 
         [HttpPost]
-        public JsonResult CrearCuenta(string nombre, string email, string contrasena, string telefono, string direccion, int idRol)
+        public JsonResult CrearCuenta(string nombre, string email, string contrasena, string telefono, string direccion, int idRol, int idJefe)
         {
 
             DO_Persona dO_Persona1 =  DataManager.GetPersona(email);
@@ -33,6 +34,7 @@ namespace WebView.Controllers
                     dO_Persona.ID_ROL = idRol;
                     dO_Persona.Contrasena = contrasena;
                     dO_Persona.Usuario = email;
+                    dO_Persona.IdJefe = idJefe;
 
                     int r = DataManager.InsertPersona(dO_Persona);
 

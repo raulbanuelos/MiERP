@@ -36,6 +36,8 @@ namespace View.Models
         [Display(Name = "ID COMPAÑIA")]
         public int idCompania { get; set; }
 
+        public int IdJefe { get; set; }
+
         public string NombreCompleto
         {
             get

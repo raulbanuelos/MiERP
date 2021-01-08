@@ -72,6 +72,26 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Reporto a</label>
+                            <select id="cboJefes" class="form-control">
+                                @{
+                                    foreach (SelectListItem persona in ((List<SelectListItem>)ViewBag.Personas))
+                                    {
+                                        if (persona.Selected)
+                                        {
+                                            <option selected id="@persona.Value" value="@persona.Value">@persona.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option id="@persona.Value" value="@persona.Value">@persona.Text</option>
+                                        }
+
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label for="exampleInputName" class="sr-only">Telefono</label>
                             <div class="position-relative has-icon-right">
                                 <input type="text" id="txtTelefono" class="form-control input-shadow" placeholder="Ingresa tu teléfono">
@@ -136,7 +156,6 @@
 
     <script type="text/javascript">
         function crearCuenta() {
-            debugger;
             if (validarFormulario()) {
                 var _nombre = $("#txtNombre").val();
                 var _email = $("#txtEmail").val();
@@ -144,12 +163,13 @@
                 var _telefono = $("#txtTelefono").val();
                 var _direccion = $("#txtDireccion").val();
                 var _perfil = $("#cboPerfil").val();
-                debugger;
+                var _idJefe = $("#cboJefes").val();
+
                 var urlSave = '@Url.Action("CrearCuenta", "CreateAccount")';
                 $.ajax({
                     type: "POST",
                     url: urlSave,
-                    data: JSON.stringify({ nombre: _nombre, email: _email, contrasena: _contrasena, telefono: _telefono, direccion: _direccion, idRol: _perfil }),
+                    data: JSON.stringify({ nombre: _nombre, email: _email, contrasena: _contrasena, telefono: _telefono, direccion: _direccion, idRol: _perfil, idJefe: _idJefe }),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
@@ -175,6 +195,12 @@
             var _telefono = $("#txtTelefono").val();
             var _direccion = $("#txtDireccion").val();
             var _perfil = $("#cboPerfil").val();
+            var _idJefe = $("#cboJefes").val();
+
+            if (_idJefe == 0) {
+                alert("Por favor indica a quien reportas directamente");
+                return false;
+            }
 
             if (_perfil == 0) {
                 alert("Por favor seleccione un perfil");

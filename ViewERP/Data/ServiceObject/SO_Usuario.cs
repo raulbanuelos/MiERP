@@ -185,7 +185,7 @@ namespace Data.ServiceObject
             }
         }
 
-        public int Insert(int idRol, int idCompania, string nombre, string aPaterno, string aMaterno,string usuario, string contrasena)
+        public int Insert(int idRol, int idCompania, string nombre, string aPaterno, string aMaterno,string usuario, string contrasena, int idJefe)
         {
             try
             {
@@ -200,6 +200,7 @@ namespace Data.ServiceObject
                     tblUsuario.AMATERNO = aMaterno;
                     tblUsuario.USUARIO = usuario;
                     tblUsuario.CONTRASENA = contrasena;
+                    tblUsuario.JefeId = idJefe;
 
                     Conexion.TBL_USUARIO.Add(tblUsuario);
 
@@ -361,6 +362,25 @@ namespace Data.ServiceObject
                                      c.USUARIO,
                                      c.JefeId
                                  }).ToList();
+
+                    return lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public IList GetPosiblesJefes()
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var lista = (from a in Conexion.TBL_USUARIO
+                                 where a.ID_ROL == 3
+                                 select a).ToList();
 
                     return lista;
                 }

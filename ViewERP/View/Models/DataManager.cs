@@ -155,7 +155,7 @@ namespace View.Models
         {
             SO_Usuario service = new SO_Usuario();
 
-            return service.Insert(persona.ID_ROL, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.Contrasena);
+            return service.Insert(persona.ID_ROL, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.Contrasena,persona.IdJefe);
         }
 
         public static int UpdatePersona(DO_Persona persona)
