@@ -455,6 +455,7 @@
     <Compile Include="Models\DO_ReporteSemanal.cs" />
     <Compile Include="Models\DO_Semana.cs" />
     <Compile Include="Models\DO_Ventas.cs" />
+    <Compile Include="Models\FO_Existencia.cs" />
     <Compile Include="Models\FO_Item.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

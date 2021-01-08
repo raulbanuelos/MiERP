@@ -147,7 +147,7 @@
 
     <!--Existencias-->
     <div class="row">
-        <div class="col-12 col-lg-4 col-xl-4">
+        <div class="col-12 col-lg-5 col-xl-5">
             <div class="card">
                 <div class="card-header">
                     <div class="row">
@@ -188,7 +188,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-lg-8 col-xl-8">
+        <div class="col-12 col-lg-7 col-xl-7">
             <div class="card">
                 <div class="card-header">
                     Venta semanal
@@ -300,7 +300,7 @@
             success: function (data) {
                 var row = "";
                 var valorTotalInventario = 0;
-                $.each(data, function (index, item) {
+                $.each(data.Existencias, function (index, item) {
                     valorTotalInventario += item.ValorInventario;
                     var number = new Intl.NumberFormat().format(item.ValorInventario);
                     number = "$" + number;
@@ -315,6 +315,7 @@
                 var number1 = new Intl.NumberFormat().format(valorTotalInventario);
                 number1 = "$" + number1;
                 $("#lblValorInventario").html("Valor total del inventario: " + number1);
+                $("#lblAlmacen").html("Existencias en: " + data.Almacen.Nombre);
             },
             error: function (result) {
                 alert("Woops, se produjo un error");
@@ -784,7 +785,7 @@
             success: function (data) {
                 var row = "";
                 var valorTotalInventario = 0;
-                $.each(data, function (index, item) {
+                $.each(data.Existencias, function (index, item) {
                     valorTotalInventario += item.ValorInventario;
                     var number = new Intl.NumberFormat().format(item.ValorInventario);
                     number = "$" + number;
@@ -799,6 +800,7 @@
                 var number1 = new Intl.NumberFormat().format(valorTotalInventario);
                 number1 = "$" + number1;
                 $("#lblValorInventario").html("Valor total del inventario: " + number1);
+                $("#lblAlmacen").html("Existencias en: " + data.Almacen.Nombre);
             },
             error: function (result) {
                 alert("Woops, se produjo un error");

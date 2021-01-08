@@ -21,7 +21,11 @@ namespace WebView.Controllers
 
             dO_Existencias =  dO_Existencias.OrderByDescending(x => x.Cantidad).ToList();
 
-            var jsonResult = Json(dO_Existencias, JsonRequestBehavior.AllowGet);
+            FO_Existencia existencia = new FO_Existencia();
+            existencia.Almacen = dO_Almacens[0];
+            existencia.Existencias = dO_Existencias;
+
+            var jsonResult = Json(existencia, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 
             return jsonResult;
@@ -34,7 +38,11 @@ namespace WebView.Controllers
 
             dO_Existencias = dO_Existencias.OrderByDescending(x => x.Cantidad).ToList();
 
-            var jsonResult = Json(dO_Existencias, JsonRequestBehavior.AllowGet);
+            FO_Existencia existencia = new FO_Existencia();
+            existencia.Almacen = DataManager.GetAlmacen(idAlmacen);
+            existencia.Existencias = dO_Existencias;
+
+            var jsonResult = Json(existencia, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 
             return jsonResult;
