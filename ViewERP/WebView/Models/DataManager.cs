@@ -167,7 +167,7 @@ namespace WebView.Models
         {
             SO_Usuario service = new SO_Usuario();
 
-            return service.Update(persona.ID_ROL, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.idUsuario);
+            return service.Update(persona.ID_ROL, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.idUsuario,persona.IdJefe);
         }
 
         public static int DeletePersona(int idPersona)
@@ -288,6 +288,54 @@ namespace WebView.Models
                 {
                     System.Type tipo = item.GetType();
                     
+                    DO_Persona persona = new DO_Persona();
+
+                    persona.idUsuario = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
+                    persona.ID_ROL = (int)tipo.GetProperty("ID_ROL").GetValue(item, null);
+                    persona.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
+                    persona.Nombre = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
+                    persona.ApellidoPaterno = (string)tipo.GetProperty("APATERNO").GetValue(item, null);
+                    persona.ApellidoMaterno = (string)tipo.GetProperty("AMATERNO").GetValue(item, null);
+                    persona.Usuario = (string)tipo.GetProperty("USUARIO").GetValue(item, null);
+
+                    personas.Add(persona);
+                }
+            }
+
+            List<SelectListItem> listItems = new List<SelectListItem>();
+
+            foreach (var item in personas)
+            {
+                SelectListItem selectListItem = new SelectListItem();
+
+                selectListItem.Value = Convert.ToString(item.idUsuario);
+                selectListItem.Text = item.Nombre;
+
+                listItems.Add(selectListItem);
+            }
+
+            SelectListItem selectListItem1 = new SelectListItem();
+            selectListItem1.Value = "0";
+            selectListItem1.Text = "Reporto a";
+            selectListItem1.Selected = true;
+
+            return listItems;
+        }
+
+        public static List<SelectListItem> GetPosiblesJefes(int idCompania)
+        {
+            SO_Usuario sO_Usuario = new SO_Usuario();
+
+            IList informacionBD = sO_Usuario.GetPosiblesJefes(idCompania);
+
+            List<DO_Persona> personas = new List<DO_Persona>();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    System.Type tipo = item.GetType();
+
                     DO_Persona persona = new DO_Persona();
 
                     persona.idUsuario = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
@@ -3975,6 +4023,7 @@ namespace WebView.Models
                     persona.Usuario = Convert.ToString(type.GetProperty("USUARIO").GetValue(item, null));
                     persona.ID_ROL = Convert.ToInt32(type.GetProperty("ID_ROL").GetValue(item, null));
                     persona.idCompania = Convert.ToInt32(type.GetProperty("ID_COMPANIA").GetValue(item, null));
+                    persona.Rol = Convert.ToString(type.GetProperty("ROL").GetValue(item, null));
 
                     promotores.Add(persona);
                 }

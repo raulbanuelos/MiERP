@@ -18,11 +18,24 @@ namespace WebView.Controllers
         [ERPVerificaAccount]
         public ActionResult Create()
         {
+            int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+
+            List<SelectListItem> roles = new List<SelectListItem>();
+
+            roles.Add(new SelectListItem { Text = "Promotor", Value = "4", Selected = true});
+            roles.Add(new SelectListItem { Text = "Supervisor", Value = "6", Selected = false });
+            roles.Add(new SelectListItem { Text = "Supervidor Elite", Value = "7", Selected = false });
+            roles.Add(new SelectListItem { Text = "Asistente", Value = "8", Selected = false });
+
+            ViewBag.Roles = roles;
+
+            ViewBag.Personas = DataManager.GetPosiblesJefes(idCompania);
+
             return View();
         }
 
         [HttpPost]
-        public JsonResult GuardarPromotor(string nombre, string correo)
+        public JsonResult GuardarPromotor(string nombre, string correo, int idJefe, int idRol)
         {
             int idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
 
@@ -31,10 +44,11 @@ namespace WebView.Controllers
             dO_Persona.idCompania = idCompania;
 
             //ID_ROL 4 es un promotor
-            dO_Persona.ID_ROL = 4;
+            dO_Persona.ID_ROL = idRol;
             dO_Persona.ApellidoPaterno = string.Empty;
             dO_Persona.ApellidoMaterno = string.Empty;
             dO_Persona.Usuario = correo;
+            dO_Persona.IdJefe = idJefe;
             dO_Persona.Contrasena = "4578624862";
 
             int r = DataManager.InsertPersona(dO_Persona);
@@ -66,9 +80,39 @@ namespace WebView.Controllers
         [ERPVerificaAccount]
         public ActionResult Editar(int id=0, DO_Persona persona = null)
         {
+            DO_Persona personaBuscada = DataManager.GetPersona(id);
             DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
 
             DO_Compania dO_Compania = DataManager.GetCompania(personaConectada.idCompania);
+
+            ViewBag.Personas = DataManager.GetPosiblesJefes(personaConectada.idCompania);
+
+            foreach (SelectListItem item in ViewBag.Personas)
+            {
+                if (Convert.ToInt32(item.Value) == personaBuscada.IdJefe)
+                {
+                    item.Selected = true;
+                }
+            }
+
+            List<SelectListItem> roles = new List<SelectListItem>();
+
+            roles.Add(new SelectListItem { Text = "Promotor", Value = "4", Selected = false });
+            roles.Add(new SelectListItem { Text = "Supervisor", Value = "6", Selected = false });
+            roles.Add(new SelectListItem { Text = "Supervidor Elite", Value = "7", Selected = false });
+            roles.Add(new SelectListItem { Text = "Asistente", Value = "8", Selected = false });
+
+            foreach (var rol in roles)
+            {
+                if (Convert.ToInt32(rol.Value) == personaBuscada.ID_ROL)
+                {
+                    rol.Selected = true;
+                }
+            }
+
+            ViewBag.Roles = roles;
+
+
 
             List<DO_Semana> dO_Semanas = DataManager.GetSemanas(dO_Compania.FechaRegistro);
 
@@ -91,14 +135,16 @@ namespace WebView.Controllers
 
             ViewBag.Semanas = listItems;
 
-            return View(DataManager.GetPersona(id));
+            return View(personaBuscada);
         }
 
-        public JsonResult GuardarDatosPromotor(int idUsuario, string nombre, string usuario)
+        public JsonResult GuardarDatosPromotor(int idUsuario, string nombre, string usuario, int idJefe, int idRol)
         {
             DO_Persona persona = DataManager.GetPersona(idUsuario);
             persona.Nombre = nombre;
             persona.Usuario = usuario;
+            persona.IdJefe = idJefe;
+            persona.ID_ROL = idRol;
             int r = DataManager.UpdatePersona(persona);
 
             var jsonResult = Json(r, JsonRequestBehavior.AllowGet);

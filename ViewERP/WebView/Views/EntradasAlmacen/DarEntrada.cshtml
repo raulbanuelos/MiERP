@@ -147,9 +147,46 @@
     </div>
 </div>
 
+<!--Modal guardando Info-->
+<div id="modalcargandoinfo" data-backdrop="static" data-keyboard="false" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header alert alert-dark">
+                <table>
+                    <tr>
+                        <td></td>
+                        <td><h3 class="modal-title">Por favor espere...</h3></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-body" id="div1">
+                <p><b>Procesando</b></p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" id="progressbarEspera" role="progressbar" aria-valuemax="100" style="width:100%">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript" src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
 
 <script type="text/javascript">
+
+    $(document).ajaxStart(function () {
+        $("#modalcargandoinfo").modal("show");
+    });
+
+    $(document).ajaxComplete(function () {
+        $("#modalcargandoinfo").removeClass("in");
+        $(".modal-backdrop").remove();
+        $("#modalcargandoinfo").hide();
+    });
 
     function Regresar() {
         var link = "@Url.Action("Index","Home")";

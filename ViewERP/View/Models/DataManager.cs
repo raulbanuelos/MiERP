@@ -162,7 +162,7 @@ namespace View.Models
         {
             SO_Usuario service = new SO_Usuario();
 
-            return service.Update(persona.ID_ROL, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.idUsuario);
+            return service.Update(persona.ID_ROL, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.idUsuario, persona.IdJefe);
         }
 
         public static int DeletePersona(int idPersona)

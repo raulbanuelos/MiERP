@@ -100,8 +100,20 @@ namespace Data.ServiceObject
                 using (var Conexion = new EntitiesERP())
                 {
                     var list = (from c in Conexion.TBL_USUARIO
-                                where c.ID_ROL == 4 && c.ID_COMPANIA == idCompania
-                                select c).ToList();
+                                join r in Conexion.TBL_ROLE on c.ID_ROL equals r.ID_ROL
+                                where c.ID_COMPANIA == idCompania && (c.ID_ROL == 4 || c.ID_ROL == 6 || c.ID_ROL == 7 || c.ID_ROL == 8)
+
+                                select new { 
+                                    c.ID_USUARIO,
+                                    c.ID_ROL,
+                                    c.ID_COMPANIA,
+                                    c.NOMBRE,
+                                    c.APATERNO,
+                                    c.AMATERNO,
+                                    c.USUARIO,
+                                    c.JefeId,
+                                    r.ROL
+                                }).ToList();
 
                     return list;
                 }
@@ -215,7 +227,7 @@ namespace Data.ServiceObject
             }
         }
 
-        public int Update(int idRol, int idCompania, string nombre, string aPaterno, string aMaterno, string usuario, int idUsuario)
+        public int Update(int idRol, int idCompania, string nombre, string aPaterno, string aMaterno, string usuario, int idUsuario, int idJefe)
         {
             try
             {
@@ -229,6 +241,7 @@ namespace Data.ServiceObject
                     obj.APATERNO = aPaterno;
                     obj.AMATERNO = aMaterno;
                     obj.USUARIO = usuario;
+                    obj.JefeId = idJefe;
 
                     Conexion.Entry(obj).State = EntityState.Modified;
 
@@ -380,6 +393,25 @@ namespace Data.ServiceObject
                 {
                     var lista = (from a in Conexion.TBL_USUARIO
                                  where a.ID_ROL == 3
+                                 select a).ToList();
+
+                    return lista;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public IList GetPosiblesJefes(int idCompania)
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var lista = (from a in Conexion.TBL_USUARIO
+                                 where a.ID_COMPANIA == idCompania && (a.ID_ROL == 6 || a.ID_ROL == 7 || a.ID_ROL == 8 || a.ID_ROL == 1)
                                  select a).ToList();
 
                     return lista;

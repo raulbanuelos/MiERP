@@ -44,6 +44,7 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Correo</th>
+                        <th>Categoria</th>
                     </tr>
                 </thead>
                 <tbody id="tblPromotores"></tbody>
@@ -63,10 +64,11 @@
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Name');
-        data.addColumn('string', 'Manager');
-        data.addColumn('string', 'ToolTip');
+        drawChartt();
+        //var data = new google.visualization.DataTable();
+        //data.addColumn('string', 'Name');
+        //data.addColumn('string', 'Manager');
+        //data.addColumn('string', 'ToolTip');
 
         var urlSave = '@Url.Action("GetAllPromotores", "Promotores")';
         $.ajax({
@@ -81,18 +83,57 @@
                 var nombreGerente = informacion.Yo.Nombre;
                 var row = "";
 
-                data.addRow([{ v: idGerente, f: nombreGerente + '<div style="color:tomato; font-style:italic">Gerente</div>' }, '', 'Gerente']);
+                //data.addRow([{ v: idGerente, f: nombreGerente + '<div style="color:tomato; font-style:italic">Gerente</div>' }, '', 'Gerente']);
 
                 $.each(informacion.Promotores, function (index, item) {
-                    data.addRow([{ v: item.Nombre, f: '<div><a href="@Url.Action("Editar","Promotores")?id=' + item.idUsuario + '">' + item.Nombre + '</a></div> <div style="color:tomato; font-style:italic">Promotor</div> ' }, idGerente, item.Nombre]);
+                    //data.addRow([{ v: item.Nombre, f: '<div><a href="@Url.Action("Editar","Promotores")?id=' + item.idUsuario + '">' + item.Nombre + '</a></div> <div style="color:tomato; font-style:italic">Promotor</div> ' }, idGerente, item.Nombre]);
 
                     row += "<tr>";
                     row += "<td><a href=\"@Url.Action("Editar", "Promotores")?id=" + item.idUsuario + "\">" + item.Nombre + "</a> </td>";
                     row += "<td>" + item.Usuario + "</td>";
+                    row += "<td>" + item.Rol + "</td>";
                     row += "</tr>";
                 });
 
                 $("#tblPromotores").append(row);
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            },
+            complete: function (d) {
+                //var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+
+                //chart.draw(data, { 'allowHtml': true, 'allowCollapse': true, 'size': 'large', color: '#000000', selectionColor: '#bcab31' });
+            }
+        });
+    }
+
+    function drawChartt() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Name');
+        data.addColumn('string', 'Manager');
+        data.addColumn('string', 'ToolTip');
+
+        var urlSave = '@Url.Action("GetOrganizacion", "Organizacion")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ parametro: "" }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (informacion) {
+                var c = 0;
+                $.each(informacion, function (index, item) {
+                    var idUsuario = '' + item.Yo.idUsuario;
+                    var idJefe = '' + item.Yo.IdJefe;
+
+                    if (c == 0) {
+                        data.addRow([{ v: idUsuario, f: item.Yo.Nombre + '<div style="color:tomato; font-style:italic">' + item.Yo.Rol + '</div>' }, '', item.Yo.Rol]);
+                    } else {
+                        data.addRow([{ v: idUsuario, f: '<div><a href="@Url.Action("Editar","Promotores")?id=' + item.Yo.idUsuario + '">' + item.Yo.Nombre + '</a></div> <div style="color:tomato; font-style:italic">' + item.Yo.Rol + '</div> ' }, idJefe, item.Yo.Nombre]);
+                    }
+                    c++;
+                });
             },
             error: function (result) {
                 alert("Woops, se produjo un error");
@@ -103,6 +144,5 @@
                 chart.draw(data, { 'allowHtml': true, 'allowCollapse': true, 'size': 'large', color: '#000000', selectionColor: '#bcab31' });
             }
         });
-
     }
 </script>

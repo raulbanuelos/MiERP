@@ -29,6 +29,49 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="">Categoria</label>
+                            <div class="col-lg-10 col-md-9">
+                                <select id="cboRoles" class="form-control">
+                                    @{
+                                        foreach (SelectListItem rol in ((List<SelectListItem>)ViewBag.Roles))
+                                        {
+                                            if (rol.Selected)
+                                            {
+                                                <option selected id="@rol.Value" value="@rol.Value">@rol.Text</option>
+                                            }
+                                            else
+                                            {
+                                                <option id="@rol.Value" value="@rol.Value">@rol.Text</option>
+                                            }
+
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Pertenece a</label>
+                            <select id="cboJefes" class="form-control">
+                                @{
+                                    foreach (SelectListItem persona in ((List<SelectListItem>)ViewBag.Personas))
+                                    {
+                                        if (persona.Selected)
+                                        {
+                                            <option selected id="@persona.Value" value="@persona.Value">@persona.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option id="@persona.Value" value="@persona.Value">@persona.Text</option>
+                                        }
+
+                                    }
+                                }
+                            </select>
+                        </div>
+
+
+                        <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
                                 <button class="btn btn-success" onclick="guardarContacto()">Guardar cambios</button>
                             </div>
@@ -44,7 +87,9 @@
     function guardarContacto() {
         var _nombre = $("#txtNombre").val();
         var _correo = $("#txtCorreo").val();
-        
+        var _idJefe = $("#cboJefes").val();
+        var _rol = $("#cboRoles").val();
+
         if (_nombre == "") {
             alert("Por favor ingrese el nombre del contacto");
         }
@@ -56,12 +101,18 @@
         }
         else if (_correo == "") {
             alert("Por favor ingrese el correo del contacto");
-        } else {
+        }
+        else if (_idJefe == 0) {
+            alert("Por favor indica a quien reporta directamente");
+        } else if (_rol == 0) {
+            alert("Por favor indica el rol que tiene la persona");
+        }
+        else {
             var urlSave = '@Url.Action("GuardarPromotor", "Promotores")';
             $.ajax({
                 type: "POST",
                 url: urlSave,
-                data: JSON.stringify({ nombre: _nombre, correo: _correo }),
+                data: JSON.stringify({ nombre: _nombre, correo: _correo, idJefe : _idJefe, idRol: _rol }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
