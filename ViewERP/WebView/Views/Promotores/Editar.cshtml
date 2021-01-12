@@ -43,23 +43,24 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Pertenece a</label>
-                            <select id="cboJefes" class="form-control">
-                                @{
-                                    foreach (SelectListItem persona in ((List<SelectListItem>)ViewBag.Personas))
-                                    {
-                                        if (persona.Selected)
+                            <label for="">Pertenece a</label>
+                            <div class="col-lg-10 col-md-9">
+                                <select id="cboJefes" class="form-control">
+                                    @{
+                                        foreach (SelectListItem persona in ((List<SelectListItem>)ViewBag.Personas))
                                         {
-                                            <option selected id="@persona.Value" value="@persona.Value">@persona.Text</option>
+                                            if (persona.Selected)
+                                            {
+                                                <option selected id="@persona.Value" value="@persona.Value">@persona.Text</option>
+                                            }
+                                            else
+                                            {
+                                                <option id="@persona.Value" value="@persona.Value">@persona.Text</option>
+                                            }
                                         }
-                                        else
-                                        {
-                                            <option id="@persona.Value" value="@persona.Value">@persona.Text</option>
-                                        }
-
                                     }
-                                }
-                            </select>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-group">
