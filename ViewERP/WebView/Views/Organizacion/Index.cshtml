@@ -62,11 +62,15 @@
                 $.each(informacion, function (index, item) {
                     var idUsuario = '' + item.Yo.idUsuario;
                     var idJefe = '' + item.Yo.IdJefe;
-                    
+
                     if (c == 0) {
                         data.addRow([{ v: idUsuario, f: item.Yo.Nombre + '<div style="color:tomato; font-style:italic">' + item.Yo.Rol + '</div>' }, '', item.Yo.Rol]);
                     } else {
-                        data.addRow([{ v: idUsuario, f: '<div><a href="@Url.Action("IndexByGerente","Home")?id=' + item.Yo.idUsuario + '">' + item.Yo.Nombre + '</a></div> <div style="color:tomato; font-style:italic">' + item.Yo.Rol + '</div> ' }, idJefe, item.Yo.Nombre]);
+                        if (item.Yo.Rol == "GERENTE" || item.Yo.Rol == "GERENTE PROMOTOR") {
+                            data.addRow([{ v: idUsuario, f: '<div><a href="@Url.Action("IndexByGerente","Home")?id=' + item.Yo.idUsuario + '">' + item.Yo.Nombre + '</a></div> <div style="color:tomato; font-style:italic">' + item.Yo.Rol + '</div> ' }, idJefe, item.Yo.Nombre]);
+                        } else if (item.Yo.Rol == "PROMOTOR" || item.Yo.Rol == "SUPERVISOR" || item.Yo.Rol == "SUPERVISOR ELITE" || item.Yo.Rol == "ASISTENTE") {
+                            data.addRow([{ v: idUsuario, f: '<div><a href="@Url.Action("Editar","Promotores")?id=' + item.Yo.idUsuario + '">' + item.Yo.Nombre + '</a></div> <div style="color:tomato; font-style:italic">' + item.Yo.Rol + '</div> ' }, idJefe, item.Yo.Nombre]);
+                        }
                     }
                     c++;
                 });
