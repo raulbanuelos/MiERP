@@ -1,4 +1,6 @@
 ﻿using Model;
+using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using WebView.Models;
 
@@ -52,6 +54,19 @@ namespace WebView.Controllers
                     categoriaArticulo.numeroCategoria = "01";
 
                     int c = DataManager.InsertCategoriaArticulo(categoriaArticulo);
+
+                    DO_Persona jefe = DataManager.GetPersona(idJefe);
+
+                    List<DO_Articulo> articulosJefe = DataManager.GetAllArticulos(jefe.idCompania);
+
+                    foreach (var articulo in articulosJefe)
+                    {
+                        articulo.idCompania = idCompania;
+                        articulo.ID_CATEGORIA = c;
+                        articulo.Codigo = DataManager.GetNextCodigoArticulo(Convert.ToString(c));
+                        int idArticulo = DataManager.InsertArticulo(articulo);
+                        DataManager.InsertDetailsArticulo(idArticulo, articulo.PRECIO_UNIDAD, articulo.PRECIO_MASTER, articulo.PRECIO_PROMOTOR, articulo.PRECIO_GERENTE);
+                    }
 
                     DO_CategoriaArticulo categoriaArticulo1 = new DO_CategoriaArticulo();
                     categoriaArticulo1.idCompania = idCompania;

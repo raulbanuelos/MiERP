@@ -25,7 +25,9 @@ namespace Data.ServiceObject
                     tblCategoriaArticulo.NUM_CATEGORIA = categoriaArticulo.numeroCategoria;
 
                     Conexion.TBL_CATEGORIA_ARTICULO.Add(tblCategoriaArticulo);
-                    return Conexion.SaveChanges();
+                    Conexion.SaveChanges();
+
+                    return tblCategoriaArticulo.ID_CATEGORIA_ARTICULO;
                 }
             }
             catch (Exception)
