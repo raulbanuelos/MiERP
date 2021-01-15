@@ -687,6 +687,38 @@ namespace WebView.Models
             return service.GetExistenciaArticulo(idAlmacen, idArticulo);
         }
 
+        public static List<DO_Existencia> GetExistenciasByCompania(int idCompania)
+        {
+            List<DO_Existencia> existencias = new List<DO_Existencia>();
+
+            List<DO_Articulo> articulos = GetAllArticulos(idCompania);
+
+            SO_Existencia sO_Existencia = new SO_Existencia();
+
+            DataSet dataSet = sO_Existencia.GetByCompania(idCompania);
+
+            if (dataSet != null)
+            {
+                if (dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow item in dataSet.Tables[0].Rows)
+                    {
+                        DO_Existencia existencia = new DO_Existencia();
+
+                        existencia.IdArticulo = Convert.ToInt32(item["ID_ARTICULO"]);
+                        existencia.Descripcion = Convert.ToString(item["DESCRIPCION"]);
+                        double precioGerente = articulos.Where(x => x.idArticulo == existencia.IdArticulo).FirstOrDefault().PRECIO_MASTER;
+                        existencia.Cantidad = Convert.ToDouble(item["CANTIDAD"]);
+                        existencia.ValorInventario = existencia.Cantidad * precioGerente;
+
+                        existencias.Add(existencia);
+                    }
+                }
+            }
+
+            return existencias;
+        }
+
         public static List<DO_Existencia> GetExistenciaArticulos(int idAlmacen)
         {
             SO_Existencia service = new SO_Existencia();

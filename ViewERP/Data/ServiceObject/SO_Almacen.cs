@@ -84,6 +84,7 @@ namespace Data.ServiceObject
                 {
                     var list = (from v in Conexion.TBL_ALMACEN
                                 where v.ID_COMPANIA == idCompania
+                                orderby v.ID_ALMACEN ascending
                                 select v).ToList();
 
                     return list;

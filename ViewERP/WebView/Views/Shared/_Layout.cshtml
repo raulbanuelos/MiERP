@@ -346,7 +346,42 @@
 
 @*TABLA TBL_ROLE AGREGAR LOS SIGUIENTES REGISTROS
 
-4:promotor
-6:supervisor
-7:supervisor elite
-8:asistente*@
+    4:promotor
+    6:supervisor
+    7:supervisor elite
+    8:asistente*@
+
+
+@*-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters
+-- command (Ctrl-Shift-M) to fill in the parameter
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		RAÚL BAÑUELOS
+-- Create date: 15 JAN 2021
+-- Description:	PROCEDIMIENTO ALMACENADO QUE OBTIENE TODA LA EXISTENCIA DE ARTICULOS DE UNA COMPAÑIA.
+-- =============================================
+CREATE PROCEDURE SP_ERP_GET_EXISTENCIA_BY_COMPANIA
+@idCompania INT
+AS
+BEGIN
+	SELECT C.ID_COMPANIA, A.ID_ARTICULO, A.DESCRIPCION, SUM(E.CANTIDAD) AS CANTIDAD
+	FROM TBL_EXISTENCIA AS E
+	INNER JOIN TBL_ARTICULO AS A ON E.ID_ARTICULO = A.ID_ARTICULO
+	INNER JOIN TBL_ALMACEN AS AL ON E.ID_ALMACEN = AL.ID_ALMACEN
+	INNER JOIN TBL_COMPANIA AS C ON AL.ID_COMPANIA = C.ID_COMPANIA
+	WHERE C.ID_COMPANIA = @idCompania
+    GROUP BY C.ID_COMPANIA, A.ID_ARTICULO, A.DESCRIPCION
+    END
+    GO*@

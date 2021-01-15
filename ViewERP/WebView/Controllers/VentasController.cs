@@ -131,6 +131,17 @@ namespace WebView.Controllers
         }
 
         [HttpPost]
+        public JsonResult GetVentaSemanaActualByGerente(int idUsuario)
+        {
+            double venta = DataManager.GetVentaSemanaActual(idUsuario);
+
+            var jsonResult = Json(venta, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
+
+        [HttpPost]
         public JsonResult GetVentaUltimosMeses(string parametro)
         {
             int idUsuario = ((DO_Persona)Session["UsuarioConectado"]).idUsuario;

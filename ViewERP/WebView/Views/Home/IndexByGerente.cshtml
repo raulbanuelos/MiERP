@@ -8,13 +8,12 @@
 <div class="row">
     <div class="col-12 col-lg-12 col-xl-12">
         <div class="card">
-            <div class="card-header">
-                Ventas
+            <div class="card-header" id="lblCantidadVendida">
+                
             </div>
             <div class="card-body">
                 <ul class="list-inline">
                     <li class="list-inline-item"><i class="fa fa-circle mr-2 text-white"></i>Venta semanal</li>
-
                 </ul>
                 <div class="chart-container-1">
                     <canvas id="chart1"></canvas>
@@ -156,6 +155,24 @@
                         }
                     }
                 });
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
+        urlSave = '@Url.Action("GetVentaSemanaActualByGerente", "Ventas")'
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ idUsuario: _idUsuario }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var number = new Intl.NumberFormat().format(data);
+
+                $("#lblCantidadVendida").html("Venta Total semanal: $ " + number + " <span class=\"float-right\"><i class=\"fa fa-shopping-cart\"></i></span>");
+
             },
             error: function (result) {
                 alert("Woops, se produjo un error");

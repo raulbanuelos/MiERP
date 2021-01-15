@@ -1,7 +1,9 @@
-﻿using Model;
+﻿using Data.SQLServer;
+using Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,8 @@ namespace Data.ServiceObject
 {
     public class SO_Existencia
     {
+        private string SP_ERP_GET_EXISTENCIA_BY_COMPANIA = "SP_ERP_GET_EXISTENCIA_BY_COMPANIA";
+
         public int AddCantidad(int idAlmacen, int idArticulo,decimal cantidad)
         {
             try
@@ -110,6 +114,28 @@ namespace Data.ServiceObject
 
                     return lista;
                 }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public DataSet GetByCompania(int idCompania)
+        {
+            try
+            {
+                DataSet datos = null;
+
+                ERP_SQL conexion = new ERP_SQL();
+
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
+
+                parametros.Add("idCompania", idCompania);
+
+                datos = conexion.EjecutarStoredProcedure(SP_ERP_GET_EXISTENCIA_BY_COMPANIA, parametros);
+
+                return datos;
             }
             catch (Exception)
             {
