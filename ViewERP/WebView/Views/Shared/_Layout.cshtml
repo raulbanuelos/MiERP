@@ -64,7 +64,7 @@
                     </a>
                 </li>
 
-                @if ((bool)Session["GERENTE_PROMOTOR"])
+                @if ((bool)Session["GERENTE_PROMOTOR"] || (bool)Session["ADMINISTRADOR"])
                 {
                     <li>
                         <a href="@Url.Action("Index", "Organizacion")">
