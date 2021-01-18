@@ -123,6 +123,12 @@ namespace WebView.Controllers
                 RolesPermitidos = "1,3,5";
                 return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
             }
+
+            if (nombreControlador.Equals("AdministracionERP"))
+            {
+                RolesPermitidos = "5";
+                return RolesPermitidos.Contains(RolPersonaAutentificada.ToString());
+            }
             return false;
         }
 

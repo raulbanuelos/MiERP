@@ -27,6 +27,10 @@ namespace WebView.Controllers
         {
             int r = DataManager.InsertMovimientoInterno(idAlmacenOrigen, idAlmacenDestino, "FOLIO", articulos);
 
+            DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
+
+            DataManager.InsertBitacora(personaConectada.Nombre + " " + personaConectada.Usuario, "Se crea un movimiento de almacen interno con idAlmacenOrigen: " + idAlmacenOrigen + " Y idAlmacenDestino:" + idAlmacenDestino);
+
             var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 

@@ -76,6 +76,13 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="">Inventario Inicial</label>
+                            <div class="col-lg-10 col-md-9">
+                                <input id="txtInventarioInicial" type="text" class="form-control" placeholder="Inventario inicial" onkeypress="return filterFloat(event,this);" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
                                 <button class="btn btn-light px-5 float-left" onclick="GuardarArticulo()">Guardar</button>
                             </div>
@@ -120,6 +127,7 @@
         var _precioMaster = $("#txtPrecioMaster").val();
         var _precioPromotor = $("#txtPrecioPromotor").val();
         var _precioGerente = $("#txtPrecioGerente").val();
+        var _inventarioInicial = $("#txtInventarioInicial").val();
 
         if (ValidarAltaArticulo()) {
             var urlSave = '@Url.Action("GuardarArticulo","Articulo")';
@@ -139,7 +147,7 @@
             $.ajax({
                 type: "POST",
                 url: urlSave,
-                data: JSON.stringify({ codigo: _codigo, descripocionCorta: _descripcionCorta, descripcionLarga: _descripcionLarga, stockMinimo: _stockMinimo, stockMaximo: _stockMaximo, idCategoria: _idCategoria, isConsumible: _isConsumible, precioUnidad: _precioUnidad, precioMaster: _precioMaster, precioPromotor: _precioPromotor, precioGerente: _precioGerente  }),
+                data: JSON.stringify({ codigo: _codigo, descripocionCorta: _descripcionCorta, descripcionLarga: _descripcionLarga, stockMinimo: _stockMinimo, stockMaximo: _stockMaximo, idCategoria: _idCategoria, isConsumible: _isConsumible, precioUnidad: _precioUnidad, precioMaster: _precioMaster, precioPromotor: _precioPromotor, precioGerente: _precioGerente, inventarioInicial : _inventarioInicial  }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {

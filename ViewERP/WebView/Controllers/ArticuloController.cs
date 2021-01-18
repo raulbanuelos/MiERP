@@ -65,7 +65,7 @@ namespace WebView.Controllers
 
         [HttpPost]
         [ERPVerificaRol]
-        public JsonResult GuardarArticulo(string codigo, string descripocionCorta, string descripcionLarga, int stockMinimo, int stockMaximo, int idCategoria, bool isConsumible, double precioUnidad, double precioMaster, double precioPromotor, double precioGerente)
+        public JsonResult GuardarArticulo(string codigo, string descripocionCorta, string descripcionLarga, int stockMinimo, int stockMaximo, int idCategoria, bool isConsumible, double precioUnidad, double precioMaster, double precioPromotor, double precioGerente, int inventarioInicial)
         {
             BarcodeLib.Barcode codigoBarras = new BarcodeLib.Barcode();
             codigoBarras.IncludeLabel = true;
@@ -88,6 +88,12 @@ namespace WebView.Controllers
             int idArticulo = DataManager.InsertArticulo(articulo);
 
             int idDetailsArticulo = DataManager.InsertDetailsArticulo(idArticulo, precioUnidad, precioMaster, precioPromotor, precioGerente);
+
+            DataManager.InsertInitialStock(idCompania, idArticulo, inventarioInicial);
+
+            DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
+
+            DataManager.InsertBitacora(personaConectada.Nombre + " " + personaConectada.Usuario, "Se creó un articulo llamado: " + descripocionCorta);
 
             var jsonResult = Json(idDetailsArticulo, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
@@ -119,6 +125,10 @@ namespace WebView.Controllers
             int result = DataManager.UpdateArticulo(articulo);
 
             result = DataManager.UpdateDetailsArticulo(articulo.idArticulo, articulo.PRECIO_UNIDAD, articulo.PRECIO_MASTER, articulo.PRECIO_PROMOTOR, articulo.PRECIO_GERENTE);
+
+            DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
+
+            DataManager.InsertBitacora(personaConectada.Nombre + " " + personaConectada.Usuario, "Se edito la información del articulo llamado: " + articulo.Descripcion);
 
             var jsonResult = Json(result, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;

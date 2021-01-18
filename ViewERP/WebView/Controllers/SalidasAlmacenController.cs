@@ -47,6 +47,8 @@ namespace WebView.Controllers
                 re.ResultCode = 1;
             }
 
+            DataManager.InsertBitacora(personaConectada.Nombre + " " + personaConectada.Usuario, "Se crea una salida de almacen");
+
             var jsonResult = Json(re, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 

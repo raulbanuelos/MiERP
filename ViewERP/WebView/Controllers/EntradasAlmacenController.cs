@@ -53,6 +53,10 @@ namespace WebView.Controllers
         {
             int r = DataManager.InsertEntradaArticuloAlmacen(idAlmacen, idProveedor, Factura, fecha, ((DO_Persona)Session["UsuarioConectado"]).Usuario, articulos, costoGuia);
 
+            DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
+
+            DataManager.InsertBitacora(personaConectada.Nombre + " " + personaConectada.Usuario, "Se crea una entrada en el idAlmacen:" + idAlmacen);
+
             var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 

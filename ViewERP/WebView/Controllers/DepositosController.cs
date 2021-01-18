@@ -48,6 +48,11 @@ namespace WebView.Controllers
 
             int r = DataManager.InsertDeposito(idUsuario, monto, fecha, banco,descripcion,urlArchivo);
 
+            DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
+
+            DataManager.InsertBitacora(personaConectada.Nombre + " " + personaConectada.Usuario, "Se creó un registro de depósito");
+
+
             var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 

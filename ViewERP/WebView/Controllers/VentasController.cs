@@ -61,6 +61,8 @@ namespace WebView.Controllers
                 int promotorVenta = DataManager.InsertVentaPromotor(idVenta, idPromotor);
             }
 
+            DataManager.InsertBitacora(personaConectada.Nombre + " " + personaConectada.Usuario, "Se crea un registro de venta del idArticulo:" + idArticulo + ", Con la cantidad: " + cantidad);
+
             var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 
@@ -272,8 +274,10 @@ namespace WebView.Controllers
             if (idPromotor != 0)
             {
                 int promotorVenta = DataManager.InsertVentaPromotor(idVenta, idPromotor);
-            } 
+            }
             #endregion
+
+            DataManager.InsertBitacora(personaConectada.Nombre + " " + personaConectada.Usuario, "Se cambia el registro de venta idVenta:" + idVenta);
 
             var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;

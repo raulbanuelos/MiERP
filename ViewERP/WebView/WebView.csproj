@@ -423,6 +423,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdministracionERPController.cs" />
     <Compile Include="Controllers\AlmacenController.cs" />
     <Compile Include="Controllers\ArticuloController.cs" />
     <Compile Include="Controllers\BitacoraController.cs" />
@@ -1322,6 +1323,7 @@
     <Content Include="Views\Almacen\Create.cshtml" />
     <Content Include="Views\Almacen\Edit.cshtml" />
     <Content Include="Views\MovimientoInterno\DarMovimientoInterno.cshtml" />
+    <Content Include="Views\AdministracionERP\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

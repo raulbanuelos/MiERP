@@ -55,18 +55,16 @@ namespace WebView.Controllers
 
                     int c = DataManager.InsertCategoriaArticulo(categoriaArticulo);
 
-                    DO_Persona jefe = DataManager.GetPersona(idJefe);
-
-                    List<DO_Articulo> articulosJefe = DataManager.GetAllArticulos(jefe.idCompania);
-
-                    foreach (var articulo in articulosJefe)
-                    {
-                        articulo.idCompania = idCompania;
-                        articulo.ID_CATEGORIA = c;
-                        articulo.Codigo = DataManager.GetNextCodigoArticulo(Convert.ToString(c));
-                        int idArticulo = DataManager.InsertArticulo(articulo);
-                        DataManager.InsertDetailsArticulo(idArticulo, articulo.PRECIO_UNIDAD, articulo.PRECIO_MASTER, articulo.PRECIO_PROMOTOR, articulo.PRECIO_GERENTE);
-                    }
+                    //DO_Persona jefe = DataManager.GetPersona(idJefe);
+                    //List<DO_Articulo> articulosJefe = DataManager.GetAllArticulos(jefe.idCompania);
+                    //foreach (var articulo in articulosJefe)
+                    //{
+                    //    articulo.idCompania = idCompania;
+                    //    articulo.ID_CATEGORIA = c;
+                    //    articulo.Codigo = DataManager.GetNextCodigoArticulo(Convert.ToString(c));
+                    //    int idArticulo = DataManager.InsertArticulo(articulo);
+                    //    DataManager.InsertDetailsArticulo(idArticulo, articulo.PRECIO_UNIDAD, articulo.PRECIO_MASTER, articulo.PRECIO_PROMOTOR, articulo.PRECIO_GERENTE);
+                    //}
 
                     DO_CategoriaArticulo categoriaArticulo1 = new DO_CategoriaArticulo();
                     categoriaArticulo1.idCompania = idCompania;
@@ -79,6 +77,8 @@ namespace WebView.Controllers
                     {
                         DataManager.InsertOrganizacion(idCompania, "ORG." + nombre);
                     }
+
+                    DataManager.InsertBitacora("Usuario anónimo", "Se creó una cuenta con el correo: " + dO_Persona.Usuario);
 
                     var jsonResult = Json("Cuenta activada exitosamente", JsonRequestBehavior.AllowGet);
                     jsonResult.MaxJsonLength = int.MaxValue;

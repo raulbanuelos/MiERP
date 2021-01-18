@@ -69,7 +69,7 @@ namespace WebView.Models
                     persona.ApellidoMaterno = (string)tipo.GetProperty("AMATERNO").GetValue(item, null);
                     persona.Usuario = (string)tipo.GetProperty("USUARIO").GetValue(item, null);
                     persona.NombrePlan = (string)tipo.GetProperty("NOMBRE_PLAN").GetValue(item, null);
-                    persona.IdJefe =  string.IsNullOrEmpty(Convert.ToString(tipo.GetProperty("JefeId").GetValue(item, null))) ? 0 : (int)tipo.GetProperty("JefeId").GetValue(item, null);
+                    persona.IdJefe = string.IsNullOrEmpty(Convert.ToString(tipo.GetProperty("JefeId").GetValue(item, null))) ? 0 : (int)tipo.GetProperty("JefeId").GetValue(item, null);
                     persona.Rol = (string)tipo.GetProperty("ROL").GetValue(item, null);
                 }
             }
@@ -167,7 +167,7 @@ namespace WebView.Models
         {
             SO_Usuario service = new SO_Usuario();
 
-            return service.Update(persona.ID_ROL, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.idUsuario,persona.IdJefe);
+            return service.Update(persona.ID_ROL, persona.idCompania, persona.Nombre, persona.ApellidoPaterno, persona.ApellidoMaterno, persona.Usuario, persona.idUsuario, persona.IdJefe);
         }
 
         public static int DeletePersona(int idPersona)
@@ -287,7 +287,7 @@ namespace WebView.Models
                 foreach (var item in informacionBD)
                 {
                     System.Type tipo = item.GetType();
-                    
+
                     DO_Persona persona = new DO_Persona();
 
                     persona.idUsuario = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
@@ -2551,7 +2551,7 @@ namespace WebView.Models
             return monto;
         }
 
-        public static  double GetVentaDiaActualOrganizacion(int idOrganizacion)
+        public static double GetVentaDiaActualOrganizacion(int idOrganizacion)
         {
             double monto = 0;
 
@@ -2657,10 +2657,10 @@ namespace WebView.Models
                 if (mes == 1)
                 {
                     item.Nombre = "Ene-" + item.ValueDate.Year;
-                }else if(mes == 2)
+                } else if (mes == 2)
                 {
                     item.Nombre = "Feb-" + item.ValueDate.Year;
-                }else if(mes == 3)
+                } else if (mes == 3)
                 {
                     item.Nombre = "Mar-" + item.ValueDate.Year;
                 }
@@ -2696,7 +2696,7 @@ namespace WebView.Models
                 {
                     item.Nombre = "Nov-" + item.ValueDate.Year;
                 }
-                else if(mes == 12)
+                else if (mes == 12)
                 {
                     item.Nombre = "Dic-" + item.ValueDate.Year;
                 }
@@ -2743,7 +2743,7 @@ namespace WebView.Models
         {
             SO_Venta sO_Details_Venta = new SO_Venta();
 
-            DataSet informacionBD = sO_Details_Venta.GetVentaPorSemana(idUsuario,idSemana);
+            DataSet informacionBD = sO_Details_Venta.GetVentaPorSemana(idUsuario, idSemana);
 
             List<DO_Ventas> dO_Ventas = new List<DO_Ventas>();
 
@@ -2798,7 +2798,7 @@ namespace WebView.Models
         public static DO_ChartData GetLastFiveWeekSalesPromotor(int idPromotor, int idSemana)
         {
             #region Configuración colores
-            
+
             List<string> backGroundColors = new List<string>();
             backGroundColors.Add("#56d798");
             backGroundColors.Add("#ff8397");
@@ -2837,7 +2837,7 @@ namespace WebView.Models
 
             foreach (var semana in semanas)
             {
-                dO_ChartData.labels.Add("Semana #" +semana.NoSemana);
+                dO_ChartData.labels.Add("Semana #" + semana.NoSemana);
             }
 
             //dO_ChartData.labels.Add("Semana 5");
@@ -3186,7 +3186,7 @@ namespace WebView.Models
             borderColors.Add("rgba(255, 159, 64, 1)");
             borderColors.Add("rgba(255, 159, 64, 1)");
             borderColors.Add("rgba(255, 159, 64, 1)");
-            borderColors.Add("rgba(255, 159, 64, 1)"); 
+            borderColors.Add("rgba(255, 159, 64, 1)");
             #endregion
 
             int f = 0;
@@ -3203,7 +3203,7 @@ namespace WebView.Models
                 dataSetChart.backgroundColor = backGroundColors[f];
                 dataSetChart.borderColor = borderColors[f];
                 dataSetChart.type = "bar";
-                
+
 
                 DataSet dataSet = serviceVenta.GetVentaSemanalDiaria(articulo.idArticulo);
 
@@ -3226,7 +3226,7 @@ namespace WebView.Models
                             }
                             totales[0] += monto;
                             dataSetChart.data.Add(monto);
-                            
+
                         }
 
                         if (dataSet.Tables[1].Rows.Count == 0)
@@ -3400,7 +3400,7 @@ namespace WebView.Models
             backGroundColors.Add("#6970d5");
             backGroundColors.Add("#6970d5");
             backGroundColors.Add("#24BF99");
-            backGroundColors.Add("#15715B"); 
+            backGroundColors.Add("#15715B");
             backGroundColors.Add("#15713F");
             backGroundColors.Add("#3BC279");
             backGroundColors.Add("#217BB2");
@@ -3442,7 +3442,7 @@ namespace WebView.Models
 
                         venta.labels.Add(Convert.ToString(item["NOMBRE_PROMOTOR"]));
 
-                        
+
                         double monto = Convert.ToDouble(item["MONTO_TOTAL"]);
                         dataSetChart.label = "Ganancia";
                         dataSetChart.data.Add(monto);
@@ -3582,7 +3582,7 @@ namespace WebView.Models
         {
             SO_Depositos serviceDeposito = new SO_Depositos();
 
-            return serviceDeposito.Insert(idUsuario, monto, fechaIngreso, banco,descripcion,urlArchivo);
+            return serviceDeposito.Insert(idUsuario, monto, fechaIngreso, banco, descripcion, urlArchivo);
         }
 
         public static double GetVentaSemanaActual(int idUsuario)
@@ -3769,6 +3769,37 @@ namespace WebView.Models
             SO_Compania sO_Compania = new SO_Compania();
 
             return sO_Compania.Insert(nombre, rfc, direccion, telefono, correo, idPlan);
+        }
+
+        public static List<DO_Compania> GetAllCompanias()
+        {
+            List<DO_Compania> companias = new List<DO_Compania>();
+
+            SO_Compania sO_Compania = new SO_Compania();
+
+            IList informacionBD = sO_Compania.Get();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    Type type = item.GetType();
+
+                    DO_Compania compania = new DO_Compania();
+
+                    compania.Correo = type.GetProperty("CORREO").GetValue(item, null).ToString();
+                    compania.Direccion = type.GetProperty("DIRECCION").GetValue(item, null).ToString();
+                    compania.RFC = type.GetProperty("RFC").GetValue(item, null).ToString();
+                    compania.Telefono = type.GetProperty("TELEFONO").GetValue(item, null).ToString();
+                    compania.IdCompania = Convert.ToInt32(type.GetProperty("ID_COMPANIA").GetValue(item, null).ToString());
+                    compania.FechaRegistro = Convert.ToDateTime(type.GetProperty("FECHA_REGISTRO").GetValue(item, null));
+                    compania.IdPlan = Convert.ToInt32(type.GetProperty("ID_PLAN").GetValue(item, null));
+
+                    companias.Add(compania);
+                }
+            }
+
+            return companias;
         }
 
         public static DO_Compania GetCompania(int idCompania)
@@ -4152,6 +4183,62 @@ namespace WebView.Models
             }
 
             return promotors;
+        }
+
+        public static int InsertInitialStock(int idCompania, int idArticulo, int cantidad)
+        {
+            List<DO_Almacen> almacens = GetAllAlmacen(idCompania);
+            int idCorte = 0;
+
+            if (almacens.Count >0 )
+            {
+                DO_Almacen almacenPrincipal = almacens[0];
+                DO_Semana semanaActual = GetSemanaActual();
+                SO_CorteExistencia sO_CorteExistencia = new SO_CorteExistencia();
+
+                idCorte = sO_CorteExistencia.Insert(semanaActual.IdSemana, almacenPrincipal.idAlmacen, idArticulo, cantidad);
+            }
+
+            return idCorte;
+        }
+
+        public static int SetCorteAlmacenes(string nombreUsuario)
+        {
+            int respuesta = 0;
+
+            List<DO_Compania> companias = GetAllCompanias();
+
+            foreach (var compania in companias)
+            {
+                List<DO_Almacen> almacens = GetAllAlmacen(compania.IdCompania);
+
+                if (almacens.Count > 0)
+                {
+                    DO_Almacen almacen = almacens[0];
+
+                    List<DO_Existencia> existencias = DataManager.GetExistenciasByCompania(compania.IdCompania);
+                    DO_Semana semanaActual = GetSemanaActual();
+
+                    SO_CorteExistencia sO_CorteExistencia = new SO_CorteExistencia();
+
+                    foreach (var existencia in existencias)
+                    {
+                        int idCorte = sO_CorteExistencia.Insert(semanaActual.IdSemana, almacen.idAlmacen, existencia.IdArticulo, Convert.ToInt32(existencia.Cantidad));
+
+                        if (idCorte > 0)
+                            respuesta++;
+                    }
+                }
+            }
+
+            if (respuesta > 0)
+            {
+                SO_Bitacora sO_Bitacora = new SO_Bitacora();
+
+                InsertBitacora(nombreUsuario, "Se establece el corte de almacen de la semana.");
+            }
+
+            return respuesta;
         }
         #endregion
 

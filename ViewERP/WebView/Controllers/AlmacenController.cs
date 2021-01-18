@@ -30,8 +30,13 @@ namespace WebView.Controllers
         {
             if (!string.IsNullOrEmpty(almacen.Nombre))
             {
-                almacen.idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+                DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
+
+                almacen.idCompania = personaConectada.idCompania;
+
                 DataManager.InsertAlmacen(almacen);
+
+                DataManager.InsertBitacora(personaConectada.Nombre + " " + personaConectada.Usuario, "Creó un almacen llamado:" + almacen.Nombre);
                 return RedirectToAction("Index", "Almacen");
             }
             else
@@ -49,8 +54,12 @@ namespace WebView.Controllers
             }
             else
             {
-                almacen.idCompania = ((DO_Persona)Session["UsuarioConectado"]).idCompania;
+                DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
+                almacen.idCompania = personaConectada.idCompania;
                 DataManager.UpdateAlamcen(almacen);
+
+                DataManager.InsertBitacora(personaConectada.Nombre + " " + personaConectada.Usuario, "Se editó la informacion de un almacen");
+
                 return RedirectToAction("Index", "Almacen");
             }
         }
@@ -59,6 +68,10 @@ namespace WebView.Controllers
         public ActionResult Delete(int id = 0)
         {
             DataManager.DeleteAlmacen(id);
+            DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
+
+            DataManager.InsertBitacora(personaConectada.Nombre + " " + personaConectada.Usuario, "Se eliminó un almacen con id: " + id);
+
             return RedirectToAction("Index", "Almacen");
         }
     }

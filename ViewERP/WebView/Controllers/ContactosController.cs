@@ -39,6 +39,10 @@ namespace WebView.Controllers
 
             int q = DataManager.InsertProveedor(dO_Proveedor);
 
+            DO_Persona personaConectada = ((DO_Persona)Session["UsuarioConectado"]);
+
+            DataManager.InsertBitacora(personaConectada.Nombre + " " + personaConectada.Usuario, "Se creó un contacto llamado: " + dO_Persona.Nombre);
+
             var jsonResult = Json(r, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
 

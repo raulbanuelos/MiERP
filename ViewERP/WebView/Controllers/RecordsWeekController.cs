@@ -230,6 +230,8 @@ namespace WebView.Controllers
 
             string fileName = "Reporte_" + dO_Semana.NoSemana + "_" + personaConectada.Nombre + ".xlsx";
 
+            DataManager.InsertBitacora(personaConectada.Nombre + " " + personaConectada.Usuario, "Se bajo el archivo de excel se la semana id: " + idSemana);
+
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
 
