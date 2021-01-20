@@ -3173,12 +3173,28 @@ namespace WebView.Models
             backGroundColors.Add("#316ACD");
             backGroundColors.Add("#8230CB");
             backGroundColors.Add("#f38b4a");
+            backGroundColors.Add("#f40b4a");
+            backGroundColors.Add("#f41c4a");
+            backGroundColors.Add("#f42d4a");
+            backGroundColors.Add("#f43e4a");
+            backGroundColors.Add("#f44f4a");
+            backGroundColors.Add("#f45g4a");
+            backGroundColors.Add("#f46h4a");
+            backGroundColors.Add("#f49i4a");
 
             List<string> borderColors = new List<string>();
             borderColors.Add("rgba(54, 162, 235, 1)");
             borderColors.Add("rgba(255, 206, 86, 1)");
             borderColors.Add("rgba(75, 192, 192, 1)");
             borderColors.Add("rgba(153, 102, 255, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
             borderColors.Add("rgba(255, 159, 64, 1)");
             borderColors.Add("rgba(255, 159, 64, 1)");
             borderColors.Add("rgba(255, 159, 64, 1)");
