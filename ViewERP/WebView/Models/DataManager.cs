@@ -4206,11 +4206,15 @@ namespace WebView.Models
             List<DO_Almacen> almacens = GetAllAlmacen(idCompania);
             int idCorte = 0;
 
-            if (almacens.Count >0 )
+            if (almacens.Count > 0)
             {
                 DO_Almacen almacenPrincipal = almacens[0];
                 DO_Semana semanaActual = GetSemanaActual();
                 SO_CorteExistencia sO_CorteExistencia = new SO_CorteExistencia();
+
+                SO_Existencia sO_Existencia = new SO_Existencia();
+
+                sO_Existencia.AddCantidad(almacenPrincipal.idAlmacen, idArticulo, cantidad);
 
                 idCorte = sO_CorteExistencia.Insert(semanaActual.IdSemana, almacenPrincipal.idAlmacen, idArticulo, cantidad);
             }
