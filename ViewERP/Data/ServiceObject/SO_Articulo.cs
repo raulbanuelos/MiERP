@@ -1,7 +1,9 @@
-﻿using Model;
+﻿using Data.SQLServer;
+using Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Cryptography;
@@ -12,6 +14,7 @@ namespace Data.ServiceObject
 {
     public class SO_Articulo
     {
+        private string SP_ERP_DELETE_ARTICULO = "SP_ERP_DELETE_ARTICULO";
         public int Insert(DO_Articulo articulo)
         {
             try
@@ -73,14 +76,16 @@ namespace Data.ServiceObject
         {
             try
             {
-                using (var Conexion = new EntitiesERP())
-                {
-                    TBL_ARTICULO obj = Conexion.TBL_ARTICULO.Where(x => x.ID_ARTICULO == idArticulo).FirstOrDefault();
+                DataSet datos = null;
 
-                    Conexion.Entry(obj).State = EntityState.Deleted;
+                ERP_SQL conexion = new ERP_SQL();
 
-                    return Conexion.SaveChanges();
-                }
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
+                parametros.Add("idArticulo", idArticulo);
+
+                datos = conexion.EjecutarStoredProcedure(SP_ERP_DELETE_ARTICULO, parametros);
+
+                return 1;
             }
             catch (Exception)
             {

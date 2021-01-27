@@ -106,7 +106,7 @@
 </div>
 <div class="form-group">
     <div class="form-inline">
-        <button class="btn btn-success" onclick="GuardarEntrada()">Guardar</button>
+        <button class="btn btn-success" id="btnGuardarEntrada" onclick="GuardarEntrada()">Guardar</button>
         <button class="btn btn-danger" onclick="Regresar()">Cancelar</button>
     </div>
 </div>
@@ -179,13 +179,13 @@
 <script type="text/javascript">
 
     $(document).ajaxStart(function () {
-        $("#modalcargandoinfo").modal("show");
+        $("#btnGuardarEntrada").addClass("disabled");
+        $("#btnGuardarEntrada").html("<i class=\"fa fa-refresh fa-spin\"></i>Guardando");
     });
 
     $(document).ajaxComplete(function () {
-        $("#modalcargandoinfo").removeClass("in");
-        $(".modal-backdrop").remove();
-        $("#modalcargandoinfo").hide();
+        $("#btnGuardarEntrada").html("Guardar");
+        $("#btnGuardarEntrada").removeClass("disabled");
     });
 
     function Regresar() {
@@ -273,7 +273,6 @@
             success: function (data) {
                 if (data >= 1) {
                     alert("Articulos agregados correctamente.");
-
                     var link = "@Url.Action("Index","Home")";
                     window.location.href = link;
                 }

@@ -3143,9 +3143,9 @@ namespace WebView.Models
             return dO_ChartData;
         }
 
-        public static DO_ChartData GetVentaSemanalDiaria(int idCompania)
+        public static DO_ChartData GetVentaSemanalDiaria(int idCompania, int idSemana)
         {
-            List<DO_Articulo> articulos = DataManager.GetAllArticulos(idCompania);
+            List<DO_Articulo> articulos = GetAllArticulos(idCompania);
             SO_Venta serviceVenta = new SO_Venta();
 
             #region Configuracion Colores
@@ -3181,12 +3181,645 @@ namespace WebView.Models
             backGroundColors.Add("#f45g4a");
             backGroundColors.Add("#f46h4a");
             backGroundColors.Add("#f49i4a");
+            backGroundColors.Add("#5FD08E");
+            backGroundColors.Add("#7B3483");
+            backGroundColors.Add("#CEB9F6");
+            backGroundColors.Add("#A4D6F1");
+            backGroundColors.Add("#00B196");
+            backGroundColors.Add("#5C8C3C");
+            backGroundColors.Add("#32A937");
+            backGroundColors.Add("#8E83DC");
+            backGroundColors.Add("#EA5E81");
+            backGroundColors.Add("#C07B7D");
+            backGroundColors.Add("#1C56222");
+            backGroundColors.Add("#F2731D");
+            backGroundColors.Add("#4E4DC3");
+            backGroundColors.Add("#AA2868");
+            backGroundColors.Add("#804563");
+            backGroundColors.Add("#DC2009");
+            backGroundColors.Add("#37FAAE");
+            backGroundColors.Add("#0E17A9");
+            backGroundColors.Add("#69F24F");
+            backGroundColors.Add("#400F4A");
+            backGroundColors.Add("#9BE9EF");
+            backGroundColors.Add("#F7C495");
+            backGroundColors.Add("#CDE190");
+            backGroundColors.Add("#29BC35");
+            backGroundColors.Add("#8596DA");
+            backGroundColors.Add("#5BB3D6");
+            backGroundColors.Add("#B78E7B");
+            backGroundColors.Add("#8DAB76");
+            backGroundColors.Add("#E9861C");
+            backGroundColors.Add("#4560C1");
+            backGroundColors.Add("#1B7DBC");
+            backGroundColors.Add("#775862");
+            backGroundColors.Add("#D33307");
+            backGroundColors.Add("#A95002");
+            backGroundColors.Add("#052AA8");
+            backGroundColors.Add("#DB47A3");
+            backGroundColors.Add("#372248");
+            backGroundColors.Add("#92FCEE");
+            backGroundColors.Add("#6919E9");
+            backGroundColors.Add("#C4F48E");
+            backGroundColors.Add("#20CF34");
+            backGroundColors.Add("#F6EC2F");
+            backGroundColors.Add("#52C6D4");
+            backGroundColors.Add("#28E3CF");
+            backGroundColors.Add("#84BE75");
+            backGroundColors.Add("#E0991A");
+            backGroundColors.Add("#B6B615");
+            backGroundColors.Add("#1290BB");
+            backGroundColors.Add("#6E6B60");
+            backGroundColors.Add("#44885B");
+            backGroundColors.Add("#A06301");
+            backGroundColors.Add("#767FFC");
+            backGroundColors.Add("#D25AA1");
+            backGroundColors.Add("#2E3547");
+            backGroundColors.Add("#045242");
+            backGroundColors.Add("#602CE7");
+            backGroundColors.Add("#BC078D");
+            backGroundColors.Add("#922488");
+            backGroundColors.Add("#EDFF2D");
+            backGroundColors.Add("#C41C28");
+            backGroundColors.Add("#1FF6CE");
+            backGroundColors.Add("#7BD173");
+            backGroundColors.Add("#51EE6E");
+            backGroundColors.Add("#ADC914");
+            backGroundColors.Add("#09A3B9");
+            backGroundColors.Add("#DFC0B4");
+            backGroundColors.Add("#3B9B5A");
+            backGroundColors.Add("#11B855");
+            backGroundColors.Add("#6D92FA");
+            backGroundColors.Add("#C96DA0");
+            backGroundColors.Add("#9F8A9B");
+            backGroundColors.Add("#FB6540");
+            backGroundColors.Add("#573FE6");
+            backGroundColors.Add("#2D5CE1");
+            backGroundColors.Add("#893786");
+            backGroundColors.Add("#5F5481");
+            backGroundColors.Add("#BB2F27");
+            backGroundColors.Add("#1709CC");
+            backGroundColors.Add("#ED26C7");
+            backGroundColors.Add("#49016D");
+            backGroundColors.Add("#A4DC12");
+            backGroundColors.Add("#7AF90D");
+            backGroundColors.Add("#D6D3B3");
+            backGroundColors.Add("#ACF0AE");
+            backGroundColors.Add("#08CB53");
+            backGroundColors.Add("#64A5F9");
+            backGroundColors.Add("#3AC2F4");
+            backGroundColors.Add("#969D99");
+            backGroundColors.Add("#F2783F");
+            backGroundColors.Add("#C8953A");
+            backGroundColors.Add("#246FDF");
+            backGroundColors.Add("#FA8CDA");
+            backGroundColors.Add("#566780");
+            backGroundColors.Add("#B24225");
+            backGroundColors.Add("#885F20");
+            backGroundColors.Add("#E439C6");
+            backGroundColors.Add("#40146B");
+            backGroundColors.Add("#163166");
+            backGroundColors.Add("#720C0C");
+            backGroundColors.Add("#482907");
+
 
             List<string> borderColors = new List<string>();
             borderColors.Add("rgba(54, 162, 235, 1)");
             borderColors.Add("rgba(255, 206, 86, 1)");
             borderColors.Add("rgba(75, 192, 192, 1)");
             borderColors.Add("rgba(153, 102, 255, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+
+            #endregion
+
+            int f = 0;
+
+            double[] totales = new double[7];
+
+            foreach (var articulo in articulos)
+            {
+                DataSetChart dataSetChart = new DataSetChart();
+
+                dataSetChart.label = articulo.Descripcion;
+                dataSetChart.data = new List<double>();
+                dataSetChart.cantidad = new List<int>();
+                dataSetChart.backgroundColor = backGroundColors[f];
+                dataSetChart.borderColor = borderColors[f];
+                dataSetChart.type = "bar";
+
+
+                DataSet dataSet = serviceVenta.GetVentaSemanalDiaria(articulo.idArticulo, idSemana);
+
+                if (dataSet != null)
+                {
+                    if (dataSet.Tables.Count > 0)
+                    {
+                        if (dataSet.Tables[0].Rows.Count == 0)
+                        {
+                            dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
+                        }
+                        else
+                        {
+                            double monto = 0;
+                            foreach (DataRow item in dataSet.Tables[0].Rows)
+                            {
+                                monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
+                            }
+                            totales[0] += monto;
+                            dataSetChart.data.Add(monto);
+
+                        }
+
+                        if (dataSet.Tables[1].Rows.Count == 0)
+                        {
+                            dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
+                        }
+                        else
+                        {
+                            double monto = 0;
+                            foreach (DataRow item in dataSet.Tables[1].Rows)
+                            {
+                                monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
+                            }
+                            totales[1] += monto;
+                            dataSetChart.data.Add(monto);
+                        }
+
+                        if (dataSet.Tables[2].Rows.Count == 0)
+                        {
+                            dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
+                        }
+                        else
+                        {
+                            double monto = 0;
+                            foreach (DataRow item in dataSet.Tables[2].Rows)
+                            {
+                                monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
+                            }
+                            totales[2] += monto;
+                            dataSetChart.data.Add(monto);
+                        }
+
+                        if (dataSet.Tables[3].Rows.Count == 0)
+                        {
+                            dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
+                        }
+                        else
+                        {
+                            double monto = 0;
+                            foreach (DataRow item in dataSet.Tables[3].Rows)
+                            {
+                                monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
+                            }
+                            totales[3] += monto;
+                            dataSetChart.data.Add(monto);
+                        }
+
+                        if (dataSet.Tables[4].Rows.Count == 0)
+                        {
+                            dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
+                        }
+                        else
+                        {
+                            double monto = 0;
+                            foreach (DataRow item in dataSet.Tables[4].Rows)
+                            {
+                                monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
+                            }
+                            totales[4] += monto;
+                            dataSetChart.data.Add(monto);
+                        }
+
+                        if (dataSet.Tables[5].Rows.Count == 0)
+                        {
+                            dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
+                        }
+                        else
+                        {
+                            double monto = 0;
+                            foreach (DataRow item in dataSet.Tables[5].Rows)
+                            {
+                                monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
+                            }
+                            totales[5] += monto;
+                            dataSetChart.data.Add(monto);
+                        }
+
+                        if (dataSet.Tables[6].Rows.Count == 0)
+                        {
+                            dataSetChart.data.Add(0);
+                            dataSetChart.cantidad.Add(0);
+                        }
+                        else
+                        {
+                            double monto = 0;
+                            foreach (DataRow item in dataSet.Tables[6].Rows)
+                            {
+                                monto = Convert.ToDouble(item["PRECIO"]);
+                                dataSetChart.cantidad.Add(Convert.ToInt32(item["CANTIDAD"]));
+                            }
+                            totales[6] += monto;
+                            dataSetChart.data.Add(monto);
+                        }
+                    }
+                }
+                dO_ChartData.datasets.Add(dataSetChart);
+                f++;
+            }
+
+            DataSetChart dataSetChart1 = new DataSetChart();
+            dataSetChart1.label = "Venta total";
+            dataSetChart1.data = new List<double>();
+            dataSetChart1.backgroundColor = backGroundColors[9];
+            dataSetChart1.borderColor = borderColors[9];
+            dataSetChart1.type = "line";
+            dataSetChart1.fill = false;
+
+            dataSetChart1.data.Add(totales[0]);
+            dataSetChart1.data.Add(totales[1]);
+            dataSetChart1.data.Add(totales[2]);
+            dataSetChart1.data.Add(totales[3]);
+            dataSetChart1.data.Add(totales[4]);
+            dataSetChart1.data.Add(totales[5]);
+            dataSetChart1.data.Add(totales[6]);
+
+            dO_ChartData.datasets.Add(dataSetChart1);
+
+            return dO_ChartData;
+        }
+
+        public static DO_ChartData GetVentaSemanalDiaria(int idCompania)
+        {
+            List<DO_Articulo> articulos = GetAllArticulos(idCompania);
+            SO_Venta serviceVenta = new SO_Venta();
+
+            #region Configuracion Colores
+            DO_ChartData dO_ChartData = new DO_ChartData();
+            dO_ChartData.labels = new List<string>();
+            dO_ChartData.labels.Add("Lunes");
+            dO_ChartData.labels.Add("Martes");
+            dO_ChartData.labels.Add("Miercoles");
+            dO_ChartData.labels.Add("Jueves");
+            dO_ChartData.labels.Add("Viernes");
+            dO_ChartData.labels.Add("Sabado");
+            dO_ChartData.labels.Add("Domingo");
+            dO_ChartData.datasets = new List<DataSetChart>();
+
+            List<string> backGroundColors = new List<string>();
+            backGroundColors.Add("#56d798");
+            backGroundColors.Add("#ff8397");
+            backGroundColors.Add("#6970d5");
+            backGroundColors.Add("#6970d5");
+            backGroundColors.Add("#24BF99");
+            backGroundColors.Add("#15715B");
+            backGroundColors.Add("#15713F");
+            backGroundColors.Add("#3BC279");
+            backGroundColors.Add("#217BB2");
+            backGroundColors.Add("#316ACD");
+            backGroundColors.Add("#8230CB");
+            backGroundColors.Add("#f38b4a");
+            backGroundColors.Add("#f40b4a");
+            backGroundColors.Add("#f41c4a");
+            backGroundColors.Add("#f42d4a");
+            backGroundColors.Add("#f43e4a");
+            backGroundColors.Add("#f44f4a");
+            backGroundColors.Add("#f45g4a");
+            backGroundColors.Add("#f46h4a");
+            backGroundColors.Add("#f49i4a");
+            backGroundColors.Add("#5FD08E");
+            backGroundColors.Add("#7B3483");
+            backGroundColors.Add("#CEB9F6");
+            backGroundColors.Add("#A4D6F1");
+            backGroundColors.Add("#00B196");
+            backGroundColors.Add("#5C8C3C");
+            backGroundColors.Add("#32A937");
+            backGroundColors.Add("#8E83DC");
+            backGroundColors.Add("#EA5E81");
+            backGroundColors.Add("#C07B7D");
+            backGroundColors.Add("#1C56222");
+            backGroundColors.Add("#F2731D");
+            backGroundColors.Add("#4E4DC3");
+            backGroundColors.Add("#AA2868");
+            backGroundColors.Add("#804563");
+            backGroundColors.Add("#DC2009");
+            backGroundColors.Add("#37FAAE");
+            backGroundColors.Add("#0E17A9");
+            backGroundColors.Add("#69F24F");
+            backGroundColors.Add("#400F4A");
+            backGroundColors.Add("#9BE9EF");
+            backGroundColors.Add("#F7C495");
+            backGroundColors.Add("#CDE190");
+            backGroundColors.Add("#29BC35");
+            backGroundColors.Add("#8596DA");
+            backGroundColors.Add("#5BB3D6");
+            backGroundColors.Add("#B78E7B");
+            backGroundColors.Add("#8DAB76");
+            backGroundColors.Add("#E9861C");
+            backGroundColors.Add("#4560C1");
+            backGroundColors.Add("#1B7DBC");
+            backGroundColors.Add("#775862");
+            backGroundColors.Add("#D33307");
+            backGroundColors.Add("#A95002");
+            backGroundColors.Add("#052AA8");
+            backGroundColors.Add("#DB47A3");
+            backGroundColors.Add("#372248");
+            backGroundColors.Add("#92FCEE");
+            backGroundColors.Add("#6919E9");
+            backGroundColors.Add("#C4F48E");
+            backGroundColors.Add("#20CF34");
+            backGroundColors.Add("#F6EC2F");
+            backGroundColors.Add("#52C6D4");
+            backGroundColors.Add("#28E3CF");
+            backGroundColors.Add("#84BE75");
+            backGroundColors.Add("#E0991A");
+            backGroundColors.Add("#B6B615");
+            backGroundColors.Add("#1290BB");
+            backGroundColors.Add("#6E6B60");
+            backGroundColors.Add("#44885B");
+            backGroundColors.Add("#A06301");
+            backGroundColors.Add("#767FFC");
+            backGroundColors.Add("#D25AA1");
+            backGroundColors.Add("#2E3547");
+            backGroundColors.Add("#045242");
+            backGroundColors.Add("#602CE7");
+            backGroundColors.Add("#BC078D");
+            backGroundColors.Add("#922488");
+            backGroundColors.Add("#EDFF2D");
+            backGroundColors.Add("#C41C28");
+            backGroundColors.Add("#1FF6CE");
+            backGroundColors.Add("#7BD173");
+            backGroundColors.Add("#51EE6E");
+            backGroundColors.Add("#ADC914");
+            backGroundColors.Add("#09A3B9");
+            backGroundColors.Add("#DFC0B4");
+            backGroundColors.Add("#3B9B5A");
+            backGroundColors.Add("#11B855");
+            backGroundColors.Add("#6D92FA");
+            backGroundColors.Add("#C96DA0");
+            backGroundColors.Add("#9F8A9B");
+            backGroundColors.Add("#FB6540");
+            backGroundColors.Add("#573FE6");
+            backGroundColors.Add("#2D5CE1");
+            backGroundColors.Add("#893786");
+            backGroundColors.Add("#5F5481");
+            backGroundColors.Add("#BB2F27");
+            backGroundColors.Add("#1709CC");
+            backGroundColors.Add("#ED26C7");
+            backGroundColors.Add("#49016D");
+            backGroundColors.Add("#A4DC12");
+            backGroundColors.Add("#7AF90D");
+            backGroundColors.Add("#D6D3B3");
+            backGroundColors.Add("#ACF0AE");
+            backGroundColors.Add("#08CB53");
+            backGroundColors.Add("#64A5F9");
+            backGroundColors.Add("#3AC2F4");
+            backGroundColors.Add("#969D99");
+            backGroundColors.Add("#F2783F");
+            backGroundColors.Add("#C8953A");
+            backGroundColors.Add("#246FDF");
+            backGroundColors.Add("#FA8CDA");
+            backGroundColors.Add("#566780");
+            backGroundColors.Add("#B24225");
+            backGroundColors.Add("#885F20");
+            backGroundColors.Add("#E439C6");
+            backGroundColors.Add("#40146B");
+            backGroundColors.Add("#163166");
+            backGroundColors.Add("#720C0C");
+            backGroundColors.Add("#482907");
+
+
+            List<string> borderColors = new List<string>();
+            borderColors.Add("rgba(54, 162, 235, 1)");
+            borderColors.Add("rgba(255, 206, 86, 1)");
+            borderColors.Add("rgba(75, 192, 192, 1)");
+            borderColors.Add("rgba(153, 102, 255, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
+            borderColors.Add("rgba(255, 159, 64, 1)");
             borderColors.Add("rgba(255, 159, 64, 1)");
             borderColors.Add("rgba(255, 159, 64, 1)");
             borderColors.Add("rgba(255, 159, 64, 1)");

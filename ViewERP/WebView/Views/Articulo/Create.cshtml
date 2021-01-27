@@ -84,7 +84,7 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <button class="btn btn-light px-5 float-left" onclick="GuardarArticulo()">Guardar</button>
+                                <button class="btn btn-light px-5 float-left" id="btnGuardarEntrada" onclick="GuardarArticulo()">Guardar</button>
                             </div>
                         </div>
                     </div>
@@ -102,6 +102,15 @@
         $("#cboCategorias").append("<option value=\"0\" selected>Selecciona una opción</option>");
     });
 
+    $(document).ajaxStart(function () {
+        $("#btnGuardarEntrada").addClass("disabled");
+        $("#btnGuardarEntrada").html("<i class=\"fa fa-refresh fa-spin\"></i>Guardando");
+    });
+
+    $(document).ajaxComplete(function () {
+        $("#btnGuardarEntrada").html("Guardar");
+        $("#btnGuardarEntrada").removeClass("disabled");
+    });
 
     $("#cboCategorias").change(function () {
         var _idCategoria = $("#cboCategorias").val();

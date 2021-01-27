@@ -19,7 +19,7 @@ namespace WebView.Models
         public string SFechaIngreso {
             get
             {
-                return FechaIngreso.Day + "-" + FechaIngreso.Month + "-" + FechaIngreso.Year;
+                return DataManager.ConvertDatetime(FechaIngreso);
             }
         }
     }

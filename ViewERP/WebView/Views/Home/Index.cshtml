@@ -287,7 +287,8 @@
 }
 
 <script type="text/javascript">
-
+    var contadorGrafica = 0;
+    var myChart;
     function consultarExistencias(_idAlmacen) {
         $("#tblExistencia tr").remove();
         var urlSave = '@Url.Action("GetExistenciasByAlmacen", "Existencias")';
@@ -682,8 +683,12 @@
             dataType: "json",
             success: function (data) {
 
+                if (contadorGrafica > 0) {
+                    myChart.destroy();
+                }
+
                 var ctx = document.getElementById('chart1').getContext('2d');
-                var myChart = new Chart(ctx, {
+                myChart = new Chart(ctx, {
                     type: 'bar',
                     data: data,
                     options: {
@@ -744,6 +749,7 @@
                         }
                     }
                 });
+                contadorGrafica++;
             },
             error: function (result) {
                 alert("Woops, se produjo un error");

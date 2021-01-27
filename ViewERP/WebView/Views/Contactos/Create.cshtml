@@ -44,7 +44,7 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <button class="btn btn-success" onclick="guardarContacto()">Guardar cambios</button>
+                                <button class="btn btn-success" id="btnGuardarEntrada" onclick="guardarContacto()">Guardar</button>
                             </div>
                         </div>
                     </div>
@@ -55,6 +55,17 @@
 </div>
 
 <script type="text/javascript">
+
+    $(document).ajaxStart(function () {
+        $("#btnGuardarEntrada").addClass("disabled");
+        $("#btnGuardarEntrada").html("<i class=\"fa fa-refresh fa-spin\"></i>Guardando");
+    });
+
+    $(document).ajaxComplete(function () {
+        $("#btnGuardarEntrada").html("Guardar");
+        $("#btnGuardarEntrada").removeClass("disabled");
+    });
+
     function guardarContacto() {
         var _nombre = $("#txtNombre").val();
         

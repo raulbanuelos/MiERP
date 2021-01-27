@@ -30,6 +30,26 @@
     </div>
 </div>
 
+<!--Grafica venta semanal-->
+<div class="row">
+    <div class="col-12 col-lg-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                Ventas
+            </div>
+            <div class="card-body">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><i class="fa fa-circle mr-2 text-white"></i>Venta semanal</li>
+
+                </ul>
+                <div class="chart-container-1">
+                    <canvas id="chart1"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-12 col-lg-6 col-xl-6">
         <div class="card">
@@ -57,7 +77,7 @@
     <div class="col-12 col-lg-6 col-xl-6">
         <div class="card">
             <div class="card-header">
-                Salidas semana 
+                Salidas semana
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -133,6 +153,8 @@
 
 <script type="text/javascript">
 
+    var myChart;
+    var c = 0;
     function bajarArchivo() {
         var _idSemana = $("#cboSemana").val();
         if (_idSemana == 0) {
@@ -247,6 +269,89 @@
                 $("#tblDepositos").append(row);
                 var number = new Intl.NumberFormat().format(cantidad);
                 $("#lblDepositos").html("Despositos Total: $" + number);
+            },
+            error: function (result) {
+                alert("Woops, se produjo un error");
+            }
+        });
+
+        urlSave = '@Url.Action("GetVentaSemanalDiariaByWeek", "Ventas")';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify({ idSemana: _idSemana }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (c > 0) {
+                    myChart.destroy();
+                }
+                
+                var ctx = document.getElementById('chart1').getContext('2d');
+                
+                myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                fontColor: 'white',
+                                fontSize: 16
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Productos vendidos',
+                            fontColor: 'white',
+                            fontSize: 22
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    fontColor: "white",
+                                    fontSize: 12,
+                                    callback: function (value, index, values) {
+                                        return '$' + value;
+                                    }
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    fontColor: "white",
+                                    fontSize: 12,
+                                    stepSize: 1,
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                    if (label == "Venta total") {
+                                        var venta = Math.round(tooltipItem.yLabel * 100) / 100;
+                                        label += ": $" + venta;
+                                        return label;
+                                    } else {
+                                        var cantidad = data.datasets[tooltipItem.datasetIndex].cantidad[tooltipItem.index];
+                                        var multiline = [label];
+                                        var venta = Math.round(tooltipItem.yLabel * 100) / 100;
+
+                                        multiline.push("Piezas: " + cantidad);
+                                        multiline.push("Total venta: $" + venta);
+
+                                        return multiline;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                c++;
             },
             error: function (result) {
                 alert("Woops, se produjo un error");

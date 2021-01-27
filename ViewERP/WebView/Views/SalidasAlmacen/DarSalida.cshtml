@@ -73,7 +73,7 @@
                     </div>
 
                     <div class="form-inline">
-                        <button class="btn btn-success" onclick="GuardarSalida()">Guardar salida</button>
+                        <button class="btn btn-success" id="btnGuardarEntrada" onclick="GuardarSalida()">Guardar salida</button>
                         <button class="btn btn-danger" onclick="Regresar()">Cancelar</button>
                     </div>
                 </div>
@@ -121,6 +121,16 @@
 
 <script type="text/javascript" src="@Url.Content("~/Scripts/ValidationForm.js")"></script>
 <script type="text/javascript">
+
+    $(document).ajaxStart(function () {
+        $("#btnGuardarEntrada").addClass("disabled");
+        $("#btnGuardarEntrada").html("<i class=\"fa fa-refresh fa-spin\"></i>Guardando");
+    });
+
+    $(document).ajaxComplete(function () {
+        $("#btnGuardarEntrada").html("Guardar");
+        $("#btnGuardarEntrada").removeClass("disabled");
+    });
 
     function Regresar() {
         var link = "@Url.Action("Index","Home")";
@@ -236,7 +246,7 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.ResultCode == 1) {
-                        alert("Se a registrado la salida correctamente");
+                        alert("Se ha registrado la salida correctamente");
                         //generarPDF(data.NombreSolicitante, data.CodigoArticulo);
                         //var li = "@Url.Action("ValeSalida","SalidasAlmacen")?idMovimientoSalida=" + data.idSalidaAlmacen + "";
                         var li = "@Url.Action("Index","Home")";
