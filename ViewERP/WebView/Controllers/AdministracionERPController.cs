@@ -38,5 +38,16 @@ namespace WebView.Controllers
 
             return jsonResult;
         }
+
+        [HttpPost]
+        public JsonResult GetAllUsuarios(string parametro)
+        {
+            List<DO_Persona> usuarios = DataManager.GetAllPersona();
+
+            var jsonResult = Json(usuarios, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+
+            return jsonResult;
+        }
     }
 }

@@ -139,6 +139,42 @@ namespace WebView.Models
             return lista;
         }
 
+        public static List<DO_Persona> GetAllPersona()
+        {
+            List<DO_Persona> lista = new List<DO_Persona>();
+
+            SO_Usuario service = new SO_Usuario();
+
+            IList informacionBD = service.GetAllUsuarios();
+
+            if (informacionBD != null)
+            {
+                foreach (var item in informacionBD)
+                {
+                    System.Type tipo = item.GetType();
+
+                    DO_Persona persona = new DO_Persona();
+
+                    persona.idUsuario = (int)tipo.GetProperty("ID_USUARIO").GetValue(item, null);
+                    persona.ID_ROL = (int)tipo.GetProperty("ID_ROL").GetValue(item, null);
+                    persona.idCompania = (int)tipo.GetProperty("ID_COMPANIA").GetValue(item, null);
+                    persona.Nombre = (string)tipo.GetProperty("NOMBRE").GetValue(item, null);
+                    persona.NombreCompania = (string)tipo.GetProperty("NOMBRE_COMPANIA").GetValue(item, null);
+                    persona.ApellidoPaterno = (string)tipo.GetProperty("APATERNO").GetValue(item, null);
+                    persona.ApellidoMaterno = (string)tipo.GetProperty("AMATERNO").GetValue(item, null);
+                    persona.Usuario = (string)tipo.GetProperty("USUARIO").GetValue(item, null);
+                    persona.Rol = (string)tipo.GetProperty("ROL").GetValue(item, null);
+                    persona.IdPlan = (int)tipo.GetProperty("ID_PLAN").GetValue(item, null);
+                    persona.NombrePlan = (string)tipo.GetProperty("NOMBRE_PLAN").GetValue(item, null);
+                    persona.FechaRegistro = (DateTime)tipo.GetProperty("FECHA_REGISTRO").GetValue(item, null);
+                    persona.SFechaRegistro = ConvertDatetime(persona.FechaRegistro);
+                    lista.Add(persona);
+                }
+            }
+
+            return lista.OrderBy(x => x.NombreCompania).ToList();
+        }
+
         public static List<SelectListItem> ConvertListDOPersonaToSelectListItem(List<DO_Persona> lista)
         {
             List<SelectListItem> listaResultante = new List<SelectListItem>();

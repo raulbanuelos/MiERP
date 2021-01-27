@@ -93,6 +93,40 @@ namespace Data.ServiceObject
             }
         }
 
+        public IList GetAllUsuarios()
+        {
+            try
+            {
+                using (var Conexion = new EntitiesERP())
+                {
+                    var list = (from c in Conexion.TBL_USUARIO
+                                join r in Conexion.TBL_ROLE on c.ID_ROL equals r.ID_ROL
+                                join u in Conexion.TBL_COMPANIA on c.ID_COMPANIA equals u.ID_COMPANIA
+                                join p in Conexion.TBL_ERP_PLAN on u.ID_PLAN equals p.ID_PLAN
+                                select new
+                                {
+                                    c.ID_USUARIO,
+                                    c.ID_ROL,
+                                    r.ROL,
+                                    c.NOMBRE,
+                                    c.APATERNO,
+                                    c.AMATERNO,
+                                    c.ID_COMPANIA,
+                                    c.USUARIO,
+                                    u.FECHA_REGISTRO,
+                                    p.ID_PLAN,
+                                    p.NOMBRE_PLAN,
+                                    NOMBRE_COMPANIA = u.NOMBRE
+                                }).ToList();
+                    return list;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public IList GetAllPromotores(int idCompania)
         {
             try
@@ -411,7 +445,7 @@ namespace Data.ServiceObject
                 using (var Conexion = new EntitiesERP())
                 {
                     var lista = (from a in Conexion.TBL_USUARIO
-                                 where a.ID_COMPANIA == idCompania && (a.ID_ROL == 6 || a.ID_ROL == 7 || a.ID_ROL == 8 || a.ID_ROL == 1)
+                                 where a.ID_COMPANIA == idCompania && (a.ID_ROL == 6 || a.ID_ROL == 7 || a.ID_ROL == 8 || a.ID_ROL == 1 || a.ID_ROL ==3)
                                  select a).ToList();
 
                     return lista;

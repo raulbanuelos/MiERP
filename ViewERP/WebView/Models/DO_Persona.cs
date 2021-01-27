@@ -36,7 +36,11 @@ namespace WebView.Models
         [Display(Name = "ID COMPAÑIA")]
         public int idCompania { get; set; }
 
+        public string NombreCompania { get; set; }
+
         public DateTime FechaRegistro { get; set; }
+
+        public string SFechaRegistro { get; set; }
 
         public string NombrePlan { get; set; }
 
@@ -51,6 +55,9 @@ namespace WebView.Models
         public int idOrganizacion { get; set; }
 
         public int IdJefe { get; set; }
+
+        public int IdPlan { get; set; }
+        public string Plan { get; set; }
 
         public virtual IEnumerable<SelectListItem> Roles { get; set; }
 
