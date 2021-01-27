@@ -3586,7 +3586,12 @@ namespace WebView.Models
                         }
                     }
                 }
-                dO_ChartData.datasets.Add(dataSetChart);
+
+                if (agregateData(dataSetChart))
+                {
+                    dO_ChartData.datasets.Add(dataSetChart);
+                }
+                
                 f++;
             }
 
@@ -3609,6 +3614,20 @@ namespace WebView.Models
             dO_ChartData.datasets.Add(dataSetChart1);
 
             return dO_ChartData;
+        }
+
+        public static bool agregateData(DataSetChart dataSetChart)
+        {
+            bool res = false;
+            foreach (var item in dataSetChart.data)
+            {
+                if (item> 0)
+                {
+                    res = true;
+                }
+            }
+
+            return res;
         }
 
         public static DO_ChartData GetVentaSemanalDiaria(int idCompania)
@@ -4017,7 +4036,10 @@ namespace WebView.Models
                         }
                     }
                 }
-                dO_ChartData.datasets.Add(dataSetChart);
+                if (agregateData(dataSetChart))
+                {
+                    dO_ChartData.datasets.Add(dataSetChart);
+                }
                 f++;
             }
 
